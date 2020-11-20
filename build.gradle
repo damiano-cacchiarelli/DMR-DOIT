@@ -33,7 +33,7 @@ dependencies {
 
 application {
     // Define the main class for the application.
-    mainClassName = 'it.unicam.dmr.doit.App'
+    mainClassName = 'it.unicam.dmr.doit.Doit'
 }
 
 test {

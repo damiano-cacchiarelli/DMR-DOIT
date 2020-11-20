@@ -3,12 +3,12 @@
  */
 package it.unicam.dmr.doit;
 
-public class App {
+public class Doit {
     public String getGreeting() {
         return "Hello world.";
     }
 
     public static void main(String[] args) {
-        System.out.println(new App().getGreeting());
+        System.out.println(new Doit().getGreeting());
     }
 }

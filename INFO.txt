@@ -1,0 +1,17 @@
+--------ROB--------
+Progetto
+VetrinaProgetti
+Valutazione
+Stato
+--------MAT--------
+Utente
+Progettista
+Proponente
+Curriculum
+Esperto
+--------DAM--------
+Doit
+PropostePartecipazione
+IProponente
+IProgettista
+IEsperto
