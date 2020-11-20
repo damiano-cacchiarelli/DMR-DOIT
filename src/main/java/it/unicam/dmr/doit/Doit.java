@@ -4,11 +4,8 @@
 package it.unicam.dmr.doit;
 
 public class Doit {
-    public String getGreeting() {
-        return "Hello world.";
-    }
-
-    public static void main(String[] args) {
-        System.out.println(new Doit().getGreeting());
+	
+       public static void main(String[] args) {
+         
     }
 }
