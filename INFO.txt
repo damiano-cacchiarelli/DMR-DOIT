@@ -1,8 +1,8 @@
 --------ROB--------
-Progetto
-VetrinaProgetti
-Valutazione
-Stato
+Progetto         FATTO
+VetrinaProgetti  
+Valutazione      
+Stato            
 --------MAT--------
 Utente
 Progettista
