@@ -4,8 +4,17 @@
 package it.unicam.dmr.doit;
 
 public class Doit {
-	
-       public static void main(String[] args) {
-         
-    }
+
+	public static void main(String[] args) {
+
+		Progetto progetto1 = new Progetto(10, "Casa", "Costruire una casa", "Muratori");
+		Progetto progetto2 = new Progetto(9, "Macchina", "Costruire una Ferrari", "Meccanici");
+		Progetto progetto3 = new Progetto(46, "Moto", "Costruire una Yamaha", "Valentino Rossi");
+		VetrinaProgetti vetrina = new VetrinaProgetti();
+		vetrina.salvaPropostaProgetto(progetto1, progetto2, progetto3);
+		System.out.println(vetrina.getProgetto(10));
+		System.out.println(vetrina.getProgetto(9));
+		System.out.println(vetrina.getProgetto(46));
+		
+	}
 }
