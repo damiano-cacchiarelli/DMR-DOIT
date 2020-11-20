@@ -1,29 +1,22 @@
 package it.unicam.dmr.doit;
 
+import java.util.Objects;
+
 public class Valutazione {
 
 	private final String recensione;
 	
-	
-
 	public Valutazione(String recensione) {
-		
-		if(recensione == null) {
-			throw new NullPointerException("La recensione inserita è nulla");
-		}
+		Objects.requireNonNull(recensione, "La recensione inserita Ã¨ nulla");
 		
 		if(recensione.trim().length() == 0) {
-			throw new IllegalArgumentException("La recensione inserita non è valida");
+			throw new IllegalArgumentException("La recensione inserita non Ã¨ valida");
 		}
 		
 		this.recensione = recensione;
 	}
 
-
-
 	public String getRecensione() {
-		
 		return recensione;
 	}
-	
 }

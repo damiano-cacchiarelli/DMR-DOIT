@@ -1,6 +1,7 @@
 package it.unicam.dmr.doit;
 
 import java.util.HashSet;
+import java.util.Objects;
 import java.util.Set;
 
 public class VetrinaProgetti {
@@ -8,29 +9,18 @@ public class VetrinaProgetti {
 	private Set<Progetto> progetti;
 
 	public VetrinaProgetti() {
-
 		this.progetti = new HashSet<>();
 	}
 
 	public void salvaPropostaProgetto(Progetto... progetto) {
-
-		if (progetto == null) {
-
-			throw new NullPointerException("La lista di progetti Ë nulla");
-		}
+		Objects.requireNonNull(progetto, "La lista di progetti √® nulla");
 
 		for (Progetto p : progetto) {
-
-			if (p == null) {
-
-				throw new NullPointerException("Il progetto inserito Ë nullo");
-			}
+			Objects.requireNonNull(p, "Il progetto inserito √® nullo");
 
 			if (progetti.contains(p)) {
-
-				throw new IllegalStateException("Progetto gi‡ contenuto");
+				throw new IllegalStateException("Progetto gi√† contenuto");
 			}
-
 		}
 
 		for (Progetto p : progetto)

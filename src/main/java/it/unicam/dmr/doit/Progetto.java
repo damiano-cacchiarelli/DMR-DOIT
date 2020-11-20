@@ -1,5 +1,7 @@
 package it.unicam.dmr.doit;
 
+import java.util.Objects;
+
 public class Progetto {
 
 	private final int id;
@@ -10,13 +12,11 @@ public class Progetto {
 	private Stato stato;
 
 	public Progetto(int id, String nome) {
-
 		verificaStringa(nome, "Nome");
 
 		this.id = id;
 		this.nome = nome;
 		this.setStato(Stato.NON_VALUTATO);
-
 	}
 
 	public Progetto(int id, String nome, String obiettivi, String requisiti) {
@@ -31,11 +31,9 @@ public class Progetto {
 	}
 
 	public void setObiettivi(String obiettivi) {
-
 		verificaStringa(obiettivi, "Obiettivi");
 
 		this.obiettivi = obiettivi;
-
 	}
 
 	public String getRequisiti() {
@@ -43,7 +41,6 @@ public class Progetto {
 	}
 
 	public void setRequisiti(String requisiti) {
-
 		verificaStringa(requisiti, "Requisiti");
 
 		this.requisiti = requisiti;
@@ -57,28 +54,12 @@ public class Progetto {
 		return nome;
 	}
 
-	private void verificaStringa(String s, String campo) {
-
-		if (s == null) {
-			throw new NullPointerException("Il campo " + campo + " inserito è nullo");
-		}
-
-		if (s.trim().length() == 0) {
-			throw new IllegalArgumentException("Il campo " + campo + " inserito non è valido");
-		}
-
-	}
-
 	public Valutazione getValutazione() {
 		return valutazione;
 	}
 
 	public void setValutazione(Valutazione valutazione) {
-
-		if (valutazione == null) {
-
-			throw new NullPointerException("La valutazione inserita è nulla");
-		}
+		Objects.requireNonNull(valutazione, "La valutazione inserita Ã¨ nulla");
 
 		this.valutazione = valutazione;
 	}
@@ -88,13 +69,17 @@ public class Progetto {
 	}
 
 	public void setStato(Stato stato) {
-
-		if (stato == null) {
-
-			throw new NullPointerException("Lo stato inserito è nullo");
-		}
+		Objects.requireNonNull(stato, "Lo stato inserito Ã¨ nullo");
 
 		this.stato = stato;
+	}
+
+	private void verificaStringa(String s, String campo) {
+		Objects.requireNonNull(s, "Il campo " + campo + " inserito Ã¨ nullo");
+
+		if (s.trim().length() == 0) {
+			throw new IllegalArgumentException("Il campo " + campo + " inserito non ï¿½ valido");
+		}
 	}
 
 	@Override
