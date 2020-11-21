@@ -13,13 +13,13 @@ public class VetrinaProgetti {
 	}
 
 	public void salvaPropostaProgetto(Progetto... progetto) {
-		Objects.requireNonNull(progetto, "La lista di progetti è nulla");
+		Objects.requireNonNull(progetto, "La lista di progetti e' nulla");
 
 		for (Progetto p : progetto) {
-			Objects.requireNonNull(p, "Il progetto inserito è nullo");
+			Objects.requireNonNull(p, "Il progetto inserito e' nullo");
 
 			if (progetti.contains(p)) {
-				throw new IllegalStateException("Progetto già contenuto");
+				throw new IllegalStateException("Progetto gia� contenuto");
 			}
 		}
 

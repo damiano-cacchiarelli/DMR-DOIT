@@ -17,6 +17,10 @@ public class Doit {
 	public Utente getInscritto(String identificativo){
 		return inscritti.stream().filter(i -> i.getIdentificativo().equals(identificativo)).findFirst().get();
 	}
+	
+	public VetrinaProgetti getVetrina() {
+		return vetrina;
+	}
 	/* caso generale ma brutto
 	public <T> T getInscritto(String identificativo) {
 		return (T) inscritti.stream().filter(i -> i.getIdentificativo().equals(identificativo)).findFirst().get();
@@ -38,7 +42,7 @@ public class Doit {
 	}
 	
 	public void aggiungiInscritto(Utente inscritto) {
-		Objects.requireNonNull(inscritto, "Non è possibile aggiungere un utente nullo.");
+		Objects.requireNonNull(inscritto, "Non e' possibile aggiungere un utente nullo.");
 		this.inscritti.add(inscritto);
 	}
 	
@@ -56,7 +60,7 @@ public class Doit {
 		System.out.println(doit.vetrina.getProgetto(46)+"\n");
 		
 		Utente matteo = new Utente("Matteo099", "Matteo", "Romagnoli");
-		Proponente roberto = new Proponente("roberto_cesetti_company", "Roberto", "Cesetti", "Montegiorgio", "Teconologia", "Sommo srl");
+		Proponente roberto = new Proponente("roberto_cesetti_company", "Roberto Ciro", "Cesetti Esposito", "Napoli", "Teconologia", "Sommo srl");
 		Progettista damiano = new Progettista("damiano_cacchiarelli", "Damiano", "Cacchiarelli");
 		damiano.getCurriculum().setCompetenze("Onnisciente.");
 		damiano.getCurriculum().setDatiPersonali("Nato a Deneb (costellazione del cigno) il 33/0/666.");

@@ -7,6 +7,7 @@ public class Utente {
 	private final String identificativo;
 	private final String nome;
 	private final String cognome;
+	private final GestoreRichiesteProposte grp = new GestoreRichiesteProposte();
 	
 	public Utente(String identificativo, String nome, String cognome) {
 		Objects.requireNonNull(identificativo, "Identificativo nullo.");
@@ -32,6 +33,11 @@ public class Utente {
 
 	protected String parametriFormattati() {
 		return "identificativo=" + identificativo + ", nome=" + nome + ", cognome=" + cognome;
+	}
+	
+	//TODO creare una classe astratta
+	public void riceviProposte(PropostaDiPartecipazione pp) {
+		grp.riceviProposta(pp);
 	}
 	
 	@Override

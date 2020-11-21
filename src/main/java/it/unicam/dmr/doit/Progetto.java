@@ -59,7 +59,7 @@ public class Progetto {
 	}
 
 	public void setValutazione(Valutazione valutazione) {
-		Objects.requireNonNull(valutazione, "La valutazione inserita è nulla");
+		Objects.requireNonNull(valutazione, "La valutazione inserita e' nulla");
 
 		this.valutazione = valutazione;
 	}
@@ -69,16 +69,16 @@ public class Progetto {
 	}
 
 	public void setStato(Stato stato) {
-		Objects.requireNonNull(stato, "Lo stato inserito è nullo");
+		Objects.requireNonNull(stato, "Lo stato inserito e' nullo");
 
 		this.stato = stato;
 	}
 
 	private void verificaStringa(String s, String campo) {
-		Objects.requireNonNull(s, "Il campo " + campo + " inserito è nullo");
+		Objects.requireNonNull(s, "Il campo " + campo + " inserito e' nullo");
 
 		if (s.trim().length() == 0) {
-			throw new IllegalArgumentException("Il campo " + campo + " inserito non � valido");
+			throw new IllegalArgumentException("Il campo " + campo + " inserito non e' valido");
 		}
 	}
 

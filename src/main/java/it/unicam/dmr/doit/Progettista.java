@@ -3,6 +3,7 @@ package it.unicam.dmr.doit;
 public class Progettista extends Utente {
 
 	private final Curriculum curriculum;
+	//private final GestoreRichiesteProposte grp = new GestoreRichiesteProposte();
 
 	public Progettista(String identificativo, String nome, String cognome) {
 		super(identificativo, nome, cognome);
