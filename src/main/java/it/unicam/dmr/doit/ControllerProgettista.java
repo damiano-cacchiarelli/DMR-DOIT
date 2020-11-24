@@ -1,17 +1,16 @@
 package it.unicam.dmr.doit;
 
-import java.util.Scanner;
-
-public class IProgettista {
+public class ControllerProgettista {
 	
 	private final Doit doit;
 	private final Progettista progettista;
 	
-	public IProgettista(Doit doit, Progettista progettista) {
+	public ControllerProgettista(Doit doit, Progettista progettista) {
 		this.doit = doit;
 		this.progettista = progettista;
 	}
 	
+	/*
 	public void modificaCompetenze() {
 		Scanner s = new Scanner(System.in);
 		System.out.println(progettista.getCurriculum());
@@ -48,5 +47,23 @@ public class IProgettista {
 			System.out.println("Modifiche salvate");
 		}
 		s.close();
+	}
+	*/
+	
+	public void competenzeAggiornate(String competenze) {
+		progettista.getCurriculum().setCompetenze(competenze);
+	}
+	
+	public void datiPersonaliAggiornati(String datiPersonali) {
+		progettista.getCurriculum().setDatiPersonali(datiPersonali);
+	}
+	
+	public Curriculum getCurriculum() {
+		return progettista.getCurriculum();
+	}
+	
+	@Override
+	public String toString() {
+		return progettista.toString();
 	}
 }

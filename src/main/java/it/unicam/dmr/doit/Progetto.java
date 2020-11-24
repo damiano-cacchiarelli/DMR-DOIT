@@ -20,7 +20,6 @@ public class Progetto {
 	}
 
 	public Progetto(int id, String nome, String obiettivi, String requisiti) {
-
 		this(id, nome);
 		this.setObiettivi(obiettivi);
 		this.setRequisiti(requisiti);
