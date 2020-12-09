@@ -4,6 +4,8 @@ import java.util.HashSet;
 import java.util.Objects;
 import java.util.Set;
 
+import it.unicam.doit.progetto.Progetto;
+
 public class VetrinaProgetti {
 
 	private Set<Progetto> progetti;
@@ -19,7 +21,7 @@ public class VetrinaProgetti {
 			Objects.requireNonNull(p, "Il progetto inserito e' nullo");
 
 			if (progetti.contains(p)) {
-				throw new IllegalStateException("Progetto gia  contenuto");
+				throw new IllegalStateException("Progetto giaï¿½ contenuto");
 			}
 		}
 

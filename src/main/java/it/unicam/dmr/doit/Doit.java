@@ -1,48 +1,29 @@
 package it.unicam.dmr.doit;
 
-import java.util.HashSet;
-import java.util.Objects;
 import java.util.Scanner;
-import java.util.Set;
+
+import it.unicam.dmr.doit.utenti.Esperto;
+import it.unicam.dmr.doit.utenti.Progettista;
+import it.unicam.dmr.doit.utenti.Proponente;
+import it.unicam.dmr.doit.utenti.Utente;
 
 public class Doit {
 
-	private Set<Utente> inscritti;
+	private GestoreUtenti utenti;
 	private VetrinaProgetti vetrina;
 
 	public Doit() {
-		inscritti = new HashSet<>();
+		utenti = new GestoreUtenti();
 		vetrina = new VetrinaProgetti();
 	}
 
-	public Utente getInscritto(String identificativo) {
-		return inscritti.stream().filter(i -> i.getIdentificativo().equals(identificativo)).findFirst()
-				.orElseThrow(() -> new IllegalArgumentException("Identificativo iscritto inesistente."));
-	}
 
 	public VetrinaProgetti getVetrina() {
 		return vetrina;
 	}
 
-	/**
-	 * @throws ClassCastException se l'identificativo non identifica un
-	 *                            {@link Esperto}
-	 */
-	public Esperto getEsperto(String identificativo) {
-		return (Esperto) getInscritto(identificativo);
-	}
-
-	/**
-	 * @throws ClassCastException se l'identificativo non identifica un
-	 *                            {@link Progettista}
-	 */
-	public Progettista getProgettista(String identificativo) {
-		return (Progettista) getInscritto(identificativo);
-	}
-
-	public void aggiungiInscritto(Utente inscritto) {
-		Objects.requireNonNull(inscritto, "Non e' possibile aggiungere un utente nullo.");
-		this.inscritti.add(inscritto);
+	public GestoreUtenti getUtenti() {
+		return utenti;
 	}
 
 	private static Scanner s;
@@ -58,10 +39,10 @@ public class Doit {
 		Esperto lello = new Esperto("espertone", "Lello", "Diversi");
 		damiano.getCurriculum().setCompetenze("Onnisciente.");
 		damiano.getCurriculum().setDatiPersonali("Nato a Deneb (costellazione del cigno) il 33/0/666.");
-		doit.aggiungiInscritto(matteo);
-		doit.aggiungiInscritto(roberto);
-		doit.aggiungiInscritto(damiano);
-		doit.aggiungiInscritto(lello);
+		doit.utenti.aggiungiInscritto(matteo);
+		doit.utenti.aggiungiInscritto(roberto);
+		doit.utenti.aggiungiInscritto(damiano);
+		doit.utenti.aggiungiInscritto(lello);
 
 		ViewProponente viewProponente = new ViewProponente(new ControllerProponente(doit, roberto));
 		ViewProgettista viewProgettista = new ViewProgettista(new ControllerProgettista(doit, damiano));

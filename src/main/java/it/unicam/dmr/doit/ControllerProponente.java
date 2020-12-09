@@ -1,6 +1,12 @@
 package it.unicam.dmr.doit;
 import java.util.Objects;
 
+import it.unicam.dmr.doit.utenti.Messaggiabile;
+import it.unicam.dmr.doit.utenti.Proponente;
+import it.unicam.doit.invito.Invito;
+import it.unicam.doit.invito.TipologiaInvito;
+import it.unicam.doit.progetto.Progetto;
+
 public class ControllerProponente {
 	
 	private final Doit doit;
@@ -18,16 +24,23 @@ public class ControllerProponente {
 		doit.getVetrina().salvaPropostaProgetto(p);
 	}
 	
+	public void permetteValutazioneProgetto(int idProgetto, String idEsperto, String contenuto) {
+		Messaggiabile<Invito> destinatario = doit.getUtenti().getEsperto(idEsperto); 
+		Progetto progetto = doit.getVetrina().getProgetto(idProgetto);
+		proponente.getGestoreInviti().inviaMessaggio(destinatario.getGestoreMessaggi(), contenuto, progetto, TipologiaInvito.VALUTAZIONE);
+	}
+	
+	/*
 	public void permetteValutazioneProgetto(String idEsperto, int idProgetto) {
 		Esperto esperto = doit.getEsperto(idEsperto);
 		Progetto p = doit.getVetrina().getProgetto(idProgetto);
 		p.setStato(Stato.IN_VALUTAZIONE);
 		esperto.riceviRichiestaValutazione(idProgetto);			
-	}
+	}*/
 	
 	public void invitaProgettista(String idProgettista, int idProgetto, int idProposta, String contenuto) {
 		PropostaDiPartecipazione pp = new PropostaDiPartecipazione(idProposta, idProgettista, contenuto, idProgetto);
-		doit.getProgettista(idProgettista).riceviProposte(pp);
+		doit.getUtenti().getProgettista(idProgettista).riceviProposte(pp);
 	}
 	
 	@Override

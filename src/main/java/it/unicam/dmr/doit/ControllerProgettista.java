@@ -1,5 +1,8 @@
 package it.unicam.dmr.doit;
 
+import it.unicam.dmr.doit.utenti.Curriculum;
+import it.unicam.dmr.doit.utenti.Progettista;
+
 public class ControllerProgettista {
 	
 	private final Doit doit;

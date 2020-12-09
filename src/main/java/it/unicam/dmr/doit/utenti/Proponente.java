@@ -1,17 +1,22 @@
-package it.unicam.dmr.doit;
+package it.unicam.dmr.doit.utenti;
 
 import java.util.Objects;
+
+import it.unicam.doit.invito.GestoreInviti;
 
 public class Proponente extends Utente {
 
 	private String sede;
 	private String settore;
 	private String nomeAzienda;
+	
+	private final GestoreInviti gestoreInviti;
 
 	public Proponente(String identificativo, String nome, String cognome, String sede, String settore,
 			String nomeAzienda) {
 		super(identificativo, nome, cognome);
 
+		gestoreInviti = new GestoreInviti(identificativo);
 		this.setSede(sede);
 		this.setSettore(settore);
 		this.setNomeAzienda(nomeAzienda);
@@ -54,5 +59,9 @@ public class Proponente extends Utente {
 
 		if (s.trim().length() == 0)
 			throw new IllegalArgumentException("Il campo " + campo + " inserito non e' valido");
+	}
+	
+	public GestoreInviti getGestoreInviti() {
+		return gestoreInviti;
 	}
 }

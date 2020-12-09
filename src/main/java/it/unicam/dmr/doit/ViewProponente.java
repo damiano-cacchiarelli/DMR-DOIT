@@ -43,8 +43,10 @@ public class ViewProponente {
 	public void permetteValutazioneProgetto(Scanner s, int idProgetto) {
 		System.out.println("Inserire id esperto: ");
 		String idEsperto = s.nextLine();
+		System.out.println("Inserire il contenuto dell'invito: ");
+		String contenuto = s.nextLine();
 		try {
-			proponente.permetteValutazioneProgetto(idEsperto, idProgetto);
+			proponente.permetteValutazioneProgetto(idProgetto, idEsperto, contenuto);
 			System.out.println("Richiesta di valutazione inviata.");
 		} catch (Exception e) {
 			System.err.println("Richiesta di valutazione fallita: " + e.getMessage());

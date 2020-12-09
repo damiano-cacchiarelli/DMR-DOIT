@@ -1,6 +1,13 @@
 package it.unicam.dmr.doit;
 
-import java.util.ArrayList;
+import java.util.List;
+
+import it.unicam.dmr.doit.utenti.Esperto;
+import it.unicam.doit.invito.Invito;
+import it.unicam.doit.invito.TipologiaInvito;
+import it.unicam.doit.progetto.Progetto;
+import it.unicam.doit.progetto.Stato;
+import it.unicam.doit.progetto.Valutazione;
 
 public class ControllerEsperto {
 
@@ -12,8 +19,9 @@ public class ControllerEsperto {
 		this.esperto = esperto;
 	}
 
-	public ArrayList<Integer> valutaProgetto() {
-		return esperto.getProgettiDaValutare();
+	public List<Invito> valutaProgetto() {
+		return esperto.getGestoreMessaggi().getMessaggi(i -> i.getTipologiaInvito() == TipologiaInvito.VALUTAZIONE);
+		//return esperto.getProgettiDaValutare();
 	}
 
 	public Progetto selezionaProgetto(int idProgetto) {
@@ -24,11 +32,6 @@ public class ControllerEsperto {
 		p.setValutazione(new Valutazione(recensione));
 		p.setStato(Stato.VALUTATO);
 	}
-	
-	/*
-	public void rilasciaValutazione(Valutazione valutazione, Progetto p) {
-		p.setValutazione(valutazione);
-	}*/
 	
 	@Override
 	public String toString() {

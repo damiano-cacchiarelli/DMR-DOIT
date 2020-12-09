@@ -1,4 +1,4 @@
-package it.unicam.dmr.doit;
+package it.unicam.dmr.doit.utenti;
 
 import java.util.Objects;
 

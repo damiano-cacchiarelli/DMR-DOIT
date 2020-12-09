@@ -2,6 +2,8 @@ package it.unicam.dmr.doit;
 import java.util.ArrayList;
 import java.util.Objects;
 
+import it.unicam.dmr.doit.utenti.Utente;
+
 public class GestoreRichiesteProposte {
 	
 	ArrayList<PropostaDiPartecipazione> listaRichieste = new ArrayList<>();
@@ -28,7 +30,7 @@ public class GestoreRichiesteProposte {
 			listaProposte.add(pp);
 			System.out.println("Richiesta ricevuta");
 		}else {
-			System.out.println("Non è possibile inviare richieste a questo mittente");
+			System.out.println("Non ï¿½ possibile inviare richieste a questo mittente");
 		}
 		
 	}
