@@ -1,7 +1,7 @@
 package it.unicam.dmr.doit.utenti;
 
-import it.unicam.doit.invito.GestoreMessaggi;
-import it.unicam.doit.invito.Messaggio;
+import it.unicam.dmr.doit.invito.GestoreMessaggi;
+import it.unicam.dmr.doit.invito.Messaggio;
 
 public interface Messaggiabile<M extends Messaggio> {
 

@@ -1,9 +1,10 @@
-package it.unicam.dmr.doit;
+package it.unicam.dmr.doit.controller;
 
-import it.unicam.dmr.doit.utenti.Curriculum;
+import it.unicam.dmr.doit.Doit;
 import it.unicam.dmr.doit.utenti.Progettista;
+import it.unicam.dmr.doit.utenti.curriculum.Curriculum;
 
-public class ControllerProgettista {
+public class ControllerProgettista implements IController {
 	
 	private final Doit doit;
 	private final Progettista progettista;
@@ -54,11 +55,11 @@ public class ControllerProgettista {
 	*/
 	
 	public void competenzeAggiornate(String competenze) {
-		progettista.getCurriculum().setCompetenze(competenze);
+		// progettista.getCurriculum().setCompetenze(competenze);
 	}
 	
 	public void datiPersonaliAggiornati(String datiPersonali) {
-		progettista.getCurriculum().setDatiPersonali(datiPersonali);
+		// progettista.getCurriculum().setDatiPersonali(datiPersonali);
 	}
 	
 	public Curriculum getCurriculum() {

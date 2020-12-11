@@ -1,8 +1,9 @@
 package it.unicam.dmr.doit.utenti;
 
-import it.unicam.doit.invito.GestoreInviti;
-import it.unicam.doit.invito.GestoreMessaggi;
-import it.unicam.doit.invito.Invito;
+import it.unicam.dmr.doit.invito.GestoreInviti;
+import it.unicam.dmr.doit.invito.GestoreMessaggi;
+import it.unicam.dmr.doit.invito.Invito;
+import it.unicam.dmr.doit.utenti.curriculum.Curriculum;
 
 public class Progettista extends Utente implements Messaggiabile<Invito> {
 

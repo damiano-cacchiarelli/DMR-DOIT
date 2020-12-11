@@ -1,11 +1,14 @@
 package it.unicam.dmr.doit.utenti;
 
-import it.unicam.doit.progetto.Progetto;
+import java.util.List;
+
+import it.unicam.dmr.doit.invito.Invito;
+import it.unicam.dmr.doit.invito.TipologiaInvito;
+import it.unicam.dmr.doit.progetto.Progetto;
 
 public class Esperto extends Progettista {
 
 	private int rango = 0;
-//	private final GestoreValutazioni gv = new GestoreValutazioni();
 
 	public Esperto(String identificativo, String nome, String cognome) {
 		super(identificativo, nome, cognome);
@@ -23,17 +26,16 @@ public class Esperto extends Progettista {
 		return rango;
 	}
 	
-	/*
-	public void riceviRichiestaValutazione(int idP) {
-		gv.addRichiesta(idP);
-	}*/
-	
 	public void valutaProgetto(Progetto p) {
 		
 	}
 	
-	/*
-	public ArrayList<Integer> getProgettiDaValutare(){
-		return gv.getDaValutare();
-	}*/
+
+	public List<Invito> getRichiesteValutazione(){
+		return getGestoreMessaggi().getMessaggi(i -> i.getTipologiaInvito() == TipologiaInvito.VALUTAZIONE);
+	}
+	
 }
+
+
+// List<String> unmodifiableList = Collections.unmodifiableList(ls);

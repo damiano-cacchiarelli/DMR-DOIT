@@ -4,7 +4,7 @@ import java.util.HashSet;
 import java.util.Objects;
 import java.util.Set;
 
-import it.unicam.doit.progetto.Progetto;
+import it.unicam.dmr.doit.progetto.Progetto;
 
 public class VetrinaProgetti {
 

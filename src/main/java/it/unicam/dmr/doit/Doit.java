@@ -2,10 +2,16 @@ package it.unicam.dmr.doit;
 
 import java.util.Scanner;
 
+import it.unicam.dmr.doit.controller.ControllerEsperto;
+import it.unicam.dmr.doit.controller.ControllerProgettista;
+import it.unicam.dmr.doit.controller.ControllerProponente;
 import it.unicam.dmr.doit.utenti.Esperto;
 import it.unicam.dmr.doit.utenti.Progettista;
 import it.unicam.dmr.doit.utenti.Proponente;
 import it.unicam.dmr.doit.utenti.Utente;
+import it.unicam.dmr.doit.view.ViewEsperto;
+import it.unicam.dmr.doit.view.ViewProgettista;
+import it.unicam.dmr.doit.view.ViewProponente;
 
 public class Doit {
 
@@ -33,12 +39,12 @@ public class Doit {
 		Doit doit = new Doit();
 
 		Utente matteo = new Utente("Matteo099", "Matteo", "Romagnoli");
-		Proponente roberto = new Proponente("roberto_cesetti_company", "Roberto Ciro", "Cesetti Esposito", "Napoli",
-				"Teconologia Truffe", "Sommo srl");
-		Progettista damiano = new Progettista("damiano_cacchiarelli", "Damiano", "Cacchiarelli");
-		Esperto lello = new Esperto("espertone", "Lello", "Diversi");
-		damiano.getCurriculum().setCompetenze("Onnisciente.");
-		damiano.getCurriculum().setDatiPersonali("Nato a Deneb (costellazione del cigno) il 33/0/666.");
+		Proponente roberto = new Proponente("roberto_cesetti_company", "Roberto ", "Cesetti ", "Montegiorgio",
+				"Teconologia ", "Sommo srl");
+		Progettista damiano = new Progettista("damiano_cacciarelli", "Dam", "Cacchiu");
+		Esperto lello = new Esperto("espertcoglione", "g41", "Diversi");
+		//damiano.getCurriculum().setCompetenze("Onnisciente.");
+		//damiano.getCurriculum().setDatiPersonali("Nato a Deneb (costellazione del cigno) il 33/0/666.");
 		doit.utenti.aggiungiInscritto(matteo);
 		doit.utenti.aggiungiInscritto(roberto);
 		doit.utenti.aggiungiInscritto(damiano);

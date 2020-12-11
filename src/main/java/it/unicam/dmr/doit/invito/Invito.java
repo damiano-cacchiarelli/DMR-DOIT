@@ -1,8 +1,8 @@
-package it.unicam.doit.invito;
+package it.unicam.dmr.doit.invito;
 
 import java.time.LocalDateTime;
 
-import it.unicam.doit.progetto.Progetto;
+import it.unicam.dmr.doit.progetto.Progetto;
 
 public class Invito implements Messaggio {
 

@@ -1,13 +1,15 @@
-package it.unicam.dmr.doit;
+package it.unicam.dmr.doit.controller;
 import java.util.Objects;
 
+import it.unicam.dmr.doit.Doit;
+import it.unicam.dmr.doit.PropostaDiPartecipazione;
+import it.unicam.dmr.doit.invito.Invito;
+import it.unicam.dmr.doit.invito.TipologiaInvito;
+import it.unicam.dmr.doit.progetto.Progetto;
 import it.unicam.dmr.doit.utenti.Messaggiabile;
 import it.unicam.dmr.doit.utenti.Proponente;
-import it.unicam.doit.invito.Invito;
-import it.unicam.doit.invito.TipologiaInvito;
-import it.unicam.doit.progetto.Progetto;
 
-public class ControllerProponente {
+public class ControllerProponente implements IController {
 	
 	private final Doit doit;
 	private Proponente proponente;
@@ -27,7 +29,7 @@ public class ControllerProponente {
 	public void permetteValutazioneProgetto(int idProgetto, String idEsperto, String contenuto) {
 		Messaggiabile<Invito> destinatario = doit.getUtenti().getEsperto(idEsperto); 
 		Progetto progetto = doit.getVetrina().getProgetto(idProgetto);
-		proponente.getGestoreInviti().inviaMessaggio(destinatario.getGestoreMessaggi(), contenuto, progetto, TipologiaInvito.VALUTAZIONE);
+		proponente.getGestoreMessaggi().inviaMessaggio(destinatario.getGestoreMessaggi(), contenuto, progetto, TipologiaInvito.VALUTAZIONE);
 	}
 	
 	/*
@@ -40,7 +42,7 @@ public class ControllerProponente {
 	
 	public void invitaProgettista(String idProgettista, int idProgetto, int idProposta, String contenuto) {
 		PropostaDiPartecipazione pp = new PropostaDiPartecipazione(idProposta, idProgettista, contenuto, idProgetto);
-		doit.getUtenti().getProgettista(idProgettista).riceviProposte(pp);
+		//doit.getUtenti().getProgettista(idProgettista).riceviProposte(pp);
 	}
 	
 	@Override

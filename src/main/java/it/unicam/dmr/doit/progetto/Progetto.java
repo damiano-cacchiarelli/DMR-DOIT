@@ -1,4 +1,4 @@
-package it.unicam.doit.progetto;
+package it.unicam.dmr.doit.progetto;
 
 import java.util.Objects;
 
@@ -12,17 +12,16 @@ public class Progetto {
 	private Stato stato;
 
 	public Progetto(int id, String nome) {
-		verificaStringa(nome, "Nome");
-
-		this.id = id;
-		this.nome = nome;
-		this.setStato(Stato.NON_VALUTATO);
+		this(id, nome, "obiettivi", "requisiti");
 	}
 
 	public Progetto(int id, String nome, String obiettivi, String requisiti) {
-		this(id, nome);
 		this.setObiettivi(obiettivi);
 		this.setRequisiti(requisiti);
+		verificaStringa(nome, "Nome");
+		this.id = id;
+		this.nome = nome;
+		this.setStato(Stato.NON_VALUTATO);
 	}
 
 	public String getObiettivi() {

@@ -1,6 +1,8 @@
-package it.unicam.dmr.doit;
+package it.unicam.dmr.doit.view;
 
 import java.util.Scanner;
+
+import it.unicam.dmr.doit.controller.ControllerProgettista;
 
 public class ViewProgettista {
 

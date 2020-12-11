@@ -2,9 +2,11 @@ package it.unicam.dmr.doit.utenti;
 
 import java.util.Objects;
 
-import it.unicam.doit.invito.GestoreInviti;
+import it.unicam.dmr.doit.invito.GestoreInviti;
+import it.unicam.dmr.doit.invito.GestoreMessaggi;
+import it.unicam.dmr.doit.invito.Invito;
 
-public class Proponente extends Utente {
+public class Proponente extends Utente implements Messaggiabile<Invito> {
 
 	private String sede;
 	private String settore;
@@ -61,7 +63,9 @@ public class Proponente extends Utente {
 			throw new IllegalArgumentException("Il campo " + campo + " inserito non e' valido");
 	}
 	
-	public GestoreInviti getGestoreInviti() {
+
+	@Override
+	public GestoreMessaggi<Invito> getGestoreMessaggi() {
 		return gestoreInviti;
 	}
 }

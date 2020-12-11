@@ -1,11 +1,12 @@
-package it.unicam.doit.invito;
+package it.unicam.dmr.doit.invito;
 
 import java.util.ArrayList;
+import java.util.Collections;
 import java.util.List;
 import java.util.function.Predicate;
 import java.util.stream.Collectors;
 
-import it.unicam.doit.progetto.Progetto;
+import it.unicam.dmr.doit.progetto.Progetto;
 
 public class GestoreInviti implements GestoreMessaggi<Invito> {
 
@@ -19,13 +20,10 @@ public class GestoreInviti implements GestoreMessaggi<Invito> {
 	
 	@Override
 	public List<Invito> getMessaggi(Predicate<? super Invito> filtro) {
-		return inviti.stream().filter(filtro).collect(Collectors.toList());
+		List<Invito> li = inviti.stream().filter(filtro).collect(Collectors.toList());
+		return Collections.unmodifiableList(li); 
 	}
-	
-//	public List<Invito> getInviti(TipologiaInvito tipologiaInvito){
-//		return inviti.stream().filter(i -> i.getTipologiaInvito() == tipologiaInvito).collect(Collectors.toList());
-//	}
-	
+		
 	private void salvaInvito(Invito invito) {
 		inviti.add(invito);
 	}

@@ -1,15 +1,16 @@
-package it.unicam.dmr.doit;
+package it.unicam.dmr.doit.controller;
 
 import java.util.List;
 
+import it.unicam.dmr.doit.Doit;
+import it.unicam.dmr.doit.invito.Invito;
+import it.unicam.dmr.doit.invito.TipologiaInvito;
+import it.unicam.dmr.doit.progetto.Progetto;
+import it.unicam.dmr.doit.progetto.Stato;
+import it.unicam.dmr.doit.progetto.Valutazione;
 import it.unicam.dmr.doit.utenti.Esperto;
-import it.unicam.doit.invito.Invito;
-import it.unicam.doit.invito.TipologiaInvito;
-import it.unicam.doit.progetto.Progetto;
-import it.unicam.doit.progetto.Stato;
-import it.unicam.doit.progetto.Valutazione;
 
-public class ControllerEsperto {
+public class ControllerEsperto implements IController {
 
 	private final Doit doit;
 	private final Esperto esperto;

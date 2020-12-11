@@ -1,4 +1,4 @@
-package it.unicam.doit.progetto;
+package it.unicam.dmr.doit.progetto;
 
 public enum Stato {
 	

@@ -1,8 +1,9 @@
-package it.unicam.dmr.doit;
+package it.unicam.dmr.doit.view;
 
 import java.util.Scanner;
 
-import it.unicam.doit.progetto.Progetto;
+import it.unicam.dmr.doit.controller.ControllerEsperto;
+import it.unicam.dmr.doit.progetto.Progetto;
 
 public class ViewEsperto {
 	

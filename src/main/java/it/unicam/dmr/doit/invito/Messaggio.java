@@ -1,4 +1,4 @@
-package it.unicam.doit.invito;
+package it.unicam.dmr.doit.invito;
 
 public interface Messaggio {
 
