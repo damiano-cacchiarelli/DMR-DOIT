@@ -1,9 +1,9 @@
 package it.unicam.dmr.doit.utenti.curriculum;
 
 import java.util.ArrayList;
+import java.util.Arrays;
 import java.util.List;
 import java.util.Objects;
-
 
 import it.unicam.dmr.doit.progetto.Progetto;
 
@@ -48,8 +48,7 @@ public class Curriculum {
 
 	@Override
 	public String toString() {
-		//TODO metodo per progetto
-		return "Curriculum [competenze=" + competenze + ";\ndatiPersonali=" + datiPersonali + ";\nProgetti = " + progetti + "]";
+		return "Curriculum [competenze=" + competenze + ";\ndatiPersonali=" + datiPersonali + ";\nprogetti=" + Arrays.toString(progetti.toArray()) + "]";
 	}
 	
 	

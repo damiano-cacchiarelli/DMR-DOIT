@@ -18,18 +18,21 @@ public class Utente implements IUtente {
 		this.cognome = cognome;
 	}
 
+	@Override
 	public String getIdentificativo() {
 		return identificativo;
 	}
 
+	@Override
 	public String getNome() {
 		return nome;
 	}
 
+	@Override
 	public String getCognome() {
 		return cognome;
 	}
-
+	
 	protected String parametriFormattati() {
 		return "identificativo=" + identificativo + ", nome=" + nome + ", cognome=" + cognome;
 	}

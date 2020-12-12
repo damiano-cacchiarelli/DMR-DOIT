@@ -1,5 +1,8 @@
 package it.unicam.dmr.doit.utenti.curriculum;
 
+/*
+ * DA ELIMINARE - Esempio di builder
+ */
 public class DatiPersonaliDirector {
 
 	public void constructEmpty(DatiPersonaliBuilder builder) {

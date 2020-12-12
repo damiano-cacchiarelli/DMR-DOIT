@@ -30,11 +30,9 @@ public class Esperto extends Progettista {
 		
 	}
 	
-
 	public List<Invito> getRichiesteValutazione(){
 		return getGestoreMessaggi().getMessaggi(i -> i.getTipologiaInvito() == TipologiaInvito.VALUTAZIONE);
 	}
-	
 }
 
 

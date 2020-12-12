@@ -15,5 +15,7 @@ public interface GestoreMessaggi<M extends Messaggio> /*extends GestoreId*/{
 	
 	public void inviaMessaggio(GestoreMessaggi<? super M> destinatario, String contenuto, Progetto progetto, TipologiaInvito tipologiaInvito);
 
+	public M getMessaggio(int idMessaggio);
+	
 	public String getId();
 }

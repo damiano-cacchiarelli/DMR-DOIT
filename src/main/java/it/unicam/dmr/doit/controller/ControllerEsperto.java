@@ -4,7 +4,6 @@ import java.util.List;
 
 import it.unicam.dmr.doit.Doit;
 import it.unicam.dmr.doit.invito.Invito;
-import it.unicam.dmr.doit.invito.TipologiaInvito;
 import it.unicam.dmr.doit.progetto.Progetto;
 import it.unicam.dmr.doit.progetto.Stato;
 import it.unicam.dmr.doit.progetto.Valutazione;
@@ -20,9 +19,13 @@ public class ControllerEsperto implements IController {
 		this.esperto = esperto;
 	}
 
-	public List<Invito> valutaProgetto() {
-		return esperto.getGestoreMessaggi().getMessaggi(i -> i.getTipologiaInvito() == TipologiaInvito.VALUTAZIONE);
-		//return esperto.getProgettiDaValutare();
+	public List<Invito> richiesteDiValutazione() {
+		return esperto.getRichiesteValutazione();
+	}
+	
+	public Progetto getProgetto(int idInvito) {
+		Invito i = esperto.getGestoreMessaggi().getMessaggio(idInvito);
+		return i.getProgetto();
 	}
 
 	public Progetto selezionaProgetto(int idProgetto) {

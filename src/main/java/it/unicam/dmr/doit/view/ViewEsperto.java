@@ -14,11 +14,19 @@ public class ViewEsperto {
 	}
 	
 	public void valutaProgetto(Scanner s) {
-		System.out.println("Valuta un progetto. Progetti disponibili: " + esperto.valutaProgetto().toString());
-		System.out.println("Inserire l'id del progetto da valutare: ");
-		int idProgetto = Integer.parseInt(s.nextLine());
-		Progetto progetto = esperto.selezionaProgetto(idProgetto);
+		System.out.println("Valuta un progetto. Inviti disponibili: " + esperto.richiesteDiValutazione().toString());
+		System.out.println("Inserire l'id dell'invito.");
+		int idInvito = Integer.parseInt(s.nextLine());
+		Progetto progetto = esperto.getProgetto(idInvito);
+		//DA RIMPIAZZARE System.out.println(progetto.getDettagli());
 		System.out.println(progetto.toString());
+		//if(progetto.getCandidati().size() != 0) {
+			System.out.println("Voi valutare i candidati del progetto?Y/N");
+			String res = s.nextLine();
+			if(res.equalsIgnoreCase("Y")) {
+				System.out.println("Valuta Progettista non disponibile.");
+			}	
+		//}else System.out.println("Nessun progettista si è candidato al progetto.");
 		System.out.println("Inserire una recensione: ");
 		String recensione = s.nextLine();
 		esperto.rilasciaValutazione(recensione, progetto);

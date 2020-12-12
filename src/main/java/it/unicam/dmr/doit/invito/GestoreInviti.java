@@ -46,6 +46,11 @@ public class GestoreInviti implements GestoreMessaggi<Invito> {
 		salvaInvito(invito);
 		destinatario.riceviMessaggio(invito);
 	}
+	
+	@Override
+	public Invito getMessaggio(int idMessaggio) {
+		return inviti.stream().filter(i -> i.getId() == idMessaggio).findFirst().get();
+	}
 
 	@Override
 	public String getId() {
