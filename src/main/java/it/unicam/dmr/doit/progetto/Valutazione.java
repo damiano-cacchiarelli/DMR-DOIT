@@ -2,7 +2,7 @@ package it.unicam.dmr.doit.progetto;
 
 import java.util.Objects;
 
-public class Valutazione {
+public class Valutazione implements IValutazione {
 
 	private final String recensione;
 	

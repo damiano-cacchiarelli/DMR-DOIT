@@ -33,7 +33,7 @@ public class ControllerEsperto implements IController {
 	}
 	
 	public void rilasciaValutazione(String recensione, Progetto p) {
-		p.setValutazione(new Valutazione(recensione));
+		p.aggiungiValutazione(new Valutazione(recensione));
 		p.setStato(Stato.VALUTATO);
 	}
 	

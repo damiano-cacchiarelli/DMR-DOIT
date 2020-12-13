@@ -1,15 +1,20 @@
 package it.unicam.dmr.doit.progetto;
 
+import java.util.LinkedList;
 import java.util.Objects;
 
-public class Progetto {
+import it.unicam.dmr.doit.progetto.exception.NextFaseException;
+
+public class Progetto implements IProgetto {
 
 	private final int id;
 	private final String nome;
 	private String obiettivi;
 	private String requisiti;
-	private Valutazione valutazione;
+	private LinkedList<Valutazione> valutazione;
 	private Stato stato;
+	private Fase fase;
+	private GestoreCandidatiProgetto gcp = new GestoreCandidatiProgetto();
 
 	public Progetto(int id, String nome) {
 		this(id, nome, "obiettivi", "requisiti");
@@ -22,7 +27,9 @@ public class Progetto {
 		this.id = id;
 		this.nome = nome;
 		this.setStato(Stato.NON_VALUTATO);
+		this.setFase(Fase.INIZO);
 	}
+
 
 	public String getObiettivi() {
 		return obiettivi;
@@ -53,13 +60,13 @@ public class Progetto {
 	}
 
 	public Valutazione getValutazione() {
-		return valutazione;
+		return valutazione.peekLast();
 	}
 
-	public void setValutazione(Valutazione valutazione) {
+	public void aggiungiValutazione(Valutazione valutazione) {
 		Objects.requireNonNull(valutazione, "La valutazione inserita e' nulla");
 
-		this.valutazione = valutazione;
+		this.valutazione.add(valutazione);
 	}
 
 	public Stato getStato() {
@@ -71,6 +78,22 @@ public class Progetto {
 
 		this.stato = stato;
 	}
+	
+	private void setFase(Fase fase) {
+		this.fase = fase;
+	}
+	
+	public Fase getFase() {
+		return fase;
+	}
+	
+	public void nextFase() throws NextFaseException {
+		this.setFase(fase.nextFase(fase));
+	}
+	
+	public GestoreCandidatiProgetto getGestoreCandidati() {
+		return gcp;
+	}
 
 	private void verificaStringa(String s, String campo) {
 		Objects.requireNonNull(s, "Il campo " + campo + " inserito e' nullo");
@@ -79,11 +102,18 @@ public class Progetto {
 			throw new IllegalArgumentException("Il campo " + campo + " inserito non e' valido");
 		}
 	}
+	
 
 	@Override
 	public String toString() {
 		return "Progetto [id=" + id + ", nome=" + nome + ", obiettivi=" + obiettivi + ", requisiti=" + requisiti
 				+ ", valutazione=" + valutazione + ", stato=" + stato + "]";
+	}
+
+	@Override
+	public String getDettagli() {
+		return "Progetto [id=" + id + ", nome=" + nome + ", obiettivi=" + obiettivi + ", requisiti=" + requisiti
+				+ ", stato=" + stato + "]";
 	}
 
 }
