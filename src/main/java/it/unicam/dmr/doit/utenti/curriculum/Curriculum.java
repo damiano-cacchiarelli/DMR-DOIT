@@ -14,6 +14,7 @@ public class Curriculum {
 	private List<Progetto> progetti;
 		
 	public Curriculum() {		
+		this(new Competenze("settore", "lingue"), new DatiPersonali("nome", "cognome", "email", "professione", "cittadinanza", "sesso", "telefono", "sitoWeb", "gitHub", "linkedIn"));
 	}
 	
 	public Curriculum(Competenze competenze, DatiPersonali datiPersonali) {

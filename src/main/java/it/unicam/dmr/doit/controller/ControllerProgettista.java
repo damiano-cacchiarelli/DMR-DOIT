@@ -1,8 +1,17 @@
 package it.unicam.dmr.doit.controller;
 
+import java.util.List;
+
 import it.unicam.dmr.doit.Doit;
+import it.unicam.dmr.doit.invito.Invito;
+import it.unicam.dmr.doit.invito.TipologiaInvito;
+import it.unicam.dmr.doit.progetto.Fase;
+import it.unicam.dmr.doit.progetto.Progetto;
 import it.unicam.dmr.doit.utenti.Progettista;
+import it.unicam.dmr.doit.utenti.Proponente;
+import it.unicam.dmr.doit.utenti.curriculum.Competenze;
 import it.unicam.dmr.doit.utenti.curriculum.Curriculum;
+import it.unicam.dmr.doit.utenti.curriculum.DatiPersonali;
 
 public class ControllerProgettista implements IController {
 	
@@ -14,52 +23,16 @@ public class ControllerProgettista implements IController {
 		this.progettista = progettista;
 	}
 	
-	/*
-	public void modificaCompetenze() {
-		Scanner s = new Scanner(System.in);
-		System.out.println(progettista.getCurriculum());
-		System.out.println("Vuoi modificare le tue competenze?[Y/N]: ");
-		if(s.nextLine() == "Y") {
-			System.out.println("Inserisci nuove competenze:");
-			String competenze = s.nextLine();
-			competenzeAggiornate(competenze);
-		}
-		System.out.println("Vuoi modificare i tui dati personali?[Y/N]: ");
-		if(s.nextLine() == "Y") {
-			System.out.println("Inserisci nuovi dati personali:");
-			String datiPersonali = s.nextLine();
-			datiPersonaliAggiornati(datiPersonali);
-		}
-		s.close();
+	public void competenzeAggiornate(String lingue, String settore) {
+		Competenze c = progettista.getCurriculum().getCompetenze();
+		c.setLingue(lingue);
+		c.setSettore(settore);
 	}
 	
-	public void competenzeAggiornate(String competenze) {
-		Scanner s = new Scanner(System.in);
-		System.out.println("Vuoi salvare le modifiche?[Y/N]: ");
-		if(s.nextLine() == "Y") {
-			progettista.getCurriculum().setCompetenze(competenze);
-			System.out.println("Modifiche salvate");
-		}
-		s.close();
-	}
-	
-	public void datiPersonaliAggiornati(String datiPersonali) {
-		Scanner s = new Scanner(System.in);
-		System.out.println("Vuoi salvare le modifiche?[Y/N]: ");
-		if(s.nextLine() == "Y") {
-			progettista.getCurriculum().setDatiPersonali(datiPersonali);
-			System.out.println("Modifiche salvate");
-		}
-		s.close();
-	}
-	*/
-	
-	public void competenzeAggiornate(String competenze) {
-		// progettista.getCurriculum().setCompetenze(competenze);
-	}
-	
-	public void datiPersonaliAggiornati(String datiPersonali) {
-		// progettista.getCurriculum().setDatiPersonali(datiPersonali);
+	public void datiPersonaliAggiornati(String nome, String cognome) {
+		DatiPersonali datiPersonali = progettista.getCurriculum().getDatiPersonali();
+		datiPersonali.setNome(nome);
+		datiPersonali.setCognome(cognome);
 	}
 	
 	public Curriculum getCurriculum() {
@@ -69,5 +42,35 @@ public class ControllerProgettista implements IController {
 	@Override
 	public String toString() {
 		return progettista.toString();
+	}
+
+	public List<Invito> listaInviti() {
+		return progettista.getGestoreMessaggi().getMessaggi(i -> i.getTipologiaInvito() == TipologiaInvito.PROPOSTA);
+	}
+
+	public Invito getInvito(int idInvito) {
+		return progettista.getGestoreMessaggi().getMessaggio(idInvito);
+	}
+
+	public void accettaRichiesta(int idInvito) {
+		Invito i = progettista.getGestoreMessaggi().getMessaggio(idInvito);
+		i.getProgetto().getGestoreCandidati().confermaCandidato(progettista.getIdentificativo());
+		eliminaRichiesta(idInvito);	
+	}
+	
+	public void eliminaRichiesta(int idInvito) {
+		progettista.getGestoreMessaggi().eliminaMessaggio(idInvito);
+	}
+
+	public List<Progetto> getProgettiDisponibiliPerCandidatura() {
+		return doit.getVetrina().getProgetti(p -> p.getFase() == Fase.INIZIO);
+	}
+
+	public void candidatiAlProgetto(int idProgetto, String contenuto) {
+		Progetto p = doit.getVetrina().getProgetto(idProgetto);
+		p.getGestoreCandidati().aggiungiCandidato(progettista);
+		Proponente proponente = p.getProponente();
+		progettista.getGestoreMessaggi().inviaMessaggio(
+				proponente.getGestoreMessaggi(), contenuto, p, TipologiaInvito.RICHIESTA);
 	}
 }

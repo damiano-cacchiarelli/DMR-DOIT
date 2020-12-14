@@ -1,8 +1,11 @@
 package it.unicam.dmr.doit;
 
 import java.util.HashSet;
+import java.util.List;
 import java.util.Objects;
 import java.util.Set;
+import java.util.function.Predicate;
+import java.util.stream.Collectors;
 
 import it.unicam.dmr.doit.progetto.Progetto;
 
@@ -30,18 +33,16 @@ public class VetrinaProgetti {
 	}
 
 	public Progetto getProgetto(int idProgetto) {
+		return progetti.stream()
+				.filter(progetto -> progetto.getId() == idProgetto)
+				.findFirst().get();
+	}
 
-		// return progetti.stream().filter ( progetto -> progetto.getId() == idProgetto
-		// ).findFirst().get();
-
-		for (Progetto progetto : progetti) {
-
-			if (progetto.getId() == idProgetto) {
-				return progetto;
-
-			}
-		}
-
-		return null;
+	public List<Progetto> cercaProgetto(String nome) {
+		return progetti.stream().filter(p -> p.getNome().contains(nome)).collect(Collectors.toList());
+	}
+	
+	public List<Progetto> getProgetti(Predicate<? super Progetto> filtro){
+		return progetti.stream().filter(filtro).collect(Collectors.toList());
 	}
 }

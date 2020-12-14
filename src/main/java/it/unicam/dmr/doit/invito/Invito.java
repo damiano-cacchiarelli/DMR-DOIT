@@ -69,6 +69,13 @@ public class Invito implements Messaggio {
 
 	@Override
 	public String getInformazioni() {
-		return "";
+		return toString();
+	}
+
+	@Override
+	public String toString() {
+		return "Invito [idMittente=" + idMittente + ", idDestinatario=" + idDestinatario + ", progetto=" + progetto
+				+ ", contenuto=" + contenuto + ", id=" + id + ", data=" + data + ", tipologiaInvito=" + tipologiaInvito
+				+ ", tipologiaRisposta=" + tipologiaRisposta + "]";
 	}
 }

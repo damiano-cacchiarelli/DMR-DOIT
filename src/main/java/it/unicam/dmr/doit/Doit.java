@@ -5,13 +5,16 @@ import java.util.Scanner;
 import it.unicam.dmr.doit.controller.ControllerEsperto;
 import it.unicam.dmr.doit.controller.ControllerProgettista;
 import it.unicam.dmr.doit.controller.ControllerProponente;
+import it.unicam.dmr.doit.controller.ControllerUtente;
 import it.unicam.dmr.doit.utenti.Esperto;
 import it.unicam.dmr.doit.utenti.Progettista;
 import it.unicam.dmr.doit.utenti.Proponente;
 import it.unicam.dmr.doit.utenti.Utente;
+import it.unicam.dmr.doit.view.View;
 import it.unicam.dmr.doit.view.ViewEsperto;
 import it.unicam.dmr.doit.view.ViewProgettista;
 import it.unicam.dmr.doit.view.ViewProponente;
+import it.unicam.dmr.doit.view.ViewUtente;
 
 public class Doit {
 
@@ -38,13 +41,11 @@ public class Doit {
 
 		Doit doit = new Doit();
 
-		Utente matteo = new Utente("Matteo099", "Matteo", "Romagnoli");
-		Proponente roberto = new Proponente("roberto_cesetti_company", "Roberto ", "Cesetti ", "Montegiorgio",
+		Utente matteo = new Utente("1", "Matteo", "Romagnoli");
+		Proponente roberto = new Proponente("2", "Roberto ", "Cesetti ", "Montegiorgio",
 				"Teconologia ", "Sommo srl");
-		Progettista damiano = new Progettista("damiano_cacciarelli", "Dam", "Cacchiu");
-		Esperto lello = new Esperto("espertcoglione", "g41", "Diversi");
-		//damiano.getCurriculum().setCompetenze("Onnisciente.");
-		//damiano.getCurriculum().setDatiPersonali("Nato a Deneb (costellazione del cigno) il 33/0/666.");
+		Progettista damiano = new Progettista("3", "Dam", "Cacchiu");
+		Esperto lello = new Esperto("4", "g41", "Diversi");
 		doit.utenti.aggiungiInscritto(matteo);
 		doit.utenti.aggiungiInscritto(roberto);
 		doit.utenti.aggiungiInscritto(damiano);
@@ -53,23 +54,49 @@ public class Doit {
 		ViewProponente viewProponente = new ViewProponente(new ControllerProponente(doit, roberto));
 		ViewProgettista viewProgettista = new ViewProgettista(new ControllerProgettista(doit, damiano));
 		ViewEsperto viewEsperto = new ViewEsperto(new ControllerEsperto(doit, lello));
+		ViewUtente viewUtente = new ViewUtente(new ControllerUtente(doit, matteo));
 
 		s = new Scanner(System.in);
 		startMessage();
-		System.out.println("DOIT\nOpzioni:\n- 1 proponi porgetto\n- 2 modifica competenze\n- 3 valuta progetto");
+		operazioni();
 		while (s.hasNext()) {
 			try {
 				switch (Integer.parseInt(s.nextLine())) {
+
 				case 1:
-					System.out.println("Sei nel ruolo di proponente - Bentornato " + roberto.toString());
+					System.out.println("proponiProgetto Sei nel ruolo di proponente - Bentornato " + roberto.toString());
 					viewProponente.proponiProgetto(s);
 					break;
 				case 2:
-					System.out.println("Sei nel ruolo di progettista - Bentornato " + damiano.toString());
-					viewProgettista.modificaCompetenze(s);
+					System.out.println("permetteValutazioneProgetto Sei nel ruolo di proponente - Bentornato " + roberto.toString());
+					viewProponente.permetteValutazioneProgetto(s, View.selezionaProgetto(s));
 					break;
 				case 3:
-					System.out.println("Sei nel ruolo di esperto - Bentornato " + lello.toString());
+					System.out.println("invitaProgettista Sei nel ruolo di proponente - Bentornato " + roberto.toString());
+					viewProponente.invitaProgettista(s, View.selezionaProgetto(s));
+					break;
+				case 4:
+					System.out.println("passaAFaseSuccessiva Sei nel ruolo di proponente - Bentornato " + roberto.toString());
+					viewProponente.passaAFaseSuccessiva(s, View.selezionaProgetto(s));
+					break;
+				case 5:
+					System.out.println("ricercaProgetto Sei nel ruolo di utente - Bentornato " + matteo.toString());
+					viewUtente.ricercaProgetto(s);
+					break;	
+				case 6:
+					System.out.println("modificaCompetenze Sei nel ruolo di progettista - Bentornato " + damiano.toString());
+					viewProgettista.modificaCompetenze(s);;
+					break;	
+				case 7:
+					System.out.println("gestisciRichieste Sei nel ruolo di progettista - Bentornato " + damiano.toString());
+					viewProgettista.gestisciRichieste(s);;
+					break;	
+				case 8:
+					System.out.println("candidatiAlProgetto Sei nel ruolo di progettista - Bentornato " + damiano.toString());
+					viewProgettista.candidatiAlProgetto(s);
+					break;	
+				case 9:
+					System.out.println("valutaProgetto Sei nel ruolo di esperto - Bentornato " + lello.toString());
 					viewEsperto.valutaProgetto(s);
 					break;
 				default:
@@ -77,8 +104,9 @@ public class Doit {
 				}
 			} catch (Exception e) {
 				System.err.println("Errore generico: " + e);
+				e.printStackTrace();
 			}
-			System.out.println("DOIT\nOpzioni:\n- 1 proponi porgetto\n- 2 modifica competenze\n- 3 valuta progetto");
+			operazioni();
 		}
 		s.close();
 	}
@@ -98,5 +126,21 @@ public class Doit {
 				" -oooooo`:/:/:+ooooooo- /ooooo:       /o./+.      :ooooo+ .+/:+/.          -:///`           \r\n" + 
 				" .+ooo++.ooooooooooo/.  :ooooo:        -`-`       :ooooo+ .:/:.:.         `+o/+/-           \r\n" + 
 				" .++//+/`+++++++/:-`    :+++++-                   -+++++: `-:-:-.          --``+- ");
+	}
+	
+	private static void operazioni() {
+		System.out.println("\n\nDOIT - operazioni disponibili:\n"
+				+ "- 1 proponi porgetto\n"
+				+ "- 2 permette valutazione progetto\n"
+				+ "- 3 invita progettista\n"
+				+ "- 4 passa a fase successiva\n"
+				+ "\n"
+				+ "- 5 ricerca progetto\n"
+				+ "\n"
+				+ "- 6 gestisci competenze\n"
+				+ "- 7 gestisci richieste\n"
+				+ "- 8 candidati ad un progetto\n"
+				+ "\n"
+				+ "- 9 valuta progetto");
 	}
 }

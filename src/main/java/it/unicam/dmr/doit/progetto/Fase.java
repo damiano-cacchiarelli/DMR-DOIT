@@ -4,32 +4,28 @@ import it.unicam.dmr.doit.progetto.exception.NextFaseException;
 
 public enum Fase {
 		
-	INIZO, 
-	SVILUPPO, 
-	PUBBLICAZIONE;
-/*	
+	PUBBLICAZIONE("", null),
+	SVILUPPO("", PUBBLICAZIONE),
+	INIZIO("", SVILUPPO);
+
 	private String operazioni;
+	private Fase successiva;
 	
-	Fase(String o){
+	Fase(String o, Fase successiva){
 		operazioni = o;
+		this.successiva = successiva;
 	}
-*/	
-	public Fase nextFase(Fase fase) throws NextFaseException {
-		if(this.equals(INIZO)) {
-			return SVILUPPO;
-		}
-		if(this.equals(SVILUPPO)) {
-			return PUBBLICAZIONE;
-		}else {
+
+	public Fase nextFase() throws NextFaseException {
+		if(this.successiva == null)
 			throw new NextFaseException("Nessuna fase successiva");
-		}
-		
+		return this.successiva;
 	}
 	
-	public String operazioniFase(Fase fase) {
+	public String operazioniFase() {
 		
-		//return fase.operazioni;
-		
+		return this.operazioni;
+		/*
 		if(this.equals(INIZO)) {
 			return getOperazioniINIZIO();
 		}
@@ -37,10 +33,11 @@ public enum Fase {
 			return getOperazioniSVILUPPO();
 		}else {
 			return getOperazioniPUBBLICAZIONE();
-		}
+		}*/
 		
 	}
 
+	/*
 	private String getOperazioniINIZIO() {
 		return "";
 	}
@@ -52,5 +49,5 @@ public enum Fase {
 	private String getOperazioniSVILUPPO() {
 		return "";
 	}
-	
+	*/
 }

@@ -4,9 +4,11 @@ import java.util.LinkedList;
 import java.util.Objects;
 
 import it.unicam.dmr.doit.progetto.exception.NextFaseException;
+import it.unicam.dmr.doit.utenti.Proponente;
 
 public class Progetto implements IProgetto {
 
+	private final Proponente proponente;
 	private final int id;
 	private final String nome;
 	private String obiettivi;
@@ -16,18 +18,20 @@ public class Progetto implements IProgetto {
 	private Fase fase;
 	private GestoreCandidatiProgetto gcp = new GestoreCandidatiProgetto();
 
-	public Progetto(int id, String nome) {
-		this(id, nome, "obiettivi", "requisiti");
+	public Progetto(Proponente proponente, int id, String nome) {
+		this(proponente, id, nome, "obiettivi", "requisiti");
 	}
 
-	public Progetto(int id, String nome, String obiettivi, String requisiti) {
+	public Progetto(Proponente proponente, int id, String nome, String obiettivi, String requisiti) {
 		this.setObiettivi(obiettivi);
 		this.setRequisiti(requisiti);
 		verificaStringa(nome, "Nome");
+		this.proponente = proponente;
 		this.id = id;
 		this.nome = nome;
+		this.valutazione = new LinkedList<>();
 		this.setStato(Stato.NON_VALUTATO);
-		this.setFase(Fase.INIZO);
+		this.setFase(Fase.INIZIO);
 	}
 
 
@@ -88,13 +92,17 @@ public class Progetto implements IProgetto {
 	}
 	
 	public void nextFase() throws NextFaseException {
-		this.setFase(fase.nextFase(fase));
+		this.setFase(fase.nextFase());
 	}
 	
 	public GestoreCandidatiProgetto getGestoreCandidati() {
 		return gcp;
 	}
 
+	public Proponente getProponente() {
+		return proponente;
+	}
+	
 	private void verificaStringa(String s, String campo) {
 		Objects.requireNonNull(s, "Il campo " + campo + " inserito e' nullo");
 
@@ -115,5 +123,4 @@ public class Progetto implements IProgetto {
 		return "Progetto [id=" + id + ", nome=" + nome + ", obiettivi=" + obiettivi + ", requisiti=" + requisiti
 				+ ", stato=" + stato + "]";
 	}
-
 }
