@@ -1,44 +1,10 @@
 package it.unicam.dmr.doit.utenti;
 
-import java.util.Objects;
+import it.unicam.dmr.doit.invito.Invito;
 
-public class Utente implements IUtente {
-
-	private final String identificativo;
-	private final String nome;
-	private final String cognome;
+public interface Utente extends Messaggiabile<Invito> {
 	
-	public Utente(String identificativo, String nome, String cognome) {
-		Objects.requireNonNull(identificativo, "Identificativo nullo.");
-		Objects.requireNonNull(nome, "Nome nullo.");
-		Objects.requireNonNull(cognome, "Cognome nullo.");
-		
-		this.identificativo = identificativo;
-		this.nome = nome;
-		this.cognome = cognome;
-	}
-
-	@Override
-	public String getIdentificativo() {
-		return identificativo;
-	}
-
-	@Override
-	public String getNome() {
-		return nome;
-	}
-
-	@Override
-	public String getCognome() {
-		return cognome;
-	}
+	public String getIdentificativo();
+	public String getEmail();
 	
-	protected String parametriFormattati() {
-		return "identificativo=" + identificativo + ", nome=" + nome + ", cognome=" + cognome;
-	}
-	
-	@Override
-	public String toString() {
-		return getClass().getSimpleName() + " ["+ parametriFormattati() +"]";
-	}	
 }

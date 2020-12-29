@@ -4,14 +4,11 @@ import java.util.List;
 
 import it.unicam.dmr.doit.Doit;
 import it.unicam.dmr.doit.invito.Invito;
-import it.unicam.dmr.doit.invito.TipologiaInvito;
 import it.unicam.dmr.doit.progetto.Fase;
 import it.unicam.dmr.doit.progetto.Progetto;
-import it.unicam.dmr.doit.utenti.Progettista;
-import it.unicam.dmr.doit.utenti.Proponente;
-import it.unicam.dmr.doit.utenti.curriculum.Competenze;
 import it.unicam.dmr.doit.utenti.curriculum.Curriculum;
-import it.unicam.dmr.doit.utenti.curriculum.DatiPersonali;
+import it.unicam.dmr.doit.utenti.ruoli.Progettista;
+import it.unicam.dmr.doit.utenti.ruoli.Proponente;
 
 public class ControllerProgettista implements IController {
 	
@@ -24,19 +21,19 @@ public class ControllerProgettista implements IController {
 	}
 	
 	public void competenzeAggiornate(String lingue, String settore) {
-		Competenze c = progettista.getCurriculum().getCompetenze();
+		/*Competenze c = progettista.getCurriculum().getCompetenze();
 		c.setLingue(lingue);
-		c.setSettore(settore);
+		c.setSettore(settore);*/
 	}
 	
 	public void datiPersonaliAggiornati(String nome, String cognome) {
-		DatiPersonali datiPersonali = progettista.getCurriculum().getDatiPersonali();
+		/*DatiPersonali datiPersonali = progettista.getCurriculum().getDatiPersonali();
 		datiPersonali.setNome(nome);
-		datiPersonali.setCognome(cognome);
+		datiPersonali.setCognome(cognome);*/
 	}
 	
 	public Curriculum getCurriculum() {
-		return progettista.getCurriculum();
+		return null;//progettista.getCurriculum();
 	}
 	
 	@Override
@@ -45,21 +42,21 @@ public class ControllerProgettista implements IController {
 	}
 
 	public List<Invito> listaInviti() {
-		return progettista.getGestoreMessaggi().getMessaggi(i -> i.getTipologiaInvito() == TipologiaInvito.PROPOSTA);
+		return null;//progettista.getGestoreMessaggi().getMessaggi(i -> i.getTipologiaInvito() == TipologiaInvito.PROPOSTA);
 	}
 
 	public Invito getInvito(int idInvito) {
-		return progettista.getGestoreMessaggi().getMessaggio(idInvito);
+		return null;//progettista.getGestoreMessaggi().getMessaggio(idInvito);
 	}
 
 	public void accettaRichiesta(int idInvito) {
-		Invito i = progettista.getGestoreMessaggi().getMessaggio(idInvito);
+		/*Invito i = progettista.getGestoreMessaggi().getMessaggio(idInvito);
 		i.getProgetto().getGestoreCandidati().confermaCandidato(progettista.getIdentificativo());
-		eliminaRichiesta(idInvito);	
+		eliminaRichiesta(idInvito);	*/
 	}
 	
 	public void eliminaRichiesta(int idInvito) {
-		progettista.getGestoreMessaggi().eliminaMessaggio(idInvito);
+		//progettista.getGestoreMessaggi().eliminaMessaggio(idInvito);
 	}
 
 	public List<Progetto> getProgettiDisponibiliPerCandidatura() {
@@ -70,7 +67,8 @@ public class ControllerProgettista implements IController {
 		Progetto p = doit.getVetrina().getProgetto(idProgetto);
 		p.getGestoreCandidati().aggiungiCandidato(progettista);
 		Proponente proponente = p.getProponente();
-		progettista.getGestoreMessaggi().inviaMessaggio(
+		/*progettista.getGestoreMessaggi().inviaMessaggio(
 				proponente.getGestoreMessaggi(), contenuto, p, TipologiaInvito.RICHIESTA);
+	*/
 	}
 }

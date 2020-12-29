@@ -1,7 +1,5 @@
 package it.unicam.dmr.doit;
 
-import java.util.Scanner;
-
 import org.springframework.boot.SpringApplication;
 import org.springframework.boot.autoconfigure.SpringBootApplication;
 
@@ -16,7 +14,6 @@ public class Doit {
 		vetrina = new VetrinaProgetti();
 	}
 
-
 	public VetrinaProgetti getVetrina() {
 		return vetrina;
 	}
@@ -24,14 +21,16 @@ public class Doit {
 	public GestoreUtenti getUtenti() {
 		return utenti;
 	}
-
+	
+	public static void main(String[] args) {
+		SpringApplication.run(Doit.class, args);
+	}
+	/*
 	private static Scanner s;
 
 	public static void main(String[] args) {
-		
-		SpringApplication.run(Doit.class, args);
 
-		/* Doit doit = new Doit();
+		Doit doit = new Doit();
 
 		Utente matteo = new Utente("1", "Matteo", "Romagnoli");
 		Proponente roberto = new Proponente("2", "Roberto ", "Cesetti ", "Montegiorgio",
@@ -101,7 +100,6 @@ public class Doit {
 			operazioni();
 		}
 		s.close();
-	*/
 	}
 	
 	private static void startMessage() {
@@ -136,4 +134,5 @@ public class Doit {
 				+ "\n"
 				+ "- 9 valuta progetto");
 	}
+	*/
 }

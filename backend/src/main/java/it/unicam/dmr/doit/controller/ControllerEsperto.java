@@ -7,7 +7,7 @@ import it.unicam.dmr.doit.invito.Invito;
 import it.unicam.dmr.doit.progetto.Progetto;
 import it.unicam.dmr.doit.progetto.Stato;
 import it.unicam.dmr.doit.progetto.Valutazione;
-import it.unicam.dmr.doit.utenti.Esperto;
+import it.unicam.dmr.doit.utenti.ruoli.Esperto;
 
 public class ControllerEsperto implements IController {
 
@@ -20,12 +20,12 @@ public class ControllerEsperto implements IController {
 	}
 
 	public List<Invito> richiesteDiValutazione() {
-		return esperto.getRichiesteValutazione();
+		return null;//esperto.getRichiesteValutazione();
 	}
 	
 	public Progetto getProgetto(int idInvito) {
-		Invito i = esperto.getGestoreMessaggi().getMessaggio(idInvito);
-		return i.getProgetto();
+		//Invito i = esperto.getGestoreMessaggi().getMessaggio(idInvito);
+		return null;//i.getProgetto();
 	}
 
 	public Progetto selezionaProgetto(int idProgetto) {

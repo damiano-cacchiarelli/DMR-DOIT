@@ -4,7 +4,7 @@ import java.util.Scanner;
 
 import it.unicam.dmr.doit.controller.ControllerEsperto;
 import it.unicam.dmr.doit.progetto.Progetto;
-import it.unicam.dmr.doit.utenti.Progettista;
+import it.unicam.dmr.doit.utenti.ruoli.Progettista;
 
 public class ViewEsperto {
 	
@@ -24,7 +24,7 @@ public class ViewEsperto {
 			System.out.println("Voi valutare i candidati del progetto?Y/N");
 			String res = s.nextLine();
 			if(res.equalsIgnoreCase("Y")) {
-				progetto.getGestoreCandidati().getCandidati().forEach(p -> valutaProgettista(p));
+				//progetto.getGestoreCandidati().getCandidati().forEach(p -> valutaProgettista(p));
 			}	
 		}else System.out.println("Nessun progettista si è candidato al progetto.");
 		System.out.println("Inserire una recensione: ");

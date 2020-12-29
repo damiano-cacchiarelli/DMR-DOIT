@@ -39,7 +39,7 @@ public class ViewProponente {
 
 	public void permetteValutazioneProgetto(Scanner s, int idProgetto) {
 		System.out.println("Esperti consigliati dal sistema");
-		proponente.getEspertiConsigliati(idProgetto).forEach(System.out::println);
+		//proponente.getEspertiConsigliati(idProgetto).forEach(System.out::println);
 		System.out.println("Inserire id esperto: ");
 		String idEsperto = s.nextLine();
 		System.out.println("Inserire il contenuto dell'invito: ");

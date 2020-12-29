@@ -4,7 +4,7 @@ import java.util.HashMap;
 import java.util.List;
 import java.util.stream.Collectors;
 
-import it.unicam.dmr.doit.utenti.Progettista;
+import it.unicam.dmr.doit.utenti.ruoli.Progettista;
 
 public class GestoreCandidatiProgetto {
 	
@@ -21,9 +21,9 @@ public class GestoreCandidatiProgetto {
 	
 	public void confermaCandidato(String idProgettista) {
 		progettisti.forEach((k,v) -> {
-			if(k.getIdentificativo() == idProgettista && v == RuoloProgettista.CANDIDATO) {
+			/*if(k.getIdentificativo() == idProgettista && v == RuoloProgettista.CANDIDATO) {
 				v = RuoloProgettista.PARTECIPANTE;
-			}
+			}*/
 		});
 		//TODO - Eccezione Nessun candidato trovato?
 	}
@@ -43,6 +43,6 @@ public class GestoreCandidatiProgetto {
 
 
 	public boolean progettistaPresente(String idProgettista) {
-		return progettisti.entrySet().stream().filter(p -> p.getKey().getIdentificativo() == idProgettista).count() > 0;
+		return false;//progettisti.entrySet().stream().filter(p -> p.getKey().getIdentificativo() == idProgettista).count() > 0;
 	}
 }

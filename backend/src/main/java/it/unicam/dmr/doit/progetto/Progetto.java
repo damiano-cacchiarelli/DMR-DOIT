@@ -1,41 +1,74 @@
 package it.unicam.dmr.doit.progetto;
 
+import java.util.Date;
+import java.util.HashSet;
 import java.util.LinkedList;
 import java.util.Objects;
+import java.util.Set;
 
 import javax.persistence.Entity;
 import javax.persistence.EnumType;
 import javax.persistence.Enumerated;
+import javax.persistence.FetchType;
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
+import javax.persistence.JoinColumn;
+import javax.persistence.ManyToMany;
+import javax.persistence.ManyToOne;
+import javax.persistence.Temporal;
+import javax.persistence.TemporalType;
 import javax.persistence.Transient;
+import javax.validation.constraints.NotBlank;
+import javax.validation.constraints.NotNull;
+
+import org.hibernate.annotations.CreationTimestamp;
 
 import it.unicam.dmr.doit.progetto.exception.NextFaseException;
-import it.unicam.dmr.doit.utenti.Proponente;
+import it.unicam.dmr.doit.utenti.ruoli.Progettista;
+import it.unicam.dmr.doit.utenti.ruoli.Proponente;
 
 @Entity
 public class Progetto implements IProgetto {
 	
 	@Id 
-	//@GeneratedValue(strategy = GenerationType.IDENTITY)
+	@GeneratedValue(strategy = GenerationType.IDENTITY)
 	private int id;
+	@NotNull
+	@NotBlank
 	private String nome;
+	@NotNull
+	@NotBlank
 	private String obiettivi;
+	@NotNull
+	@NotBlank
 	private String requisiti;
-
+	@NotNull
+	@Enumerated(EnumType.STRING)
+	private Stato stato;
+	@NotNull
+	@Enumerated(EnumType.STRING)
+	private Fase fase;
+	
+	@Temporal(TemporalType.TIMESTAMP)
+    @CreationTimestamp
+	private Date creatoIl;
+	
+	@ManyToOne(fetch = FetchType.LAZY, optional = false)
+    @JoinColumn(name = "proponente_id", nullable = false)
+	private Proponente proponente;
+	
+	
+	/*DA MODIFICARE*/
+	@ManyToMany(mappedBy = "candidature", fetch = FetchType.LAZY)
+    private Set<Progettista> progettisti = new HashSet<>();
 	@Transient
 	private LinkedList<Valutazione> listaValutazioni = new LinkedList<Valutazione>();
 	/*
 	@Transient
-	private Stato stato;
-	@Transient
-	private Fase fase;
-	@Transient
 	private GestoreCandidatiProgetto gcp = new GestoreCandidatiProgetto();
 	@Transient
-	private Proponente proponente;
-*/
+	 */
 	public Progetto() {
 		
 	}

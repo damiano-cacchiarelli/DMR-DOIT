@@ -1,58 +1,47 @@
 package it.unicam.dmr.doit.utenti.curriculum;
 
-import java.util.ArrayList;
-import java.util.Arrays;
-import java.util.List;
-import java.util.Objects;
+import javax.persistence.Entity;
+import javax.persistence.GeneratedValue;
+import javax.persistence.GenerationType;
+import javax.persistence.Id;
 
-import it.unicam.dmr.doit.progetto.Progetto;
-
+@Entity
 public class Curriculum {
 
-	private Competenze competenze;
-	private DatiPersonali datiPersonali;
-	private List<Progetto> progetti;
-		
-	public Curriculum() {		
-		this(new Competenze("settore", "lingue"), new DatiPersonali("nome", "cognome", "email", "professione", "cittadinanza", "sesso", "telefono", "sitoWeb", "gitHub", "linkedIn"));
+	@Id
+	@GeneratedValue(strategy = GenerationType.IDENTITY)
+	private int id;
+	private String professione;
+	private String lingue;
+	private String sito;
+	
+	public Curriculum(String professione, String lingue, String sito) {
+		this.professione = professione;
+		this.lingue = lingue;
+		this.sito = sito;
 	}
 	
-	public Curriculum(Competenze competenze, DatiPersonali datiPersonali) {
-		this.setCompetenze(competenze);
-		this.setDatiPersonali(datiPersonali);
-		progetti = new ArrayList<>();
-	}
-
-	public Competenze getCompetenze() {
-		return competenze;
-	}
-
-	public void setCompetenze(Competenze competenze) {
-		Objects.requireNonNull(competenze, "Le competenze non possono essere nulle.");
-		
-		this.competenze = competenze;
-	}
-
-	public DatiPersonali getDatiPersonali() {
-		return datiPersonali;
-	}
-
-	public void setDatiPersonali(DatiPersonali datiPersonali) {
-		Objects.requireNonNull(datiPersonali, "I dati personali non possono essere nulli.");
-		
-		this.datiPersonali = datiPersonali;
+	public String getProfessione() {
+		return professione;
 	}
 	
-	public List<Progetto> getProgetti() {
-		return progetti;
-	}
-
-	@Override
-	public String toString() {
-		return "Curriculum [competenze=" + competenze + ";\ndatiPersonali=" + datiPersonali + ";\nprogetti=" + Arrays.toString(progetti.toArray()) + "]";
+	public void setProfessione(String professione) {
+		this.professione = professione;
 	}
 	
+	public String getLingue() {
+		return lingue;
+	}
 	
+	public void setLingue(String lingue) {
+		this.lingue = lingue;
+	}
 	
+	public String getSito() {
+		return sito;
+	}
 	
+	public void setSito(String sito) {
+		this.sito = sito;
+	}
 }

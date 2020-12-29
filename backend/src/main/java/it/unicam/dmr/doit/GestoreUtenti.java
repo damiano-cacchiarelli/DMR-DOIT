@@ -1,25 +1,23 @@
 package it.unicam.dmr.doit;
 
-import java.util.ArrayList;
 import java.util.HashSet;
 import java.util.List;
 import java.util.Objects;
 import java.util.Set;
-import java.util.stream.Collectors;
 
-import it.unicam.dmr.doit.utenti.Esperto;
-import it.unicam.dmr.doit.utenti.Progettista;
-import it.unicam.dmr.doit.utenti.Utente;
+import it.unicam.dmr.doit.utenti.Iscritto;
+import it.unicam.dmr.doit.utenti.ruoli.Esperto;
+import it.unicam.dmr.doit.utenti.ruoli.Progettista;
 
 public class GestoreUtenti {
 
-	private Set<Utente> inscritti;
+	private Set<Iscritto> inscritti;
 
 	public GestoreUtenti() {
 		inscritti = new HashSet<>();
 	}
 
-	public Utente getInscritto(String identificativo) {
+	public Iscritto getInscritto(String identificativo) {
 		return inscritti.stream().filter(i -> i.getIdentificativo().equals(identificativo)).findFirst()
 				.orElseThrow(() -> new IllegalArgumentException("Identificativo iscritto inesistente."));
 	}
@@ -29,7 +27,7 @@ public class GestoreUtenti {
 	 *                            {@link Esperto}
 	 */
 	public Esperto getEsperto(String identificativo) {
-		return (Esperto) getInscritto(identificativo);
+		return null;//(Esperto) getInscritto(identificativo);
 	}
 
 	/**
@@ -37,21 +35,21 @@ public class GestoreUtenti {
 	 *                            {@link Progettista}
 	 */
 	public Progettista getProgettista(String identificativo) {
-		return (Progettista) getInscritto(identificativo);
+		return null;//(Progettista) getInscritto(identificativo);
 	}
 
-	public void aggiungiInscritto(Utente inscritto) {
+	public void aggiungiInscritto(Iscritto inscritto) {
 		Objects.requireNonNull(inscritto, "Non e' possibile aggiungere un utente nullo.");
 		this.inscritti.add(inscritto);
 	}
 
 	public List<Esperto> getEspertiConsigliati(int idProgetto) {
 		// TODO: algoritmo per ricercare gli esperti migliori per quel progetto
-		List<Utente> esp = inscritti.stream().filter(u -> u instanceof Esperto).collect(Collectors.toList());
+		/*List<Iscritto> esp = inscritti.stream().filter(u -> u instanceof Esperto).collect(Collectors.toList());
 		List<Esperto> esperti = new ArrayList<>();
-		for (Utente e : esp) {
+		for (Iscritto e : esp) {
 			esperti.add((Esperto) e);
-		}
-		return esperti;
+		}*/
+		return null;//esperti;
 	}
 }

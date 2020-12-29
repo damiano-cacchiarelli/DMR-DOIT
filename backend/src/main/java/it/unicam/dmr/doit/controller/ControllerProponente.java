@@ -11,10 +11,10 @@ import it.unicam.dmr.doit.progetto.Fase;
 import it.unicam.dmr.doit.progetto.Progetto;
 import it.unicam.dmr.doit.progetto.Stato;
 import it.unicam.dmr.doit.progetto.exception.NextFaseException;
-import it.unicam.dmr.doit.utenti.Esperto;
 import it.unicam.dmr.doit.utenti.Messaggiabile;
-import it.unicam.dmr.doit.utenti.Progettista;
-import it.unicam.dmr.doit.utenti.Proponente;
+import it.unicam.dmr.doit.utenti.ruoli.Esperto;
+import it.unicam.dmr.doit.utenti.ruoli.Progettista;
+import it.unicam.dmr.doit.utenti.ruoli.Proponente;
 
 public class ControllerProponente implements IController {
 	
@@ -38,22 +38,22 @@ public class ControllerProponente implements IController {
 		Progetto progetto = doit.getVetrina().getProgetto(idProgetto);
 		if(progetto.getFase() == Fase.INIZIO && progetto.getStato() != Stato.IN_VALUTAZIONE) {
 			progetto.setStato(Stato.IN_VALUTAZIONE);
-			Messaggiabile<Invito> destinatario = doit.getUtenti().getEsperto(idEsperto); 
-			proponente.getGestoreMessaggi().inviaMessaggio(destinatario.getGestoreMessaggi(), contenuto, progetto, TipologiaInvito.VALUTAZIONE);	
+			//Messaggiabile<Invito> destinatario = doit.getUtenti().getEsperto(idEsperto); 
+			//proponente.getGestoreMessaggi().inviaMessaggio(destinatario.getGestoreMessaggi(), contenuto, progetto, TipologiaInvito.VALUTAZIONE);	
 		}else throw new OperationsException("Il progetto non può esser valutato per i seguenti motivi: è già in valutazione o non è nella fase iniziale/inizio");
 	}
 	
 	public void invitaProgettista(String idProgettista, int idProgetto, int idProposta, String contenuto) {
-		Progettista progettista = doit.getUtenti().getProgettista(idProgettista);
+		//Progettista progettista = doit.getUtenti().getProgettista(idProgettista);
 		Progetto progetto = doit.getVetrina().getProgetto(idProgetto);
 		if(!progetto.getGestoreCandidati().progettistaPresente(idProgettista)) {
-			proponente.getGestoreMessaggi().inviaMessaggio(progettista.getGestoreMessaggi(), contenuto, progetto, TipologiaInvito.PROPOSTA);
-			progetto.getGestoreCandidati().aggiungiCandidato(progettista);
+			//proponente.getGestoreMessaggi().inviaMessaggio(progettista.getGestoreMessaggi(), contenuto, progetto, TipologiaInvito.PROPOSTA);
+			//progetto.getGestoreCandidati().aggiungiCandidato(progettista);
 		}else throw new IllegalStateException("Il progettista è già presente nel progetto.");
 	}
 	
 	public List<Esperto> getEspertiConsigliati(int idProgetto) {
-		return doit.getUtenti().getEspertiConsigliati(idProgetto);
+		return null;//doit.getUtenti().getEspertiConsigliati(idProgetto);
 	}
 	
 	@Override
