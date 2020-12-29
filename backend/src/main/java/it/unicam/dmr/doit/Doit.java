@@ -2,20 +2,10 @@ package it.unicam.dmr.doit;
 
 import java.util.Scanner;
 
-import it.unicam.dmr.doit.controller.ControllerEsperto;
-import it.unicam.dmr.doit.controller.ControllerProgettista;
-import it.unicam.dmr.doit.controller.ControllerProponente;
-import it.unicam.dmr.doit.controller.ControllerUtente;
-import it.unicam.dmr.doit.utenti.Esperto;
-import it.unicam.dmr.doit.utenti.Progettista;
-import it.unicam.dmr.doit.utenti.Proponente;
-import it.unicam.dmr.doit.utenti.Utente;
-import it.unicam.dmr.doit.view.View;
-import it.unicam.dmr.doit.view.ViewEsperto;
-import it.unicam.dmr.doit.view.ViewProgettista;
-import it.unicam.dmr.doit.view.ViewProponente;
-import it.unicam.dmr.doit.view.ViewUtente;
+import org.springframework.boot.SpringApplication;
+import org.springframework.boot.autoconfigure.SpringBootApplication;
 
+@SpringBootApplication
 public class Doit {
 
 	private GestoreUtenti utenti;
@@ -38,8 +28,10 @@ public class Doit {
 	private static Scanner s;
 
 	public static void main(String[] args) {
+		
+		SpringApplication.run(Doit.class, args);
 
-		Doit doit = new Doit();
+		/* Doit doit = new Doit();
 
 		Utente matteo = new Utente("1", "Matteo", "Romagnoli");
 		Proponente roberto = new Proponente("2", "Roberto ", "Cesetti ", "Montegiorgio",
@@ -109,6 +101,7 @@ public class Doit {
 			operazioni();
 		}
 		s.close();
+	*/
 	}
 	
 	private static void startMessage() {

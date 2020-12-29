@@ -3,20 +3,50 @@ package it.unicam.dmr.doit.progetto;
 import java.util.LinkedList;
 import java.util.Objects;
 
+import javax.persistence.Entity;
+import javax.persistence.EnumType;
+import javax.persistence.Enumerated;
+import javax.persistence.GeneratedValue;
+import javax.persistence.GenerationType;
+import javax.persistence.Id;
+import javax.persistence.Transient;
+
 import it.unicam.dmr.doit.progetto.exception.NextFaseException;
 import it.unicam.dmr.doit.utenti.Proponente;
 
+@Entity
 public class Progetto implements IProgetto {
-
-	private final Proponente proponente;
-	private final int id;
-	private final String nome;
+	
+	@Id 
+	//@GeneratedValue(strategy = GenerationType.IDENTITY)
+	private int id;
+	private String nome;
 	private String obiettivi;
 	private String requisiti;
-	private LinkedList<Valutazione> valutazione;
+
+	@Transient
+	private LinkedList<Valutazione> listaValutazioni = new LinkedList<Valutazione>();
+	/*
+	@Transient
 	private Stato stato;
+	@Transient
 	private Fase fase;
+	@Transient
 	private GestoreCandidatiProgetto gcp = new GestoreCandidatiProgetto();
+	@Transient
+	private Proponente proponente;
+*/
+	public Progetto() {
+		
+	}
+
+	public void setId(int id) {
+		this.id = id;
+	}
+
+	public void setNome(String nome) {
+		this.nome = nome;
+	}
 
 	public Progetto(Proponente proponente, int id, String nome) {
 		this(proponente, id, nome, "obiettivi", "requisiti");
@@ -26,10 +56,10 @@ public class Progetto implements IProgetto {
 		this.setObiettivi(obiettivi);
 		this.setRequisiti(requisiti);
 		verificaStringa(nome, "Nome");
-		this.proponente = proponente;
+		//this.proponente = proponente;
 		this.id = id;
 		this.nome = nome;
-		this.valutazione = new LinkedList<>();
+		//this.valutazione = new LinkedList<>();
 		this.setStato(Stato.NON_VALUTATO);
 		this.setFase(Fase.INIZIO);
 	}
@@ -64,43 +94,53 @@ public class Progetto implements IProgetto {
 	}
 
 	public Valutazione getValutazione() {
-		return valutazione.peekLast();
+		return null; //valutazione.peekLast();
+	}
+	
+	
+    
+	public LinkedList<Valutazione> getListaValutazioni() {
+		return listaValutazioni;
+	}
+
+	public void setListaValutazioni(LinkedList<Valutazione> listaValutazioni) {
+		this.listaValutazioni = listaValutazioni;
 	}
 
 	public void aggiungiValutazione(Valutazione valutazione) {
 		Objects.requireNonNull(valutazione, "La valutazione inserita e' nulla");
 
-		this.valutazione.add(valutazione);
+		//this.valutazione.add(valutazione);
 	}
 
 	public Stato getStato() {
-		return stato;
+		return null; //stato;
 	}
 
 	public void setStato(Stato stato) {
 		Objects.requireNonNull(stato, "Lo stato inserito e' nullo");
 
-		this.stato = stato;
+		//this.stato = stato;
 	}
 	
 	private void setFase(Fase fase) {
-		this.fase = fase;
+		//this.fase = fase;
 	}
 	
 	public Fase getFase() {
-		return fase;
+		return null; //fase;
 	}
 	
 	public void nextFase() throws NextFaseException {
-		this.setFase(fase.nextFase());
+		//this.setFase(fase.nextFase());
 	}
 	
 	public GestoreCandidatiProgetto getGestoreCandidati() {
-		return gcp;
+		return null; // gcp;
 	}
 
 	public Proponente getProponente() {
-		return proponente;
+		return null; // proponente;
 	}
 	
 	private void verificaStringa(String s, String campo) {
@@ -114,13 +154,13 @@ public class Progetto implements IProgetto {
 
 	@Override
 	public String toString() {
-		return "Progetto [id=" + id + ", nome=" + nome + ", obiettivi=" + obiettivi + ", requisiti=" + requisiti
-				+ ", valutazione=" + valutazione + ", stato=" + stato + "]";
+		return null; //"Progetto [id=" + id + ", nome=" + nome + ", obiettivi=" + obiettivi + ", requisiti=" + requisiti
+				//+ ", valutazione=" + valutazione + ", stato=" + stato + "]";
 	}
 
 	@Override
 	public String getDettagli() {
-		return "Progetto [id=" + id + ", nome=" + nome + ", obiettivi=" + obiettivi + ", requisiti=" + requisiti
-				+ ", stato=" + stato + "]";
+		return null; // "Progetto [id=" + id + ", nome=" + nome + ", obiettivi=" + obiettivi + ", requisiti=" + requisiti
+				//+ ", stato=" + stato + "]";
 	}
 }
