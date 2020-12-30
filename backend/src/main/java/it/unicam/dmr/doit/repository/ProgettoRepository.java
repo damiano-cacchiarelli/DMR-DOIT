@@ -8,5 +8,5 @@ import it.unicam.dmr.doit.progetto.Progetto;
 @Repository
 public interface ProgettoRepository extends JpaRepository<Progetto, Integer> {
 
-	boolean existsByNome(String nome); 
+	public void existsByNome(String nome); 
 }

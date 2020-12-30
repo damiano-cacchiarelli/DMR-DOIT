@@ -1,6 +1,7 @@
 package it.unicam.dmr.doit.service;
 
 import java.util.List;
+import java.util.Optional;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
@@ -14,10 +15,26 @@ import it.unicam.dmr.doit.repository.ProgettoRepository;
 public class ProgettoService {
 	
 	@Autowired
-	ProgettoRepository pr;
+	ProgettoRepository progettoRepository;
 	
 	public List<Progetto> listaProgetti(){
-		return pr.findAll();
+		return progettoRepository.findAll();
 	}
+
+	public void salvaProgetto(Progetto p) {
+		progettoRepository.save(p);
+	}
+
+	public boolean existsById(int idProgetto) {
+		return progettoRepository.existsById(idProgetto);
+	}
+	
+	public Optional<Progetto> findById(int idProgetto) {
+		return progettoRepository.findById(idProgetto);
+	}
+	
+	
+	
+	
 	
 }

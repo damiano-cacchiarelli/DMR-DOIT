@@ -29,8 +29,8 @@ public class ControllerProponente implements IController {
 	}
 	
 	public void compilaProposta(int id, String nome, String obbiettivi, String requisiti) {
-		Progetto p = new Progetto(proponente, id, nome, obbiettivi, requisiti);
-		doit.getVetrina().salvaPropostaProgetto(p);
+		//Progetto p = new Progetto(proponente, id, nome, obbiettivi, requisiti);
+		//doit.getVetrina().salvaPropostaProgetto(p);
 	}
 	
 	public void permetteValutazioneProgetto(int idProgetto, String idEsperto, String contenuto) throws OperationsException {

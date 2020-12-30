@@ -45,10 +45,10 @@ public class Progetto implements IProgetto {
 	private String requisiti;
 	@NotNull
 	@Enumerated(EnumType.STRING)
-	private Stato stato;
+	private Stato stato = Stato.NON_VALUTATO;
 	@NotNull
 	@Enumerated(EnumType.STRING)
-	private Fase fase;
+	private Fase fase = Fase.INIZIO;
 	
 	@Temporal(TemporalType.TIMESTAMP)
     @CreationTimestamp
@@ -69,18 +69,17 @@ public class Progetto implements IProgetto {
 	private GestoreCandidatiProgetto gcp = new GestoreCandidatiProgetto();
 	@Transient
 	 */
-	public Progetto() {
-		
-	}
-
-	public void setId(int id) {
-		this.id = id;
-	}
-
-	public void setNome(String nome) {
+	public Progetto() {}
+	
+	public Progetto(@NotNull @NotBlank String nome, @NotNull @NotBlank String obiettivi,
+			@NotNull @NotBlank String requisiti, Date creatoIl, Proponente proponente) {
 		this.nome = nome;
+		this.obiettivi = obiettivi;
+		this.requisiti = requisiti;
+		this.creatoIl = creatoIl;
+		this.proponente = proponente;
 	}
-
+/*
 	public Progetto(Proponente proponente, int id, String nome) {
 		this(proponente, id, nome, "obiettivi", "requisiti");
 	}
@@ -92,12 +91,17 @@ public class Progetto implements IProgetto {
 		//this.proponente = proponente;
 		this.id = id;
 		this.nome = nome;
-		//this.valutazione = new LinkedList<>();
-		this.setStato(Stato.NON_VALUTATO);
-		this.setFase(Fase.INIZIO);
+	}
+*/
+
+	public void setId(int id) {
+		this.id = id;
 	}
 
-
+	public void setNome(String nome) {
+		this.nome = nome;
+	}
+	
 	public String getObiettivi() {
 		return obiettivi;
 	}
