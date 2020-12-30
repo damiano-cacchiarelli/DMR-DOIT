@@ -42,7 +42,7 @@ public class GestoreInviti implements GestoreMessaggi<Invito> {
 	@Override
 	public void inviaMessaggio(GestoreMessaggi<? super Invito> destinatario, String contenuto, Progetto progetto,
 			TipologiaInvito tipologiaInvito) {
-		Invito invito = new Invito(idProprietario, destinatario.getId(), contenuto, progetto, tipologiaInvito);
+		Invito invito = null; //new Invito(idProprietario, destinatario.getId(), contenuto, progetto, tipologiaInvito);
 		salvaInvito(invito);
 		destinatario.riceviMessaggio(invito);
 	}
