@@ -8,7 +8,7 @@ import org.springframework.stereotype.Service;
 
 import it.unicam.dmr.doit.repository.IscrittoRepository;
 import it.unicam.dmr.doit.security.IscrittoPrincipale;
-import it.unicam.dmr.doit.service.IscrittoService;
+import it.unicam.dmr.doit.service.iscritto.IscrittoService;
 import it.unicam.dmr.doit.utenti.Iscritto;
 
 @Service

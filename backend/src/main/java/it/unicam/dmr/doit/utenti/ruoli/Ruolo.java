@@ -32,7 +32,7 @@ public abstract class Ruolo implements IRuolo {
 	@Enumerated(EnumType.STRING)
 	private TipologiaRuolo ruolo;
 
-	// 	@JsonBackReference è usato per impedire il ciclo infinito con la classe iscritto
+	// 	@JsonBackReference e' usato per impedire il ciclo infinito con la classe iscritto
 	@JsonBackReference
 	@ManyToOne(fetch = FetchType.LAZY, optional = false)
 	@JoinColumn(name = "iscritto_identificativo", nullable = false)

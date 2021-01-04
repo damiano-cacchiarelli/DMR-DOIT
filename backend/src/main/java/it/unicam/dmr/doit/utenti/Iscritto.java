@@ -49,10 +49,10 @@ public abstract class Iscritto implements Utente {
 	@JoinColumn(name = "curriculum_id", referencedColumnName = "id")
 	private Curriculum curriculum;
 
-	// @JsonManagedReference è usato per impedire il ciclo infinito con la classe
+	// @JsonManagedReference e' usato per impedire il ciclo infinito con la classe
 	// ruolo
 	@JsonManagedReference
-	@OneToMany(mappedBy = "iscritto", fetch = FetchType.LAZY, cascade = CascadeType.ALL)
+	@OneToMany(mappedBy = "iscritto", fetch = FetchType.EAGER, cascade = CascadeType.ALL)
 	private Set<Ruolo> ruoli = new HashSet<>();
 
 	@Embedded
