@@ -2,6 +2,7 @@ package it.unicam.dmr.doit.dataTransferObject;
 
 import java.util.Date;
 
+import javax.validation.constraints.Email;
 import javax.validation.constraints.NotBlank;
 import javax.validation.constraints.NotNull;
 
@@ -14,7 +15,7 @@ public class EnteDto extends IscrittoDto {
 
 	public EnteDto() {super();}
 	
-	public EnteDto(String identificativo, @NotNull @NotBlank String email, @NotNull @NotBlank String password,
+	public EnteDto(String identificativo, @Email String email, @NotNull @NotBlank String password,
 			@NotNull String sede, @NotNull Date annoDiFondazione) {
 		super(identificativo, email, password);
 		this.sede = sede;

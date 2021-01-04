@@ -25,7 +25,7 @@ public class Progettista extends Ruolo {
 	private Set<Progetto> candidature = new HashSet<>();
 	
 	public Progettista() {
-		setRuolo(TipologiaRuolo.PROGETTISTA);
+		setRuolo(TipologiaRuolo.ROLE_PROGETTISTA);
 	}
 
 	public void setCandidature(Set<Progetto> candidature) {

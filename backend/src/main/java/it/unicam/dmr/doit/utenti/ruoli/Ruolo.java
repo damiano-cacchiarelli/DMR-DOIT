@@ -88,13 +88,13 @@ public abstract class Ruolo implements IRuolo {
 
 	public static Ruolo create(TipologiaRuolo tipologiaRuolo) {
 		switch (tipologiaRuolo) {
-		case PROPONENTE:
+		case ROLE_PROPONENTE:
 			return new Proponente();
-		case PROGETTISTA:
+		case ROLE_PROGETTISTA:
 			return new Progettista();
-		case ESPERTO:
+		case ROLE_ESPERTO:
 			return new Esperto();
-		case SPONSOR:
+		case ROLE_SPONSOR:
 			return new Sponsor();
 		default:
 			throw new IllegalArgumentException("Il ruolo '" + tipologiaRuolo + "' non esiste");

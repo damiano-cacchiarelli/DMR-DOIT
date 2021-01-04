@@ -18,7 +18,7 @@ public class Proponente extends Ruolo {
 	private Set<Progetto> proposte = new HashSet<>();
 	
 	public Proponente() {
-		setRuolo(TipologiaRuolo.PROPONENTE);
+		setRuolo(TipologiaRuolo.ROLE_PROPONENTE);
 	}
 	
 	public void setProposte(Set<Progetto> proposte) {

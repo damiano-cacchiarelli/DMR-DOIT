@@ -17,7 +17,7 @@ public class Sponsor extends Ruolo {
 	private List<Progetto> progettiFinanziati = new LinkedList<>();
 	
 	public Sponsor() {
-		setRuolo(TipologiaRuolo.SPONSOR);
+		setRuolo(TipologiaRuolo.ROLE_SPONSOR);
 	}
 	
 	@Override

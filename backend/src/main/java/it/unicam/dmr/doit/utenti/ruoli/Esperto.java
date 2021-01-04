@@ -25,12 +25,12 @@ public class Esperto extends Ruolo {
 	private Set<Progetto> progettiValutati = new HashSet<>();
 
 	public Esperto() {
-		setRuolo(TipologiaRuolo.ESPERTO);
+		setRuolo(TipologiaRuolo.ROLE_ESPERTO);
 	}
 
 	public Esperto(@NotNull int rango) {
 		this.rango = rango;
-		setRuolo(TipologiaRuolo.ESPERTO);
+		setRuolo(TipologiaRuolo.ROLE_ESPERTO);
 	}
 
 	public int getRango() {

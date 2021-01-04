@@ -1,5 +1,6 @@
 package it.unicam.dmr.doit.dataTransferObject;
 
+import javax.validation.constraints.Email;
 import javax.validation.constraints.NotBlank;
 import javax.validation.constraints.NotNull;
 
@@ -9,17 +10,18 @@ public class IscrittoDto {
 	@NotBlank
 	private String identificativo;
 
-	@NotNull
-	@NotBlank
+	@Email
 	private String email;
 
 	@NotNull
 	@NotBlank
 	private String password;
 
-	public IscrittoDto() {}
-	
-	public IscrittoDto(@NotNull @NotBlank String identificativo, @NotNull @NotBlank String email, @NotNull @NotBlank String password) {
+	public IscrittoDto() {
+	}
+
+	public IscrittoDto(@NotNull @NotBlank String identificativo, @Email String email,
+			@NotNull @NotBlank String password) {
 		super();
 		this.identificativo = identificativo;
 		this.email = email;
@@ -29,11 +31,11 @@ public class IscrittoDto {
 	public String getEmail() {
 		return email;
 	}
-	
+
 	public String getIdentificativo() {
 		return identificativo;
 	}
-	
+
 	public String getPassword() {
 		return password;
 	}

@@ -78,6 +78,6 @@ public class Persona extends Iscritto {
 	
 	@Override
 	public List<TipologiaRuolo> getTipoRuoliPossibili() {
-		return List.of(TipologiaRuolo.PROGETTISTA, TipologiaRuolo.ESPERTO, TipologiaRuolo.SPONSOR);
+		return List.of(TipologiaRuolo.ROLE_PROGETTISTA, TipologiaRuolo.ROLE_ESPERTO, TipologiaRuolo.ROLE_SPONSOR);
 	}
 }

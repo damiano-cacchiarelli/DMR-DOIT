@@ -46,6 +46,6 @@ public class Ente extends Iscritto {
 	
 	@Override
 	public List<TipologiaRuolo> getTipoRuoliPossibili() {
-		return List.of(TipologiaRuolo.PROPONENTE, TipologiaRuolo.PROGETTISTA, TipologiaRuolo.SPONSOR);
+		return List.of(TipologiaRuolo.ROLE_PROPONENTE, TipologiaRuolo.ROLE_PROGETTISTA, TipologiaRuolo.ROLE_SPONSOR);
 	}
 }

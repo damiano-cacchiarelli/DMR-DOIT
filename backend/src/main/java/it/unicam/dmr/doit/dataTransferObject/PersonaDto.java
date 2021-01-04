@@ -1,5 +1,6 @@
 package it.unicam.dmr.doit.dataTransferObject;
 
+import javax.validation.constraints.Email;
 import javax.validation.constraints.NotBlank;
 import javax.validation.constraints.NotNull;
 
@@ -19,7 +20,7 @@ public class PersonaDto extends IscrittoDto {
 
 	public PersonaDto() {super();}
 	
-	public PersonaDto(String identificativo, @NotNull @NotBlank String email, @NotNull @NotBlank String password,
+	public PersonaDto(String identificativo, @Email String email, @NotNull @NotBlank String password,
 			@NotNull @NotBlank String nome, @NotNull @NotBlank String cognome, @NotNull String cittadinanza,
 			@NotNull String sesso, String telefono) {
 		super(identificativo, email, password);
