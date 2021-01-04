@@ -7,6 +7,7 @@ import java.util.Set;
 
 import javax.persistence.CascadeType;
 import javax.persistence.Column;
+import javax.persistence.Embedded;
 import javax.persistence.Entity;
 import javax.persistence.FetchType;
 import javax.persistence.Id;
@@ -21,6 +22,7 @@ import javax.validation.constraints.Size;
 
 import com.fasterxml.jackson.annotation.JsonManagedReference;
 
+import it.unicam.dmr.doit.invito.GestoreInviti;
 import it.unicam.dmr.doit.utenti.curriculum.Curriculum;
 import it.unicam.dmr.doit.utenti.ruoli.Ruolo;
 import it.unicam.dmr.doit.utenti.ruoli.TipologiaRuolo;
@@ -47,11 +49,15 @@ public abstract class Iscritto implements Utente {
 	@JoinColumn(name = "curriculum_id", referencedColumnName = "id")
 	private Curriculum curriculum;
 
-	// 	@JsonManagedReference è usato per impedire il ciclo infinito con la classe ruolo
+	// @JsonManagedReference è usato per impedire il ciclo infinito con la classe
+	// ruolo
 	@JsonManagedReference
 	@OneToMany(mappedBy = "iscritto", fetch = FetchType.LAZY, cascade = CascadeType.ALL)
 	private Set<Ruolo> ruoli = new HashSet<>();
 
+	@Embedded
+	private GestoreInviti gestoreInviti;
+	
 	protected Iscritto() { }
 
 	public Iscritto(String identificativo, @NotNull @NotBlank String email, @NotNull @NotBlank String password) {
@@ -59,6 +65,7 @@ public abstract class Iscritto implements Utente {
 		this.identificativo = identificativo;
 		this.email = email;
 		this.password = password;
+		setGestoreInviti(new GestoreInviti());
 	}
 
 	@Override
@@ -104,6 +111,18 @@ public abstract class Iscritto implements Utente {
 	}
 
 	@Override
+	public GestoreInviti getGestoreMessaggi() {
+		if(gestoreInviti.getIscritto() == null)
+			gestoreInviti.setIscritto(this);
+		return gestoreInviti;
+	}
+
+	public void setGestoreInviti(GestoreInviti gestoreInviti) {
+		this.gestoreInviti = gestoreInviti;
+		this.gestoreInviti.setIscritto(this);
+	}
+
+	@Override
 	public int hashCode() {
 		final int prime = 31;
 		int result = 1;
@@ -127,22 +146,23 @@ public abstract class Iscritto implements Utente {
 	}
 
 	protected String parametriFormattati() {
-		return "identificativo=" + identificativo + ", email=" + email + ", password=" + password + ", curriculum=" + curriculum + ", ruoli=" + ruoli;
+		return "identificativo=" + identificativo + ", email=" + email + ", password=" + password + ", curriculum="
+				+ curriculum + ", ruoli=" + ruoli + ", gestoreInviti="+gestoreInviti;
 	}
 
 	@Override
 	public String toString() {
 		return getClass().getSimpleName() + " [" + parametriFormattati() + "]";
 	}
-	
+
 	public abstract List<TipologiaRuolo> getTipoRuoliPossibili();
-	
-	public List<TipologiaRuolo> getTipologiaRuoli(){
+
+	public List<TipologiaRuolo> getTipologiaRuoli() {
 		List<TipologiaRuolo> ruoli = new ArrayList<>();
 		this.ruoli.forEach(r -> ruoli.add(r.getRuolo()));
 		return ruoli;
 	}
-	
+
 	public void addRuolo(Ruolo ruolo) {
 		ruolo.setIscritto(this);
 		this.ruoli.add(ruolo);

@@ -20,7 +20,7 @@ import it.unicam.dmr.doit.utenti.Iscritto;
 
 @Entity
 @Table(name = "ruolo")
-//@Inheritance strategia da modificare: crea una tabella per tutti i ruoli (?)
+//TODO: @Inheritance strategia da modificare: crea una tabella per tutti i ruoli (?)
 @Inheritance(strategy = InheritanceType.JOINED)
 public abstract class Ruolo implements IRuolo {
 

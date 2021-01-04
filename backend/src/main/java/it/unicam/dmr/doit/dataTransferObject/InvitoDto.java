@@ -10,8 +10,6 @@ import it.unicam.dmr.doit.progetto.Progetto;
 
 public class InvitoDto {
 
-	
-	
 	@NotNull
 	private  String contenuto;
 	@NotNull
@@ -27,8 +25,6 @@ public class InvitoDto {
 	
 	public InvitoDto() {}
 	
-
-
 	public InvitoDto(@NotNull String contenuto, @NotNull Date data, @NotNull TipologiaInvito tipologiaInvito,
 			@NotNull String idMittente, @NotNull String idDestinatario,  Progetto progetto) {
 		

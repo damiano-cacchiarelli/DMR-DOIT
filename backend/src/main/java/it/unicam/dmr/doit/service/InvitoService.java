@@ -8,6 +8,7 @@ import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
 import it.unicam.dmr.doit.invito.Invito;
+import it.unicam.dmr.doit.invito.InvitoId.RuoloSoggetto;
 import it.unicam.dmr.doit.repository.InvitoRepository;
 
 @Service
@@ -15,23 +16,28 @@ import it.unicam.dmr.doit.repository.InvitoRepository;
 public class InvitoService {
 
 	@Autowired
-	private InvitoRepository ir;
+	private InvitoRepository invitoRepository;
 
 	public List<Invito> listaInviti(String identificativoIscritto) {
-
-		return ir.findAll().stream().filter(i -> i.getIdDestinatario().equals(identificativoIscritto))
+		return invitoRepository.findAll().stream()
+				.filter(i -> i.getDestinatario().getIdentificativo().equals(identificativoIscritto)
+						|| i.getMittente().getIdentificativo().equals(identificativoIscritto))
 				.collect(Collectors.toList());
 	}
-	
+
 	public void salvaInvito(Invito invito) {
-		ir.save(invito);
+		invitoRepository.save(invito);
 	}
-	
-	public void eliminaInvito(int invito) {
-		ir.deleteById(invito);
+
+	public void eliminaInvito(String invito, List<RuoloSoggetto> soggetti) {
+		invitoRepository.deleteByIdAndSoggettoIn(invito, soggetti);
 	}
-	
-	public boolean esisteInvito(int idInvito) {
-		return ir.existsById(idInvito);
+
+	public boolean esisteInvito(String idInvito) {
+		return invitoRepository.existsById(idInvito);
+	}
+
+	public Invito getInvito(String idInvito) {
+		return invitoRepository.findById(idInvito).get(0);
 	}
 }

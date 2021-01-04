@@ -6,8 +6,6 @@ import javax.persistence.Entity;
 import javax.validation.constraints.NotBlank;
 import javax.validation.constraints.NotNull;
 
-import it.unicam.dmr.doit.invito.GestoreMessaggi;
-import it.unicam.dmr.doit.invito.Invito;
 import it.unicam.dmr.doit.utenti.ruoli.TipologiaRuolo;
 
 @Entity
@@ -76,11 +74,6 @@ public class Persona extends Iscritto {
 
 	public void setTelefono(String telefono) {
 		this.telefono = telefono;
-	}
-
-	@Override
-	public GestoreMessaggi<Invito> getGestoreMessaggi() {
-		return null;
 	}
 	
 	@Override
