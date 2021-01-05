@@ -3,6 +3,7 @@ package it.unicam.dmr.doit.progetto;
 import java.util.HashSet;
 import java.util.Set;
 
+import javax.persistence.Column;
 import javax.persistence.Entity;
 import javax.persistence.Id;
 import javax.persistence.ManyToMany;
@@ -16,6 +17,7 @@ public class Tag {
 	@Id
 	@NotNull
 	@NotBlank
+	@Column(length = 64)
 	private String nome;
 	@NotNull
 	@NotBlank

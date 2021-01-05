@@ -1,14 +1,17 @@
 package it.unicam.dmr.doit.dataTransferObject.iscritto;
 
+import javax.validation.constraints.NotNull;
+
 import it.unicam.dmr.doit.utenti.ruoli.TipologiaRuolo;
 
 public class RuoloDto {
 
+	@NotNull
 	private TipologiaRuolo ruolo;
 
 	public RuoloDto(){ }
 	
-	public RuoloDto(TipologiaRuolo ruolo){
+	public RuoloDto(@NotNull TipologiaRuolo ruolo){
 		this.ruolo = ruolo;
 	}
 	

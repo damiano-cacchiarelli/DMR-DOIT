@@ -1,6 +1,7 @@
 package it.unicam.dmr.doit.service.iscritto;
 
 import java.util.List;
+import java.util.Optional;
 import java.util.stream.Collectors;
 
 import org.springframework.beans.factory.annotation.Autowired;
@@ -19,10 +20,16 @@ public class InvitoService {
 	private InvitoRepository invitoRepository;
 
 	public List<Invito> listaInviti(String identificativoIscritto) {
-		return invitoRepository.findAll().stream()
-				.filter(i -> i.getDestinatario().getIdentificativo().equals(identificativoIscritto)
-						|| i.getMittente().getIdentificativo().equals(identificativoIscritto))
-				.collect(Collectors.toList());
+		return invitoRepository.findAll().stream().filter(i -> {
+			if (i.getMittente().getIdentificativo().equals(identificativoIscritto)
+					&& i.getSoggetto().equals(RuoloSoggetto.MITTENTE))
+				return true;
+			else if (i.getDestinatario().getIdentificativo().equals(identificativoIscritto)
+					&& i.getSoggetto().equals(RuoloSoggetto.DESTINATARIO))
+				return true;
+			else
+				return false;
+		}).collect(Collectors.toList());
 	}
 
 	public void salvaInvito(Invito invito) {
@@ -37,7 +44,11 @@ public class InvitoService {
 		return invitoRepository.existsById(idInvito);
 	}
 
-	public Invito getInvito(String idInvito) {
+	public Optional<Invito> getInvito(String idInvito) {
 		return invitoRepository.findById(idInvito).get(0);
+	}
+
+	public List<Optional<Invito>> getInviti(String idInvito) {
+		return invitoRepository.findById(idInvito);
 	}
 }

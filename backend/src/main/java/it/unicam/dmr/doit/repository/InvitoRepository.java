@@ -1,6 +1,7 @@
 package it.unicam.dmr.doit.repository;
 
 import java.util.List;
+import java.util.Optional;
 
 import org.springframework.data.jpa.repository.JpaRepository;
 import org.springframework.data.jpa.repository.Modifying;
@@ -16,7 +17,7 @@ public interface InvitoRepository extends JpaRepository<Invito, InvitoId> {
 
 	public boolean existsById(String id);
 
-	public List<Invito> findById(String id);
+	public List<Optional<Invito>> findById(String id);
 
 	@Modifying
 	@Query("delete from Invito where id=?1 and soggetto IN (?2)")

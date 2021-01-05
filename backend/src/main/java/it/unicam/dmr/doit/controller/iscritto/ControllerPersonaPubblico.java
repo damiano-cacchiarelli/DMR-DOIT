@@ -30,7 +30,7 @@ public class ControllerPersonaPubblico extends ControllerVisitatore<Persona, Per
 		Persona persona = new Persona(personaDto.getIdentificativo(), personaDto.getEmail(),
 				passwordEncoder.encode(personaDto.getPassword()), personaDto.getNome(), personaDto.getCognome(),
 				personaDto.getCittadinanza(), personaDto.getSesso(), personaDto.getTelefono());
-		iscrittoService.save(persona);
+		iscrittoService.salva(persona);
 
 		return res;
 	}

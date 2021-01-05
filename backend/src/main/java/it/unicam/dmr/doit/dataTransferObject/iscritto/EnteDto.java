@@ -8,15 +8,16 @@ import javax.validation.constraints.NotNull;
 
 public class EnteDto extends IscrittoDto {
 
-	@NotNull
+	@NotNull 
+	@NotBlank
 	private String sede;
 	@NotNull
 	private Date annoDiFondazione;
 
 	public EnteDto() {super();}
 	
-	public EnteDto(String identificativo, @Email String email, @NotNull @NotBlank String password,
-			@NotNull String sede, @NotNull Date annoDiFondazione) {
+	public EnteDto(@NotNull @NotBlank String identificativo, @Email String email, @NotNull @NotBlank String password,
+			@NotNull @NotBlank String sede, @NotNull Date annoDiFondazione) {
 		super(identificativo, email, password);
 		this.sede = sede;
 		this.annoDiFondazione = annoDiFondazione;

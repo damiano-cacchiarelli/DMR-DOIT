@@ -13,16 +13,18 @@ public class PersonaDto extends IscrittoDto {
 	@NotBlank
 	private String cognome;
 	@NotNull
+	@NotBlank
 	private String cittadinanza;
 	@NotNull
+	@NotBlank
 	private String sesso;
 	private String telefono;
 
 	public PersonaDto() {super();}
 	
-	public PersonaDto(String identificativo, @Email String email, @NotNull @NotBlank String password,
-			@NotNull @NotBlank String nome, @NotNull @NotBlank String cognome, @NotNull String cittadinanza,
-			@NotNull String sesso, String telefono) {
+	public PersonaDto(@NotNull @NotBlank String identificativo, @Email String email, @NotNull @NotBlank String password,
+			@NotNull @NotBlank String nome, @NotNull @NotBlank String cognome, @NotNull @NotBlank String cittadinanza,
+			@NotNull @NotBlank String sesso, String telefono) {
 		super(identificativo, email, password);
 		this.nome = nome;
 		this.cognome = cognome;

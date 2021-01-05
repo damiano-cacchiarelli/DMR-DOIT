@@ -4,6 +4,7 @@ import java.util.Date;
 import java.util.List;
 
 import javax.persistence.Entity;
+import javax.validation.constraints.Email;
 import javax.validation.constraints.NotBlank;
 import javax.validation.constraints.NotNull;
 
@@ -21,7 +22,7 @@ public class Ente extends Iscritto {
 	public Ente() {
 	}
 
-	public Ente(String identificativo, @NotNull @NotBlank String email, @NotNull @NotBlank String password,
+	public Ente(@NotNull @NotBlank String identificativo, @Email String email, @NotNull @NotBlank String password,
 			@NotNull @NotBlank String sede, @NotNull Date annoDiFondazione) {
 		super(identificativo, email, password);
 		this.sede = sede;

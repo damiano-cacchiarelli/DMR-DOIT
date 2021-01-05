@@ -2,10 +2,12 @@ package it.unicam.dmr.doit.dataTransferObject.security;
 
 import javax.validation.constraints.NotBlank;
 
+import it.unicam.dmr.doit.controller.Utils;
+
 public class LoginIscritto {
-	@NotBlank
+	@NotBlank(message = Utils.nonVuoto)
 	private String identificativo;
-	@NotBlank
+	@NotBlank(message = Utils.nonVuoto)
 	private String password;
 
 	public String getIdentificativo() {

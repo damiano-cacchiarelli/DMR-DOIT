@@ -25,15 +25,15 @@ public class IscrittoService<I extends Iscritto, R extends IscrittoRepository<I>
 		return iscrittoRepository.findById(identificativo);
 	}
 	
-	public boolean existsById(String identificativo) {
+	public boolean existsByIdentificativo(String identificativo) {
 		return iscrittoRepository.existsById(identificativo);
 	}
 	
-	public void save(I iscritto) {
+	public void salva(I iscritto) {
 		iscrittoRepository.save(iscritto);
 	}
 
-	public void delete(String identificativo) {
+	public void elimina(String identificativo) {
 		iscrittoRepository.deleteById(identificativo);
 	}
 }

@@ -47,11 +47,12 @@ public class ControllerProponente {
 	@PreAuthorize("hasRole('PROPONENTE')")
 	@PostMapping("/proponi")
 	public ResponseEntity<Messaggio> proponiProgetto(@RequestBody ProgettoDto progetto) {
+		System.out.println(iscrittoService.findByIdentificativo(progetto.getIdIscritto()).get().toString());
 		Proponente proponente = (Proponente) iscrittoService.findByIdentificativo(progetto.getIdIscritto()).get().getRuoli().stream()
 				.filter(t -> t.getRuolo().equals(TipologiaRuolo.ROLE_PROPONENTE)).findFirst().get();
 		Set<Tag> tags=new HashSet<>();
 		progetto.getTags().forEach(t->tags.add(new Tag(t.getNome(), t.getDescrizione())));
-		Progetto p = new Progetto(progetto.getNome(), progetto.getObiettivi(), progetto.getRequisiti(), proponente,tags);
+		Progetto p = new Progetto(progetto.getNome(), progetto.getObiettivi(), progetto.getRequisiti(), proponente, tags);
 		progettoService.salvaProgetto(p);
 		return new ResponseEntity<>(new Messaggio("Progetto inserito"), HttpStatus.OK);
 	}

@@ -10,7 +10,7 @@ import it.unicam.dmr.doit.utenti.ruoli.TipologiaRuolo;
 
 @Entity
 public class Persona extends Iscritto {
-	
+
 	@NotNull
 	@NotBlank
 	private String nome;
@@ -18,16 +18,20 @@ public class Persona extends Iscritto {
 	@NotBlank
 	private String cognome;
 	@NotNull
+	@NotBlank
 	private String cittadinanza;
 	@NotNull
+	@NotBlank
 	private String sesso;
 	@NotNull
 	private String telefono;
-	
-	public Persona() {}
 
-	public Persona(String identificativo, @NotNull @NotBlank String email, @NotNull @NotBlank String password, @NotNull @NotBlank String nome, @NotNull @NotBlank String cognome, @NotNull String cittadinanza,
-			@NotNull String sesso, @NotNull String telefono) {
+	public Persona() {
+	}
+
+	public Persona(@NotNull @NotBlank String identificativo, @NotNull @NotBlank String email,
+			@NotNull @NotBlank String password, @NotNull @NotBlank String nome, @NotNull @NotBlank String cognome,
+			@NotNull @NotBlank String cittadinanza, @NotNull @NotBlank String sesso, @NotNull String telefono) {
 		super(identificativo, email, password);
 		this.nome = nome;
 		this.cognome = cognome;
@@ -75,7 +79,7 @@ public class Persona extends Iscritto {
 	public void setTelefono(String telefono) {
 		this.telefono = telefono;
 	}
-	
+
 	@Override
 	public List<TipologiaRuolo> getTipoRuoliPossibili() {
 		return List.of(TipologiaRuolo.ROLE_PROGETTISTA, TipologiaRuolo.ROLE_ESPERTO, TipologiaRuolo.ROLE_SPONSOR);
