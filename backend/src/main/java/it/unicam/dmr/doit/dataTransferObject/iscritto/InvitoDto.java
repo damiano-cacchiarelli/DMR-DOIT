@@ -3,10 +3,10 @@ package it.unicam.dmr.doit.dataTransferObject.iscritto;
 
 import java.util.Date;
 
+import javax.validation.constraints.NotBlank;
 import javax.validation.constraints.NotNull;
 
 import it.unicam.dmr.doit.invito.TipologiaInvito;
-import it.unicam.dmr.doit.progetto.Progetto;
 
 public class InvitoDto {
 
@@ -17,26 +17,27 @@ public class InvitoDto {
 	@NotNull
 	private  TipologiaInvito tipologiaInvito;
 	@NotNull
+	@NotBlank
 	private  String idMittente;
 	@NotNull
+	@NotBlank
 	private  String idDestinatario;
-	//@NotNull
-	private  Progetto progetto;
+	@NotNull
+	@NotBlank
+	private  int idProgetto;
 	
 	public InvitoDto() {}
 	
 	public InvitoDto(@NotNull String contenuto, @NotNull Date data, @NotNull TipologiaInvito tipologiaInvito,
-			@NotNull String idMittente, @NotNull String idDestinatario,  Progetto progetto) {
+			@NotNull @NotBlank String idMittente, @NotNull @NotBlank String idDestinatario, @NotNull @NotBlank int idProgetto) {
 		
 		this.contenuto = contenuto;
 		this.data = data;
 		this.tipologiaInvito = tipologiaInvito;
 		this.idMittente = idMittente;
 		this.idDestinatario = idDestinatario;
-		this.progetto = progetto;
+		this.idProgetto = idProgetto;
 	}
-
-
 
 	public String getContenuto() {
 		return contenuto;
@@ -78,13 +79,11 @@ public class InvitoDto {
 		this.idDestinatario = idDestinatario;
 	}
 
-	public Progetto getProgetto() {
-		return progetto;
-	}
-
-	public void setProgetto(Progetto progetto) {
-		this.progetto = progetto;
+	public void setIdProgetto(int idProgetto) {
+		this.idProgetto = idProgetto;
 	}
 	
-	
+	public int getIdProgetto() {
+		return idProgetto;
+	}	
 }

@@ -15,17 +15,21 @@ public class ValutazioneDto {
 	@NotNull
 	@NotBlank
 	private int idProgetto;
+	@NotNull
+	@NotBlank
+	private String idIscritto;
 
 	public ValutazioneDto() {
 
 	}
 
 	public ValutazioneDto(@NotNull @NotBlank String recensione, Set<ValutazioneProgettistaDto> valutazioniCandidati,
-			@NotNull @NotBlank int idProgetto) {
+			@NotNull @NotBlank int idProgetto, @NotNull @NotBlank String idIscritto) {
 		super();
 		this.recensione = recensione;
 		this.valutazioniCandidati = valutazioniCandidati;
 		this.idProgetto = idProgetto;
+		this.idIscritto = idIscritto;
 	}
 
 	public String getRecensione() {
@@ -50,5 +54,13 @@ public class ValutazioneDto {
 
 	public void setIdProgetto(int idProgetto) {
 		this.idProgetto = idProgetto;
+	}
+	
+	public String getIdIscritto() {
+		return idIscritto;
+	}
+	
+	public void setIdIscritto(String idIscritto) {
+		this.idIscritto = idIscritto;
 	}
 }
