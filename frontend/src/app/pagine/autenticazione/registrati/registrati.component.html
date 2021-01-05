@@ -1,0 +1,99 @@
+<app-menu></app-menu>
+
+<div class="container my-5">
+    <div class="row mt-5">
+        <h3 class="text-center">Registrati alla piattaforma</h3>
+        <div class="col-md-5 mx-auto mt-2">
+            <form #f="ngForm" novalidate>
+                <div class="form-group">
+                    <label for="identificativo">Identificativo*</label>
+                    <input type="text" name="identificativo" id="identificativo" class="form-control"
+                        [(ngModel)]="identificativo" required>
+                </div>
+                <div class="form-group">
+                    <label for="nombreUsuario">Email*</label>
+                    <input type="email" name="email" id="email" class="form-control" [(ngModel)]="email" required>
+                </div>
+                <div class="form-group">
+                    <label for="password">Password*</label>
+                    <input type="password" name="password" id="password" class="form-control" [(ngModel)]="password"
+                        required>
+                </div>
+            </form>
+
+            <p class="mt-4 mb-2 text-center fs-4">Iscriviti come</p>
+            <nav>
+                <div class="nav nav-tabs justify-content-center" id="nav-tab" role="tablist">
+                    <a class="nav-link active" id="nav-persona-tab" data-bs-toggle="tab" href="#nav-persona" role="tab"
+                        aria-controls="nav-persona" name="persona" aria-selected="true"
+                        (click)="tipo='persona'">Persona</a>
+                    <a class="nav-link" name="ente" id="nav-ente-tab" data-bs-toggle="tab" href="#nav-ente" role="tab"
+                        aria-controls="nav-ente" aria-selected="false" (click)="tipo='ente'">Ente</a>
+                </div>
+            </nav>
+            <div class="tab-content mt-2" id="nav-tabContent">
+                <div class="tab-pane fade show active" id="nav-persona" role="tabpanel"
+                    aria-labelledby="nav-persona-tab">
+                    <form #fp="ngForm" novalidate>
+                        <div class="form-group">
+                            <label for="nome">Nome*</label>
+                            <input type="text" name="nome" id="nome" class="form-control" [(ngModel)]="nome" required>
+                        </div>
+                        <div class="form-group">
+                            <label for="cognome">Cognome*</label>
+                            <input type="text" name="cognome" id="cognome" class="form-control" [(ngModel)]="cognome"
+                                required>
+                        </div>
+                        <div class="form-group my-2">
+                            <label for="radioGenere">Genere*</label>
+                            <div class="form-check form-check-inline mx-3">
+                                <label class="form-check-label">
+                                    <input class="form-check-input" type="radio" name="options" id="option1" value="M"
+                                        [(ngModel)]="sesso"> Maschio
+                                </label>
+                            </div>
+                            <div class="form-check form-check-inline">
+                                <label class="form-check-label">
+                                    <input class="form-check-input" type="radio" name="options" id="option2" value="F"
+                                        [(ngModel)]="sesso"> Femmina
+                                </label>
+                            </div>
+                        </div>
+                        <div class="form-group">
+                            <label for="cittadinanza">Cittadinanza*</label>
+                            <input type="text" name="cittadinanza" id="cittadinanza" class="form-control"
+                                [(ngModel)]="cittadinanza" required>
+                        </div>
+                        <div class="form-group">
+                            <label for="telefono">Telefono (opzionale)</label>
+                            <input type="tel" name="telefono" id="telefono" class="form-control" pattern="[0-9]{10}"
+                                [(ngModel)]="telefono" placeholder="1234567890">
+                        </div>
+                    </form>
+                </div>
+                <div class="tab-pane fade" id="nav-ente" role="tabpanel" aria-labelledby="nav-ente-tab">
+                    <form #fe="ngForm" novalidate>
+                        <div class="form-group">
+                            <label for="sede">Sede*</label>
+                            <input type="text" name="sede" id="sede" class="form-control" [(ngModel)]="sede" required>
+                        </div>
+                        <div class="form-group">
+                            <label for="annoDiFondazione">Anno di fondazione*</label>
+                            <input type="date" name="annoDiFondazione" max="3000-12-31" min="1000-01-01"
+                                class="form-control" [(ngModel)]="annoDiFondazione" required>
+                        </div>
+                    </form>
+                </div>
+            </div>
+
+            <div class="form-group mt-3 text-center">
+                <button class="btn btn-outline-success btn-block"
+                    [disabled]="!f.valid || ((tipo==='persona' && !fp.valid) || (tipo==='ente' && !fe.valid))"
+                    type="button" (click)="onRegistrati()">
+                    <i class="fas fa-sign-in-alt"></i> Registrati</button>
+            </div>
+
+            <p class="my-2"><b>* Campi obbligatori</b></p>
+        </div>
+    </div>
+</div>

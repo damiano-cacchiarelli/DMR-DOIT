@@ -1,0 +1,25 @@
+<app-menu></app-menu>
+
+<div class="container">
+    <div class="row mt-5">
+        <h3 class="text-center">Accedi alla piattaforma</h3>
+        <div class="col-md-4 mx-auto">
+            <form class="mt-4" (ngSubmit)="onAccedi()" novalidate #f="ngForm">
+                <div class="form-group mt-2 text-center">
+                    <label class="mb-2" for="identificativo">Identificativo</label>
+                    <input type="text" class="form-control" id="identificativo" [(ngModel)]="identificativo"
+                        name="identificativo" placeholder="Identificativo iscritto" required>
+                </div>
+                <div class="form-group mt-2 text-center">
+                    <label class="mb-2" for="password">Password</label>
+                    <input type="password" class="form-control" id="password" [(ngModel)]="password" name="password"
+                        placeholder="password" required>
+                </div>
+                <div class="col text-center mt-4">
+                    <button class="btn btn-outline-success btn-block text-center" [disabled]="!f.valid">Accedi</button>
+                </div>
+            </form>
+            <p class="text-center mt-3">Non sei registrato? <a routerLink="/registrati">Registrati</a> subito!</p>
+        </div>
+    </div>
+</div>

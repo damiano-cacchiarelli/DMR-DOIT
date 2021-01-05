@@ -1,0 +1,25 @@
+<nav class="navbar navbar-expand-lg navbar-light bg-light">
+    <div class="container-fluid">
+        <a class="navbar-brand fs-2" routerLink="/">Doit</a>
+        <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarToggler"
+            aria-controls="navbarToggler" aria-expanded="false" aria-label="Toggle navigation">
+            <span class="navbar-toggler-icon"></span>
+        </button>
+        <div class="collapse navbar-collapse" id="navbarToggler">
+            <ul class="navbar-nav me-auto mb-2 mb-lg-0">
+                <li class="nav-item">
+                    <a class="nav-link active" aria-current="page" routerLink="/"><i class="far fa-list-alt"></i> Vetrina
+                        progetti</a>
+                </li>
+            </ul>
+            <form class="d-flex" *ngIf="!isLogged">
+                <button class="btn btn-outline-success" type="submit" routerLink="/accedi"><i
+                        class="fas fa-sign-in-alt"></i> Accedi</button>
+            </form>
+            <form class="d-flex" *ngIf="isLogged" (ngSubmit)="onDisconnettiti()">
+                <button class="btn btn-outline-danger" type="submit" routerLink="/"><i
+                        class="fas fa-sign-out-alt"></i> Disconnettiti</button>
+            </form>
+        </div>
+    </div>
+</nav>
