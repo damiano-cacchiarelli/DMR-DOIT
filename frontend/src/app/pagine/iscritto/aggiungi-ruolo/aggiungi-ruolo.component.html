@@ -2,57 +2,15 @@
 
 <div class="container px-4 px-md-3 my-5">
     <div class="row mb-5 pb-md-4 justify-content-center">
-        <!--row-md-->
-        <div class="card text-white bg-primary mb-3 col-md-5 mx-1" style="max-width: 18rem;"
-            *ngIf="hasRuolo(tipologiaRuolo.ROLE_PROPONENTE)">
-            <!--*ngFor="let ruolo of ruoliDisponibili"-->
-            <div class="card-header">Ruolo proponente</div>
+        <div class="card text-white mb-3 col-md-5 mx-1" style="max-width: 18rem;"
+            *ngFor="let ruoloOpzioni of ruoliDisponibili; index as i;" [ngClass]="ruoloOpzioni.colore">
+            <div class="card-header">Ruolo {{ruoloOpzioni.nome}}</div>
             <div class="card-body d-flex flex-column">
-                <h5 class="card-title">Proponente</h5>
-                <p class="card-text">Questo ruolo permette di proporre progetti e gestirli...</p>
-                <a class="text-white mb-3" href="">Continua a leggere</a>
+                <h5 class="card-title">{{ruoloOpzioni.nome}}</h5>
+                <p class="card-text">{{ruoloOpzioni.descrizione}} </p>
                 <div class="text-center mt-auto">
-                    <button type="button" class="btn btn-light"
-                        (click)="onAggiungiRuolo(tipologiaRuolo.ROLE_PROPONENTE)">Aggiungi Ruolo</button>
-                </div>
-            </div>
-        </div>
-        <div class="card text-white bg-success mb-3 col-md-5 mx-1" style="max-width: 18rem;"
-            *ngIf="hasRuolo(tipologiaRuolo.ROLE_PROGETTISTA)">
-            <div class="card-header">Ruolo progettista</div>
-            <div class="card-body d-flex flex-column">
-                <h5 class="card-title">Progettista</h5>
-                <p class="card-text">Questo ruolo permette di partecipare a progetti...</p>
-                <a class="text-white mb-3" href="">Continua a leggere</a>
-                <div class="text-center mt-auto">
-                    <button type="button" class="btn btn-light"
-                        (click)="onAggiungiRuolo(tipologiaRuolo.ROLE_PROGETTISTA)">Aggiungi Ruolo</button>
-                </div>
-            </div>
-        </div>
-        <div class="card text-white bg-secondary mb-3 col-md-5 mx-1" style="max-width: 18rem;"
-            *ngIf="hasRuolo(tipologiaRuolo.ROLE_ESPERTO)">
-            <div class="card-header">Ruolo esperto</div>
-            <div class="card-body d-flex flex-column">
-                <h5 class="card-title">Esperto</h5>
-                <p class="card-text">Questo ruolo permette di valutare progetti e relativi candidati...</p>
-                <a class="text-white mb-3" href="">Continua a leggere</a>
-                <div class="text-center mt-auto">
-                    <button type="button" class="btn btn-light"
-                        (click)="onAggiungiRuolo(tipologiaRuolo.ROLE_ESPERTO)">Aggiungi Ruolo</button>
-                </div>
-            </div>
-        </div>
-        <div class="card text-white bg-danger mb-3 col-md-5 mx-1" style="max-width: 18rem;"
-            *ngIf="hasRuolo(tipologiaRuolo.ROLE_SPONSOR)">
-            <div class="card-header">Ruolo sponsor</div>
-            <div class="card-body d-flex flex-column">
-                <h5 class="card-title">Sponsor</h5>
-                <p class="card-text">Questo ruolo permette di finanziare progetti...</p>
-                <a class="text-white mb-3" href="">Continua a leggere</a>
-                <div class="text-center mt-auto">
-                    <button type="button" class="btn btn-light"
-                        (click)="onAggiungiRuolo(tipologiaRuolo.ROLE_SPONSOR)">Aggiungi Ruolo</button>
+                    <button type="button" class="btn btn-light" (click)="onAggiungiRuolo(ruoloOpzioni.tipo)">Aggiungi
+                        Ruolo</button>
                 </div>
             </div>
         </div>

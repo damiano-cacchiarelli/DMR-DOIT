@@ -2,6 +2,7 @@ import { Component, OnInit } from '@angular/core';
 import { Router } from '@angular/router';
 import { ToastrService } from 'ngx-toastr';
 import { Ruolo } from 'src/app/modello/iscritto/ruolo';
+import { RuoloOpzioni } from 'src/app/modello/iscritto/ruolo-opzioni';
 import { TipologiaRuolo } from 'src/app/modello/iscritto/tipologia-ruolo.enum';
 import { IscrittoService } from 'src/app/servizi/iscritto.service';
 
@@ -12,8 +13,7 @@ import { IscrittoService } from 'src/app/servizi/iscritto.service';
 })
 export class AggiungiRuoloComponent implements OnInit {
 
-  ruoliDisponibili: TipologiaRuolo[] = [];
-  tipologiaRuolo: typeof TipologiaRuolo = TipologiaRuolo;
+  ruoliDisponibili: RuoloOpzioni[] = [];
 
   constructor(
     private iscrittoService: IscrittoService,
@@ -23,9 +23,9 @@ export class AggiungiRuoloComponent implements OnInit {
   ngOnInit(): void {
     this.iscrittoService.ruoliDisponibili().subscribe(
       data => {
-        this.ruoliDisponibili = data;
-        
-        console.log(this.ruoliDisponibili);
+        data.forEach((tipo: TipologiaRuolo) => {
+          this.ruoliDisponibili.push(RuoloOpzioni.RUOLI.get(tipo) as RuoloOpzioni);
+        });
       },
       err => {
         console.log(err);
@@ -48,9 +48,5 @@ export class AggiungiRuoloComponent implements OnInit {
           timeOut: 3000, positionClass: "toast-top-center"
         });
       });
-  }
-
-  hasRuolo(ruolo: TipologiaRuolo): boolean{
-    return this.ruoliDisponibili.indexOf(ruolo) >= 0;
   }
 }
