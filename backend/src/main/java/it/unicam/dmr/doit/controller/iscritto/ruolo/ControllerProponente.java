@@ -22,12 +22,13 @@ import it.unicam.dmr.doit.progetto.Tag;
 import it.unicam.dmr.doit.repository.IscrittoRepository;
 import it.unicam.dmr.doit.service.iscritto.IscrittoService;
 import it.unicam.dmr.doit.service.progetto.ProgettoService;
+import it.unicam.dmr.doit.service.progetto.TagService;
 import it.unicam.dmr.doit.utenti.Iscritto;
 import it.unicam.dmr.doit.utenti.ruoli.Proponente;
 import it.unicam.dmr.doit.utenti.ruoli.TipologiaRuolo;
 
 /**
- * Responabilit√†:
+ * Responabilita†:
  * - proporre progetto
  * - chiusura candidature
  * - invitare progettista (da fare su ControllerInvito)
@@ -42,6 +43,8 @@ public class ControllerProponente {
 	@Autowired
 	private ProgettoService progettoService;
 	@Autowired
+	private TagService tagService;
+	@Autowired
 	private IscrittoService<Iscritto, IscrittoRepository<Iscritto>> iscrittoService;
 
 	@PreAuthorize("hasRole('PROPONENTE')")
@@ -51,7 +54,7 @@ public class ControllerProponente {
 		Proponente proponente = (Proponente) iscrittoService.findByIdentificativo(progetto.getIdIscritto()).get().getRuoli().stream()
 				.filter(t -> t.getRuolo().equals(TipologiaRuolo.ROLE_PROPONENTE)).findFirst().get();
 		Set<Tag> tags=new HashSet<>();
-		progetto.getTags().forEach(t->tags.add(new Tag(t.getNome(), t.getDescrizione())));
+		progetto.getTags().forEach(t->tags.add(tagService.findById(t.getNome())));
 		Progetto p = new Progetto(progetto.getNome(), progetto.getObiettivi(), progetto.getRequisiti(), proponente, tags);
 		progettoService.salvaProgetto(p);
 		return new ResponseEntity<>(new Messaggio("Progetto inserito"), HttpStatus.OK);

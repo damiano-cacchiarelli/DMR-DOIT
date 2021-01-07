@@ -33,6 +33,9 @@ public class ProgettoService {
 		return progettoRepository.findById(idProgetto);
 	}
 	
+	public List<Progetto> findByName(String nome){
+		return progettoRepository.findByNomeContainingIgnoreCase(nome);
+	}
 	
 	
 	

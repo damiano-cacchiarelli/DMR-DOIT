@@ -25,9 +25,11 @@ import it.unicam.dmr.doit.dataTransferObject.Messaggio;
 import it.unicam.dmr.doit.dataTransferObject.iscritto.RuoloDto;
 import it.unicam.dmr.doit.dataTransferObject.progetto.TagDto;
 import it.unicam.dmr.doit.progetto.Progetto;
+import it.unicam.dmr.doit.progetto.Tag;
 import it.unicam.dmr.doit.repository.IscrittoRepository;
 import it.unicam.dmr.doit.service.iscritto.IscrittoService;
 import it.unicam.dmr.doit.service.progetto.ProgettoService;
+import it.unicam.dmr.doit.service.progetto.TagService;
 import it.unicam.dmr.doit.utenti.Iscritto;
 import it.unicam.dmr.doit.utenti.ruoli.Ruolo;
 import it.unicam.dmr.doit.utenti.ruoli.TipologiaRuolo;
@@ -42,7 +44,9 @@ public class ControllerProgetto {
 
 	@Autowired
 	private ProgettoService progettoService;
-
+	@Autowired
+	private TagService tagService;
+	@Autowired
 	private IscrittoService<Iscritto, IscrittoRepository<Iscritto>> iscrittoService;
 
 	@GetMapping("/vetrina")
@@ -63,9 +67,19 @@ public class ControllerProgetto {
 			BindingResult bindingResult) {
 		if (bindingResult.hasErrors())
 			return new ResponseEntity<>(new Messaggio(Utils.getErrore(bindingResult)), HttpStatus.BAD_REQUEST);
-		//TODO
-		return null;// new ResponseEntity<>(progettoService.findById(idProgetto), HttpStatus.OK);
+		List<Progetto> progetti = progettoService.findByName(nome);
+		if(!tags.isEmpty()) {
+			/*
+			 * //TODO non so se vabene. Modificare filter con AnyMatch/AllMatch? 
+			 * Possibile ottimizzarione: passare una lista di stringhe invece che di TagDto
+			 * TagDto non ha più descrizione 
+			 */
+			List<Tag> tagRichiesti = getTag(tags);
+			progetti.stream().filter(p->p.getTags().containsAll(tagRichiesti)).collect(Collectors.toList());
+		}
+		return new ResponseEntity<>(progetti,HttpStatus.OK);// new ResponseEntity<>(progettoService.findById(idProgetto), HttpStatus.OK);
 	}
+
 
 	@GetMapping("/personali")
 	public ResponseEntity<?> progettiDiUnProponente(@Valid @RequestBody List<RuoloDto> ruoli,
@@ -93,6 +107,13 @@ public class ControllerProgetto {
 		// siano ruoli che l'iscritto non ha?
 
 		return new ResponseEntity<>(progetti, HttpStatus.OK);
+	}
+	
+
+	private List<Tag> getTag(List<TagDto> tags) {
+		List<Tag> listaTag = new LinkedList<>();
+		tags.forEach(t->listaTag.add(tagService.findById(t.getNome())));
+		return listaTag;
 	}
 
 	private void addAllRule(List<RuoloDto> ruoli, List<TipologiaRuolo> tipoRuoliPossibili) {

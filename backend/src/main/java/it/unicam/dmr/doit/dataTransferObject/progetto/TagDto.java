@@ -10,16 +10,13 @@ public class TagDto {
 	@NotNull(message = Utils.nonNullo)
 	@NotBlank(message = Utils.nonVuoto)
 	private String nome;
-	@NotNull(message = Utils.nonNullo)
-	private String descrizione;
 
 	public TagDto() {
 	}
 
-	public TagDto(@NotNull @NotBlank String nome, @NotNull String descrizione) {
+	public TagDto(@NotNull @NotBlank String nome) {
 		super();
 		this.nome = nome;
-		this.descrizione = descrizione;
 	}
 
 	public String getNome() {
@@ -28,14 +25,6 @@ public class TagDto {
 
 	public void setNome(String nome) {
 		this.nome = nome;
-	}
-
-	public String getDescrizione() {
-		return descrizione;
-	}
-
-	public void setDescrizione(String descrizione) {
-		this.descrizione = descrizione;
 	}
 
 }
