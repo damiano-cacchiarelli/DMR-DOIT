@@ -52,21 +52,21 @@ public class ControllerIscritto<I extends Iscritto, R extends IscrittoRepository
 			Ruolo r = Ruolo.create(ruolo.getRuolo());
 			iscritto.addRuolo(r);
 			iscrittoService.salva(iscritto);
-			return new ResponseEntity<>(new Messaggio("Il ruolo è stato aggiunto!"), HttpStatus.OK);
+			return new ResponseEntity<>(new Messaggio("Il ruolo e' stato aggiunto!"), HttpStatus.OK);
 		}
-		else return new ResponseEntity<>(new Messaggio("Il ruolo non è disponibile."), HttpStatus.BAD_REQUEST);
+		else return new ResponseEntity<>(new Messaggio("Il ruolo non e' disponibile."), HttpStatus.BAD_REQUEST);
 	}
 	
 	@DeleteMapping("/elimina")
 	public ResponseEntity<?> elimina(Authentication authentication){
 		iscrittoService.elimina(authentication.getName());
-		return new ResponseEntity<>(new Messaggio("L'iscritto è stato eliminato"), HttpStatus.OK); 
+		return new ResponseEntity<>(new Messaggio("L'iscritto e' stato eliminato"), HttpStatus.OK); 
 	}
 	
 	protected ResponseEntity<?> canUpdate(IscrittoDto iscrittoDto, BindingResult bindingResult){
 		if (bindingResult.hasErrors())
 			return new ResponseEntity<>(new Messaggio(Utils.getErrore(bindingResult)), HttpStatus.BAD_REQUEST);
 
-		return new ResponseEntity<>(new Messaggio("L'iscritto è stato aggiornato"), HttpStatus.OK); 
+		return new ResponseEntity<>(new Messaggio("L'iscritto e' stato aggiornato"), HttpStatus.OK); 
 	}
 }

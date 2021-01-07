@@ -20,7 +20,6 @@ public class Tag {
 	@Column(length = 64)
 	private String nome;
 	@NotNull
-	@NotBlank
 	private String descrizione;
 	
 	@JsonBackReference

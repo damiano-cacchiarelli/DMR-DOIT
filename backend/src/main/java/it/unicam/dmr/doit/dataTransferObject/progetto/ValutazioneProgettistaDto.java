@@ -3,13 +3,15 @@ package it.unicam.dmr.doit.dataTransferObject.progetto;
 import javax.validation.constraints.NotBlank;
 import javax.validation.constraints.NotNull;
 
+import it.unicam.dmr.doit.controller.Utils;
+
 public class ValutazioneProgettistaDto {
 
-	@NotNull
-	@NotBlank
+	@NotNull(message = Utils.nonNullo)
+	@NotBlank(message = Utils.nonVuoto)
 	private String recensione;
-	@NotNull
-	@NotBlank
+	@NotNull(message = Utils.nonNullo)
+	@NotBlank(message = Utils.nonVuoto)
 	private String identificativoProgettista;
 
 	public ValutazioneProgettistaDto() {

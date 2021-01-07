@@ -3,12 +3,14 @@ package it.unicam.dmr.doit.dataTransferObject.progetto;
 import javax.validation.constraints.NotBlank;
 import javax.validation.constraints.NotNull;
 
+import it.unicam.dmr.doit.controller.Utils;
+
 public class TagDto {
 
-	@NotNull
-	@NotBlank
+	@NotNull(message = Utils.nonNullo)
+	@NotBlank(message = Utils.nonVuoto)
 	private String nome;
-	@NotNull
+	@NotNull(message = Utils.nonNullo)
 	private String descrizione;
 
 	public TagDto() {

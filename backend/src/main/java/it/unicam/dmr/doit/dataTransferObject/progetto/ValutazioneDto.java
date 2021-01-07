@@ -6,17 +6,19 @@ import java.util.Set;
 import javax.validation.constraints.NotBlank;
 import javax.validation.constraints.NotNull;
 
+import it.unicam.dmr.doit.controller.Utils;
+
 public class ValutazioneDto {
-	@NotNull
-	@NotBlank
+	@NotNull(message = Utils.nonNullo)
+	@NotBlank(message = Utils.nonVuoto)
 	private String recensione;
 
 	private Set<ValutazioneProgettistaDto> valutazioniCandidati = new HashSet<>();
-	@NotNull
-	@NotBlank
+	@NotNull(message = Utils.nonNullo)
+	@NotBlank(message = Utils.nonVuoto)
 	private int idProgetto;
-	@NotNull
-	@NotBlank
+	@NotNull(message = Utils.nonNullo)
+	@NotBlank(message = Utils.nonVuoto)
 	private String idIscritto;
 
 	public ValutazioneDto() {

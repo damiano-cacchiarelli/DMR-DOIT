@@ -6,21 +6,23 @@ import java.util.Set;
 import javax.validation.constraints.NotBlank;
 import javax.validation.constraints.NotNull;
 
+import it.unicam.dmr.doit.controller.Utils;
+
 public class ProgettoDto {
 	
-	@NotNull
-	@NotBlank
+	@NotNull(message = Utils.nonNullo)
+	@NotBlank(message = Utils.nonVuoto)
 	private String nome;
-	@NotNull
-	@NotBlank
+	@NotNull(message = Utils.nonNullo)
+	@NotBlank(message = Utils.nonVuoto)
 	private String obiettivi;
-	@NotNull
-	@NotBlank
+	@NotNull(message = Utils.nonNullo)
+	@NotBlank(message = Utils.nonVuoto)
 	private String requisiti;
 	
 	private Set<TagDto> tags = new HashSet<>();
-	@NotNull
-	@NotBlank
+	@NotNull(message = Utils.nonNullo)
+	@NotBlank(message = Utils.nonVuoto)
 	private String idIscritto;	
 	
 	public ProgettoDto() {}

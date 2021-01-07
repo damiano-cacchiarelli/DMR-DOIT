@@ -13,7 +13,7 @@ import it.unicam.dmr.doit.service.progetto.ProgettoService;
 import it.unicam.dmr.doit.service.progetto.ValutazioneService;
 
 /**
- * Resposabilit√†:
+ * Resposabilita†:
  * - lista valutazione progetto
  * - ultima valutazione progetto
  */
