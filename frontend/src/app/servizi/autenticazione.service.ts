@@ -16,10 +16,10 @@ export class AutenticazioneService {
   constructor(private httpClient: HttpClient) { }
 
   public registra(iscritto: Iscritto): Observable<any> {
-    return this.httpClient.post<any>(this.autenticazioneURL + iscritto.tipo + "/crea", iscritto);
+    return this.httpClient.post<any>(this.autenticazioneURL + "/" + iscritto.tipo + "/crea", iscritto);
   }
 
   public accedi(loginIscritto: LoginIscritto): Observable<JwtDto> {
-    return this.httpClient.post<JwtDto>(this.autenticazioneURL + "accedi", loginIscritto);
+    return this.httpClient.post<JwtDto>(this.autenticazioneURL + "/accedi", loginIscritto);
   }
 }
