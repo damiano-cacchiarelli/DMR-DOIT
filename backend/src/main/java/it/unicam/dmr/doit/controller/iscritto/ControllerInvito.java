@@ -28,7 +28,6 @@ import it.unicam.dmr.doit.dataTransferObject.invito.InvitoDto;
 import it.unicam.dmr.doit.dataTransferObject.invito.RispostaInvitoDto;
 import it.unicam.dmr.doit.invito.Invito;
 import it.unicam.dmr.doit.invito.InvitoId.RuoloSoggetto;
-import it.unicam.dmr.doit.invito.TipologiaRisposta;
 import it.unicam.dmr.doit.progetto.Progetto;
 import it.unicam.dmr.doit.repository.IscrittoRepository;
 import it.unicam.dmr.doit.service.iscritto.InvitoService;
@@ -120,28 +119,21 @@ public class ControllerInvito {
 			return new ResponseEntity<>(new Messaggio(Utils.getErrore(bindingResult)), HttpStatus.BAD_REQUEST);
 		if (!invitoService.esisteInvito(rispostaInvitoDto.getIdInvito()))
 			return new ResponseEntity<>(new Messaggio("Id invito inesistente"), HttpStatus.NOT_FOUND);
-		if (!invitoService.getInvito(rispostaInvitoDto.getIdInvito()).get().getIdDestinatario()
-				.equals(authentication.getName()))
+		Invito invito = invitoService.getInvito(rispostaInvitoDto.getIdInvito()).get();
+		if (!invito.getIdDestinatario().equals(authentication.getName()))
 			return new ResponseEntity<>(
 					new Messaggio("Non sei autorizzato a rispondere a questo invito (non sei il destinatario)"),
 					HttpStatus.BAD_REQUEST);
-		// Questa verifica si può fare sulla classe invito (quando si imposta la
-		// risposta)
-		if (!invitoService.getInvito(rispostaInvitoDto.getIdInvito()).get().getTipologiaRisposta()
-				.equals(TipologiaRisposta.IN_ATTESA))
-			return new ResponseEntity<>(
-					new Messaggio("L'invito e' stato accettato/rifiutato. Non e' possibile modificare la risposta."),
-					HttpStatus.BAD_REQUEST);
-		// Anche questa verifica si può fare sulla classe invito (quando si imposta la
-		// risposta)
-		if (rispostaInvitoDto.getRisposta().equals(TipologiaRisposta.IN_ATTESA))
-			return new ResponseEntity<>(new Messaggio("La risposta inviata non e' valida"), HttpStatus.BAD_REQUEST);
 
 		List<Invito> inviti = invitoService.getInviti(rispostaInvitoDto.getIdInvito()).stream().map(Optional::get)
 				.collect(Collectors.toList());
-		inviti.forEach(i -> i.setTipologiaRisposta(rispostaInvitoDto.getRisposta()));
-		inviti.forEach(i -> invitoService.salvaInvito(i));
-		return new ResponseEntity<>(new Messaggio("L'invito e' stato " + rispostaInvitoDto.getRisposta()),
-				HttpStatus.OK);
+		try {
+			inviti.forEach(i -> i.setTipologiaRisposta(rispostaInvitoDto.getRisposta()));
+			inviti.forEach(i -> invitoService.salvaInvito(i));
+			return new ResponseEntity<>(new Messaggio("L'invito e' stato " + rispostaInvitoDto.getRisposta().toString().toLowerCase()),
+					HttpStatus.OK);	
+		} catch (Exception e) {
+			return new ResponseEntity<>(new Messaggio(e.getMessage()), HttpStatus.BAD_REQUEST);
+		}
 	}
 }

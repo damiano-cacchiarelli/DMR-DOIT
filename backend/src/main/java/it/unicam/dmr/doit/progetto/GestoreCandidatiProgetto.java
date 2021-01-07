@@ -60,6 +60,7 @@ public class GestoreCandidatiProgetto {
 	}
 
 	public void setCandidatureAperte(boolean candidature) {
+		if(!candidatureAperte) throw new IllegalStateException("Le candidature sono gia' chiuse");
 		this.candidatureAperte = candidature;
 	}
 

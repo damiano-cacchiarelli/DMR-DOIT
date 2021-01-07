@@ -13,7 +13,7 @@ import it.unicam.dmr.doit.service.progetto.ProgettoService;
 import it.unicam.dmr.doit.service.progetto.ValutazioneService;
 
 /**
- * Resposabilita :
+ * Resposabilitaï¿½:
  * - lista valutazione progetto
  * - ultima valutazione progetto
  */
@@ -29,11 +29,15 @@ public class ControllerValutazione {
 
 	@GetMapping("/{id_progetto}/all")
 	public ResponseEntity<?> valutazioniProgetto(@PathVariable("id_progetto") int idProgetto) {
+		if(!progettoService.existsById(idProgetto))
+			return new ResponseEntity<>("Il progetto non esiste", HttpStatus.NOT_FOUND);
 		return new ResponseEntity<>(valutazioneService.getAllValutazioni(idProgetto), HttpStatus.OK);
 	}
 
 	@GetMapping("/{id_progetto}/last")
 	public ResponseEntity<?> ultimaValutazioneProgetto(@PathVariable("id_progetto") int idProgetto) {
+		if(!progettoService.existsById(idProgetto))
+			return new ResponseEntity<>("Il progetto non esiste", HttpStatus.NOT_FOUND);
 		int idValutazione = progettoService.findById(idProgetto).get().getLastValutazioneId();
 		if (idValutazione <= 0)
 			return new ResponseEntity<>("Nessuna valutazione per questo progetto", HttpStatus.OK);

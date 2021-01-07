@@ -1,8 +1,5 @@
 package it.unicam.dmr.doit.controller.iscritto;
 
-import java.util.ArrayList;
-import java.util.List;
-
 import javax.validation.Valid;
 
 import org.springframework.beans.factory.annotation.Autowired;
@@ -26,7 +23,6 @@ import it.unicam.dmr.doit.repository.IscrittoRepository;
 import it.unicam.dmr.doit.service.iscritto.IscrittoService;
 import it.unicam.dmr.doit.utenti.Iscritto;
 import it.unicam.dmr.doit.utenti.ruoli.Ruolo;
-import it.unicam.dmr.doit.utenti.ruoli.TipologiaRuolo;
 
 /**
  * Responsabilità: 
@@ -47,7 +43,7 @@ public class ControllerIscritto<I extends Iscritto, R extends IscrittoRepository
 		if (bindingResult.hasErrors())
 			return new ResponseEntity<>(new Messaggio(Utils.getErrore(bindingResult)), HttpStatus.BAD_REQUEST);
 		I iscritto = iscrittoService.findByIdentificativo(authentication.getName()).get();
-		if(getRuoliDisponibili(authentication.getName()).contains(ruolo.getRuolo())) {
+		if(iscrittoService.getRuoliDisponibili(authentication.getName()).contains(ruolo.getRuolo())) {
 			Ruolo r = Ruolo.create(ruolo.getRuolo());
 			iscritto.addRuolo(r);
 			iscrittoService.salva(iscritto);
@@ -58,7 +54,7 @@ public class ControllerIscritto<I extends Iscritto, R extends IscrittoRepository
 	
 	@GetMapping("/ruoli_disponibili")
 	public ResponseEntity<?> ruoliDisponibili(Authentication authentication) {
-		return new ResponseEntity<>(getRuoliDisponibili(authentication.getName()), HttpStatus.OK);
+		return new ResponseEntity<>(iscrittoService.getRuoliDisponibili(authentication.getName()), HttpStatus.OK);
 	}
 	
 	@DeleteMapping("/elimina")
@@ -72,13 +68,5 @@ public class ControllerIscritto<I extends Iscritto, R extends IscrittoRepository
 			return new ResponseEntity<>(new Messaggio(Utils.getErrore(bindingResult)), HttpStatus.BAD_REQUEST);
 
 		return new ResponseEntity<>(new Messaggio("L'iscritto e' stato aggiornato"), HttpStatus.OK); 
-	}
-	
-	private List<TipologiaRuolo> getRuoliDisponibili(String identificativo){
-		// controllare se identificativo esiste
-		I iscritto = iscrittoService.findByIdentificativo(identificativo).get();
-		List<TipologiaRuolo> ruoliDisponibili = new ArrayList<>(iscritto.getTipoRuoliPossibili());
-		ruoliDisponibili.removeAll(iscritto.getTipologiaRuoli());
-		return ruoliDisponibili;
 	}
 }

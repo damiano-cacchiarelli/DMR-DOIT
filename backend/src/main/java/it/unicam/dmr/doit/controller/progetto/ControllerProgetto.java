@@ -35,7 +35,7 @@ import it.unicam.dmr.doit.utenti.ruoli.Ruolo;
 import it.unicam.dmr.doit.utenti.ruoli.TipologiaRuolo;
 
 /**
- * Responabilita : - ricerca progetto (per id e nome) - lista progetti
+ * Responabilitaï¿½: - ricerca progetto (per id e nome) - lista progetti
  */
 @RestController
 @RequestMapping("/progetto")
@@ -63,38 +63,38 @@ public class ControllerProgetto {
 	}
 
 	@GetMapping("/ricerca/{nome}")
-	public ResponseEntity<?> ricercaProgettoNome(@PathVariable("nome") String nome, @Valid @RequestBody List<TagDto> tags,
-			BindingResult bindingResult) {
+	public ResponseEntity<?> ricercaProgettoNome(@PathVariable("nome") String nome,
+			@Valid @RequestBody List<TagDto> tags, BindingResult bindingResult) {
 		if (bindingResult.hasErrors())
 			return new ResponseEntity<>(new Messaggio(Utils.getErrore(bindingResult)), HttpStatus.BAD_REQUEST);
 		List<Progetto> progetti = progettoService.findByName(nome);
-		if(!tags.isEmpty()) {
-			/*
-			 * //TODO non so se vabene. Modificare filter con AnyMatch/AllMatch? 
-			 * Possibile ottimizzarione: passare una lista di stringhe invece che di TagDto
-			 * TagDto non ha più descrizione 
-			 */
+		if (!tags.isEmpty()) {
 			List<Tag> tagRichiesti = getTag(tags);
-			progetti.stream().filter(p->p.getTags().containsAll(tagRichiesti)).collect(Collectors.toList());
+			progetti.stream().filter(p -> p.getTags().containsAll(tagRichiesti)).collect(Collectors.toList());
 		}
-		return new ResponseEntity<>(progetti,HttpStatus.OK);// new ResponseEntity<>(progettoService.findById(idProgetto), HttpStatus.OK);
+		return new ResponseEntity<>(progetti, HttpStatus.OK);
 	}
 
-
 	@GetMapping("/personali")
-	public ResponseEntity<?> progettiDiUnProponente(@Valid @RequestBody List<RuoloDto> ruoli,
+	public ResponseEntity<?> progettiPersonali(@Valid @RequestBody List<RuoloDto> ruoli,
 			BindingResult bindingResult, Authentication authentication) {
 
 		if (bindingResult.hasErrors())
 			return new ResponseEntity<>(new Messaggio(Utils.getErrore(bindingResult)), HttpStatus.BAD_REQUEST);
-		// TODO Ottimizzare il codice
-		Set<Progetto> progetti = new HashSet<>();
-		List<TipologiaRuolo> ruoliUsati = new LinkedList<>();
-		Iscritto iscritto = iscrittoService.findByIdentificativo(authentication.getName()).get();
-		List<Ruolo> ruoliIscritto = iscritto.getRuoli().stream().collect(Collectors.toList());
 
+		Set<Progetto> progetti = new HashSet<>();
+		Iscritto iscritto = iscrittoService.findByIdentificativo(authentication.getName()).get();
+		List<Ruolo> ruoliIscritto = iscritto.getRuoli().stream().collect(Collectors.toList());	
 		if (ruoli.isEmpty()) // Se vuota (Puo essere vuota?) vengono aggiunti tutti i ruoli.
 			addAllRule(ruoli, iscritto.getTipoRuoliPossibili());
+		for (RuoloDto ruoloDto : Set.copyOf(ruoli)) {
+			for (Ruolo r : ruoliIscritto) {
+				if(r.getRuolo().equals(ruoloDto.getRuolo())) {
+					progetti.addAll(r.getProgettiPersonali());
+				}
+			}
+		}
+		/*
 		for (RuoloDto ruoloDto : ruoli) {
 			if (!ruoliUsati.contains(ruoloDto.getRuolo()) && listContainRole(ruoliIscritto, ruoloDto.getRuolo())) {
 				progetti.addAll(ruoliIscritto.stream().filter(r -> r.getRuolo().equals(ruoloDto.getRuolo())).findFirst()
@@ -102,17 +102,16 @@ public class ControllerProgetto {
 				ruoliUsati.add(ruoloDto.getRuolo());
 			}
 
-		}
-		// TODO Modificare in modo da ricevere un errore/lista di errori nel caso ci
-		// siano ruoli che l'iscritto non ha?
-
+		}*/
 		return new ResponseEntity<>(progetti, HttpStatus.OK);
 	}
-	
 
 	private List<Tag> getTag(List<TagDto> tags) {
 		List<Tag> listaTag = new LinkedList<>();
-		tags.forEach(t->listaTag.add(tagService.findById(t.getNome())));
+		tags.forEach(t -> {
+			if(tagService.existsByNome(t.getNome()))
+				listaTag.add(tagService.findById(t.getNome()));
+		});
 		return listaTag;
 	}
 

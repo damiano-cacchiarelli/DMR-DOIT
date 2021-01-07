@@ -114,6 +114,10 @@ public class Invito implements Messaggio {
 	}
 
 	public void setTipologiaRisposta(TipologiaRisposta tipologiaRisposta) {
+		if(tipologiaRisposta.equals(TipologiaRisposta.IN_ATTESA))
+			throw new IllegalArgumentException("La risposta inviata non e' valida");
+		if(!this.tipologiaRisposta.equals(TipologiaRisposta.IN_ATTESA))
+			throw new IllegalArgumentException("L'invito e' stato accettato/rifiutato. Non e' possibile modificare la risposta.");
 		this.tipologiaRisposta = tipologiaRisposta;
 	}
 
