@@ -6,6 +6,8 @@ import { AppComponent } from './app.component';
 import { HttpClientModule } from '@angular/common/http';
 import { FormsModule } from '@angular/forms';
 
+import { interceptorProvider } from './intercettori/token.interceptor';
+
 import { HomeComponent } from './pagine/home/home.component';
 import { MenuComponent } from './pagine/menu/menu.component';
 import { AccediComponent } from './pagine/autenticazione/accedi/accedi.component';
@@ -14,6 +16,7 @@ import { RegistratiComponent } from './pagine/autenticazione/registrati/registra
 // Per usare ngx-toastr
 import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
 import { ToastrModule } from 'ngx-toastr';
+import { AggiungiRuoloComponent } from './pagine/iscritto/aggiungi-ruolo/aggiungi-ruolo.component';
 
 @NgModule({
   declarations: [
@@ -21,7 +24,8 @@ import { ToastrModule } from 'ngx-toastr';
     HomeComponent,
     MenuComponent,
     AccediComponent,
-    RegistratiComponent
+    RegistratiComponent,
+    AggiungiRuoloComponent
   ],
   imports: [
     BrowserModule,
@@ -31,7 +35,7 @@ import { ToastrModule } from 'ngx-toastr';
     BrowserAnimationsModule,
     ToastrModule.forRoot(),
   ],
-  providers: [],
+  providers: [interceptorProvider],
   bootstrap: [AppComponent]
 })
 export class AppModule { }

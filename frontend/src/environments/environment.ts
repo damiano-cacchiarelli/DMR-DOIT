@@ -5,7 +5,8 @@
 export const environment = {
   production: false,
 
-  autenticazioneURL: 'http://localhost:8080/visitatore/'
+  autenticazioneURL: 'http://localhost:8080/visitatore',
+  iscrittoURL: 'http://localhost:8080/iscritto'
 };
 
 /*

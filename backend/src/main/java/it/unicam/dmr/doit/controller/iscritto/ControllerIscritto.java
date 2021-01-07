@@ -12,6 +12,7 @@ import org.springframework.security.core.Authentication;
 import org.springframework.validation.BindingResult;
 import org.springframework.web.bind.annotation.CrossOrigin;
 import org.springframework.web.bind.annotation.DeleteMapping;
+import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PutMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
@@ -46,15 +47,18 @@ public class ControllerIscritto<I extends Iscritto, R extends IscrittoRepository
 		if (bindingResult.hasErrors())
 			return new ResponseEntity<>(new Messaggio(Utils.getErrore(bindingResult)), HttpStatus.BAD_REQUEST);
 		I iscritto = iscrittoService.findByIdentificativo(authentication.getName()).get();
-		List<TipologiaRuolo> ruoliDisponibili = new ArrayList<>(iscritto.getTipoRuoliPossibili());
-		ruoliDisponibili.removeAll(iscritto.getTipologiaRuoli());
-		if(ruoliDisponibili.contains(ruolo.getRuolo())) {
+		if(getRuoliDisponibili(authentication.getName()).contains(ruolo.getRuolo())) {
 			Ruolo r = Ruolo.create(ruolo.getRuolo());
 			iscritto.addRuolo(r);
 			iscrittoService.salva(iscritto);
 			return new ResponseEntity<>(new Messaggio("Il ruolo è stato aggiunto!"), HttpStatus.OK);
 		}
 		else return new ResponseEntity<>(new Messaggio("Il ruolo non è disponibile."), HttpStatus.BAD_REQUEST);
+	}
+	
+	@GetMapping("/ruoli_disponibili")
+	public ResponseEntity<?> ruoliDisponibili(Authentication authentication) {
+		return new ResponseEntity<>(getRuoliDisponibili(authentication.getName()), HttpStatus.OK);
 	}
 	
 	@DeleteMapping("/elimina")
@@ -68,5 +72,13 @@ public class ControllerIscritto<I extends Iscritto, R extends IscrittoRepository
 			return new ResponseEntity<>(new Messaggio(Utils.getErrore(bindingResult)), HttpStatus.BAD_REQUEST);
 
 		return new ResponseEntity<>(new Messaggio("L'iscritto è stato aggiornato"), HttpStatus.OK); 
+	}
+	
+	private List<TipologiaRuolo> getRuoliDisponibili(String identificativo){
+		// controllare se identificativo esiste
+		I iscritto = iscrittoService.findByIdentificativo(identificativo).get();
+		List<TipologiaRuolo> ruoliDisponibili = new ArrayList<>(iscritto.getTipoRuoliPossibili());
+		ruoliDisponibili.removeAll(iscritto.getTipologiaRuoli());
+		return ruoliDisponibili;
 	}
 }
