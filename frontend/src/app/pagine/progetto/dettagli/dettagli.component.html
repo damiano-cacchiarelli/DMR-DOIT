@@ -1,0 +1,9 @@
+<app-menu></app-menu>
+<div class="jumbotron jumbotron-fluid">
+    <div class="container">
+      <h1 class="display-4">{{progetto.nome}}</h1>
+      <button routerLink="/dettagli-progetto/{{progetto.id}}" class="btn btn-primary"> {{progetto.id.idProponente}}</button>
+      <p class="lead">{{progetto.requisiti}}</p>
+      <p class="lead">{{progetto.obiettivi}}</p>
+    </div>
+  </div>

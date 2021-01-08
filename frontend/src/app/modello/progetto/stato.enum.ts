@@ -1,0 +1,3 @@
+export enum Stato {
+    VALUTATO, IN_VALUTAZIONE, NON_VALUTATO
+}

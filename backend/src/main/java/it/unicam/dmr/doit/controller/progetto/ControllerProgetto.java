@@ -35,7 +35,7 @@ import it.unicam.dmr.doit.utenti.ruoli.Ruolo;
 import it.unicam.dmr.doit.utenti.ruoli.TipologiaRuolo;
 
 /**
- * Responabilita�: - ricerca progetto (per id e nome) - lista progetti
+ * Responabilita - ricerca progetto (per id e nome) - lista progetti
  */
 @RestController
 @RequestMapping("/progetto")
@@ -85,8 +85,8 @@ public class ControllerProgetto {
 		Set<Progetto> progetti = new HashSet<>();
 		Iscritto iscritto = iscrittoService.findByIdentificativo(authentication.getName()).get();
 		List<Ruolo> ruoliIscritto = iscritto.getRuoli().stream().collect(Collectors.toList());	
-		if (ruoli.isEmpty()) // Se vuota (Puo essere vuota?) vengono aggiunti tutti i ruoli.
-			addAllRule(ruoli, iscritto.getTipoRuoliPossibili());
+		if (ruoli.isEmpty()) 
+			addAllRole(ruoli, iscritto.getTipoRuoliPossibili());
 		for (RuoloDto ruoloDto : Set.copyOf(ruoli)) {
 			for (Ruolo r : ruoliIscritto) {
 				if(r.getRuolo().equals(ruoloDto.getRuolo())) {
@@ -115,7 +115,7 @@ public class ControllerProgetto {
 		return listaTag;
 	}
 
-	private void addAllRule(List<RuoloDto> ruoli, List<TipologiaRuolo> tipoRuoliPossibili) {
+	private void addAllRole(List<RuoloDto> ruoli, List<TipologiaRuolo> tipoRuoliPossibili) {
 		for (TipologiaRuolo tr : tipoRuoliPossibili) {
 			ruoli.add(new RuoloDto(tr));
 		}

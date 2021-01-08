@@ -29,6 +29,7 @@ import javax.validation.constraints.NotNull;
 import org.hibernate.annotations.CreationTimestamp;
 
 import com.fasterxml.jackson.annotation.JsonBackReference;
+import com.fasterxml.jackson.annotation.JsonIgnore;
 import com.fasterxml.jackson.annotation.JsonManagedReference;
 
 import it.unicam.dmr.doit.progetto.exception.NextFaseException;
@@ -144,6 +145,13 @@ public class Progetto implements IProgetto {
 		if (!this.listaValutazioni.add(valutazione))
 			throw new IllegalArgumentException("Valutazione gia inserita");
 	}
+	
+	@JsonIgnore
+	public Valutazione getLastValutazione() {
+		if(listaValutazioni.isEmpty())
+			throw new NoSuchElementException("Nessuna valutazione per questo progetto");
+		return listaValutazioni.stream().max(Comparator.comparing(Valutazione::getCreatoIl)).get();
+	}
 
 	@Override
 	public Stato getStato() {
@@ -192,13 +200,7 @@ public class Progetto implements IProgetto {
 	public void setProponente(Proponente proponente) {
 		this.proponente = proponente;
 	}
-
-	public Valutazione getLastValutazione() {
-		if(listaValutazioni.isEmpty())
-			throw new NoSuchElementException("Nessuna valutazione per questo progetto");
-		return listaValutazioni.stream().max(Comparator.comparing(Valutazione::getCreatoIl)).get();
-	}
-
+	
 	private void verificaStringa(String s, String campo) {
 		Objects.requireNonNull(s, "Il campo " + campo + " inserito e' nullo");
 

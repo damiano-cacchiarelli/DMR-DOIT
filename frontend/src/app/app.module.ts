@@ -17,6 +17,8 @@ import { RegistratiComponent } from './pagine/autenticazione/registrati/registra
 import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
 import { ToastrModule } from 'ngx-toastr';
 import { AggiungiRuoloComponent } from './pagine/iscritto/aggiungi-ruolo/aggiungi-ruolo.component';
+import { VetrinaProgettiComponent } from './pagine/progetto/vetrina-progetti/vetrina-progetti.component';
+import { DettagliComponent } from './pagine/progetto/dettagli/dettagli.component';
 
 @NgModule({
   declarations: [
@@ -25,7 +27,9 @@ import { AggiungiRuoloComponent } from './pagine/iscritto/aggiungi-ruolo/aggiung
     MenuComponent,
     AccediComponent,
     RegistratiComponent,
-    AggiungiRuoloComponent
+    AggiungiRuoloComponent,
+    VetrinaProgettiComponent,
+    DettagliComponent
   ],
   imports: [
     BrowserModule,
