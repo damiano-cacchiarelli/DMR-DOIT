@@ -9,29 +9,27 @@ import javax.validation.constraints.NotNull;
 import it.unicam.dmr.doit.controller.Utils;
 
 public class ValutazioneDto {
+	
 	@NotNull(message = Utils.nonNullo)
 	@NotBlank(message = Utils.nonVuoto)
 	private String recensione;
 
 	private Set<ValutazioneProgettistaDto> valutazioniCandidati = new HashSet<>();
+	
 	@NotNull(message = Utils.nonNullo)
-	@NotBlank(message = Utils.nonVuoto)
 	private int idProgetto;
-	@NotNull(message = Utils.nonNullo)
-	@NotBlank(message = Utils.nonVuoto)
-	private String idIscritto;
+	
 
 	public ValutazioneDto() {
 
 	}
 
 	public ValutazioneDto(@NotNull @NotBlank String recensione, Set<ValutazioneProgettistaDto> valutazioniCandidati,
-			@NotNull @NotBlank int idProgetto, @NotNull @NotBlank String idIscritto) {
+			@NotNull int idProgetto) {
 		super();
 		this.recensione = recensione;
 		this.valutazioniCandidati = valutazioniCandidati;
 		this.idProgetto = idProgetto;
-		this.idIscritto = idIscritto;
 	}
 
 	public String getRecensione() {
@@ -58,11 +56,5 @@ public class ValutazioneDto {
 		this.idProgetto = idProgetto;
 	}
 	
-	public String getIdIscritto() {
-		return idIscritto;
-	}
-	
-	public void setIdIscritto(String idIscritto) {
-		this.idIscritto = idIscritto;
-	}
+
 }

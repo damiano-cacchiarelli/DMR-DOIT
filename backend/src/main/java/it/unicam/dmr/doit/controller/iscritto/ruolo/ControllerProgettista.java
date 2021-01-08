@@ -6,13 +6,12 @@ import org.springframework.http.ResponseEntity;
 import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.security.core.Authentication;
 import org.springframework.web.bind.annotation.CrossOrigin;
+import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PutMapping;
-import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
 import it.unicam.dmr.doit.dataTransferObject.Messaggio;
-import it.unicam.dmr.doit.dataTransferObject.invito.InvitoDto;
 import it.unicam.dmr.doit.progetto.Progetto;
 import it.unicam.dmr.doit.progetto.exception.CandidacyStatusException;
 import it.unicam.dmr.doit.progetto.exception.ExistingElementException;
@@ -39,12 +38,14 @@ public class ControllerProgettista {
 	private IscrittoService<Iscritto, IscrittoRepository<Iscritto>> iscrittoService;
 	
 	@PreAuthorize("hasRole('PROGETTISTA')")
-	@PutMapping("/candidati")
-	public ResponseEntity<Messaggio> candidatiAlProgetto(@RequestBody InvitoDto invitoDto, Authentication authentication) {
-		Progettista p = (Progettista) iscrittoService.findByIdentificativo(authentication.getName()).get().getRuoli().stream()
-				.filter(t -> t.getRuolo().equals(TipologiaRuolo.ROLE_PROGETTISTA)).findFirst().get();
+	@PutMapping("/candidati/{id_progetto}")
+	public ResponseEntity<Messaggio> candidatiAlProgetto(@PathVariable("id_progetto") int idProgetto, Authentication authentication) {
+		if(!progettoService.existsById(idProgetto)) {
+			return new ResponseEntity<>(new Messaggio("Il progetto non esiste"), HttpStatus.NOT_FOUND);
+		}
+		Progettista p = (Progettista) iscrittoService.getRuolo(authentication.getName(), TipologiaRuolo.ROLE_PROGETTISTA).get();
 		try {
-			Progetto pr = progettoService.findById(invitoDto.getIdProgetto()).get();
+			Progetto pr = progettoService.findById(idProgetto).get();
 			pr.getGestoreCandidati().aggiungiCandidato(p);
 			progettoService.salvaProgetto(pr);
 		} catch (ExistingElementException e) {
@@ -52,7 +53,6 @@ public class ControllerProgettista {
 		} catch (CandidacyStatusException e) {
 			return new ResponseEntity<>(new Messaggio(e.getMessage()), HttpStatus.BAD_REQUEST);
 		}
-		//TODO: invia invito su frontend
 		return new ResponseEntity<>(new Messaggio("Candidato inserito"), HttpStatus.OK);
 	}
 }
