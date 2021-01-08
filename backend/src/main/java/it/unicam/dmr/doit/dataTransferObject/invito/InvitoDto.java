@@ -3,18 +3,19 @@ package it.unicam.dmr.doit.dataTransferObject.invito;
 import javax.validation.constraints.NotBlank;
 import javax.validation.constraints.NotNull;
 
+import it.unicam.dmr.doit.controller.Utils;
 import it.unicam.dmr.doit.invito.TipologiaInvito;
 
 public class InvitoDto {
 
-	@NotNull
+	@NotNull(message = Utils.nonNullo)
 	private String contenuto;
-	@NotNull
+	@NotNull(message = Utils.nonNullo)
 	private TipologiaInvito tipologiaInvito;
-	@NotNull
-	@NotBlank
+	@NotNull(message = Utils.nonNullo)
+	@NotBlank(message = Utils.nonVuoto)
 	private String idDestinatario;
-	@NotNull
+	@NotNull(message = Utils.nonNullo)
 	private int idProgetto;
 
 	public InvitoDto() {

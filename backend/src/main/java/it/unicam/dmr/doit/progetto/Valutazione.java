@@ -1,5 +1,6 @@
 package it.unicam.dmr.doit.progetto;
 
+import java.util.Date;
 import java.util.HashSet;
 import java.util.Set;
 
@@ -12,8 +13,12 @@ import javax.persistence.Id;
 import javax.persistence.JoinColumn;
 import javax.persistence.ManyToOne;
 import javax.persistence.OneToMany;
+import javax.persistence.Temporal;
+import javax.persistence.TemporalType;
 import javax.validation.constraints.NotBlank;
 import javax.validation.constraints.NotNull;
+
+import org.hibernate.annotations.CreationTimestamp;
 
 import com.fasterxml.jackson.annotation.JsonBackReference;
 import com.fasterxml.jackson.annotation.JsonManagedReference;
@@ -44,6 +49,10 @@ public class Valutazione implements IValutazione {
 	@ManyToOne(fetch = FetchType.LAZY, optional = false)
 	@JoinColumn(name = "id_esperto", nullable = false)
 	private Esperto esperto;
+	
+	@Temporal(TemporalType.DATE)
+	@CreationTimestamp
+	private Date creatoIl;
 	
 	public Valutazione() {}
 	
@@ -93,6 +102,14 @@ public class Valutazione implements IValutazione {
 
 	public void setEsperto(Esperto esperto) {
 		this.esperto = esperto;
+	}
+	
+	public Date getCreatoIl() {
+		return creatoIl;
+	}
+
+	public void setCreatoIl(Date creatoIl) {
+		this.creatoIl = creatoIl;
 	}
 
 	public ValutazioneProgettista getValutazioneCandidato(String identificativoProgettista) {

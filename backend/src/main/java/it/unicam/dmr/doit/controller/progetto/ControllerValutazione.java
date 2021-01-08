@@ -1,5 +1,7 @@
 package it.unicam.dmr.doit.controller.progetto;
 
+import java.util.NoSuchElementException;
+
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
@@ -9,6 +11,7 @@ import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
+import it.unicam.dmr.doit.progetto.Valutazione;
 import it.unicam.dmr.doit.service.progetto.ProgettoService;
 import it.unicam.dmr.doit.service.progetto.ValutazioneService;
 
@@ -38,9 +41,11 @@ public class ControllerValutazione {
 	public ResponseEntity<?> ultimaValutazioneProgetto(@PathVariable("id_progetto") int idProgetto) {
 		if(!progettoService.existsById(idProgetto))
 			return new ResponseEntity<>("Il progetto non esiste", HttpStatus.NOT_FOUND);
-		int idValutazione = progettoService.findById(idProgetto).get().getLastValutazioneId();
-		if (idValutazione <= 0)
-			return new ResponseEntity<>("Nessuna valutazione per questo progetto", HttpStatus.OK);
-		return new ResponseEntity<>(valutazioneService.findById(idValutazione), HttpStatus.OK);
+		try {
+			Valutazione val = progettoService.findById(idProgetto).get().getLastValutazione();
+			return new ResponseEntity<>(val, HttpStatus.OK);
+		} catch (NoSuchElementException e) {
+			return new ResponseEntity<>(e.getMessage(), HttpStatus.OK);
+		}
 	}
 }

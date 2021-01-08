@@ -121,7 +121,4 @@ public class ControllerProgetto {
 		}
 	}
 
-	private boolean listContainRole(List<Ruolo> ruoliIscritto, TipologiaRuolo tr) {
-		return ruoliIscritto.stream().anyMatch(r -> r.getRuolo().equals(tr));
-	}
 }

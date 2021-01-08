@@ -1,7 +1,9 @@
 package it.unicam.dmr.doit.progetto;
 
+import java.util.Comparator;
 import java.util.Date;
 import java.util.HashSet;
+import java.util.NoSuchElementException;
 import java.util.Objects;
 import java.util.Set;
 
@@ -79,9 +81,6 @@ public class Progetto implements IProgetto {
 	@OneToMany(mappedBy = "progetto", fetch = FetchType.LAZY, cascade = CascadeType.ALL)
 	private Set<Valutazione> listaValutazioni = new HashSet<Valutazione>();
 
-	@NotNull
-	private int lastValutazioneId = 0;
-
 	public Progetto() {
 	}
 
@@ -144,7 +143,6 @@ public class Progetto implements IProgetto {
 		Objects.requireNonNull(valutazione, "La valutazione inserita e' nulla");
 		if (!this.listaValutazioni.add(valutazione))
 			throw new IllegalArgumentException("Valutazione gia inserita");
-		lastValutazioneId = valutazione.getId();
 	}
 
 	@Override
@@ -195,12 +193,10 @@ public class Progetto implements IProgetto {
 		this.proponente = proponente;
 	}
 
-	public int getLastValutazioneId() {
-		return lastValutazioneId;
-	}
-
-	public void setLastValutazioneId(int lastValutazioneId) {
-		this.lastValutazioneId = lastValutazioneId;
+	public Valutazione getLastValutazione() {
+		if(listaValutazioni.isEmpty())
+			throw new NoSuchElementException("Nessuna valutazione per questo progetto");
+		return listaValutazioni.stream().max(Comparator.comparing(Valutazione::getCreatoIl)).get();
 	}
 
 	private void verificaStringa(String s, String campo) {
@@ -227,8 +223,7 @@ public class Progetto implements IProgetto {
 	@Override
 	public String toString() {
 		return "Progetto [id=" + id + ", nome=" + nome + ", obiettivi=" + obiettivi + ", requisiti=" + requisiti
-				+ ", stato=" + stato + ", fase=" + fase + ", creatoIl=" + creatoIl + ", lastValutazioneId="
-				+ lastValutazioneId + "]";
+				+ ", stato=" + stato + ", fase=" + fase + ", creatoIl=" + creatoIl + "]";
 	}
 
 }

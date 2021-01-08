@@ -6,12 +6,14 @@ import javax.validation.constraints.Email;
 import javax.validation.constraints.NotBlank;
 import javax.validation.constraints.NotNull;
 
+import it.unicam.dmr.doit.controller.Utils;
+
 public class EnteDto extends IscrittoDto {
 
-	@NotNull 
-	@NotBlank
+	@NotNull(message = Utils.nonNullo) 
+	@NotBlank(message = Utils.nonVuoto)
 	private String sede;
-	@NotNull
+	@NotNull(message = Utils.nonNullo)
 	private Date annoDiFondazione;
 
 	public EnteDto() {super();}
