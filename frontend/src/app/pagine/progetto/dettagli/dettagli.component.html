@@ -1,9 +1,27 @@
 <app-menu></app-menu>
-<div class="jumbotron jumbotron-fluid">
+<div *ngIf="progetto" class="container mt-5 mx-auto">
+  <h1 class="text-center">{{progetto.nome}}</h1><br>
+  <ul class="list-inline">
+    <li class="list-inline-item mr-2 btn" [ngClass]="getColore(i)" *ngFor="let tag of progetto.tags; index as i;"
+    style = "cursor: default">{{tag.nome}}</li>
+  </ul>
+  <hr class="my-4">
+  <h3>Obiettivi</h3>
+  <p class="text-justify">{{progetto.obiettivi}}</p>
+  <hr class="my-4">
+  <h3>Requisiti</h3>
+  <p class="text-justify">{{progetto.requisiti}}</p>
+  <div *ngIf = "progetto.lastValutazione">
+    <hr class="my-4">
+    <h3>Valutazione</h3>
+    <a href="#" ><span class="badge rounded-pill bg-success">{{progetto.lastValutazione.identificativoEsperto}}</span></a>
+    <p class="text-justify">{{progetto.lastValutazione.recensione}}</p>
+    <a class="btn btn-outline-secondary btn-lg" href="#" role="button">Altro</a>
+  </div>
+  <div class="jumbotron jumbotron-fluid mt-5 text-center">
     <div class="container">
-      <h1 class="display-4">{{progetto.nome}}</h1>
-      <button routerLink="/dettagli-progetto/{{progetto.id}}" class="btn btn-primary"> {{progetto.id.idProponente}}</button>
-      <p class="lead">{{progetto.requisiti}}</p>
-      <p class="lead">{{progetto.obiettivi}}</p>
+      <h2 class="display-3">Proponente</h2>
+      <p class="lead">Bio</p>
     </div>
   </div>
+</div>

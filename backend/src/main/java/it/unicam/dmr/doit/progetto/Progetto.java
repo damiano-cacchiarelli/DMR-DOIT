@@ -3,7 +3,6 @@ package it.unicam.dmr.doit.progetto;
 import java.util.Comparator;
 import java.util.Date;
 import java.util.HashSet;
-import java.util.NoSuchElementException;
 import java.util.Objects;
 import java.util.Set;
 
@@ -18,6 +17,7 @@ import javax.persistence.GenerationType;
 import javax.persistence.Id;
 import javax.persistence.JoinColumn;
 import javax.persistence.JoinTable;
+import javax.persistence.Lob;
 import javax.persistence.ManyToMany;
 import javax.persistence.ManyToOne;
 import javax.persistence.OneToMany;
@@ -45,9 +45,11 @@ public class Progetto implements IProgetto {
 	@NotNull
 	@NotBlank
 	private String nome;
+	@Lob
 	@NotNull
 	@NotBlank
 	private String obiettivi;
+	@Lob
 	@NotNull
 	@NotBlank
 	private String requisiti;
@@ -132,6 +134,7 @@ public class Progetto implements IProgetto {
 		return nome;
 	}
 
+	@JsonIgnore
 	public Set<Valutazione> getListaValutazioni() {
 		return listaValutazioni;
 	}
@@ -145,11 +148,11 @@ public class Progetto implements IProgetto {
 		if (!this.listaValutazioni.add(valutazione))
 			throw new IllegalArgumentException("Valutazione gia inserita");
 	}
-	
-	@JsonIgnore
+
 	public Valutazione getLastValutazione() {
-		if(listaValutazioni.isEmpty())
-			throw new NoSuchElementException("Nessuna valutazione per questo progetto");
+		if (listaValutazioni.isEmpty()) {
+			return null;
+		}
 		return listaValutazioni.stream().max(Comparator.comparing(Valutazione::getCreatoIl)).get();
 	}
 
@@ -200,7 +203,7 @@ public class Progetto implements IProgetto {
 	public void setProponente(Proponente proponente) {
 		this.proponente = proponente;
 	}
-	
+
 	private void verificaStringa(String s, String campo) {
 		Objects.requireNonNull(s, "Il campo " + campo + " inserito e' nullo");
 

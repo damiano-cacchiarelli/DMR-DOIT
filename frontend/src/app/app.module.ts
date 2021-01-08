@@ -29,7 +29,7 @@ import { DettagliComponent } from './pagine/progetto/dettagli/dettagli.component
     RegistratiComponent,
     AggiungiRuoloComponent,
     VetrinaProgettiComponent,
-    DettagliComponent
+    DettagliComponent,
   ],
   imports: [
     BrowserModule,
