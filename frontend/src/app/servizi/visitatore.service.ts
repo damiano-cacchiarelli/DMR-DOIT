@@ -9,7 +9,7 @@ import { LoginIscritto } from '../modello/login-iscritto';
 @Injectable({
   providedIn: 'root'
 })
-export class AutenticazioneService {
+export class VisitatoreService {
 
   private autenticazioneURL = environment.autenticazioneURL;
 
@@ -22,4 +22,9 @@ export class AutenticazioneService {
   public accedi(loginIscritto: LoginIscritto): Observable<JwtDto> {
     return this.httpClient.post<JwtDto>(this.autenticazioneURL + "/accedi", loginIscritto);
   }
+
+  public getIscritto(id: string): Observable<any> {
+    return this.httpClient.get<any>(this.autenticazioneURL + "/" + id);
+  }
+
 }

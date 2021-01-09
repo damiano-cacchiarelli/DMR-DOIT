@@ -3,10 +3,10 @@
 <div class="container" *ngIf = "progetti">
     <div class="card" style="width: 18rem;" *ngFor="let progetto of progetti">
         <div class="card-body">
-            <h5 class="card-title">{{progetto.nome}}</h5>
-            <h6 class="card-subtitle mb-2 text-muted">{{progetto.idProponente}}</h6>
-            <p class="card-text">{{progetto.obiettivi}}</p>
+            <h3 class="card-title">{{progetto.nome}}</h3>
+            <h4 class="card-subtitle mb-2 text-muted">{{progetto.idProponente}}</h4>
+            <p class="card-text text-truncate">{{progetto.obiettivi}}</p>
             <a routerLink="/dettagli-progetto/{{progetto.id}}" class="card-link">Dettagli</a>
-        </div>
+          </div> 
     </div>
 </div>
