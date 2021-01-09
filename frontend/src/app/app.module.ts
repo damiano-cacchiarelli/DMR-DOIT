@@ -21,6 +21,9 @@ import { ProponiComponent } from './pagine/ruoli/proponente/proponi/proponi.comp
 import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
 import { ToastrModule } from 'ngx-toastr';
 import { AnteprimaComponent } from './pagine/progetto/anteprima/anteprima.component';
+import { ProfiloComponent } from './pagine/iscritto/profilo/profilo.component';
+import { ProfiloEnteComponent } from './pagine/iscritto/profilo-ente/profilo-ente.component';
+import { ProfiloPersonaComponent } from './pagine/iscritto/profilo-persona/profilo-persona.component';
 
 @NgModule({
   declarations: [
@@ -33,7 +36,10 @@ import { AnteprimaComponent } from './pagine/progetto/anteprima/anteprima.compon
     VetrinaProgettiComponent,
     DettagliComponent,
     ProponiComponent,
-    AnteprimaComponent
+    AnteprimaComponent,
+    ProfiloComponent,
+    ProfiloEnteComponent,
+    ProfiloPersonaComponent
   ],
   imports: [
     BrowserModule,
