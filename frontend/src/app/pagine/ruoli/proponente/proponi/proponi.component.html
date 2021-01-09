@@ -1,5 +1,22 @@
 <app-menu></app-menu>
 
+<mat-horizontal-stepper>
+    <mat-step label="Step 1 - Informazioni sul progetto">
+        Content 1
+        <button class="btn btn-outline-warning" mat-button matStepperPrevious>Indietro</button>
+        <button class="btn btn-outline-success" mat-button matStepperNext>Avanti</button>
+    </mat-step>
+    <mat-step label="Step 2 - Aggiungi progettisti">
+        Content 2
+    </mat-step>
+    <mat-step label="Step 3 - Valuta progetto">
+        Content 2
+    </mat-step>
+    <mat-step label="Step 4 - Proponi">
+        Content 2
+    </mat-step>
+</mat-horizontal-stepper>
+
 <div class="container mt-5">
     <h3 class="text-center">Proponi un progetto</h3>
     <div class="row mt-4">
@@ -31,7 +48,8 @@
                 <label class="mb-2" for="tags">Tags</label>
                 <ul class="list-inline">
                     <li class="list-inline-item mx-1 my-1 btn" [ngClass]="tag.value ? 'btn-danger' : 'btn-primary'"
-                        *ngFor="let tag of tags | keyvalue" (click)="addTag(tag.key)" data-bs-toggle="tooltip" data-bs-placement="top" title="descrizione tag">
+                        *ngFor="let tag of tags | keyvalue" (click)="addTag(tag.key)" data-bs-toggle="tooltip"
+                        data-bs-placement="top" title="descrizione tag">
                         <i class="fas fa-plus"></i>
                         {{tag.key.nome}}
                         <br>
