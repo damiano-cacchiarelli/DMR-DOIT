@@ -2,7 +2,7 @@ import { Component, OnInit } from '@angular/core';
 import { Router } from '@angular/router';
 import { ToastrService } from 'ngx-toastr';
 import { LoginIscritto } from 'src/app/modello/login-iscritto';
-import { AutenticazioneService } from 'src/app/servizi/autenticazione.service';
+import { VisitatoreService } from 'src/app/servizi/visitatore.service';
 import { TokenService } from 'src/app/servizi/token.service';
 
 @Component({
@@ -18,7 +18,7 @@ export class AccediComponent implements OnInit {
 
   constructor(
     private tokenService: TokenService,
-    private autenticazioneService: AutenticazioneService,
+    private autenticazioneService: VisitatoreService,
     private toastr: ToastrService,
     private router: Router) { }
 

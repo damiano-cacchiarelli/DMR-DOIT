@@ -4,7 +4,7 @@ import { ToastrService } from 'ngx-toastr';
 import { Ente } from 'src/app/modello/iscritto/ente';
 import { Iscritto } from 'src/app/modello/iscritto/iscritto';
 import { Persona } from 'src/app/modello/iscritto/persona';
-import { AutenticazioneService } from 'src/app/servizi/autenticazione.service';
+import { VisitatoreService } from 'src/app/servizi/visitatore.service';
 import { TokenService } from 'src/app/servizi/token.service';
 
 @Component({
@@ -31,7 +31,7 @@ export class RegistratiComponent implements OnInit {
 
   constructor(
     private tokenService: TokenService,
-    private autenticazioneService: AutenticazioneService,
+    private autenticazioneService: VisitatoreService,
     private toastr: ToastrService,
     private router: Router) { }
 

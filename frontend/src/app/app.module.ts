@@ -20,6 +20,9 @@ import { ProponiComponent } from './pagine/ruoli/proponente/proponi/proponi.comp
 // Per usare ngx-toastr
 import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
 import { ToastrModule } from 'ngx-toastr';
+import { AnteprimaComponent } from './pagine/progetto/anteprima/anteprima.component';
+import { EnteComponent } from './pagine/profilo/ente/ente.component';
+import { PersonaComponent } from './pagine/profilo/persona/persona.component';
 
 @NgModule({
   declarations: [
@@ -31,7 +34,10 @@ import { ToastrModule } from 'ngx-toastr';
     AggiungiRuoloComponent,
     VetrinaProgettiComponent,
     DettagliComponent,
-    ProponiComponent
+    ProponiComponent,
+    AnteprimaComponent,
+    EnteComponent,
+    PersonaComponent
   ],
   imports: [
     BrowserModule,
