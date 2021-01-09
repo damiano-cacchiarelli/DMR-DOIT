@@ -15,6 +15,17 @@
                 <li class="nav-item"  *ngIf="isLogged">
                     <a class="nav-link active" aria-current="page" routerLink="/aggiungi-ruolo"><i class="fas fa-plus-circle"></i> Aggiungi Ruolo</a>
                 </li>
+
+                <li class="nav-item dropdown" *ngIf="hasRuolo('ROLE_PROPONENTE')">
+                    <a class="nav-link dropdown-toggle" id="navbarDropdownProponente" role="button" data-bs-toggle="dropdown" aria-expanded="false">
+                      Proponente
+                    </a>
+                    <ul class="dropdown-menu" aria-labelledby="navbarDropdownProponente">
+                      <li><a class="dropdown-item" routerLink="/proponente/proponi">Proponi progetto</a></li>
+                      <li><a class="dropdown-item" href="#">Another action</a></li>
+                      <li><a class="dropdown-item" href="#">Something else here</a></li>
+                    </ul>
+                  </li>
             </ul>
             <form class="d-flex" *ngIf="!isLogged">
                 <button class="btn btn-outline-success" type="submit" routerLink="/accedi"><i

@@ -4,6 +4,7 @@ import { ToastrService } from 'ngx-toastr';
 import { Ruolo } from 'src/app/modello/iscritto/ruolo';
 import { RuoloOpzioni } from 'src/app/modello/iscritto/ruolo-opzioni';
 import { TipologiaRuolo } from 'src/app/modello/iscritto/tipologia-ruolo.enum';
+import { Tag } from 'src/app/modello/progetto/tag';
 import { IscrittoService } from 'src/app/servizi/iscritto.service';
 
 @Component({
@@ -33,7 +34,7 @@ export class AggiungiRuoloComponent implements OnInit {
     );
   }
 
-  onAggiungiRuolo(ruolo: TipologiaRuolo) {
+  onAggiungiRuolo(ruolo: TipologiaRuolo): void {
     const r = new Ruolo(ruolo);
     console.log(r);
     this.iscrittoService.aggiungiRuolo(r).subscribe(
@@ -48,5 +49,5 @@ export class AggiungiRuoloComponent implements OnInit {
           timeOut: 3000, positionClass: "toast-top-center"
         });
       });
-  }
+    }
 }

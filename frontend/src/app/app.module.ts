@@ -19,6 +19,7 @@ import { ToastrModule } from 'ngx-toastr';
 import { AggiungiRuoloComponent } from './pagine/iscritto/aggiungi-ruolo/aggiungi-ruolo.component';
 import { VetrinaProgettiComponent } from './pagine/progetto/vetrina-progetti/vetrina-progetti.component';
 import { DettagliComponent } from './pagine/progetto/dettagli/dettagli.component';
+import { ProponiComponent } from './pagine/ruoli/proponente/proponi/proponi.component';
 
 @NgModule({
   declarations: [
@@ -29,7 +30,9 @@ import { DettagliComponent } from './pagine/progetto/dettagli/dettagli.component
     RegistratiComponent,
     AggiungiRuoloComponent,
     VetrinaProgettiComponent,
-    DettagliComponent
+    DettagliComponent,
+    ProponiComponent,
+    ProponiComponent
   ],
   imports: [
     BrowserModule,

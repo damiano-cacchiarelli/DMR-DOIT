@@ -7,7 +7,9 @@ export const environment = {
 
   autenticazioneURL: 'http://localhost:8080/visitatore',
   iscrittoURL: 'http://localhost:8080/iscritto', 
-  progettoURL: 'http://localhost:8080/progetto'
+  progettoURL: 'http://localhost:8080/progetto',
+  proponenteURL: 'http://localhost:8080/proponente',
+  tagURL: 'http://localhost:8080/tag',
 };
 
 /*

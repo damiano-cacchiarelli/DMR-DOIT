@@ -1,4 +1,5 @@
 import { Component, OnInit } from '@angular/core';
+import { TipologiaRuolo } from 'src/app/modello/iscritto/tipologia-ruolo.enum';
 import { TokenService } from 'src/app/servizi/token.service';
 
 @Component({
@@ -18,5 +19,9 @@ export class MenuComponent implements OnInit {
 
   onDisconnettiti(): void {
     this.tokenService.disconnetti();
+  }
+
+  hasRuolo(ruolo: string): boolean{
+    return this.tokenService.getRuoli().indexOf(ruolo) >= 0;
   }
 }
