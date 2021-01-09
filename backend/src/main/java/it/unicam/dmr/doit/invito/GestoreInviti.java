@@ -13,6 +13,7 @@ import javax.persistence.FetchType;
 import javax.persistence.OneToMany;
 import javax.persistence.Transient;
 
+import com.fasterxml.jackson.annotation.JsonIgnore;
 import com.fasterxml.jackson.annotation.JsonManagedReference;
 
 import it.unicam.dmr.doit.invito.InvitoId.RuoloSoggetto;
@@ -38,6 +39,7 @@ public class GestoreInviti implements GestoreMessaggi<Invito> {
 	public GestoreInviti() {
 	}
 
+	@JsonIgnore
 	@Override
 	public Iscritto getIscritto() {
 		return iscritto;

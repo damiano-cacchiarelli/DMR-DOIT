@@ -9,7 +9,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
-import it.unicam.dmr.doit.progetto.Progetto;
+import it.unicam.dmr.doit.dataTransferObject.progetto.TagDto;
 import it.unicam.dmr.doit.repository.IscrittoRepository;
 import it.unicam.dmr.doit.utenti.Iscritto;
 import it.unicam.dmr.doit.utenti.ruoli.Ruolo;
@@ -58,7 +58,7 @@ public class IscrittoService<I extends Iscritto, R extends IscrittoRepository<I>
 		return iscritto.getRuoli().stream().filter(r -> r.getRuolo().equals(ruolo)).findFirst();
 	}
 
-	public List<I> getEspertiConsigliati(Progetto progetto) {
+	public List<I> getEspertiConsigliati(List<TagDto> tags) {
 		return iscrittoRepository.findEsperti();
 	}
 }

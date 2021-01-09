@@ -3,6 +3,7 @@ import { Injectable } from '@angular/core';
 import { Observable } from 'rxjs';
 import { environment } from 'src/environments/environment';
 import { Iscritto } from '../modello/iscritto/iscritto';
+import { TipologiaRuolo } from '../modello/iscritto/tipologia-ruolo.enum';
 import { JwtDto } from '../modello/jwt-dto';
 import { LoginIscritto } from '../modello/login-iscritto';
 
@@ -27,4 +28,7 @@ export class VisitatoreService {
     return this.httpClient.get<any>(this.autenticazioneURL + "/" + id);
   }
 
+  public getIscrittoByRuolo(id: string, ruolo: TipologiaRuolo): Observable<any> {
+    return this.httpClient.get<any>(this.autenticazioneURL + "/" + id + "/" + ruolo);
+  }
 }

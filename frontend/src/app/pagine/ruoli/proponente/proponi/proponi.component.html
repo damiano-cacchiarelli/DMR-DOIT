@@ -42,9 +42,13 @@
                             </ul>
                         </div>
                     </div>
+                </div>
+                <div class="row">
                     <div class="col text-center mt-4">
-                        <button class="btn btn-success btn-block text-center" [disabled]="!f.valid" mat-button matStepperNext
-                           >Avanti</button>
+                        <div class="col text-center mt-4">
+                            <button class="btn btn-success btn-block text-center" [disabled]="!f.valid" mat-button matStepperNext
+                               >Avanti</button>
+                        </div>
                     </div>
                 </div>
             </div>
@@ -76,6 +80,8 @@
                             </li>
                         </ul>
                     </div>
+                </div>
+                <div class="row">
                     <div class="col text-center mt-4">
                         <button class="btn btn-outline-warning mx-2" mat-button matStepperPrevious>Indietro</button>
                         <button class="btn btn-success" type="button" disabled mat-button matStepperNext
@@ -108,7 +114,16 @@
                             </div>
                         </form>
                     </div>
+                    <div class="col-md-6 mx-auto mt-2 text-center">
+                        <label class="mb-2" for="espertiConsigliati">Esperti consigliati</label>
+                        <ul class="list-group" id="espertiConsigliati" *ngFor="let esperto of espertiConsigliati">
+                            <li class="list-group-item d-flex justify-content-between align-items-center">{{esperto}}
+                                <a href="">Visualizza</a>
+                            </li>
+                        </ul>
+                    </div>
                 </div>
+                
                 <div class="row">
                     <div class="col text-center mt-4">
                         <button class="btn btn-outline-warning mx-2" mat-button matStepperPrevious>Indietro</button>
@@ -131,8 +146,8 @@
                         <h3><b>Nome progetto</b>: {{nome}}</h3>
                         <h3><b>Obiettivi</b>: {{obiettivi}}</h3>
                         <h3><b>Requisiti</b>: {{requisiti}}</h3>
-                        <h3 *ngIf="getTagsScelti().length > 0"><b>Tags</b>: <span
-                                *ngFor="let tag of getTagsScelti()">{{tag.nome}}</span></h3>
+                        <h3 *ngIf="getTagsScelti().tags.length > 0"><b>Tags</b>: <span
+                                *ngFor="let tag of getTagsScelti().tags">{{tag.nome}}</span></h3>
                         <h3 *ngIf="idProgettista"><b>Progettisti invitati</b>: {{idProgettista}}</h3>
                         <h3 *ngIf="idEsperto"><b>Esperto</b>: {{idEsperto}}</h3>
                     </div>

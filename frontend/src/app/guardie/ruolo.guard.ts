@@ -1,7 +1,9 @@
 import { Injectable } from '@angular/core';
 import { CanActivate, ActivatedRouteSnapshot, RouterStateSnapshot, UrlTree, Router } from '@angular/router';
+import { TipologiaRuolo } from '../modello/iscritto/tipologia-ruolo.enum';
 import { TokenService } from '../servizi/token.service';
 import { AutenticatoGuard } from './autenticato.guard';
+import { Data } from './data';
 
 @Injectable({
   providedIn: 'root'
@@ -20,7 +22,7 @@ export class RuoloGuard implements CanActivate {
       return false;
     }
 
-    const ruoloAspettato = route.data.ruoloAspettato; //ruoli necessari per utilizzare la risorsa (uno dei tanti basta)
+    const ruoloAspettato: TipologiaRuolo[] = route.data.ruoliNecessari; //ruoli necessari per utilizzare la risorsa (uno dei tanti basta)
     const ruoli = this.tokenService.getRuoli(); //ruoli in possesso
     let haRuolo = false;
     ruoloAspettato.forEach((ruolo: string) => {

@@ -60,23 +60,26 @@ public class ControllerInvito {
 	@PostMapping("/invia")
 	public ResponseEntity<Messaggio> inviaInvito(@Valid @RequestBody InvitoDto invitoDto, BindingResult bindingResult,
 			Authentication authentication) {
+		System.out.println("INVITO DTOOOOOOOOOOOO " + invitoDto.toString());
 		if (bindingResult.hasErrors())
 			return Utils.creaMessaggio(Utils.getErrore(bindingResult), HttpStatus.BAD_REQUEST);
-		if (!iscrittoService.existsByIdentificativo(invitoDto.getIdDestinatario()))
-			return new ResponseEntity<>(new Messaggio("Id destinatario inesistente"), HttpStatus.NOT_FOUND);
-		if (authentication.getName().equals(invitoDto.getIdDestinatario()))
-			return new ResponseEntity<>(new Messaggio("Non e' possibile inviare un invito a se stessi."),
-					HttpStatus.BAD_REQUEST);
+		for (String idDest : invitoDto.getIdDestinatario()) {
+			if (!iscrittoService.existsByIdentificativo(idDest))
+				return new ResponseEntity<>(new Messaggio("Id destinatario inesistente"), HttpStatus.NOT_FOUND);
+		}
 		if (!progettoService.existsById(invitoDto.getIdProgetto()))
 			return new ResponseEntity<>(new Messaggio("Progetto inesistente"), HttpStatus.NOT_FOUND);
 
-		Iscritto mittente = iscrittoService.findByIdentificativo(authentication.getName()).get();
-		Iscritto destinatario = iscrittoService.findByIdentificativo(invitoDto.getIdDestinatario()).get();
-		Progetto progetto = progettoService.findById(invitoDto.getIdProgetto()).get();
-		mittente.getGestoreMessaggi().inviaMessaggio(destinatario, invitoDto.getContenuto(), progetto,
-				invitoDto.getTipologiaInvito());
-		iscrittoService.salva(mittente);
-		iscrittoService.salva(destinatario);
+		for (String idDest : invitoDto.getIdDestinatario()) {
+			if (authentication.getName().equals(idDest)) continue;
+			Iscritto mittente = iscrittoService.findByIdentificativo(authentication.getName()).get();
+			Iscritto destinatario = iscrittoService.findByIdentificativo(idDest).get();
+			Progetto progetto = progettoService.findById(invitoDto.getIdProgetto()).get();
+			mittente.getGestoreMessaggi().inviaMessaggio(destinatario, invitoDto.getContenuto(), progetto,
+					invitoDto.getTipologiaInvito());
+			iscrittoService.salva(mittente);
+			iscrittoService.salva(destinatario);	
+		}
 		return new ResponseEntity<>(new Messaggio("Invito inviato"), HttpStatus.OK);
 	}
 

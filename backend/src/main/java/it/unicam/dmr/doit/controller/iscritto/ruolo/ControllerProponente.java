@@ -1,5 +1,8 @@
 package it.unicam.dmr.doit.controller.iscritto.ruolo;
 
+import java.util.ArrayList;
+import java.util.List;
+import java.util.Objects;
 import java.util.Set;
 import java.util.stream.Collectors;
 
@@ -23,6 +26,7 @@ import it.unicam.dmr.doit.controller.Utils;
 import it.unicam.dmr.doit.dataTransferObject.Messaggio;
 import it.unicam.dmr.doit.dataTransferObject.progetto.ProgettoDto;
 import it.unicam.dmr.doit.dataTransferObject.progetto.TagDto;
+import it.unicam.dmr.doit.dataTransferObject.progetto.TagListDto;
 import it.unicam.dmr.doit.progetto.Progetto;
 import it.unicam.dmr.doit.progetto.Stato;
 import it.unicam.dmr.doit.progetto.Tag;
@@ -36,7 +40,7 @@ import it.unicam.dmr.doit.utenti.ruoli.Proponente;
 import it.unicam.dmr.doit.utenti.ruoli.TipologiaRuolo;
 
 /**
- * Responabilita�: - proporre progetto - chiusura candidature - invitare
+ * Responabilita: - proporre progetto - chiusura candidature - invitare
  * progettista (da fare su ControllerInvito) - permette valutazione progetto -
  * passa a fase successiva
  */
@@ -54,7 +58,7 @@ public class ControllerProponente {
 
 	@PreAuthorize("hasRole('PROPONENTE')")
 	@PostMapping("/proponi")
-	public ResponseEntity<Messaggio> proponiProgetto(@Valid @RequestBody ProgettoDto progetto,
+	public ResponseEntity<?> proponiProgetto(@Valid @RequestBody ProgettoDto progetto,
 			BindingResult bindingResult, Authentication authentication) {
 		if (bindingResult.hasErrors())
 			return new ResponseEntity<>(new Messaggio(Utils.getErrore(bindingResult)), HttpStatus.BAD_REQUEST);
@@ -66,7 +70,7 @@ public class ControllerProponente {
 		Progetto p = new Progetto(progetto.getNome(), progetto.getObiettivi(), progetto.getRequisiti(), proponente,
 				tags);
 		progettoService.salvaProgetto(p);
-		return new ResponseEntity<>(new Messaggio("Progetto creato"), HttpStatus.CREATED);
+		return new ResponseEntity<>(p, HttpStatus.CREATED);
 	}
 
 	@PreAuthorize("hasRole('PROPONENTE')")
@@ -115,12 +119,10 @@ public class ControllerProponente {
 	}
 	
 	@PreAuthorize("hasRole('PROPONENTE')")
-	@PutMapping("/esperti_consigliati/{id}")
-	public ResponseEntity<?> espertiConsigliati(@PathVariable("id") int idProgetto) {
-		if(!progettoService.existsById(idProgetto))
-			return new ResponseEntity<>(new Messaggio("Progetto inesistente"), HttpStatus.NOT_FOUND);
-		
-		Progetto progetto = progettoService.findById(idProgetto).get();
-		return new ResponseEntity<>(iscrittoService.getEspertiConsigliati(progetto), HttpStatus.OK);
+	@PostMapping("/esperti_consigliati")
+	public ResponseEntity<?> espertiConsigliati(@Valid @RequestBody TagListDto tags, BindingResult bindingResult) {
+		if (bindingResult.hasErrors())
+			return new ResponseEntity<>(new Messaggio(Utils.getErrore(bindingResult)), HttpStatus.BAD_REQUEST);
+		return new ResponseEntity<>(iscrittoService.getEspertiConsigliati(tags.getTags()), HttpStatus.OK);
 	}
 }

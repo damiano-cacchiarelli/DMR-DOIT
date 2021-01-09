@@ -1,10 +1,7 @@
 import { HttpClient } from '@angular/common/http';
 import { Injectable } from '@angular/core';
-import { ProtractorExpectedConditions } from 'protractor';
 import { Observable } from 'rxjs';
 import { environment } from 'src/environments/environment';
-import { Ente } from '../modello/iscritto/ente';
-import { Iscritto } from '../modello/iscritto/iscritto';
 import { Ruolo } from '../modello/iscritto/ruolo';
 import { TipologiaRuolo } from '../modello/iscritto/tipologia-ruolo.enum';
 
@@ -24,5 +21,4 @@ export class IscrittoService {
   public ruoliDisponibili(): Observable<TipologiaRuolo[]> {
     return this.httpClient.get<TipologiaRuolo[]>(this.iscrittoURL + "/ruoli_disponibili");
   }
-
 }

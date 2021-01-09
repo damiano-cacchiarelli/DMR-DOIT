@@ -2,11 +2,18 @@ import { Component, OnInit } from '@angular/core';
 import { FormBuilder, FormGroup, Validators } from '@angular/forms';
 import { Router } from '@angular/router';
 import { ToastrService } from 'ngx-toastr';
+import { Observable } from 'rxjs';
+import { InvitoDto } from 'src/app/modello/invito/invito-dto';
+import { TipologiaInvito } from 'src/app/modello/invito/tipologia-invito.enum';
+import { TipologiaRuolo } from 'src/app/modello/iscritto/tipologia-ruolo.enum';
+import { Progetto } from 'src/app/modello/progetto/progetto';
 import { ProgettoDto } from 'src/app/modello/progetto/progettoDto';
 import { Tag } from 'src/app/modello/progetto/tag';
-import { IscrittoService } from 'src/app/servizi/iscritto.service';
+import { TagListDto } from 'src/app/modello/progetto/tag-list-dto';
+import { InvitoService } from 'src/app/servizi/invito.service';
 import { ProponenteService } from 'src/app/servizi/proponente.service';
 import { TagService } from 'src/app/servizi/tag.service';
+import { VisitatoreService } from 'src/app/servizi/visitatore.service';
 
 @Component({
   selector: 'app-proponi',
@@ -24,25 +31,27 @@ export class ProponiComponent implements OnInit {
   ricercaProgettista: boolean = false;
   idProgettista: string = null as any;
   progettistiInvitati: Set<string> = new Set();
-  messaggioProgettisti: string = null as any;
+  messaggioProgettisti: string = "";
 
   espertoEsistente: boolean = true;
   ricercaEsperto: boolean = false;
   idEsperto: string = null as any;
-  messaggioEsperto: string = null as any;
+  messaggioEsperto: string = "";
+  espertiConsigliati: string[] = [];
 
   formProgetto: FormGroup = null as any;
 
   constructor(
     private proponenteService: ProponenteService,
     private tagService: TagService,
-    private iscrittoService: IscrittoService,
+    private visitatoreService: VisitatoreService,
+    private invitoService: InvitoService,
     private toastr: ToastrService,
     private router: Router,
     private formBuilder: FormBuilder) { }
 
   ngOnInit(): void {
-    /*
+
     this.tagService.tuttiITag().subscribe(
       data => {
         this.tags = new Map();
@@ -55,7 +64,8 @@ export class ProponiComponent implements OnInit {
           timeOut: 3000, positionClass: "toast-top-center"
         });
       }
-    );*/
+    );
+    /*
     this.tags = new Map([
       [new Tag("Tag1"), false],
       [new Tag("Tag1"), false],
@@ -64,6 +74,20 @@ export class ProponiComponent implements OnInit {
       [new Tag("Tag1"), false],
       [new Tag("Tag1"), false]
     ]);
+    this.espertiConsigliati = ["esperto1", "esperto1", "esperto1", "esperto1", "esperto1", "esperto1"];
+    */
+
+    this.proponenteService.espertiConsigliati(this.getTagsScelti()).subscribe(
+      data => {
+        data.forEach(e => {
+          this.espertiConsigliati.push(e.identificativo);
+        });
+      },
+      err => {
+        console.log(err);
+      }
+    );
+
     this.formProgetto = this.formBuilder.group({
       primoCtrl: ['', Validators.required],
       secondoCtrl: ['', Validators.required],
@@ -72,57 +96,125 @@ export class ProponiComponent implements OnInit {
   }
 
   onProponi(): void {
-    const progetto: ProgettoDto = new ProgettoDto(this.nome, this.obiettivi, this.requisiti, this.getTagsScelti());
+    const progetto: ProgettoDto = new ProgettoDto(this.nome, this.obiettivi, this.requisiti, this.getTagsScelti().tags);
     this.proponenteService.proponi(progetto).subscribe(
-      data => {
-        /* 
-          invita progettisti
-          richiedi valutazione
-        */
-        this.toastr.success(data.messaggio, "OK", {
+      (data: Progetto) => {
+
+        const idProgetto = data.id;
+        const messaggio = "Progetto creato";
+        if (this.progettistiInvitati.size > 0) {
+          this.invitaProgettisti(idProgetto).subscribe(
+            d => this.permettiValutazione(idProgetto, messaggio),
+            e => this.stampaMessaggioErrore(e.error.messaggio)
+          );
+        } else {
+          this.permettiValutazione(idProgetto, messaggio);
+        }
+
+        this.toastr.success(messaggio, "OK", {
           timeOut: 3000, positionClass: "toast-top-center"
         });
         this.router.navigate(["/"]);
       },
       err => {
-        this.toastr.error(err.error.messaggio, "Errore", {
-          timeOut: 3000, positionClass: "toast-top-center"
-        });
+        this.stampaMessaggioErrore(err.error.messaggio);
       }
     );
   }
 
+  private invitaProgettisti(idProgetto: number): Observable<any> {
+    return this.invitoService.invia(new InvitoDto(this.messaggioProgettisti, TipologiaInvito.PROPOSTA, Array.from(this.progettistiInvitati), idProgetto));
+  }
+
+  private permettiValutazione(idProgetto: number, messaggio: string): void {
+    if(!this.idEsperto || this.idEsperto.length == 0) return;
+    this.invitoService.invia(new InvitoDto(this.messaggioEsperto, TipologiaInvito.RICHIESTA, [this.idEsperto], idProgetto)).subscribe(
+      data => { },
+      err => {
+        this.stampaMessaggioErrore(err.error.messaggio);
+      }
+    );
+  }
+
+  private stampaMessaggioErrore(messaggio: string): void {
+    this.toastr.error(messaggio, "Errore", {
+      timeOut: 3000, positionClass: "toast-top-center"
+    });
+  }
+
   addTag(tag: Tag): void {
     this.tags.set(tag, !this.tags.get(tag));
+
+    let tagsScelti = this.getTagsScelti();
+    if (tagsScelti.tags.length != 0) {
+      this.espertiConsigliati = [];
+      this.proponenteService.espertiConsigliati(tagsScelti).subscribe(
+        data => {
+          console.log("espertiConsigliati" + data);
+          data.forEach(e => {
+            this.espertiConsigliati.push(e.identificativo);
+          });
+        },
+        err => {
+          console.log(err);
+        }
+      );
+    }
   }
 
   hasTags(): boolean {
     return this.tags.size > 0;
   }
 
-  getTagsScelti(): Tag[] {
+  getTagsScelti(): TagListDto {
     let tagsScelti: Tag[] = [];
     this.tags.forEach((value: boolean, key: Tag) => {
       if (value) tagsScelti.push(key);
     });
-    return tagsScelti;
+    return new TagListDto(tagsScelti);
   }
 
   ricercaIdEsperto(): void {
     if (!this.idEsperto || this.idEsperto.length == 0) return;
     this.ricercaEsperto = true;
     console.log("ricerca id esperto " + this.idEsperto);
-    // richiesta al server per l'id. Se esiste
-    this.ricercaEsperto = false;
+    this.visitatoreService.getIscrittoByRuolo(this.idEsperto, TipologiaRuolo.ROLE_ESPERTO).subscribe(
+      data => {
+        if (data.messaggio) {
+          this.espertoEsistente = false;
+          this.idEsperto = null as any;
+        }
+        else this.espertoEsistente = true;
+        this.ricercaEsperto = false;
+      },
+      err => {
+        this.espertoEsistente = false;
+        this.ricercaEsperto = false;
+      }
+    );
   }
 
   ricercaIdProgettista(): void {
     if (!this.idProgettista || this.idProgettista.length == 0) return;
     this.ricercaProgettista = true;
     console.log("ricerca id progettista " + this.idProgettista);
-    // richiesta al server per l'id. Se esiste
-    this.progettistiInvitati.add(this.idProgettista);
-    this.ricercaProgettista = false;
+    this.visitatoreService.getIscrittoByRuolo(this.idProgettista, TipologiaRuolo.ROLE_PROGETTISTA).subscribe(
+      data => {
+        if (data.messaggio) {
+          this.progettistaEsistente = false;
+          this.idProgettista = null as any;
+        }
+        else {
+          this.progettistiInvitati.add(this.idProgettista);
+          this.progettistaEsistente = true;
+        }
+        this.ricercaProgettista = false;
+      },
+      err => {
+        this.progettistaEsistente = false;
+        this.ricercaProgettista = false;
+      }
+    );
   }
 
   rimuoviProgettista(progettistaId: string): void {

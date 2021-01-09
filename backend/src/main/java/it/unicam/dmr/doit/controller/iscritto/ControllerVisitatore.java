@@ -28,6 +28,7 @@ import it.unicam.dmr.doit.repository.IscrittoRepository;
 import it.unicam.dmr.doit.security.jwt.JwtProvider;
 import it.unicam.dmr.doit.service.iscritto.IscrittoService;
 import it.unicam.dmr.doit.utenti.Iscritto;
+import it.unicam.dmr.doit.utenti.ruoli.TipologiaRuolo;
 
 /**
  * Responsabilità:
@@ -57,6 +58,15 @@ public class ControllerVisitatore<I extends Iscritto, R extends IscrittoReposito
 			return new ResponseEntity<>(new Messaggio("L'iscritto non esiste"), HttpStatus.NOT_FOUND);
 		I iscritto = iscrittoService.findByIdentificativo(idIscritto).get();
 		return new ResponseEntity<>(iscritto, HttpStatus.OK);
+	}
+	
+	@GetMapping("/{id}/{ruolo}")
+	public ResponseEntity<?> getIscritto(@PathVariable("id") String idIscritto, @PathVariable("ruolo") TipologiaRuolo ruolo) {
+		try {
+			return new ResponseEntity<>(iscrittoService.getRuolo(idIscritto, ruolo), HttpStatus.OK);
+		} catch (Exception e) {
+			return new ResponseEntity<>(new Messaggio(e.getMessage()), HttpStatus.NOT_FOUND);
+		}
 	}
 	
 	@PostMapping("/accedi")

@@ -10,6 +10,7 @@ export const environment = {
   progettoURL: 'http://localhost:8080/progetto',
   proponenteURL: 'http://localhost:8080/proponente',
   tagURL: 'http://localhost:8080/tag',
+  invitoURL: 'http://localhost:8080/invito', 
 };
 
 /*

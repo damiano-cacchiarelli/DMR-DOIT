@@ -1,6 +1,8 @@
 package it.unicam.dmr.doit.dataTransferObject.invito;
 
-import javax.validation.constraints.NotBlank;
+import java.util.List;
+
+import javax.validation.constraints.NotEmpty;
 import javax.validation.constraints.NotNull;
 
 import it.unicam.dmr.doit.controller.Utils;
@@ -13,8 +15,8 @@ public class InvitoDto {
 	@NotNull(message = Utils.nonNullo)
 	private TipologiaInvito tipologiaInvito;
 	@NotNull(message = Utils.nonNullo)
-	@NotBlank(message = Utils.nonVuoto)
-	private String idDestinatario;
+	@NotEmpty(message = Utils.nonVuoto)
+	private List<String> idDestinatario;
 	@NotNull(message = Utils.nonNullo)
 	private int idProgetto;
 
@@ -22,7 +24,7 @@ public class InvitoDto {
 	}
 
 	public InvitoDto(@NotNull String contenuto, @NotNull TipologiaInvito tipologiaInvito,
-			@NotNull @NotBlank String idDestinatario, @NotNull int idProgetto) {
+			@NotNull @NotEmpty List<String> idDestinatario, @NotNull int idProgetto) {
 
 		this.contenuto = contenuto;
 		this.tipologiaInvito = tipologiaInvito;
@@ -46,11 +48,11 @@ public class InvitoDto {
 		this.tipologiaInvito = tipologiaInvito;
 	}
 
-	public String getIdDestinatario() {
+	public List<String> getIdDestinatario() {
 		return idDestinatario;
 	}
 
-	public void setIdDestinatario(String idDestinatario) {
+	public void setIdDestinatario(List<String> idDestinatario) {
 		this.idDestinatario = idDestinatario;
 	}
 
@@ -61,4 +63,12 @@ public class InvitoDto {
 	public int getIdProgetto() {
 		return idProgetto;
 	}
+
+	@Override
+	public String toString() {
+		return "InvitoDto [contenuto=" + contenuto + ", tipologiaInvito=" + tipologiaInvito + ", idDestinatario="
+				+ idDestinatario + ", idProgetto=" + idProgetto + "]";
+	}
+	
+	
 }
