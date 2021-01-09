@@ -1,5 +1,5 @@
 import { Component, OnInit } from '@angular/core';
-import { ProgettoDettagliato } from 'src/app/modello/progetto/progetto-dettagliato';
+import { Progetto } from 'src/app/modello/progetto/progetto';
 import { ProgettoService } from 'src/app/servizi/progetto.service';
 
 @Component({
@@ -9,7 +9,7 @@ import { ProgettoService } from 'src/app/servizi/progetto.service';
 })
 export class VetrinaProgettiComponent implements OnInit {
 
-  progetti: ProgettoDettagliato[] = [];
+  progetti: Progetto[] = [];
 
   constructor(private progettoService: ProgettoService) { }
 

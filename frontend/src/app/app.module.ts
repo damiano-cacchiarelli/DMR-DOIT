@@ -31,7 +31,6 @@ import { ProponiComponent } from './pagine/ruoli/proponente/proponi/proponi.comp
     AggiungiRuoloComponent,
     VetrinaProgettiComponent,
     DettagliComponent,
-    ProponiComponent,
     ProponiComponent
   ],
   imports: [

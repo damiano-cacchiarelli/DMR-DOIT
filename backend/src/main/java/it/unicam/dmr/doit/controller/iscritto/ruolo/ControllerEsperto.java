@@ -18,6 +18,7 @@ import it.unicam.dmr.doit.controller.Utils;
 import it.unicam.dmr.doit.dataTransferObject.Messaggio;
 import it.unicam.dmr.doit.dataTransferObject.progetto.ValutazioneDto;
 import it.unicam.dmr.doit.dataTransferObject.progetto.ValutazioneProgettistaDto;
+import it.unicam.dmr.doit.progetto.Progetto;
 import it.unicam.dmr.doit.progetto.Valutazione;
 import it.unicam.dmr.doit.progetto.ValutazioneProgettista;
 import it.unicam.dmr.doit.progetto.exception.ExistingElementException;
@@ -56,7 +57,8 @@ public class ControllerEsperto {
 		}
 		try {
 			Esperto esperto = (Esperto) iscrittoService.getRuolo(authentication.getName(), TipologiaRuolo.ROLE_ESPERTO).get();
-			Valutazione valutazione = new Valutazione(valutazioneDto.getRecensione(), esperto);
+			Progetto progetto = progettoService.findById(valutazioneDto.getIdProgetto()).get();
+			Valutazione valutazione = new Valutazione(valutazioneDto.getRecensione(), esperto, progetto);
 
 			for (ValutazioneProgettistaDto vpd : valutazioneDto.getValutazioniCandidati()) {
 				valutazione.addValutazioneCandidato(
@@ -64,8 +66,9 @@ public class ControllerEsperto {
 			}
 			
 			// TODO: da controllare se aggiorna il progetto
-			progettoService.findById(valutazioneDto.getIdProgetto()).get().aggiungiValutazione(valutazione);
+			progetto.aggiungiValutazione(valutazione);
 			valutazioneService.salvaValutazione(valutazione);
+			//progettoService.salvaProgetto(progetto);
 		} catch (IllegalArgumentException | ExistingElementException e) {
 			return new ResponseEntity<>(e.getMessage(), HttpStatus.BAD_REQUEST);
 		}

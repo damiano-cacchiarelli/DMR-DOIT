@@ -56,10 +56,11 @@ public class Valutazione implements IValutazione {
 	
 	public Valutazione() {}
 	
-	public Valutazione(@NotNull @NotBlank String recensione, Esperto esperto) {
+	public Valutazione(@NotNull @NotBlank String recensione, Esperto esperto, Progetto progetto) {
 		super();
 		this.recensione = recensione;
 		this.esperto = esperto;
+		this.progetto = progetto;
 	}
 
 
@@ -124,5 +125,10 @@ public class Valutazione implements IValutazione {
 		if(!valutazioniCandidati.add(valutazioneProgettista))
 			throw new ExistingElementException("Valutazione gia presente");
 	}
+	
+	public String getIdentificativoEsperto() {
+		return esperto.getIscritto().getIdentificativo();
+	}
 
+	
 }
