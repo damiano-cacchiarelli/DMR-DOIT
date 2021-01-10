@@ -8,32 +8,36 @@
         <div class="collapse navbar-collapse" id="navbarToggler">
             <ul class="navbar-nav me-auto mb-2 mb-lg-0">
                 <li class="nav-item">
-                    <a class="nav-link active" aria-current="page" routerLink="/vetrina"><i class="far fa-list-alt"></i> Vetrina
+                    <a class="nav-link active" aria-current="page" routerLink="/vetrina"><i class="far fa-list-alt"></i>
+                        Vetrina
                         progetti</a>
                 </li>
 
-                <li class="nav-item"  *ngIf="isLogged">
-                    <a class="nav-link active" aria-current="page" routerLink="/aggiungi-ruolo"><i class="fas fa-plus-circle"></i> Aggiungi Ruolo</a>
+                <li class="nav-item" *ngIf="isLogged">
+                    <a class="nav-link active" aria-current="page" routerLink="/aggiungi-ruolo"><i
+                            class="fas fa-plus-circle"></i> Aggiungi Ruolo</a>
                 </li>
 
                 <li class="nav-item dropdown" *ngIf="hasRuolo('ROLE_PROPONENTE')">
-                    <a class="nav-link dropdown-toggle" id="navbarDropdownProponente" role="button" data-bs-toggle="dropdown" aria-expanded="false">
-                      Proponente
+                    <a class="nav-link dropdown-toggle" id="navbarDropdownProponente" role="button"
+                        data-bs-toggle="dropdown" aria-expanded="false">
+                        Proponente
                     </a>
                     <ul class="dropdown-menu" aria-labelledby="navbarDropdownProponente">
-                      <li><a class="dropdown-item" routerLink="/proponente/proponi">Proponi progetto</a></li>
-                      <li><a class="dropdown-item" href="#">Another action</a></li>
-                      <li><a class="dropdown-item" href="#">Something else here</a></li>
+                        <li><a class="dropdown-item" routerLink="/proponente/proponi">Proponi progetto</a></li>
+                        <li><a class="dropdown-item" href="#">Another action</a></li>
+                        <li><a class="dropdown-item" href="#">Something else here</a></li>
                     </ul>
-                  </li>
+                </li>
             </ul>
             <form class="d-flex" *ngIf="!isLogged">
                 <button class="btn btn-outline-success" type="submit" routerLink="/accedi"><i
                         class="fas fa-sign-in-alt"></i> Accedi</button>
             </form>
             <form class="d-flex" *ngIf="isLogged" (ngSubmit)="onDisconnettiti()">
-                <button class="btn btn-outline-danger" type="submit"><i
-                        class="fas fa-sign-out-alt"></i> Disconnettiti</button>
+                <button class="btn btn-outline-success mx-2" type="submit" routerLink="/bacheca"><i class="fas fa-envelope"></i> Messaggi</button>
+                <button class="btn btn-outline-danger" type="submit"><i class="fas fa-sign-out-alt"></i>
+                    Disconnettiti</button>
             </form>
         </div>
     </div>
