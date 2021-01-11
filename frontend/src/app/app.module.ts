@@ -25,6 +25,7 @@ import { ProfiloComponent } from './pagine/iscritto/profilo/profilo.component';
 import { ProfiloEnteComponent } from './pagine/iscritto/profilo-ente/profilo-ente.component';
 import { ProfiloPersonaComponent } from './pagine/iscritto/profilo-persona/profilo-persona.component';
 import { BachecaComponent } from './pagine/invito/bacheca/bacheca.component';
+import { DettagliInvitoComponent } from './pagine/invito/dettagli-invito/dettagli-invito.component';
 
 @NgModule({
   declarations: [
@@ -41,7 +42,8 @@ import { BachecaComponent } from './pagine/invito/bacheca/bacheca.component';
     ProfiloComponent,
     ProfiloEnteComponent,
     ProfiloPersonaComponent,
-    BachecaComponent
+    BachecaComponent,
+    DettagliInvitoComponent
   ],
   imports: [
     BrowserModule,

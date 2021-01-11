@@ -25,7 +25,15 @@ export class BachecaComponent implements OnInit {
 
   ngOnInit(): void {
     this.inviti = [
-      new Invito("contenuto", TipologiaInvito.PROPOSTA, "mat", 1, "mat1", RuoloSoggetto.DESTINATARIO, new Date(), TipologiaRisposta.IN_ATTESA, "dam", null as any)
+      new Invito("contenuto", TipologiaInvito.PROPOSTA, "mat", 1, "mat1", RuoloSoggetto.DESTINATARIO, new Date(), TipologiaRisposta.IN_ATTESA, "dam", new Progetto("Nome progetto", "", "", [], 1, null as any, null as any, null as any, "", null as any))
+,
+new Invito("contenuto", TipologiaInvito.VALUTAZIONE, "mat", 1, "mat1", RuoloSoggetto.DESTINATARIO, new Date(), TipologiaRisposta.IN_ATTESA, "dam", new Progetto("Nome progetto", "", "", [], 1, null as any, null as any, null as any, "", null as any))
+,
+new Invito("contenuto", TipologiaInvito.PROPOSTA, "mat", 1, "mat1", RuoloSoggetto.DESTINATARIO, new Date(), TipologiaRisposta.IN_ATTESA, "dam", new Progetto("Nome progetto", "", "", [], 1, null as any, null as any, null as any, "", null as any))
+,
+new Invito("contenuto", TipologiaInvito.RICHIESTA, "mat", 1, "mat1", RuoloSoggetto.DESTINATARIO, new Date(), TipologiaRisposta.IN_ATTESA, "dam", new Progetto("Nome progetto", "", "", [], 1, null as any, null as any, null as any, "", null as any))
+,
+new Invito("contenuto", TipologiaInvito.PROPOSTA, "mat", 1, "mat1", RuoloSoggetto.DESTINATARIO, new Date(), TipologiaRisposta.IN_ATTESA, "dam", new Progetto("Nome progetto", "", "", [], 1, null as any, null as any, null as any, "", null as any))
     ];
 
     this.tuttiIMessaggi();
@@ -71,15 +79,15 @@ export class BachecaComponent implements OnInit {
     });
   }
 
-  onElimina(id: number): void {
+  onElimina(id: string): void {
     console.log("elimina invito ", id);
   }
 
-  onAccetta(id: number): void {
+  onAccetta(id: string): void {
     console.log("accetta invito ", id);
   }
 
-  onRifiuta(id: number): void {
+  onRifiuta(id: string): void {
     console.log("rifiuta invito ", id);
   }
 

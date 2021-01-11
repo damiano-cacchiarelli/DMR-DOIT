@@ -8,6 +8,7 @@ import { AccediComponent } from './pagine/autenticazione/accedi/accedi.component
 import { RegistratiComponent } from './pagine/autenticazione/registrati/registrati.component';
 import { HomeComponent } from './pagine/home/home.component';
 import { BachecaComponent } from './pagine/invito/bacheca/bacheca.component';
+import { DettagliInvitoComponent } from './pagine/invito/dettagli-invito/dettagli-invito.component';
 import { AggiungiRuoloComponent } from './pagine/iscritto/aggiungi-ruolo/aggiungi-ruolo.component';
 import { ProfiloComponent } from './pagine/iscritto/profilo/profilo.component';
 import { DettagliComponent } from './pagine/progetto/dettagli/dettagli.component';
@@ -25,7 +26,7 @@ const routes: Routes = [
   {path: "proponente/proponi", component: ProponiComponent, canActivate: [RuoloGuard], data: new Data([TipologiaRuolo.ROLE_PROPONENTE])},
   
   {path: "bacheca", component: BachecaComponent, canActivate: [AutenticatoGuard], data: new Data([], true)},
-  {path: "bacheca/:id", component: BachecaComponent, canActivate: [AutenticatoGuard], data: new Data([], true)},
+  {path: "bacheca/:id", component: DettagliInvitoComponent, canActivate: [AutenticatoGuard], data: new Data([], true)},
   // Esempio su come utilizzare la guardia RuoloGurad
   {path: "test", component: RegistratiComponent, canActivate: [RuoloGuard], data: new Data([TipologiaRuolo.ROLE_PROPONENTE, TipologiaRuolo.ROLE_ESPERTO])},
     

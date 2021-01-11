@@ -1,0 +1,59 @@
+<app-menu></app-menu>
+
+<div *ngIf="invito" class="container-fluid px-4 mt-5">
+    <table class="table mt-2">
+        <tbody>
+            <tr>
+                <td class="col-1 container text-center">
+                    <div class="row">
+                        <div class="col">
+                            <button class="btn btn-sm btn-outline-danger m-1" (click)="onElimina(invito.id)"><i
+                                    class="far fa-trash-alt"></i> Elimina</button>
+                        </div>
+                    </div>
+                    <div class="row">
+                        <div class="col">
+                            <button class="btn btn-sm btn-outline-primary m-1" routerLink="/bacheca"><i
+                                    class="fas fa-arrow-left"></i> Indietro</button>
+                        </div>
+                    </div>
+                </td>
+                <td class="col-8">
+                    <div class="container-fluid mr-2">
+                        <div class="row justify-content-between">
+                            <div class="col-md-6">
+                                <h3 class="mb-1">Progetto: {{invito.progetto.nome}}</h3>
+                            </div>
+                            <div class="col-md-6  text-end">
+                                <small>{{invito.data}} </small><span class="fst-italic fw-bold">da
+                                    {{invito.idMittente}}</span>
+                            </div>
+                        </div>
+                        <div class="row">
+                            <div class="d-flex justify-content-between">
+                                <span class="fst-italic fw-bold">a {{invito.idDestinatario}}</span>
+                                <span class="badge bg-info">{{TipologiaRisposta[invito.tipologiaRisposta]}}</span>
+                            </div>
+                        </div>
+                        <div class="row my-3">
+                            <p>{{invito.contenuto}}</p>
+                        </div>
+                        <div class="row">
+                            <small class="fw-bold">{{TipologiaInvito[invito.tipologiaInvito]}}</small>
+                        </div>
+
+                        <div class="row text-center" *ngIf="invito.tipologiaRisposta == TipologiaRisposta.IN_ATTESA">
+                            <div class="col">
+                                <button class="btn btn-sm btn-outline-success m-1" (click)="onAccetta(invito.id)"><i
+                                        class="far fa-check-square"></i> Accetta</button>
+                                <button class="btn btn-sm btn-outline-warning m-1" (click)="onRifiuta(invito.id)">
+                                    <i class="far fa-window-close"></i> Rifiuta</button>
+                            </div>
+                        </div>
+                    </div>
+                </td>
+
+            </tr>
+        </tbody>
+    </table>
+</div>
