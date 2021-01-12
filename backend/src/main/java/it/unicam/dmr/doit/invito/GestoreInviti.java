@@ -3,6 +3,7 @@ package it.unicam.dmr.doit.invito;
 import java.util.Collections;
 import java.util.HashSet;
 import java.util.List;
+import java.util.NoSuchElementException;
 import java.util.Set;
 import java.util.function.Predicate;
 import java.util.stream.Collectors;
@@ -18,6 +19,7 @@ import com.fasterxml.jackson.annotation.JsonManagedReference;
 
 import it.unicam.dmr.doit.invito.InvitoId.RuoloSoggetto;
 import it.unicam.dmr.doit.progetto.Progetto;
+import it.unicam.dmr.doit.progetto.exception.ExistingElementException;
 import it.unicam.dmr.doit.utenti.Iscritto;
 
 @Embeddable
@@ -25,7 +27,7 @@ public class GestoreInviti implements GestoreMessaggi<Invito> {
 
 	@Transient
 	private Iscritto iscritto;
-	
+
 	private int nextIdInvito = 0;
 
 	@JsonManagedReference
@@ -78,20 +80,23 @@ public class GestoreInviti implements GestoreMessaggi<Invito> {
 	}
 
 	@Override
-	public void riceviMessaggio(Invito messaggio) {
+	public void riceviMessaggio(Invito messaggio) throws ExistingElementException {
 		// inserisci il nuovo messaggio nella lista dei messaggi non letti?
+		if (listaInvitiRicevuti.contains(messaggio))
+			throw new ExistingElementException("Messaggio gia' ricevuto");
 		messaggio.setSoggetto(RuoloSoggetto.DESTINATARIO);
 		listaInvitiRicevuti.add(messaggio);
 	}
 
 	@Override
-	public void eliminaMessaggio(String idMessaggio) {
+	public void eliminaMessaggio(String idMessaggio){
 		this.eliminaMessaggio(idMessaggio, false);
 	}
 
 	@Override
 	public void eliminaMessaggio(String idMessaggio, boolean entrambi) {
 		Invito invito = getMessaggio(idMessaggio);
+
 		if (listaInvitiInviati.contains(invito)) {
 			if (entrambi)
 				invito.getDestinatario().getGestoreMessaggi().eliminaMessaggio(idMessaggio, false);
@@ -103,21 +108,23 @@ public class GestoreInviti implements GestoreMessaggi<Invito> {
 
 	@Override
 	public void inviaMessaggio(Iscritto destinatario, String contenuto, Progetto progetto,
-			TipologiaInvito tipologiaInvito) {
-		Invito invito = new Invito(getNextId(), contenuto, tipologiaInvito, iscritto, destinatario, progetto.getId(), progetto.getNome());
+			TipologiaInvito tipologiaInvito) throws ExistingElementException {
+		Invito invito = new Invito(getNextId(), contenuto, tipologiaInvito, iscritto, destinatario, progetto.getId(),
+				progetto.getNome());
 		inviaMessaggio(destinatario, invito);
 	}
 
 	@Override
-	public void inviaMessaggio(Iscritto destinatario, Invito messaggio) {
+	public void inviaMessaggio(Iscritto destinatario, Invito messaggio) throws ExistingElementException {
 		messaggio.setSoggetto(RuoloSoggetto.MITTENTE);
 		listaInvitiInviati.add(messaggio);
-		destinatario.getGestoreMessaggi().riceviMessaggio(new Invito(messaggio.getId(), messaggio.getContenuto(),
-				messaggio.getTipologiaInvito(), iscritto, destinatario, messaggio.getIdProgetto(), messaggio.getNomeProgetto()));
+		destinatario.getGestoreMessaggi()
+				.riceviMessaggio(new Invito(messaggio.getId(), messaggio.getContenuto(), messaggio.getTipologiaInvito(),
+						iscritto, destinatario, messaggio.getIdProgetto(), messaggio.getNomeProgetto()));
 	}
 
 	@Override
-	public Invito getMessaggio(String idMessaggio) {
+	public Invito getMessaggio(String idMessaggio) throws NoSuchElementException {
 		return getMessaggi().stream().filter(i -> i.getId().equals(idMessaggio)).findFirst().get();
 	}
 
@@ -130,7 +137,7 @@ public class GestoreInviti implements GestoreMessaggi<Invito> {
 	private String getNextId() {
 		return iscritto.getIdentificativo() + getNextIdInvito();
 	}
-	
+
 	public final int getNextIdInvito() {
 		return ++nextIdInvito;
 	}

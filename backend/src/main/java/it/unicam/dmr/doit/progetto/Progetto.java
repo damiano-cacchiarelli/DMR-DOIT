@@ -182,6 +182,9 @@ public class Progetto implements IProgetto {
 	@Override
 	public void nextFase() throws NextFaseException {
 		this.setFase(fase.nextFase());
+		if(gestoreCandidati.isCandidatureAperte()) {
+			gestoreCandidati.chiudiCandidature();
+		}
 	}
 
 	public GestoreCandidatiProgetto getGestoreCandidati() {

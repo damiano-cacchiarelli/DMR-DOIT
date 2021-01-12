@@ -1,6 +1,7 @@
 package it.unicam.dmr.doit.controller.iscritto;
 
 import java.util.List;
+import java.util.NoSuchElementException;
 import java.util.Optional;
 import java.util.stream.Collectors;
 
@@ -30,6 +31,7 @@ import it.unicam.dmr.doit.dataTransferObject.invito.RispostaInvitoDto;
 import it.unicam.dmr.doit.invito.Invito;
 import it.unicam.dmr.doit.invito.InvitoId.RuoloSoggetto;
 import it.unicam.dmr.doit.progetto.Progetto;
+import it.unicam.dmr.doit.progetto.exception.ExistingElementException;
 import it.unicam.dmr.doit.repository.IscrittoRepository;
 import it.unicam.dmr.doit.service.iscritto.InvitoService;
 import it.unicam.dmr.doit.service.iscritto.IscrittoService;
@@ -86,8 +88,12 @@ public class ControllerInvito {
 			Iscritto mittente = iscrittoService.findByIdentificativo(authentication.getName()).get();
 			Iscritto destinatario = iscrittoService.findByIdentificativo(idDest).get();
 			Progetto progetto = progettoService.findById(invitoDto.getIdProgetto()).get();
-			mittente.getGestoreMessaggi().inviaMessaggio(destinatario, invitoDto.getContenuto(), progetto,
-					invitoDto.getTipologiaInvito());
+			try {
+				mittente.getGestoreMessaggi().inviaMessaggio(destinatario, invitoDto.getContenuto(), progetto,
+						invitoDto.getTipologiaInvito());
+			} catch (ExistingElementException e) {
+				return new ResponseEntity<>(new Messaggio("Invito già inviato"), HttpStatus.BAD_REQUEST);
+			}
 			iscrittoService.salva(mittente);
 			iscrittoService.salva(destinatario);	
 		}
@@ -112,8 +118,12 @@ public class ControllerInvito {
 					HttpStatus.BAD_REQUEST);
 		}
 		Iscritto iscritto = iscrittoService.findByIdentificativo(authentication.getName()).get();
-		iscritto.getGestoreMessaggi().eliminaMessaggio(eliminazioneInvitoDto.getIdInvito(),
-				eliminazioneInvitoDto.isOpzioni());
+		try {
+			iscritto.getGestoreMessaggi().eliminaMessaggio(eliminazioneInvitoDto.getIdInvito(),
+					eliminazioneInvitoDto.isOpzioni());
+		} catch (NoSuchElementException e) {
+			new ResponseEntity<>(new Messaggio("Invito inesistente"), HttpStatus.BAD_REQUEST);
+		}
 		if (mittente.getIdentificativo().equals(authentication.getName())) {
 			if (eliminazioneInvitoDto.isOpzioni())
 				invitoService.eliminaInvito(eliminazioneInvitoDto.getIdInvito(),

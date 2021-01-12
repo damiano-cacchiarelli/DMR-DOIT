@@ -20,7 +20,7 @@ import it.unicam.dmr.doit.utenti.ruoli.Progettista;
 public class GestoreCandidatiProgetto {
 
 	/**
-	 * Lista di progettisti che sono stati invitati o si sono candidati al progetto
+	 * Lista di progettisti (ruolo) che sono stati invitati o si sono candidati al progetto
 	 * ma che la loro candidatura non e' stata ancora confermata.
 	 */
 	@JsonBackReference
@@ -28,14 +28,14 @@ public class GestoreCandidatiProgetto {
 	private Set<Progettista> candidatiAlProgetto = new HashSet<>();
 
 	/**
-	 * Lista di progettisti che sono stati invitati o si sono candidati al progetto
+	 * Lista di progettisti (ruolo) che sono stati invitati o si sono candidati al progetto
 	 * e che la loro candidatura e' stata confermata.
 	 */
 	@JsonBackReference
 	@ManyToMany(fetch = FetchType.LAZY)
 	private Set<Progettista> partecipantiAlProgetto = new HashSet<>();
 
-	private boolean candidatureAperte = true;
+	private boolean candidature = true;
 
 	public GestoreCandidatiProgetto() {
 
@@ -58,7 +58,7 @@ public class GestoreCandidatiProgetto {
 	}
 
 	public boolean isCandidatureAperte() {
-		return candidatureAperte;
+		return candidature;
 	}
 
 	public List<String> getIdentificativiCandidati() {
@@ -73,26 +73,22 @@ public class GestoreCandidatiProgetto {
 		return ids;
 	}
 
-	public void setCandidatureAperte(boolean candidature) {
-		if (!candidatureAperte)
+	public void chiudiCandidature() {
+		if (!candidature)
 			throw new IllegalStateException("Le candidature sono gia' chiuse");
-		this.candidatureAperte = candidature;
+		this.candidature = false;
 	}
 
 	public void aggiungiCandidato(Progettista progettista) throws ExistingElementException, CandidacyStatusException {
 
-		if (!candidatureAperte)
+		if (!candidature)
 			throw new CandidacyStatusException("Le candidature sono chiuse");
 
 		if (!candidatiAlProgetto.add(progettista) || partecipantiAlProgetto.contains(progettista))
 			throw new ExistingElementException("Il progettista e' gia candidato");
 	}
 
-	public void confermaCandidato(String idProgettista) throws NoSuchElementException, NullPointerException {
-		/*
-		 * TODO - Eccezione Nessun candidato trovato: NoSuchElementException,
-		 * NullPointerException
-		 */
+	public void confermaCandidato(String idProgettista) throws NoSuchElementException {
 		Progettista progettista = candidatiAlProgetto.stream()
 				.filter(p -> p.getIscritto().getIdentificativo().equals(idProgettista)).findFirst().get();
 		partecipantiAlProgetto.add(progettista);

@@ -79,7 +79,7 @@ public class ControllerProponente {
 		// Le candidature possono riaprirsi??
 		Progetto progetto = progettoService.findById(idProgetto).get();
 		try {
-			progetto.getGestoreCandidati().setCandidatureAperte(false);
+			progetto.getGestoreCandidati().chiudiCandidature();
 			progettoService.salvaProgetto(progetto);
 			return new ResponseEntity<>(new Messaggio("Candidature al progetto chiuse"), HttpStatus.OK);	
 		} catch (Exception e) {
@@ -96,6 +96,8 @@ public class ControllerProponente {
 		Progetto progetto = progettoService.findById(idProgetto).get();
 		try {
 			progetto.nextFase();
+			if(progetto.getGestoreCandidati().isCandidatureAperte())
+				progetto.getGestoreCandidati().chiudiCandidature();
 			progettoService.salvaProgetto(progetto);
 			return new ResponseEntity<>(new Messaggio("Progetto nella fase "), HttpStatus.OK);
 		} catch (NextFaseException e) {
