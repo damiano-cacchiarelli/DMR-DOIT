@@ -1,5 +1,12 @@
 package it.unicam.dmr.doit.dataTransferObject.security;
 
+/**
+ * Questa classe rappresenta il token che deve essere inviato in rete.
+ * 
+ * @author Damiano Cacchiarelli
+ * @author Matteo Romagnoli
+ * @author Roberto Cesetti
+ */
 public class JwtDto {
 
 	private String token;

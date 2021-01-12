@@ -5,6 +5,13 @@ import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
 
+/**
+ * Questa classe rappresenta le proprie competenze.
+ * 
+ * @author Damiano Cacchiarelli
+ * @author Matteo Romagnoli
+ * @author Roberto Cesetti
+ */
 @Entity
 public class Curriculum {
 
@@ -14,33 +21,37 @@ public class Curriculum {
 	private String professione;
 	private String lingue;
 	private String sito;
-	
+
 	public Curriculum(String professione, String lingue, String sito) {
 		this.professione = professione;
 		this.lingue = lingue;
 		this.sito = sito;
 	}
-	
+
+	// ================================================================================
+	// Getters & Setters
+	// ================================================================================
+
 	public String getProfessione() {
 		return professione;
 	}
-	
+
 	public void setProfessione(String professione) {
 		this.professione = professione;
 	}
-	
+
 	public String getLingue() {
 		return lingue;
 	}
-	
+
 	public void setLingue(String lingue) {
 		this.lingue = lingue;
 	}
-	
+
 	public String getSito() {
 		return sito;
 	}
-	
+
 	public void setSito(String sito) {
 		this.sito = sito;
 	}

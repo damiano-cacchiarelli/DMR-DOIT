@@ -8,6 +8,14 @@ import javax.validation.constraints.NotNull;
 import it.unicam.dmr.doit.controller.Utils;
 import it.unicam.dmr.doit.invito.TipologiaInvito;
 
+/**
+ * Questa classe fa parte degli oggetti che vengono trasfertiti in rete e
+ * rappresenta un {@code Invito}.
+ * 
+ * @author Damiano Cacchiarelli
+ * @author Matteo Romagnoli
+ * @author Roberto Cesetti
+ */
 public class InvitoDto {
 
 	@NotNull(message = Utils.nonNullo)

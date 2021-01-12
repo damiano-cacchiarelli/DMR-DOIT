@@ -7,7 +7,6 @@ import javax.servlet.ServletException;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 
-import org.slf4j.Logger;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.authentication.UsernamePasswordAuthenticationToken;
 import org.springframework.security.core.context.SecurityContextHolder;
@@ -17,13 +16,16 @@ import org.springframework.web.filter.OncePerRequestFilter;
 import it.unicam.dmr.doit.service.security.IscrittoDetailsServiceImpl;
 
 /**
- * Verifica la validità del token tramite il provider; in caso affermativo
- * permette la visualizzazione della risorsa altrimenti lancia un eccezione
+ * Questa classe estende {@code OncePerRequestFilter} ed ha la responsabilita'
+ * di verifica la validità del token tramite il provider; in caso affermativo
+ * permette la visualizzazione della risorsa altrimenti lancia un eccezione.
+ * 
+ * @author Damiano Cacchiarelli
+ * @author Matteo Romagnoli
+ * @author Roberto Cesetti
  */
 public class JwtTokenFilter extends OncePerRequestFilter {
-
-	private final static Logger logger = org.slf4j.LoggerFactory.getLogger(JwtTokenFilter.class);
-
+	
 	@Autowired
 	private JwtProvider jwtProvider;
 
@@ -43,7 +45,7 @@ public class JwtTokenFilter extends OncePerRequestFilter {
 				SecurityContextHolder.getContext().setAuthentication(auth);
 			}
 		} catch (Exception e) {
-			logger.error("Errore nel metodo doFilterInternal: " + e.getMessage());
+			System.out.println("Errore nel metodo doFilterInternal: " + e.getMessage());
 		}
 		filterChain.doFilter(request, response);
 	}

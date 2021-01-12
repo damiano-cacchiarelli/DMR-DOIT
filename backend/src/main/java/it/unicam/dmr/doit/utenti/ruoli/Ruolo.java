@@ -16,8 +16,20 @@ import javax.validation.constraints.NotNull;
 
 import com.fasterxml.jackson.annotation.JsonBackReference;
 
+import it.unicam.dmr.doit.controller.Utils;
 import it.unicam.dmr.doit.utenti.Iscritto;
 
+/**
+ * Questa classe implementa {@code IRuolo} e rappresenta un ruolo (definito da
+ * {@code TipologiaRuolo}) di un {@code Iscritto}. Ad ogni ruolo e' associata la
+ * lista dei {@code Proigetti} di cui fa parte o ha fatto parte. <br>
+ * Per la creazione dei vari ruoli si utilizza il metodo {@code Factory}
+ * {@link Ruolo.create(TipologiaRuolo)}.
+ * 
+ * @author Damiano Cacchiarelli
+ * @author Matteo Romagnoli
+ * @author Roberto Cesetti
+ */
 @Entity
 @Table(name = "ruolo")
 //TODO: @Inheritance strategia da modificare: crea una tabella per tutti i ruoli (?)
@@ -28,11 +40,10 @@ public abstract class Ruolo implements IRuolo {
 	@GeneratedValue(strategy = GenerationType.IDENTITY)
 	private int id;
 
-	@NotNull
+	@NotNull(message = Utils.nonNullo)
 	@Enumerated(EnumType.STRING)
 	private TipologiaRuolo ruolo;
 
-	// 	@JsonBackReference e' usato per impedire il ciclo infinito con la classe iscritto
 	@JsonBackReference
 	@ManyToOne(fetch = FetchType.LAZY, optional = false)
 	@JoinColumn(name = "iscritto_identificativo", nullable = false)
@@ -41,31 +52,54 @@ public abstract class Ruolo implements IRuolo {
 	public Ruolo() {
 	}
 
-	public void setId(int id) {
-		this.id = id;
+	// ================================================================================
+	// Metodi
+	// ================================================================================
+
+	public static Ruolo create(TipologiaRuolo tipologiaRuolo) {
+		switch (tipologiaRuolo) {
+		case ROLE_PROPONENTE:
+			return new Proponente();
+		case ROLE_PROGETTISTA:
+			return new Progettista();
+		case ROLE_ESPERTO:
+			return new Esperto();
+		case ROLE_SPONSOR:
+			return new Sponsor();
+		default:
+			throw new IllegalArgumentException("Il ruolo '" + tipologiaRuolo + "' non esiste");
+		}
 	}
+
+	// ================================================================================
+	// Getters & Setters
+	// ================================================================================
 
 	public int getId() {
 		return id;
 	}
 
-	public void setIscritto(Iscritto iscritto) {
-		this.iscritto = iscritto;
-	}
-
 	public Iscritto getIscritto() {
 		return iscritto;
+	}
+	
+	public void setIscritto(Iscritto iscritto) {
+		this.iscritto = iscritto;
 	}
 
 	@Override
 	public TipologiaRuolo getRuolo() {
 		return ruolo;
 	}
-
+	
 	public void setRuolo(TipologiaRuolo ruolo) {
 		this.ruolo = ruolo;
 	}
-	
+
+	// ================================================================================
+	// Equals & HashCode
+	// ================================================================================
+
 	@Override
 	public int hashCode() {
 		final int prime = 31;
@@ -84,20 +118,5 @@ public abstract class Ruolo implements IRuolo {
 		if (id != other.id)
 			return false;
 		return true;
-	}
-
-	public static Ruolo create(TipologiaRuolo tipologiaRuolo) {
-		switch (tipologiaRuolo) {
-		case ROLE_PROPONENTE:
-			return new Proponente();
-		case ROLE_PROGETTISTA:
-			return new Progettista();
-		case ROLE_ESPERTO:
-			return new Esperto();
-		case ROLE_SPONSOR:
-			return new Sponsor();
-		default:
-			throw new IllegalArgumentException("Il ruolo '" + tipologiaRuolo + "' non esiste");
-		}
 	}
 }

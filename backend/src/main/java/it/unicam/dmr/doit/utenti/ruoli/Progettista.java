@@ -10,12 +10,19 @@ import javax.persistence.FetchType;
 import javax.persistence.JoinColumn;
 import javax.persistence.JoinTable;
 import javax.persistence.ManyToMany;
-import javax.validation.constraints.NotNull;
 
 import com.fasterxml.jackson.annotation.JsonManagedReference;
 
 import it.unicam.dmr.doit.progetto.Progetto;
 
+/**
+ * Questa classe estende {@code Ruolo} e rappresenta il ruolo
+ * {@code TipologiaRuolo.ROLE_PROGETTISTA}.
+ * 
+ * @author Damiano Cacchiarelli
+ * @author Matteo Romagnoli
+ * @author Roberto Cesetti
+ */
 @Entity
 public class Progettista extends Ruolo {
 	
@@ -28,10 +35,6 @@ public class Progettista extends Ruolo {
 	
 	public Progettista() {
 		setRuolo(TipologiaRuolo.ROLE_PROGETTISTA);
-	}
-
-	public void setCandidature(Set<Progetto> candidature) {
-		this.candidature = candidature;
 	}	
 
 	@Override

@@ -6,24 +6,26 @@ import javax.servlet.ServletException;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 
-import org.slf4j.Logger;
 import org.springframework.security.core.AuthenticationException;
 import org.springframework.security.web.AuthenticationEntryPoint;
 import org.springframework.stereotype.Component;
 
 /**
- * Verifica se l'utente/iscritto ha un token valido. In caso contrario invia un
- * errore 401 (Non autorizzato)
+ * Questa classe implementa {@code AuthenticationEntryPoint} ed ha la
+ * responsabilita' di verificare se l'utente/iscritto ha un token jwt valido. In
+ * caso contrario viene inviato l'errore 401 (Non autorizzato).
+ * 
+ * @author Damiano Cacchiarelli
+ * @author Matteo Romagnoli
+ * @author Roberto Cesetti
  */
 @Component
 public class JwtEntryPoint implements AuthenticationEntryPoint {
 
-	private final static Logger logger = org.slf4j.LoggerFactory.getLogger(JwtEntryPoint.class);
-
 	@Override
 	public void commence(HttpServletRequest request, HttpServletResponse response,
 			AuthenticationException authException) throws IOException, ServletException {
-		logger.error("Errore nel metodo commence");
+		System.out.println("Errore nel metodo commence - Utente non autorizzato");
 		response.sendError(HttpServletResponse.SC_UNAUTHORIZED, "Non sei autorizzato");
 	}
 

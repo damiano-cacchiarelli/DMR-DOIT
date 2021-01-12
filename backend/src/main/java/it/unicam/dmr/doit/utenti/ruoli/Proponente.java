@@ -10,6 +10,14 @@ import javax.persistence.OneToMany;
 
 import it.unicam.dmr.doit.progetto.Progetto;
 
+/**
+ * Questa classe estende {@code Ruolo} e rappresenta il ruolo
+ * {@code TipologiaRuolo.ROLE_PROPONENTE}.
+ * 
+ * @author Damiano Cacchiarelli
+ * @author Matteo Romagnoli
+ * @author Roberto Cesetti
+ */
 @Entity
 public class Proponente extends Ruolo {
 		
@@ -19,10 +27,6 @@ public class Proponente extends Ruolo {
 	
 	public Proponente() {
 		setRuolo(TipologiaRuolo.ROLE_PROPONENTE);
-	}
-	
-	public void setProposte(Set<Progetto> proposte) {
-		this.proposte = proposte;
 	}
 	
 	@Override

@@ -6,6 +6,14 @@ import javax.validation.constraints.NotNull;
 
 import it.unicam.dmr.doit.controller.Utils;
 
+/**
+ * Questa classe fa parte degli oggetti che vengono trasfertiti in rete e
+ * rappresenta una lista di {@code Tag}.
+ * 
+ * @author Damiano Cacchiarelli
+ * @author Matteo Romagnoli
+ * @author Roberto Cesetti
+ */
 public class TagListDto {
 	
 	@NotNull(message = Utils.nonNullo)

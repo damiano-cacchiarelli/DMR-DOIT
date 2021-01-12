@@ -6,6 +6,14 @@ import javax.validation.constraints.NotNull;
 import it.unicam.dmr.doit.controller.Utils;
 import it.unicam.dmr.doit.invito.TipologiaRisposta;
 
+/**
+ * Questa classe fa parte degli oggetti che vengono trasfertiti in rete e
+ * rappresenta un la risposta ad un invito.
+ * 
+ * @author Damiano Cacchiarelli
+ * @author Matteo Romagnoli
+ * @author Roberto Cesetti
+ */
 public class RispostaInvitoDto {
 
 	@NotNull(message = Utils.nonNullo)

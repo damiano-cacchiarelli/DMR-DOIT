@@ -1,5 +1,5 @@
 export enum TipologiaRisposta {
-    ACCETTATA,
-	RIFIUTATA,
-	IN_ATTESA
+    ACCETTATA = "ACCETTATA",
+	RIFIUTATA = "RIFIUTATA",
+	IN_ATTESA = "IN ATTESA"
 }

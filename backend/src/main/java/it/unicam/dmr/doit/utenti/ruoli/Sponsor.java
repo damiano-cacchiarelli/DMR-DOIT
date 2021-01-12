@@ -9,10 +9,17 @@ import javax.persistence.Transient;
 
 import it.unicam.dmr.doit.progetto.Progetto;
 
+/**
+ * Questa classe estende {@code Ruolo} e rappresenta il ruolo
+ * {@code TipologiaRuolo.ROLE_SPONSOR}.
+ * 
+ * @author Damiano Cacchiarelli
+ * @author Matteo Romagnoli
+ * @author Roberto Cesetti
+ */
 @Entity
 public class Sponsor extends Ruolo {
 	
-	/*ManyToMany con progetto*/
 	@Transient
 	private List<Progetto> progettiFinanziati = new LinkedList<>();
 	

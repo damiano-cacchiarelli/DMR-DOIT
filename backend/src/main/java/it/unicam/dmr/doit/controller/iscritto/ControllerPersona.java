@@ -17,6 +17,15 @@ import it.unicam.dmr.doit.repository.PersonaRepository;
 import it.unicam.dmr.doit.service.iscritto.PersonaService;
 import it.unicam.dmr.doit.utenti.Persona;
 
+/**
+ * Questo controller estende {@code ControllerIscritto} secondo i tipo
+ * parametrici{@code Persona, PersonaRepository, PersonaService}, ed ha la
+ * responsabilita' di aggiornare i dati personali della classe {@code Persona}.
+ * 
+ * @author Damiano Cacchiarelli
+ * @author Matteo Romagnoli
+ * @author Roberto Cesetti
+ */
 @RestController
 @RequestMapping("/iscritto/persona")
 @CrossOrigin(origins = "http://localhost:4200")

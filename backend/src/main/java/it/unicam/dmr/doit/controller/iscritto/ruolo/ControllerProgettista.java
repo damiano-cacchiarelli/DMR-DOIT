@@ -23,9 +23,11 @@ import it.unicam.dmr.doit.utenti.ruoli.Progettista;
 import it.unicam.dmr.doit.utenti.ruoli.TipologiaRuolo;
 
 /**
- * Responsabilità: 
- * - candidarsi
- * - gestire richieste di partecipazione (fatto da ControllerInvito)
+ * Questo controller ha la responsabilita' di Candidare un progetista ad un progetto.
+ * 
+ * @author Damiano Cacchiarelli
+ * @author Matteo Romagnoli
+ * @author Roberto Cesetti
  */
 @RestController
 @RequestMapping("/progettista")

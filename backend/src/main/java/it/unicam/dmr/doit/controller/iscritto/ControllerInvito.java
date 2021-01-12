@@ -28,7 +28,7 @@ import it.unicam.dmr.doit.dataTransferObject.invito.EliminazioneInvitoDto;
 import it.unicam.dmr.doit.dataTransferObject.invito.InvitoDto;
 import it.unicam.dmr.doit.dataTransferObject.invito.RispostaInvitoDto;
 import it.unicam.dmr.doit.invito.Invito;
-import it.unicam.dmr.doit.invito.InvitoId.RuoloSoggetto;
+import it.unicam.dmr.doit.invito.RuoloSoggetto;
 import it.unicam.dmr.doit.progetto.Progetto;
 import it.unicam.dmr.doit.repository.IscrittoRepository;
 import it.unicam.dmr.doit.service.iscritto.InvitoService;
@@ -37,8 +37,18 @@ import it.unicam.dmr.doit.service.progetto.ProgettoService;
 import it.unicam.dmr.doit.utenti.Iscritto;
 
 /**
- * Responsabilità: - inviare invito - eliminare invito - lista inviti -
- * accettare/rifiutare invito
+ * Questo controller ha la responsabilita' di:
+ * <ul>
+ * <li>Ottenere una lista di tutti gli inviti relativi ad un Iscritto;</li>
+ * <li>Ottenere uno specifico invito;</li>
+ * <li>Inviare un invito;</li>
+ * <li>Gestire un Invito;</li>
+ * <li>Eliminare un Invito;</li>
+ * </ul>
+ * 
+ * @author Damiano Cacchiarelli
+ * @author Matteo Romagnoli
+ * @author Roberto Cesetti
  */
 @RestController
 @RequestMapping("/invito")
@@ -56,7 +66,7 @@ public class ControllerInvito {
 	public ResponseEntity<?> listaInviti(Authentication authentication) {
 		return new ResponseEntity<>(invitoService.listaInviti(authentication.getName()), HttpStatus.OK);
 	}
-	
+
 	@GetMapping("/{id}")
 	public ResponseEntity<?> getInvito(@PathVariable("id") String id, Authentication authentication) {
 		if(!invitoService.esisteInvito(id))

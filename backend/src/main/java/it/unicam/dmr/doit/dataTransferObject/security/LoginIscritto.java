@@ -4,6 +4,14 @@ import javax.validation.constraints.NotBlank;
 
 import it.unicam.dmr.doit.controller.Utils;
 
+/**
+ * Questa classe fa parte degli oggetti che vengono trasfertiti in rete e
+ * rappresenta un iscritto che deve essere autenticato.
+ * 
+ * @author Damiano Cacchiarelli
+ * @author Matteo Romagnoli
+ * @author Roberto Cesetti
+ */
 public class LoginIscritto {
 	@NotBlank(message = Utils.nonVuoto)
 	private String identificativo;

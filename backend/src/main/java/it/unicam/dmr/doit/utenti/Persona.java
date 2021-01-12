@@ -6,24 +6,34 @@ import javax.persistence.Entity;
 import javax.validation.constraints.NotBlank;
 import javax.validation.constraints.NotNull;
 
+import it.unicam.dmr.doit.controller.Utils;
 import it.unicam.dmr.doit.utenti.ruoli.TipologiaRuolo;
 
+/**
+ * Questa classe estende {@code Iscritto} e rappresenta una persona fisica che
+ * presenta i campi {@code nome}, {@code cittadinanza}, {@code sesso} e
+ * {@code telefono}.
+ * 
+ * @author Damiano Cacchiarelli
+ * @author Matteo Romagnoli
+ * @author Roberto Cesetti
+ */
 @Entity
 public class Persona extends Iscritto {
 
-	@NotNull
-	@NotBlank
+	@NotNull(message = Utils.nonNullo)
+	@NotBlank(message = Utils.nonVuoto)
 	private String nome;
-	@NotNull
-	@NotBlank
+	@NotNull(message = Utils.nonNullo)
+	@NotBlank(message = Utils.nonVuoto)
 	private String cognome;
-	@NotNull
-	@NotBlank
+	@NotNull(message = Utils.nonNullo)
+	@NotBlank(message = Utils.nonVuoto)
 	private String cittadinanza;
-	@NotNull
-	@NotBlank
+	@NotNull(message = Utils.nonNullo)
+	@NotBlank(message = Utils.nonVuoto)
 	private String sesso;
-	@NotNull
+	@NotNull(message = Utils.nonNullo)
 	private String telefono;
 
 	public Persona() {
@@ -39,6 +49,19 @@ public class Persona extends Iscritto {
 		this.sesso = sesso;
 		this.telefono = telefono;
 	}
+
+	// ================================================================================
+	// Metodi
+	// ================================================================================
+
+	@Override
+	public List<TipologiaRuolo> getTipoRuoliPossibili() {
+		return List.of(TipologiaRuolo.ROLE_PROGETTISTA, TipologiaRuolo.ROLE_ESPERTO, TipologiaRuolo.ROLE_SPONSOR);
+	}
+
+	// ================================================================================
+	// Getters & Setters
+	// ================================================================================
 
 	public String getNome() {
 		return nome;
@@ -78,10 +101,5 @@ public class Persona extends Iscritto {
 
 	public void setTelefono(String telefono) {
 		this.telefono = telefono;
-	}
-
-	@Override
-	public List<TipologiaRuolo> getTipoRuoliPossibili() {
-		return List.of(TipologiaRuolo.ROLE_PROGETTISTA, TipologiaRuolo.ROLE_ESPERTO, TipologiaRuolo.ROLE_SPONSOR);
 	}
 }

@@ -37,9 +37,18 @@ import it.unicam.dmr.doit.utenti.ruoli.Proponente;
 import it.unicam.dmr.doit.utenti.ruoli.TipologiaRuolo;
 
 /**
- * Responabilita: - proporre progetto - chiusura candidature - invitare
- * progettista (da fare su ControllerInvito) - permette valutazione progetto -
- * passa a fase successiva
+ * Questo controller ha la responsabilita' di:
+ * <ul>
+ * <li>Proporre un progetto;</li>
+ * <li>Chiudere le candidature ad un progetto;</li>
+ * <li>Passare alla fase successiva;</li>
+ * <li>Permettere di far valutare il progetto;</li>
+ * <li>Ottenere una lista di esperti consigliati relativi al progetto proposto;</li>
+ * </ul>
+ * 
+ * @author Damiano Cacchiarelli
+ * @author Matteo Romagnoli
+ * @author Roberto Cesetti
  */
 @RestController
 @RequestMapping("/proponente")
@@ -75,8 +84,7 @@ public class ControllerProponente {
 	public ResponseEntity<Messaggio> chiudiCandidature(@PathVariable("id") int idProgetto) {
 		if(!progettoService.existsById(idProgetto))
 			return new ResponseEntity<>(new Messaggio("Progetto inesistente"), HttpStatus.NOT_FOUND);
-		
-		// Le candidature possono riaprirsi??
+
 		Progetto progetto = progettoService.findById(idProgetto).get();
 		try {
 			progetto.getGestoreCandidati().setCandidatureAperte(false);
@@ -106,7 +114,6 @@ public class ControllerProponente {
 	@PreAuthorize("hasRole('PROPONENTE')")
 	@PutMapping("/permette_valutazione/{id}")
 	public ResponseEntity<Messaggio> permetteValutazione(@PathVariable("id") int idProgetto) {
-		//TODO: invia invito sul frontend
 		if(!progettoService.existsById(idProgetto))
 			return new ResponseEntity<>(new Messaggio("Progetto inesistente"), HttpStatus.NOT_FOUND);
 		

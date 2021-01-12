@@ -14,20 +14,26 @@ import javax.validation.constraints.NotNull;
 import com.fasterxml.jackson.annotation.JsonIgnore;
 import com.fasterxml.jackson.annotation.JsonManagedReference;
 
+import it.unicam.dmr.doit.controller.Utils;
 import it.unicam.dmr.doit.progetto.Progetto;
 import it.unicam.dmr.doit.progetto.Valutazione;
 
+/**
+ * Questa classe estende {@code Ruolo} e rappresenta il ruolo
+ * {@code TipologiaRuolo.ROLE_ESPERTO}. Un esperto ha il {@code rango} che
+ * rappresenta la qualita' dell'attivita' di valutazione dei {@code Progetti}.
+ * 
+ * @author Damiano Cacchiarelli
+ * @author Matteo Romagnoli
+ * @author Roberto Cesetti
+ */
 @Entity
 public class Esperto extends Ruolo {
 
-	@NotNull
+	@NotNull(message = Utils.nonNullo)
 	private int rango;
-	/*
-	@NotNull
-	@ManyToMany(fetch = FetchType.EAGER)
-	@JoinTable(name = "proposte", joinColumns = @JoinColumn(name = "id_iscritto"), inverseJoinColumns = @JoinColumn(name = "id_progetto"))
-	private Set<Progetto> progettiValutati = new HashSet<>();*/
-	@NotNull
+
+	@NotNull(message = Utils.nonNullo)
 	@JsonManagedReference
 	@OneToMany(mappedBy = "esperto", fetch = FetchType.LAZY, cascade = CascadeType.ALL)
 	private Set<Valutazione> valutazioniEffettuate = new HashSet<>();
@@ -41,6 +47,10 @@ public class Esperto extends Ruolo {
 		setRuolo(TipologiaRuolo.ROLE_ESPERTO);
 	}
 
+	// ================================================================================
+	// Getters & Setters
+	// ================================================================================
+
 	public int getRango() {
 		return rango;
 	}
@@ -49,22 +59,14 @@ public class Esperto extends Ruolo {
 		this.rango = rango;
 	}
 
-	/*public void setProgettiValutati(Set<Progetto> progettiValutati) {
-		this.progettiValutati = progettiValutati;
-	}*/
-	
 	@JsonIgnore
 	@Override
 	public Collection<Progetto> getProgettiPersonali() {
-		return valutazioniEffettuate.stream().map(v -> v.getProgetto()).collect(Collectors.toList());//progettiValutati;
+		return valutazioniEffettuate.stream().map(v -> v.getProgetto()).collect(Collectors.toList());// progettiValutati;
 	}
 
 	public Set<Valutazione> getValutazioniEffettuate() {
 		return valutazioniEffettuate;
 	}
 
-	public void setValutazioniEffettuate(Set<Valutazione> valutazioniEffettuate) {
-		this.valutazioniEffettuate = valutazioniEffettuate;
-	}
-	
 }

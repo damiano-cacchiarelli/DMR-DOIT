@@ -35,6 +35,22 @@ import it.unicam.dmr.doit.utenti.ruoli.TipologiaRuolo;
  * - autenticazione
  * - registrazione
  */
+/**
+ * Questo controller ha la responsabilita' di:
+ * <ul>
+ * <li>Ottenere un iscritto dato l'identificativo;</li>
+ * <li>Autenticare un utente iscritto alla piattaforma;</li>
+ * <li>Registrare un nuovo utente;</li>
+ * </ul>
+ * 
+ * @author Damiano Cacchiarelli
+ * @author Matteo Romagnoli
+ * @author Roberto Cesetti
+ *
+ * @param <I> tipo di Iscritto
+ * @param <R> tipo di Repository (dipendente da I)
+ * @param <S> tipo di Service (dipendente da I e R)
+ */
 @RestController
 @RequestMapping("/visitatore")
 @CrossOrigin(origins = "http://localhost:4200")
@@ -42,38 +58,39 @@ public class ControllerVisitatore<I extends Iscritto, R extends IscrittoReposito
 
 	@Autowired
 	protected S iscrittoService;
-	
+
 	@Autowired
 	protected PasswordEncoder passwordEncoder;
-	
+
 	@Autowired
 	private AuthenticationManager authenticationManager;
 
 	@Autowired
 	private JwtProvider jwtProvider;
-	
+
 	@GetMapping("/{id}")
 	public ResponseEntity<?> getIscritto(@PathVariable("id") String idIscritto) {
-		if(!iscrittoService.existsByIdentificativo(idIscritto))
+		if (!iscrittoService.existsByIdentificativo(idIscritto))
 			return new ResponseEntity<>(new Messaggio("L'iscritto non esiste"), HttpStatus.NOT_FOUND);
 		I iscritto = iscrittoService.findByIdentificativo(idIscritto).get();
 		return new ResponseEntity<>(iscritto, HttpStatus.OK);
 	}
-	
+
 	@GetMapping("/{id}/{ruolo}")
-	public ResponseEntity<?> getIscritto(@PathVariable("id") String idIscritto, @PathVariable("ruolo") TipologiaRuolo ruolo) {
+	public ResponseEntity<?> getIscritto(@PathVariable("id") String idIscritto,
+			@PathVariable("ruolo") TipologiaRuolo ruolo) {
 		try {
 			return new ResponseEntity<>(iscrittoService.getRuolo(idIscritto, ruolo), HttpStatus.OK);
 		} catch (Exception e) {
 			return new ResponseEntity<>(new Messaggio(e.getMessage()), HttpStatus.NOT_FOUND);
 		}
 	}
-	
+
 	@PostMapping("/accedi")
 	public ResponseEntity<?> accedi(@Valid @RequestBody LoginIscritto loginIscritto, BindingResult bindingResult) {
 		if (bindingResult.hasErrors())
 			return new ResponseEntity<>(new Messaggio(Utils.getErrore(bindingResult)), HttpStatus.BAD_REQUEST);
-		if(!iscrittoService.existsByIdentificativo(loginIscritto.getIdentificativo()))
+		if (!iscrittoService.existsByIdentificativo(loginIscritto.getIdentificativo()))
 			return new ResponseEntity<>(new Messaggio("L'identificativo non esiste!"), HttpStatus.NOT_FOUND);
 		Authentication authentication = authenticationManager.authenticate(new UsernamePasswordAuthenticationToken(
 				loginIscritto.getIdentificativo(), loginIscritto.getPassword()));
@@ -82,13 +99,21 @@ public class ControllerVisitatore<I extends Iscritto, R extends IscrittoReposito
 		JwtDto jwtDto = new JwtDto(jwt);
 		return new ResponseEntity<>(jwtDto, HttpStatus.OK);
 	}
-	
-	protected ResponseEntity<?> canCreate(IscrittoDto iscrittoDto, BindingResult bindingResult){
+
+	/**
+	 * Controlla se i campi inseriti sono validi e verifica se l'identificativo e'
+	 * gia' presente nel database.
+	 * 
+	 * @param iscrittoDto
+	 * @param bindingResult
+	 * @return {@code true} se l'iscritto può esser creato, {@code false} altrimenti.
+	 */
+	protected ResponseEntity<?> canCreate(IscrittoDto iscrittoDto, BindingResult bindingResult) {
 		if (bindingResult.hasErrors())
 			return new ResponseEntity<>(new Messaggio(Utils.getErrore(bindingResult)), HttpStatus.BAD_REQUEST);
-		if(iscrittoService.existsByIdentificativo(iscrittoDto.getIdentificativo()))
-			return new ResponseEntity<>(new Messaggio("L'identificativo esiste gia'"), HttpStatus.BAD_REQUEST); 
-		
-		return new ResponseEntity<>(new Messaggio("Iscrizione avvenuta con successo"), HttpStatus.CREATED); 
+		if (iscrittoService.existsByIdentificativo(iscrittoDto.getIdentificativo()))
+			return new ResponseEntity<>(new Messaggio("L'identificativo esiste gia'"), HttpStatus.BAD_REQUEST);
+
+		return new ResponseEntity<>(new Messaggio("Iscrizione avvenuta con successo"), HttpStatus.CREATED);
 	}
 }

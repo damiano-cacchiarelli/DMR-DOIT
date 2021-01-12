@@ -7,6 +7,14 @@ import org.springframework.stereotype.Repository;
 
 import it.unicam.dmr.doit.progetto.Progetto;
 
+/**
+ * Questa interfaccia implementa {@code JpaRepository<Progetto, Integer>} e permette
+ * l'interazione con il database per la gestione di un {@code Progetto}.
+ * 
+ * @author Damiano Cacchiarelli
+ * @author Matteo Romagnoli
+ * @author Roberto Cesetti
+ */
 @Repository
 public interface ProgettoRepository extends JpaRepository<Progetto, Integer> {
 

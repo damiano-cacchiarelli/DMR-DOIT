@@ -11,6 +11,14 @@ import it.unicam.dmr.doit.security.IscrittoPrincipale;
 import it.unicam.dmr.doit.service.iscritto.IscrittoService;
 import it.unicam.dmr.doit.utenti.Iscritto;
 
+/**
+ * Questa classe implementa l'interfaccia {@code UserDetailsService} ed ha la
+ * responsabilita' di caricare i dati relativi ad un {@code Iscritto};
+ * 
+ * @author Damiano Cacchiarelli
+ * @author Matteo Romagnoli
+ * @author Roberto Cesetti
+ */
 @Service
 public class IscrittoDetailsServiceImpl implements UserDetailsService {
 

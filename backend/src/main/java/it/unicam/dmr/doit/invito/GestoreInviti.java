@@ -16,16 +16,24 @@ import javax.persistence.Transient;
 import com.fasterxml.jackson.annotation.JsonIgnore;
 import com.fasterxml.jackson.annotation.JsonManagedReference;
 
-import it.unicam.dmr.doit.invito.InvitoId.RuoloSoggetto;
 import it.unicam.dmr.doit.progetto.Progetto;
 import it.unicam.dmr.doit.utenti.Iscritto;
 
+/**
+ * Questa classe rappresenta il gestore degli {@code Inviti} di un Iscritto.
+ * Implementa l'interfaccia {@code GestoreMessaggi<Invito>} ed ha la
+ * responsabilità di inviare, ricevere, eliminare ed ottenere un {@code Invito}.
+ * 
+ * @author Damiano Cacchiarelli
+ * @author Matteo Romagnoli
+ * @author Roberto Cesetti
+ */
 @Embeddable
 public class GestoreInviti implements GestoreMessaggi<Invito> {
 
 	@Transient
 	private Iscritto iscritto;
-	
+
 	private int nextIdInvito = 0;
 
 	@JsonManagedReference
@@ -38,6 +46,14 @@ public class GestoreInviti implements GestoreMessaggi<Invito> {
 
 	public GestoreInviti() {
 	}
+
+	public GestoreInviti(Iscritto iscritto) {
+		this.iscritto = iscritto;
+	}
+
+	// ================================================================================
+	// Getters & Setters
+	// ================================================================================
 
 	@JsonIgnore
 	@Override
@@ -53,16 +69,8 @@ public class GestoreInviti implements GestoreMessaggi<Invito> {
 		return listaInvitiInviati;
 	}
 
-	public void setListaInvitiInviati(Set<Invito> listaInvitiInviati) {
-		this.listaInvitiInviati = listaInvitiInviati;
-	}
-
 	public Set<Invito> getListaInvitiRicevuti() {
 		return listaInvitiRicevuti;
-	}
-
-	public void setListaInvitiRicevuti(Set<Invito> listaInvitiRicevuti) {
-		this.listaInvitiRicevuti = listaInvitiRicevuti;
 	}
 
 	public Set<Invito> getMessaggi() {
@@ -70,6 +78,10 @@ public class GestoreInviti implements GestoreMessaggi<Invito> {
 		inviti.addAll(listaInvitiRicevuti);
 		return inviti;
 	}
+
+	// ================================================================================
+	// Metodi
+	// ================================================================================
 
 	@Override
 	public List<Invito> getMessaggi(Predicate<? super Invito> filtro) {
@@ -104,7 +116,8 @@ public class GestoreInviti implements GestoreMessaggi<Invito> {
 	@Override
 	public void inviaMessaggio(Iscritto destinatario, String contenuto, Progetto progetto,
 			TipologiaInvito tipologiaInvito) {
-		Invito invito = new Invito(getNextId(), contenuto, tipologiaInvito, iscritto, destinatario, progetto.getId(), progetto.getNome());
+		Invito invito = new Invito(getNextId(), contenuto, tipologiaInvito, iscritto, destinatario, progetto.getId(),
+				progetto.getNome());
 		inviaMessaggio(destinatario, invito);
 	}
 
@@ -112,8 +125,9 @@ public class GestoreInviti implements GestoreMessaggi<Invito> {
 	public void inviaMessaggio(Iscritto destinatario, Invito messaggio) {
 		messaggio.setSoggetto(RuoloSoggetto.MITTENTE);
 		listaInvitiInviati.add(messaggio);
-		destinatario.getGestoreMessaggi().riceviMessaggio(new Invito(messaggio.getId(), messaggio.getContenuto(),
-				messaggio.getTipologiaInvito(), iscritto, destinatario, messaggio.getIdProgetto(), messaggio.getNomeProgetto()));
+		destinatario.getGestoreMessaggi()
+				.riceviMessaggio(new Invito(messaggio.getId(), messaggio.getContenuto(), messaggio.getTipologiaInvito(),
+						iscritto, destinatario, messaggio.getIdProgetto(), messaggio.getNomeProgetto()));
 	}
 
 	@Override
@@ -121,17 +135,21 @@ public class GestoreInviti implements GestoreMessaggi<Invito> {
 		return getMessaggi().stream().filter(i -> i.getId().equals(idMessaggio)).findFirst().get();
 	}
 
+	private String getNextId() {
+		return iscritto.getIdentificativo() + getNextIdInvito();
+	}
+
+	public final int getNextIdInvito() {
+		return ++nextIdInvito;
+	}
+
+	// ================================================================================
+	// ToString
+	// ================================================================================
+
 	@Override
 	public String toString() {
 		return "GestoreInviti [listaInvitiInviati=" + listaInvitiInviati + ", listaInvitiRicevuti="
 				+ listaInvitiRicevuti + "]";
-	}
-
-	private String getNextId() {
-		return iscritto.getIdentificativo() + getNextIdInvito();
-	}
-	
-	public final int getNextIdInvito() {
-		return ++nextIdInvito;
 	}
 }

@@ -8,6 +8,14 @@ import javax.validation.constraints.NotNull;
 
 import it.unicam.dmr.doit.controller.Utils;
 
+/**
+ * Questa classe fa parte degli oggetti che vengono trasfertiti in rete e
+ * rappresenta un {@code Progetto}.
+ * 
+ * @author Damiano Cacchiarelli
+ * @author Matteo Romagnoli
+ * @author Roberto Cesetti
+ */
 public class ProgettoDto {
 	
 	@NotNull(message = Utils.nonNullo)

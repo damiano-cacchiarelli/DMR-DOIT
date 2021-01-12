@@ -5,9 +5,17 @@ import java.io.Serializable;
 import javax.persistence.EnumType;
 import javax.persistence.Enumerated;
 
+/**
+ * Questa classe rappresenta la chiave primaria composta di un {@code Invito};
+ * in particolare la chiave si compone dell'{@code id} e del {@code RuoloSoggetto}.
+ * 
+ * @author Damiano Cacchiarelli
+ * @author Matteo Romagnoli
+ * @author Roberto Cesetti
+ */
 @SuppressWarnings("serial")
 public class InvitoId implements Serializable {
-	
+
 	private String id;
 	@Enumerated(EnumType.STRING)
 	private RuoloSoggetto soggetto;
@@ -20,22 +28,30 @@ public class InvitoId implements Serializable {
 		this.id = id;
 		this.soggetto = soggetto;
 	}
-	
+
+	// ================================================================================
+	// Getters & Setters
+	// ================================================================================
+
 	public void setId(String id) {
 		this.id = id;
 	}
-	
+
 	public String getId() {
 		return id;
 	}
-	
+
 	public void setSoggetto(RuoloSoggetto soggetto) {
 		this.soggetto = soggetto;
 	}
-	
+
 	public RuoloSoggetto getSoggetto() {
 		return soggetto;
 	}
+
+	// ================================================================================
+	// Equals & HashCode & ToString
+	// ================================================================================
 
 	@Override
 	public int hashCode() {
@@ -61,9 +77,5 @@ public class InvitoId implements Serializable {
 		if (soggetto != other.soggetto)
 			return false;
 		return true;
-	}
-
-	public enum RuoloSoggetto {
-		MITTENTE, DESTINATARIO
 	}
 }

@@ -1,3 +1,3 @@
 export enum RuoloSoggetto {
-    MITTENTE, DESTINATARIO
+    MITTENTE = "MITTENTE", DESTINATARIO = "DESTINATARIO"
 }

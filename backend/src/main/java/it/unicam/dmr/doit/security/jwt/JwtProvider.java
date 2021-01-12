@@ -19,7 +19,13 @@ import io.jsonwebtoken.UnsupportedJwtException;
 import it.unicam.dmr.doit.security.IscrittoPrincipale;
 
 /**
- * Crea il token, verifica la validità del token (a livello sintattico).
+ * Questa classe ha la responsabilita' di creare il token jwt, ottenere le
+ * informazioni dal token jwt e verificare la validità del token (a livello
+ * sintattico).
+ * 
+ * @author Damiano Cacchiarelli
+ * @author Matteo Romagnoli
+ * @author Roberto Cesetti
  */
 @Component
 public class JwtProvider {

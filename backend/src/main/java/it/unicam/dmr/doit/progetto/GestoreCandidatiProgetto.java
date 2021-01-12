@@ -16,6 +16,16 @@ import it.unicam.dmr.doit.progetto.exception.CandidacyStatusException;
 import it.unicam.dmr.doit.progetto.exception.ExistingElementException;
 import it.unicam.dmr.doit.utenti.ruoli.Progettista;
 
+/**
+ * Questa classe rappresenta il gestore dei {@code Progettisti} di un
+ * {@code Progetto}, ed ha la responsabilita' di memorizzare tutti i progettisti
+ * che interagiscono con il {@code Progetto} (i candidati e quelli
+ * partecipanti).
+ * 
+ * @author Damiano Cacchiarelli
+ * @author Matteo Romagnoli
+ * @author Roberto Cesetti
+ */
 @Embeddable
 public class GestoreCandidatiProgetto {
 
@@ -41,21 +51,9 @@ public class GestoreCandidatiProgetto {
 
 	}
 
-	public Set<Progettista> getCandidatiAlProgetto() {
-		return candidatiAlProgetto;
-	}
-
-	public void setCandidatiAlProgetto(Set<Progettista> candidatiAlProgetto) {
-		this.candidatiAlProgetto = candidatiAlProgetto;
-	}
-
-	public Set<Progettista> getPartecipantiAlProgetto() {
-		return partecipantiAlProgetto;
-	}
-
-	public void setPartecipantiAlProgetto(Set<Progettista> partecipantiAlProgetto) {
-		this.partecipantiAlProgetto = partecipantiAlProgetto;
-	}
+	// ================================================================================
+	// Metodi
+	// ================================================================================
 
 	public boolean isCandidatureAperte() {
 		return candidatureAperte;
@@ -66,7 +64,7 @@ public class GestoreCandidatiProgetto {
 		candidatiAlProgetto.forEach(c -> ids.add(c.getIscritto().getIdentificativo()));
 		return ids;
 	}
-	
+
 	public List<String> getIdentificativiPartecipanti() {
 		List<String> ids = new LinkedList<>();
 		partecipantiAlProgetto.forEach(c -> ids.add(c.getIscritto().getIdentificativo()));
@@ -80,10 +78,8 @@ public class GestoreCandidatiProgetto {
 	}
 
 	public void aggiungiCandidato(Progettista progettista) throws ExistingElementException, CandidacyStatusException {
-
 		if (!candidatureAperte)
 			throw new CandidacyStatusException("Le candidature sono chiuse");
-
 		if (!candidatiAlProgetto.add(progettista) || partecipantiAlProgetto.contains(progettista))
 			throw new ExistingElementException("Il progettista e' gia candidato");
 	}
@@ -97,21 +93,29 @@ public class GestoreCandidatiProgetto {
 				.filter(p -> p.getIscritto().getIdentificativo().equals(idProgettista)).findFirst().get();
 		partecipantiAlProgetto.add(progettista);
 		candidatiAlProgetto.remove(progettista);
-
 	}
 
 	public boolean progettistaPresente(String idProgettista) {
-
 		for (Progettista progettista : candidatiAlProgetto) {
 			if (progettista.getIscritto().getIdentificativo().equals(idProgettista))
 				return true;
 		}
-
 		for (Progettista progettista : partecipantiAlProgetto) {
 			if (progettista.getIscritto().getIdentificativo().equals(idProgettista))
 				return true;
 		}
-
 		return false;
+	}
+
+	// ================================================================================
+	// Getters & Setters
+	// ================================================================================
+
+	public Set<Progettista> getCandidatiAlProgetto() {
+		return candidatiAlProgetto;
+	}
+
+	public Set<Progettista> getPartecipantiAlProgetto() {
+		return partecipantiAlProgetto;
 	}
 }
