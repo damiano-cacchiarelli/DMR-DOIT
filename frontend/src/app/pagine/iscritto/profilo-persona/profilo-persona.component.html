@@ -1,5 +1,24 @@
-<div class="container border border-warning rounded-10 border-5">
-    
-        <p *ngIf="persona">profilo-persona works!Nome: {{persona.identificativo}}</p>
-    
+<div id="card-persona" class="rounded-3 p-5 mt-3 mx-3" *ngIf="persona">
+        <div class="row align-items-start">
+                <div class="col-md-3 my-auto align-middle">
+                        <p class="fs-1 fw-bold text-break lh-sm">{{persona.identificativo}}</p>
+                </div>
+                <div class="col-md-6 border-start mt-3">
+                        <div class="row align-items-start">
+                                <p><span class="fw-bold">Nome: </span>{{persona.cognome}} {{persona.nome}}</p>
+                        </div>
+                        <div class="row align-items-start">
+                                <p><span class="fw-bold ">Email: </span><span
+                                                class="text-break">{{persona.email}}</span></p>
+                        </div>
+                        <div class="row align-items-start">
+                                <p><span class="fw-bold ">Nazionalità: </span><span
+                                                class="text-break">{{persona.cittadinanza}}</span></p>
+                        </div>
+                        <div class="row align-items-start">
+                                <p><span class="fw-bold ">Telefono: </span><span
+                                                class="text-break">{{persona.telefono}}</span></p>
+                        </div>
+                </div>
+        </div>
 </div>

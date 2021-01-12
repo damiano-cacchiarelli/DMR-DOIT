@@ -1,5 +1,6 @@
 import { Component, Input, OnInit } from '@angular/core';
-import { Ente } from 'src/app/modello/iscritto/ente';
+import { EnteDto } from 'src/app/modello/iscritto/ente-dto';
+import { IscrittoDto } from 'src/app/modello/iscritto/iscritto-dto';
 
 @Component({
   selector: 'profilo-ente',
@@ -7,7 +8,7 @@ import { Ente } from 'src/app/modello/iscritto/ente';
   styleUrls: ['./profilo-ente.component.css']
 })
 export class ProfiloEnteComponent implements OnInit {
-  @Input() ente?: Ente;
+  @Input() ente?: EnteDto;
 
   constructor(){
   }

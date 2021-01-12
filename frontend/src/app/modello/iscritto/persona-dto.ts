@@ -1,6 +1,6 @@
-import { Iscritto } from "./iscritto";
+import { IscrittoDto } from "./iscritto-dto";
 
-export class Persona extends Iscritto {
+export class PersonaDto extends IscrittoDto {
     nome: string;
     cognome: string;
     cittadinanza: string;

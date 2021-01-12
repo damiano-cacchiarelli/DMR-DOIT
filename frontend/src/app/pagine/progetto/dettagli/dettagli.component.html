@@ -5,8 +5,9 @@
     <div class="col-md-6 mx-auto mt-5">
       <h1 class="text-center">{{progetto.nome}}</h1><br>
       <ul class="list-inline">
-        <li class="list-inline-item mr-2 btn" [ngClass]="getColore(i)" *ngFor="let tag of progetto.tags; index as i;"
-          style="cursor: default">{{tag.nome}}</li>
+        Tags:
+        <li class="list-inline-item mr-2 btn my-1" [ngClass]="getColore(i)"
+          *ngFor="let tag of progetto.tags; index as i;" style="cursor: default">{{tag.nome}}</li>
       </ul>
       <hr class="my-4">
       <h3>Obiettivi</h3>
@@ -22,6 +23,9 @@
         <p class="text-justify">{{progetto.lastValutazione.recensione}}</p>
         <a class="btn btn-outline-secondary btn-lg" href="#" role="button">Altro</a>
       </div>
+      <div>
+        <p>Candidati ... </p>
+      </div>
       <div class="jumbotron jumbotron-fluid mt-5 text-center">
         <div class="container">
           <h3 class="display-3">Proponente</h3>
@@ -32,11 +36,21 @@
       </div>
     </div>
     <div class="col-md-2 mx-auto mt-5 text-center">
-      <div class="list-group mx-auto">
-        <button type="button" class="list-group-item btn btn-outline-primary border-0">Modifica</button>
-        <button type="button" class="list-group-item btn btn-outline-primary border-0">Aggiungi Progettista</button>
-        <button type="button" class="list-group-item btn btn-outline-primary border-0">Modifica</button>
-        <button type="button" class="list-group-item btn btn-outline-primary border-0">Modifica</button>
+      <div class="list-group mx-auto border-start">
+        <!--Visitatore-->
+        <button type="button" class="list-group-item btn btn-outline-primary border-0">Visitatore</button>
+        <!--Proponente-->
+        <button type="button" class="list-group-item btn btn-outline-primary border-0 my-1">Chiudi candidature</button>
+        <button type="button" class="list-group-item btn btn-outline-primary border-0 my-1">Passa a fase
+          successiva</button>
+        <button type="button" class="list-group-item btn btn-outline-primary border-0 my-1">Fai valutare</button>
+        <button type="button" class="list-group-item btn btn-outline-primary border-0 my-1">Invita un
+          Progettista</button>
+        <!--Progettista-->
+        <button type="button" class="list-group-item btn btn-outline-primary border-0 my-1">Partecipa</button>
+        <!--Esperto-->
+        <button type="button" class="list-group-item btn btn-outline-primary border-0 my-1">Espero</button>
+
       </div>
     </div>
   </div>

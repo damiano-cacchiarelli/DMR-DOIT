@@ -1,6 +1,6 @@
 import { TipologiaRuolo } from "./tipologia-ruolo.enum";
 
-export class Ruolo {
+export class RuoloDto {
     ruolo: TipologiaRuolo;
 
     constructor(ruolo: TipologiaRuolo){

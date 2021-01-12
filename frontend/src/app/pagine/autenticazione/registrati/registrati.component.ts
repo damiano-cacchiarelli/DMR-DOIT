@@ -1,9 +1,9 @@
 import { Component, OnInit } from '@angular/core';
 import { Router } from '@angular/router';
 import { ToastrService } from 'ngx-toastr';
-import { Ente } from 'src/app/modello/iscritto/ente';
-import { Iscritto } from 'src/app/modello/iscritto/iscritto';
-import { Persona } from 'src/app/modello/iscritto/persona';
+import { EnteDto } from 'src/app/modello/iscritto/ente-dto';
+import { IscrittoDto } from 'src/app/modello/iscritto/iscritto-dto';
+import { PersonaDto } from 'src/app/modello/iscritto/persona-dto';
 import { VisitatoreService } from 'src/app/servizi/visitatore.service';
 import { TokenService } from 'src/app/servizi/token.service';
 
@@ -39,11 +39,11 @@ export class RegistratiComponent implements OnInit {
   }
 
   onRegistrati(): void {
-    let iscritto: Iscritto;
+    let iscritto: IscrittoDto;
     if (this.tipo === "persona") {
-      iscritto = new Persona(this.identificativo, this.email, this.password, this.nome, this.cognome, this.cittadinanza, this.sesso, this.telefono);
+      iscritto = new PersonaDto(this.identificativo, this.email, this.password, this.nome, this.cognome, this.cittadinanza, this.sesso, this.telefono);
     } else {
-      iscritto = new Ente(this.identificativo, this.email, this.password, this.sede, this.annoDiFondazione);
+      iscritto = new EnteDto(this.identificativo, this.email, this.password, this.sede, this.annoDiFondazione);
     }
     iscritto.tipo = this.tipo;
 
