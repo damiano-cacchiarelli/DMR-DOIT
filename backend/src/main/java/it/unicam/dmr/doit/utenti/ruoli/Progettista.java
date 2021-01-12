@@ -12,12 +12,14 @@ import javax.persistence.JoinTable;
 import javax.persistence.ManyToMany;
 import javax.validation.constraints.NotNull;
 
+import com.fasterxml.jackson.annotation.JsonManagedReference;
+
 import it.unicam.dmr.doit.progetto.Progetto;
 
 @Entity
 public class Progettista extends Ruolo {
 	
-	@NotNull
+	@JsonManagedReference
 	@ManyToMany(fetch = FetchType.LAZY, cascade = CascadeType.PERSIST)
 	@JoinTable(name = "progettista_progetto", joinColumns = {
 			@JoinColumn(name = "progettista_id", referencedColumnName = "id", nullable = false, updatable = false) }, inverseJoinColumns = {

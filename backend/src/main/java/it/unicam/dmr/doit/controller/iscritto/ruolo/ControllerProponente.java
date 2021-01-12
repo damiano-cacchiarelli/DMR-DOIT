@@ -1,8 +1,5 @@
 package it.unicam.dmr.doit.controller.iscritto.ruolo;
 
-import java.util.ArrayList;
-import java.util.List;
-import java.util.Objects;
 import java.util.Set;
 import java.util.stream.Collectors;
 
@@ -115,6 +112,7 @@ public class ControllerProponente {
 		
 		Progetto progetto = progettoService.findById(idProgetto).get();
 		progetto.setStato(Stato.IN_VALUTAZIONE);
+		progettoService.salvaProgetto(progetto);
 		return new ResponseEntity<>(new Messaggio("Progetto in valutazione"), HttpStatus.OK);
 	}
 	

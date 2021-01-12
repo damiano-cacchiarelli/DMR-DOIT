@@ -15,6 +15,7 @@ import org.springframework.validation.BindingResult;
 import org.springframework.web.bind.annotation.CrossOrigin;
 import org.springframework.web.bind.annotation.DeleteMapping;
 import org.springframework.web.bind.annotation.GetMapping;
+import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.PutMapping;
 import org.springframework.web.bind.annotation.RequestBody;
@@ -55,12 +56,22 @@ public class ControllerInvito {
 	public ResponseEntity<?> listaInviti(Authentication authentication) {
 		return new ResponseEntity<>(invitoService.listaInviti(authentication.getName()), HttpStatus.OK);
 	}
+	
+	@GetMapping("/{id}")
+	public ResponseEntity<?> getInvito(@PathVariable("id") String id, Authentication authentication) {
+		if(!invitoService.esisteInvito(id))
+			return new ResponseEntity<>(new Messaggio("Invito inesistente"), HttpStatus.NOT_FOUND);
+		List<Invito> listaInviti = invitoService.listaInviti(authentication.getName());
+		Optional<Invito> invito = listaInviti.stream().filter(i -> i.getId().equals(id)).findFirst();
+		if(invito.isEmpty())
+			return new ResponseEntity<>(new Messaggio("Invito inesistente"), HttpStatus.NOT_FOUND);
+		return new ResponseEntity<>(invito.get(), HttpStatus.OK);
+	}
 
 	@PreAuthorize("hasRole('PROPONENTE') or hasRole('PROGETTISTA') or hasRole('ESPERTO')")
 	@PostMapping("/invia")
 	public ResponseEntity<Messaggio> inviaInvito(@Valid @RequestBody InvitoDto invitoDto, BindingResult bindingResult,
 			Authentication authentication) {
-		System.out.println("INVITO DTOOOOOOOOOOOO " + invitoDto.toString());
 		if (bindingResult.hasErrors())
 			return Utils.creaMessaggio(Utils.getErrore(bindingResult), HttpStatus.BAD_REQUEST);
 		for (String idDest : invitoDto.getIdDestinatario()) {

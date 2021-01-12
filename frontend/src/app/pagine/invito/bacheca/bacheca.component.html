@@ -26,7 +26,7 @@
                             <div class="container">
                                 <div class="row">
                                     <div class="d-flex justify-content-between">
-                                        <h3 class="mb-1">Progetto: {{invito.progetto.nome}}</h3>
+                                        <h3 class="mb-1">Progetto: {{invito.nomeProgetto}}</h3>
                                         <div class="d-flex justify-content-end">
                                             <small>{{invito.data}}</small>
                                         </div>
@@ -36,7 +36,7 @@
                                     <span class="mb-1">{{tronca(invito.contenuto)}}</span>
                                 </div>
                                 <div class="row">
-                                    <small class="fw-bold">{{TipologiaInvito[invito.tipologiaInvito]}}</small>
+                                    <small class="fw-bold">{{invito.tipologiaInvito}}</small>
                                 </div>
                             </div>
                         </td>

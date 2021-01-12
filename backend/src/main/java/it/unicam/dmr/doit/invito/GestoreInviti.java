@@ -104,7 +104,7 @@ public class GestoreInviti implements GestoreMessaggi<Invito> {
 	@Override
 	public void inviaMessaggio(Iscritto destinatario, String contenuto, Progetto progetto,
 			TipologiaInvito tipologiaInvito) {
-		Invito invito = new Invito(getNextId(), contenuto, tipologiaInvito, iscritto, destinatario, progetto);
+		Invito invito = new Invito(getNextId(), contenuto, tipologiaInvito, iscritto, destinatario, progetto.getId(), progetto.getNome());
 		inviaMessaggio(destinatario, invito);
 	}
 
@@ -113,7 +113,7 @@ public class GestoreInviti implements GestoreMessaggi<Invito> {
 		messaggio.setSoggetto(RuoloSoggetto.MITTENTE);
 		listaInvitiInviati.add(messaggio);
 		destinatario.getGestoreMessaggi().riceviMessaggio(new Invito(messaggio.getId(), messaggio.getContenuto(),
-				messaggio.getTipologiaInvito(), iscritto, destinatario, messaggio.getProgetto()));
+				messaggio.getTipologiaInvito(), iscritto, destinatario, messaggio.getIdProgetto(), messaggio.getNomeProgetto()));
 	}
 
 	@Override

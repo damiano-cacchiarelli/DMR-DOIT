@@ -13,7 +13,7 @@ import javax.persistence.JoinColumn;
 import javax.persistence.ManyToOne;
 import javax.persistence.Temporal;
 import javax.persistence.TemporalType;
-import javax.persistence.Transient;
+import javax.validation.constraints.NotBlank;
 import javax.validation.constraints.NotNull;
 
 import org.hibernate.annotations.CreationTimestamp;
@@ -21,7 +21,6 @@ import org.hibernate.annotations.CreationTimestamp;
 import com.fasterxml.jackson.annotation.JsonBackReference;
 
 import it.unicam.dmr.doit.invito.InvitoId.RuoloSoggetto;
-import it.unicam.dmr.doit.progetto.Progetto;
 import it.unicam.dmr.doit.utenti.Iscritto;
 
 @Entity
@@ -35,7 +34,7 @@ public class Invito implements Messaggio {
 	@Enumerated(EnumType.STRING)
 	@Column(length = 15)
 	private RuoloSoggetto soggetto = RuoloSoggetto.MITTENTE;
-	
+
 	@NotNull
 	private String contenuto;
 	@Temporal(TemporalType.TIMESTAMP)
@@ -52,31 +51,37 @@ public class Invito implements Messaggio {
 	@ManyToOne(fetch = FetchType.LAZY, optional = false)
 	@JoinColumn(name = "id_iscritto_mittente", nullable = false)
 	private Iscritto mittente;
-	
+
 	@JsonBackReference
 	@ManyToOne(fetch = FetchType.LAZY, optional = false)
 	@JoinColumn(name = "id_iscritto_destinatario", nullable = false)
 	private Iscritto destinatario;
 
-	@Transient
-	private Progetto progetto;
+	@NotNull
+	private int idProgetto;
+	
+	@NotNull
+	@NotBlank
+	private String nomeProgetto;
 
-	public Invito() {}
+	public Invito() {
+	}
 
-	public Invito(@NotNull String id, @NotNull String contenuto, @NotNull TipologiaInvito tipologiaInvito, Iscritto mittente,
-			Iscritto destinatario, Progetto progetto) {
+	public Invito(@NotNull String id, @NotNull String contenuto, @NotNull TipologiaInvito tipologiaInvito,
+			Iscritto mittente, Iscritto destinatario, int idProgetto, String nomeProgetto) {
 		this.id = id;
 		this.contenuto = contenuto;
 		this.tipologiaInvito = tipologiaInvito;
 		this.mittente = mittente;
 		this.destinatario = destinatario;
-		this.progetto = progetto;
+		this.idProgetto = idProgetto;
+		this.nomeProgetto = nomeProgetto;
 	}
-	
+
 	public void setSoggetto(RuoloSoggetto soggetto) {
 		this.soggetto = soggetto;
 	}
-	
+
 	public RuoloSoggetto getSoggetto() {
 		return soggetto;
 	}
@@ -87,10 +92,6 @@ public class Invito implements Messaggio {
 
 	public void setDestinatario(Iscritto destinatario) {
 		this.destinatario = destinatario;
-	}
-
-	public void setProgetto(Progetto progetto) {
-		this.progetto = progetto;
 	}
 
 	public void setContenuto(String contenuto) {
@@ -114,10 +115,11 @@ public class Invito implements Messaggio {
 	}
 
 	public void setTipologiaRisposta(TipologiaRisposta tipologiaRisposta) {
-		if(tipologiaRisposta.equals(TipologiaRisposta.IN_ATTESA))
+		if (tipologiaRisposta.equals(TipologiaRisposta.IN_ATTESA))
 			throw new IllegalArgumentException("La risposta inviata non e' valida");
-		if(!this.tipologiaRisposta.equals(TipologiaRisposta.IN_ATTESA))
-			throw new IllegalArgumentException("L'invito e' stato accettato/rifiutato. Non e' possibile modificare la risposta.");
+		if (!this.tipologiaRisposta.equals(TipologiaRisposta.IN_ATTESA))
+			throw new IllegalArgumentException(
+					"L'invito e' stato accettato/rifiutato. Non e' possibile modificare la risposta.");
 		this.tipologiaRisposta = tipologiaRisposta;
 	}
 
@@ -129,8 +131,12 @@ public class Invito implements Messaggio {
 		return destinatario;
 	}
 
-	public Progetto getProgetto() {
-		return progetto;
+	public int getIdProgetto() {
+		return idProgetto;
+	}
+
+	public String getNomeProgetto() {
+		return nomeProgetto;
 	}
 
 	public String getId() {
@@ -157,16 +163,17 @@ public class Invito implements Messaggio {
 	public String getIdMittente() {
 		return mittente.getIdentificativo();
 	}
-	
+
 	public String getIdDestinatario() {
 		return destinatario.getIdentificativo();
 	}
-	
+
 	@Override
 	public String toString() {
-		return "Invito [mittente=" + mittente.getIdentificativo() + ", destinatario=" + destinatario.getIdentificativo() + ", progetto=" + progetto
-				+ ", contenuto=" + contenuto + ", id=" + id + ", data=" + data + ", tipologiaInvito=" + tipologiaInvito
-				+ ", tipologiaRisposta=" + tipologiaRisposta + "]";
+		return "Invito [mittente=" + mittente.getIdentificativo() + ", destinatario=" + destinatario.getIdentificativo()
+				+ ", progetto=" + idProgetto + " " + nomeProgetto + ", contenuto=" + contenuto + ", id=" + id
+				+ ", data=" + data + ", tipologiaInvito=" + tipologiaInvito + ", tipologiaRisposta=" + tipologiaRisposta
+				+ "]";
 	}
 
 	@Override

@@ -1,10 +1,13 @@
 package it.unicam.dmr.doit.progetto;
 
+import java.util.Collection;
 import java.util.Comparator;
 import java.util.Date;
 import java.util.HashSet;
 import java.util.Objects;
 import java.util.Set;
+import java.util.SortedSet;
+import java.util.stream.Collectors;
 
 import javax.persistence.CascadeType;
 import javax.persistence.Embedded;
@@ -76,13 +79,13 @@ public class Progetto implements IProgetto {
 	private Proponente proponente;
 
 	@NotNull
-	@JsonBackReference
 	@Embedded
 	private GestoreCandidatiProgetto gestoreCandidati = new GestoreCandidatiProgetto();
 
 	@JsonManagedReference
 	@OneToMany(mappedBy = "progetto", fetch = FetchType.LAZY, cascade = CascadeType.ALL)
-	private Set<Valutazione> listaValutazioni = new HashSet<Valutazione>();
+	//private SortedSet<Valutazione> listaValutazioni = new TreeSet<>();
+	private Set<Valutazione> listaValutazioni = new HashSet<>();
 
 	public Progetto() {
 	}
@@ -134,12 +137,12 @@ public class Progetto implements IProgetto {
 		return nome;
 	}
 
-	@JsonIgnore
-	public Set<Valutazione> getListaValutazioni() {
-		return listaValutazioni;
+	public Collection<Valutazione> getListaValutazioni() {
+		return listaValutazioni.stream().sorted(Comparator.comparing(Valutazione::getCreatoIl)).collect(Collectors.toList());
+		//return listaValutazioni;
 	}
 
-	public void setListaValutazioni(Set<Valutazione> listaValutazioni) {
+	public void setListaValutazioni(SortedSet<Valutazione> listaValutazioni) {
 		this.listaValutazioni = listaValutazioni;
 	}
 
@@ -149,6 +152,7 @@ public class Progetto implements IProgetto {
 			throw new IllegalArgumentException("Valutazione gia inserita");
 	}
 
+	@JsonIgnore
 	public Valutazione getLastValutazione() {
 		if (listaValutazioni.isEmpty()) {
 			return null;
