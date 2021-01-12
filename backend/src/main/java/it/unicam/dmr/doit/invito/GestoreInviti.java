@@ -19,7 +19,6 @@ import com.fasterxml.jackson.annotation.JsonManagedReference;
 
 import it.unicam.dmr.doit.invito.InvitoId.RuoloSoggetto;
 import it.unicam.dmr.doit.progetto.Progetto;
-import it.unicam.dmr.doit.progetto.exception.ExistingElementException;
 import it.unicam.dmr.doit.utenti.Iscritto;
 
 @Embeddable
@@ -80,12 +79,11 @@ public class GestoreInviti implements GestoreMessaggi<Invito> {
 	}
 
 	@Override
-	public void riceviMessaggio(Invito messaggio) throws ExistingElementException {
+	public void riceviMessaggio(Invito messaggio) {
 		// inserisci il nuovo messaggio nella lista dei messaggi non letti?
-		if (listaInvitiRicevuti.contains(messaggio))
-			throw new ExistingElementException("Messaggio gia' ricevuto");
 		messaggio.setSoggetto(RuoloSoggetto.DESTINATARIO);
-		listaInvitiRicevuti.add(messaggio);
+		if(!listaInvitiRicevuti.add(messaggio))
+			throw new IllegalArgumentException("Messaggio gia' ricevuto");
 	}
 
 	@Override
@@ -96,7 +94,6 @@ public class GestoreInviti implements GestoreMessaggi<Invito> {
 	@Override
 	public void eliminaMessaggio(String idMessaggio, boolean entrambi) {
 		Invito invito = getMessaggio(idMessaggio);
-
 		if (listaInvitiInviati.contains(invito)) {
 			if (entrambi)
 				invito.getDestinatario().getGestoreMessaggi().eliminaMessaggio(idMessaggio, false);
@@ -108,16 +105,17 @@ public class GestoreInviti implements GestoreMessaggi<Invito> {
 
 	@Override
 	public void inviaMessaggio(Iscritto destinatario, String contenuto, Progetto progetto,
-			TipologiaInvito tipologiaInvito) throws ExistingElementException {
+			TipologiaInvito tipologiaInvito) {
 		Invito invito = new Invito(getNextId(), contenuto, tipologiaInvito, iscritto, destinatario, progetto.getId(),
 				progetto.getNome());
 		inviaMessaggio(destinatario, invito);
 	}
 
 	@Override
-	public void inviaMessaggio(Iscritto destinatario, Invito messaggio) throws ExistingElementException {
+	public void inviaMessaggio(Iscritto destinatario, Invito messaggio){
 		messaggio.setSoggetto(RuoloSoggetto.MITTENTE);
-		listaInvitiInviati.add(messaggio);
+		if(!listaInvitiInviati.add(messaggio))
+			throw new IllegalArgumentException("Messaggio gia' inviato");
 		destinatario.getGestoreMessaggi()
 				.riceviMessaggio(new Invito(messaggio.getId(), messaggio.getContenuto(), messaggio.getTipologiaInvito(),
 						iscritto, destinatario, messaggio.getIdProgetto(), messaggio.getNomeProgetto()));
