@@ -1,20 +1,17 @@
-import { Progetto } from "../../progetto/progetto";
-import { IscrittoDto } from "../iscritto-dto";
+import { Valutazione } from "../../progetto/valutazione";
+import { Ruolo } from "../ruolo";
 import { TipologiaRuolo } from "../tipologia-ruolo.enum";
 
-export class Esperto {
-    rango: number;
-    progettiValutati: Progetto[];
-    ruolo: TipologiaRuolo;
-    id: number;
-    iscritto: IscrittoDto;
+export class Esperto extends Ruolo {
 
-    constructor(rango: number, progettiValutati: Progetto[], ruolo: TipologiaRuolo, id: number, iscritto: IscrittoDto) {
+    rango: number;
+    listaValutazioni: Valutazione[];
+
+    constructor(rango: number, listaValutazioni: Valutazione[], ruolo: TipologiaRuolo, id: number) {
+
+        super(ruolo, id);
         this.rango = rango;
-        this.progettiValutati = progettiValutati;
-        this.ruolo = ruolo;
-        this.id = id;
-        this.iscritto = iscritto;
+        this.listaValutazioni = listaValutazioni;
 
     }
 }

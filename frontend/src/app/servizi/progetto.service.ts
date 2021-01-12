@@ -17,7 +17,11 @@ export class ProgettoService {
     return this.httpClient.get<Progetto[]>(this.progettoURL+ "/vetrina");
   }
 
-  public getProgetto(id: string){
+  public getProgetto(id: number){
     return this.httpClient.get<Progetto>(this.progettoURL+ "/" + id);
+  }
+
+  public cercaProgetto(nome: string){
+    return this.httpClient.get<Progetto[]>(this.progettoURL+ "/ricerca" + "/" + nome);
   }
 }

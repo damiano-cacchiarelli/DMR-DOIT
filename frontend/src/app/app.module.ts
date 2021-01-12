@@ -43,7 +43,7 @@ import { DettagliInvitoComponent } from './pagine/invito/dettagli-invito/dettagl
     ProfiloEnteComponent,
     ProfiloPersonaComponent,
     BachecaComponent,
-    DettagliInvitoComponent
+    DettagliInvitoComponent,
   ],
   imports: [
     BrowserModule,
