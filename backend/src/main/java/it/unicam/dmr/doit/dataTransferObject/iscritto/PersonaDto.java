@@ -6,6 +6,14 @@ import javax.validation.constraints.NotNull;
 
 import it.unicam.dmr.doit.controller.Utils;
 
+/**
+ * Questa classe fa parte degli oggetti che vengono trasfertiti in rete, estende
+ * la classe {@code IscrittoDto} e rappresenta una {@code Persona}.
+ * 
+ * @author Damiano Cacchiarelli
+ * @author Matteo Romagnoli
+ * @author Roberto Cesetti
+ */
 public class PersonaDto extends IscrittoDto {
 
 	@NotNull(message = Utils.nonNullo)
@@ -22,8 +30,10 @@ public class PersonaDto extends IscrittoDto {
 	private String sesso;
 	private String telefono;
 
-	public PersonaDto() {super();}
-	
+	public PersonaDto() {
+		super();
+	}
+
 	public PersonaDto(@NotNull @NotBlank String identificativo, @Email String email, @NotNull @NotBlank String password,
 			@NotNull @NotBlank String nome, @NotNull @NotBlank String cognome, @NotNull @NotBlank String cittadinanza,
 			@NotNull @NotBlank String sesso, String telefono) {

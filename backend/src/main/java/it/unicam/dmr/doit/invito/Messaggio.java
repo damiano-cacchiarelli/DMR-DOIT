@@ -1,6 +1,19 @@
 package it.unicam.dmr.doit.invito;
 
-public interface Messaggio {
+import it.unicam.dmr.doit.utenti.Iscritto;
 
-	public String getInformazioni();
+/**
+ * Interfaccia che rappresenta un messaggio che ciene inviato tra due
+ * {@code Iscritti}.
+ * 
+ * @author Damiano Cacchiarelli
+ * @author Matteo Romagnoli
+ * @author Roberto Cesetti
+ */
+public interface Messaggio {
+	public String getId();
+	
+	public Iscritto getMittente();
+
+	public Iscritto getDestinatario();
 }

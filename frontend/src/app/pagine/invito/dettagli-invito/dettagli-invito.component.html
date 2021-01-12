@@ -22,7 +22,7 @@
                     <div class="container-fluid mr-2">
                         <div class="row justify-content-between">
                             <div class="col-md-6">
-                                <h3 class="mb-1">Progetto: {{invito.progetto.nome}}</h3>
+                                <h3 class="mb-1">Progetto: {{invito.nomeProgetto}}</h3>
                             </div>
                             <div class="col-md-6  text-end">
                                 <small>{{invito.data}} </small><span class="fst-italic fw-bold">da
@@ -32,14 +32,14 @@
                         <div class="row">
                             <div class="d-flex justify-content-between">
                                 <span class="fst-italic fw-bold">a {{invito.idDestinatario}}</span>
-                                <span class="badge bg-info">{{TipologiaRisposta[invito.tipologiaRisposta]}}</span>
+                                <span class="badge bg-info">{{invito.tipologiaRisposta}}</span>
                             </div>
                         </div>
                         <div class="row my-3">
                             <p>{{invito.contenuto}}</p>
                         </div>
                         <div class="row">
-                            <small class="fw-bold">{{TipologiaInvito[invito.tipologiaInvito]}}</small>
+                            <small class="fw-bold">{{invito.tipologiaInvito}}</small>
                         </div>
 
                         <div class="row text-center" *ngIf="invito.tipologiaRisposta == TipologiaRisposta.IN_ATTESA">

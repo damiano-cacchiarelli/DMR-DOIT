@@ -11,13 +11,19 @@ import org.springframework.web.bind.annotation.RestController;
 import it.unicam.dmr.doit.progetto.Tag;
 import it.unicam.dmr.doit.service.progetto.TagService;
 
-/** 
- * Responabilita :
-* - restituire tutti i tag disposnibili
-* - restituire un determinato tag (?)
-* - aggiungere tag (non implementare)
-* - rimuovere tag (non implementare)
-*/
+/**
+ * Questo controller ha la responsabilita' di:
+ * <ul>
+ * <li>Restituire tutti i tag disposnibili;</li>
+ * <li>Restituire un determinato tag;</li>
+ * <li>Aggiungere tag (non implementato);</li>
+ * <li>Rimuovere tag (non implementato);</li>
+ * </ul>
+ * 
+ * @author Damiano Cacchiarelli
+ * @author Matteo Romagnoli
+ * @author Roberto Cesetti
+ */
 @RestController
 @RequestMapping("/tag")
 @CrossOrigin(origins = "http://localhost:4200")

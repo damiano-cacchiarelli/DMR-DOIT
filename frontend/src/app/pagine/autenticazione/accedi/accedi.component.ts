@@ -23,6 +23,7 @@ export class AccediComponent implements OnInit {
     private router: Router) { }
 
   ngOnInit(): void {
+
   }
 
   onAccedi(): void {

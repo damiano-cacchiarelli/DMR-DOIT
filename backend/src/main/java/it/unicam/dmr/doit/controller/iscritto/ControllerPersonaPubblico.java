@@ -16,6 +16,15 @@ import it.unicam.dmr.doit.repository.PersonaRepository;
 import it.unicam.dmr.doit.service.iscritto.PersonaService;
 import it.unicam.dmr.doit.utenti.Persona;
 
+/**
+ * Questo controller estende {@code ControllerVisitatore} secondo i tipo
+ * parametrici{@code Persona, PersonaRepository, PersonaService}, ed ha la
+ * responsabilita' di registrare un utente come {@code Persona}.
+ * 
+ * @author Damiano Cacchiarelli
+ * @author Matteo Romagnoli
+ * @author Roberto Cesetti
+ */
 @RestController
 @RequestMapping("/visitatore/persona")
 @CrossOrigin(origins = "http://localhost:4200")

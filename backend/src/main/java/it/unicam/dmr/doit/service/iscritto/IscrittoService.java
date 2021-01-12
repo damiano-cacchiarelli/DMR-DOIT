@@ -15,6 +15,15 @@ import it.unicam.dmr.doit.utenti.Iscritto;
 import it.unicam.dmr.doit.utenti.ruoli.Ruolo;
 import it.unicam.dmr.doit.utenti.ruoli.TipologiaRuolo;
 
+/**
+ * Questa classe inietta ({@code @Autowired}) {@code R} ed ha la responsabilita'
+ * di effettuare le operazioni di modifica, inserimento, ricerca ed eliminazione
+ * di un {@code I}.
+ * 
+ * @author Damiano Cacchiarelli
+ * @author Matteo Romagnoli
+ * @author Roberto Cesetti
+ */
 @Service
 @Transactional
 public class IscrittoService<I extends Iscritto, R extends IscrittoRepository<I>> {
@@ -43,16 +52,16 @@ public class IscrittoService<I extends Iscritto, R extends IscrittoRepository<I>
 	}
 
 	public List<TipologiaRuolo> getRuoliDisponibili(String identificativo) {
-		if(!existsByIdentificativo(identificativo))
+		if (!existsByIdentificativo(identificativo))
 			throw new NoSuchElementException("Identificativo inesistente.");
 		I iscritto = findByIdentificativo(identificativo).get();
 		List<TipologiaRuolo> ruoliDisponibili = new ArrayList<>(iscritto.getTipoRuoliPossibili());
 		ruoliDisponibili.removeAll(iscritto.getTipologiaRuoli());
 		return ruoliDisponibili;
 	}
-	
+
 	public Optional<Ruolo> getRuolo(String identificativo, TipologiaRuolo ruolo) {
-		if(!existsByIdentificativo(identificativo))
+		if (!existsByIdentificativo(identificativo))
 			throw new NoSuchElementException("Identificativo inesistente.");
 		I iscritto = findByIdentificativo(identificativo).get();
 		return iscritto.getRuoli().stream().filter(r -> r.getRuolo().equals(ruolo)).findFirst();

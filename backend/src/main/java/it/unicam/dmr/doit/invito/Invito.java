@@ -13,17 +13,28 @@ import javax.persistence.JoinColumn;
 import javax.persistence.ManyToOne;
 import javax.persistence.Temporal;
 import javax.persistence.TemporalType;
-import javax.persistence.Transient;
+import javax.validation.constraints.NotBlank;
 import javax.validation.constraints.NotNull;
 
 import org.hibernate.annotations.CreationTimestamp;
 
 import com.fasterxml.jackson.annotation.JsonBackReference;
 
-import it.unicam.dmr.doit.invito.InvitoId.RuoloSoggetto;
-import it.unicam.dmr.doit.progetto.Progetto;
+import it.unicam.dmr.doit.controller.Utils;
 import it.unicam.dmr.doit.utenti.Iscritto;
 
+/**
+ * Questa classe rappresenta un invito, cioè un messaggio inviato tra due
+ * iscritti che ha una {@code TipologiaInvito}. Ogni invito fa riferimento ad un
+ * {@code Progetto} ed ha un {@code Iscritto - Mittente} ed un
+ * {@code Iscritto - Destinatario}. Inoltre ogni Invito ha una
+ * {@code TipologiaRisposta}, che indica se l'invito e' accettato, rifiutato o
+ * in attesa di visualizzazione.
+ * 
+ * @author Damiano Cacchiarelli
+ * @author Matteo Romagnoli
+ * @author Roberto Cesetti
+ */
 @Entity
 @IdClass(InvitoId.class)
 public class Invito implements Messaggio {
@@ -35,16 +46,16 @@ public class Invito implements Messaggio {
 	@Enumerated(EnumType.STRING)
 	@Column(length = 15)
 	private RuoloSoggetto soggetto = RuoloSoggetto.MITTENTE;
-	
-	@NotNull
+
+	@NotNull(message = Utils.nonNullo)
 	private String contenuto;
 	@Temporal(TemporalType.TIMESTAMP)
 	@CreationTimestamp
 	private Date data;
-	@NotNull
+	@NotNull(message = Utils.nonNullo)
 	@Enumerated(EnumType.STRING)
 	private TipologiaInvito tipologiaInvito;
-	@NotNull
+	@NotNull(message = Utils.nonNullo)
 	@Enumerated(EnumType.STRING)
 	private TipologiaRisposta tipologiaRisposta = TipologiaRisposta.IN_ATTESA;
 
@@ -52,61 +63,43 @@ public class Invito implements Messaggio {
 	@ManyToOne(fetch = FetchType.LAZY, optional = false)
 	@JoinColumn(name = "id_iscritto_mittente", nullable = false)
 	private Iscritto mittente;
-	
+
 	@JsonBackReference
 	@ManyToOne(fetch = FetchType.LAZY, optional = false)
 	@JoinColumn(name = "id_iscritto_destinatario", nullable = false)
 	private Iscritto destinatario;
 
-	@Transient
-	private Progetto progetto;
+	@NotNull(message = Utils.nonNullo)
+	private int idProgetto;
 
-	public Invito() {}
+	@NotNull(message = Utils.nonNullo)
+	@NotBlank(message = Utils.nonVuoto)
+	private String nomeProgetto;
 
-	public Invito(@NotNull String id, @NotNull String contenuto, @NotNull TipologiaInvito tipologiaInvito, Iscritto mittente,
-			Iscritto destinatario, Progetto progetto) {
+	public Invito() {
+	}
+
+	public Invito(@NotNull String id, @NotNull String contenuto, @NotNull TipologiaInvito tipologiaInvito,
+			Iscritto mittente, Iscritto destinatario, int idProgetto, String nomeProgetto) {
 		this.id = id;
 		this.contenuto = contenuto;
 		this.tipologiaInvito = tipologiaInvito;
 		this.mittente = mittente;
 		this.destinatario = destinatario;
-		this.progetto = progetto;
+		this.idProgetto = idProgetto;
+		this.nomeProgetto = nomeProgetto;
 	}
-	
-	public void setSoggetto(RuoloSoggetto soggetto) {
-		this.soggetto = soggetto;
-	}
-	
+
+	// ================================================================================
+	// Getters & Setters
+	// ================================================================================
+
 	public RuoloSoggetto getSoggetto() {
 		return soggetto;
 	}
 
-	public void setMittente(Iscritto mittente) {
-		this.mittente = mittente;
-	}
-
-	public void setDestinatario(Iscritto destinatario) {
-		this.destinatario = destinatario;
-	}
-
-	public void setProgetto(Progetto progetto) {
-		this.progetto = progetto;
-	}
-
-	public void setContenuto(String contenuto) {
-		this.contenuto = contenuto;
-	}
-
-	public void setId(String id) {
-		this.id = id;
-	}
-
-	public void setData(Date data) {
-		this.data = data;
-	}
-
-	public void setTipologiaInvito(TipologiaInvito tipologiaInvito) {
-		this.tipologiaInvito = tipologiaInvito;
+	public void setSoggetto(RuoloSoggetto soggetto) {
+		this.soggetto = soggetto;
 	}
 
 	public TipologiaRisposta getTipologiaRisposta() {
@@ -114,25 +107,33 @@ public class Invito implements Messaggio {
 	}
 
 	public void setTipologiaRisposta(TipologiaRisposta tipologiaRisposta) {
-		if(tipologiaRisposta.equals(TipologiaRisposta.IN_ATTESA))
+		if (tipologiaRisposta.equals(TipologiaRisposta.IN_ATTESA))
 			throw new IllegalArgumentException("La risposta inviata non e' valida");
-		if(!this.tipologiaRisposta.equals(TipologiaRisposta.IN_ATTESA))
-			throw new IllegalArgumentException("L'invito e' stato accettato/rifiutato. Non e' possibile modificare la risposta.");
+		if (!this.tipologiaRisposta.equals(TipologiaRisposta.IN_ATTESA))
+			throw new IllegalArgumentException(
+					"L'invito e' gia' stato accettato/rifiutato. Non e' possibile modificare la risposta.");
 		this.tipologiaRisposta = tipologiaRisposta;
 	}
 
+	@Override
 	public Iscritto getMittente() {
 		return mittente;
 	}
 
+	@Override
 	public Iscritto getDestinatario() {
 		return destinatario;
 	}
 
-	public Progetto getProgetto() {
-		return progetto;
+	public int getIdProgetto() {
+		return idProgetto;
 	}
 
+	public String getNomeProgetto() {
+		return nomeProgetto;
+	}
+
+	@Override
 	public String getId() {
 		return id;
 	}
@@ -149,25 +150,17 @@ public class Invito implements Messaggio {
 		return contenuto;
 	}
 
-	@Override
-	public String getInformazioni() {
-		return toString();
-	}
-
 	public String getIdMittente() {
 		return mittente.getIdentificativo();
 	}
-	
+
 	public String getIdDestinatario() {
 		return destinatario.getIdentificativo();
 	}
-	
-	@Override
-	public String toString() {
-		return "Invito [mittente=" + mittente.getIdentificativo() + ", destinatario=" + destinatario.getIdentificativo() + ", progetto=" + progetto
-				+ ", contenuto=" + contenuto + ", id=" + id + ", data=" + data + ", tipologiaInvito=" + tipologiaInvito
-				+ ", tipologiaRisposta=" + tipologiaRisposta + "]";
-	}
+
+	// ================================================================================
+	// Equals & HashCode & ToString
+	// ================================================================================
 
 	@Override
 	public int hashCode() {
@@ -193,5 +186,13 @@ public class Invito implements Messaggio {
 		if (soggetto != other.soggetto)
 			return false;
 		return true;
+	}
+
+	@Override
+	public String toString() {
+		return "Invito [mittente=" + mittente.getIdentificativo() + ", destinatario=" + destinatario.getIdentificativo()
+				+ ", progetto=" + idProgetto + " " + nomeProgetto + ", contenuto=" + contenuto + ", id=" + id
+				+ ", data=" + data + ", tipologiaInvito=" + tipologiaInvito + ", tipologiaRisposta=" + tipologiaRisposta
+				+ "]";
 	}
 }

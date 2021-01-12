@@ -35,7 +35,17 @@ import it.unicam.dmr.doit.utenti.ruoli.Ruolo;
 import it.unicam.dmr.doit.utenti.ruoli.TipologiaRuolo;
 
 /**
- * Responabilita - ricerca progetto (per id e nome) - lista progetti
+ * Questo controller ha la responsabilita' di:
+ * <ul>
+ * <li>Ricercare un progetto tramite id;</li>
+ * <li>Ricercare un progetto tramite nome;</li>
+ * <li>Ottenere la lista di tutti i progetti;</li>
+ * <li>Ottenere i progetti relativi ad un iscritto (o un ruolo);</li>
+ * </ul>
+ * 
+ * @author Damiano Cacchiarelli
+ * @author Matteo Romagnoli
+ * @author Roberto Cesetti
  */
 @RestController
 @RequestMapping("/progetto")

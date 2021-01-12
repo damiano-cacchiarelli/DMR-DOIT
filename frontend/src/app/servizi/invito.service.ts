@@ -21,4 +21,8 @@ export class InvitoService {
   public getInvito(id: string): Observable<Invito> {
     return this.httpClient.get<Invito>(this.invitoURL + "/" + id);
   }
+
+  public getAll(): Observable<Invito[]> {
+    return this.httpClient.get<Invito[]>(this.invitoURL + "/all");
+  }
 }

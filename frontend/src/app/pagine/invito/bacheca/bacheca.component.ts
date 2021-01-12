@@ -1,10 +1,9 @@
 import { Component, OnInit } from '@angular/core';
 import { Invito } from 'src/app/modello/invito/invito';
-import { InvitoDto } from 'src/app/modello/invito/invito-dto';
 import { RuoloSoggetto } from 'src/app/modello/invito/ruolo-soggetto.enum';
 import { TipologiaInvito } from 'src/app/modello/invito/tipologia-invito.enum';
 import { TipologiaRisposta } from 'src/app/modello/invito/tipologia-risposta.enum';
-import { Progetto } from 'src/app/modello/progetto/progetto';
+import { InvitoService } from 'src/app/servizi/invito.service';
 
 @Component({
   selector: 'app-bacheca',
@@ -21,22 +20,18 @@ export class BachecaComponent implements OnInit {
 
   cercaMessaggio: string = "";
 
-  constructor() { }
+  constructor(private invitoService: InvitoService) { }
 
   ngOnInit(): void {
-    this.inviti = [
-      new Invito("contenuto", TipologiaInvito.PROPOSTA, "mat", 1, "mat1", RuoloSoggetto.DESTINATARIO, new Date(), TipologiaRisposta.IN_ATTESA, "dam", new Progetto("Nome progetto", "", "", [], 1, null as any, null as any, null as any, "", null as any))
-,
-new Invito("contenuto", TipologiaInvito.VALUTAZIONE, "mat", 1, "mat1", RuoloSoggetto.DESTINATARIO, new Date(), TipologiaRisposta.IN_ATTESA, "dam", new Progetto("Nome progetto", "", "", [], 1, null as any, null as any, null as any, "", null as any))
-,
-new Invito("contenuto", TipologiaInvito.PROPOSTA, "mat", 1, "mat1", RuoloSoggetto.DESTINATARIO, new Date(), TipologiaRisposta.IN_ATTESA, "dam", new Progetto("Nome progetto", "", "", [], 1, null as any, null as any, null as any, "", null as any))
-,
-new Invito("contenuto", TipologiaInvito.RICHIESTA, "mat", 1, "mat1", RuoloSoggetto.DESTINATARIO, new Date(), TipologiaRisposta.IN_ATTESA, "dam", new Progetto("Nome progetto", "", "", [], 1, null as any, null as any, null as any, "", null as any))
-,
-new Invito("contenuto", TipologiaInvito.PROPOSTA, "mat", 1, "mat1", RuoloSoggetto.DESTINATARIO, new Date(), TipologiaRisposta.IN_ATTESA, "dam", new Progetto("Nome progetto", "", "", [], 1, null as any, null as any, null as any, "", null as any))
-    ];
-
-    this.tuttiIMessaggi();
+    this.invitoService.getAll().subscribe(
+      data => {
+        this.inviti = data;
+        this.tuttiIMessaggi();
+      },
+      err => {
+        console.log(err);
+      }
+    );
   }
 
   onCercaMessaggio(): void {
@@ -59,23 +54,17 @@ new Invito("contenuto", TipologiaInvito.PROPOSTA, "mat", 1, "mat1", RuoloSoggett
 
   messaggiInviati(): void {
     this.messaggi = [];
-    let bo = true;
     this.inviti.forEach(i => {
-      if (bo) {
-        bo = false;
+      if(i.soggetto == RuoloSoggetto.MITTENTE)
         this.messaggi.push(i);
-      } else bo = true;
     });
   }
 
   messaggiRicevuti(): void {
     this.messaggi = [];
-    let bo = false;
     this.inviti.forEach(i => {
-      if (bo) {
-        bo = false;
+      if(i.soggetto == RuoloSoggetto.DESTINATARIO)
         this.messaggi.push(i);
-      } else bo = true;
     });
   }
 

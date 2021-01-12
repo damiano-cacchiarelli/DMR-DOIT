@@ -20,6 +20,18 @@ import it.unicam.dmr.doit.service.progetto.ValutazioneService;
  * - lista valutazione progetto
  * - ultima valutazione progetto
  */
+
+/**
+ * Questo controller ha la responsabilita' di:
+ * <ul>
+ * <li>La lista delle valutazioni relative ad un progetto;</li>
+ * <li>L'ultima valutazione relativa ad un progetto;</li>
+ * </ul>
+ * 
+ * @author Damiano Cacchiarelli
+ * @author Matteo Romagnoli
+ * @author Roberto Cesetti
+ */
 @RestController
 @RequestMapping("/progetto/valutazione")
 @CrossOrigin(origins = "http://localhost:4200")
@@ -30,11 +42,18 @@ public class ControllerValutazione {
 	@Autowired
 	private ProgettoService progettoService;
 
+	@GetMapping("/{id}")
+	public ResponseEntity<?> getValutazione(@PathVariable("id") int id) {
+		if(!valutazioneService.existsById(id))
+			return new ResponseEntity<>("La valutazione non esiste", HttpStatus.NOT_FOUND);
+		return new ResponseEntity<>(valutazioneService.findById(id), HttpStatus.OK);
+	}
+	
 	@GetMapping("/{id_progetto}/all")
 	public ResponseEntity<?> valutazioniProgetto(@PathVariable("id_progetto") int idProgetto) {
 		if(!progettoService.existsById(idProgetto))
 			return new ResponseEntity<>("Il progetto non esiste", HttpStatus.NOT_FOUND);
-		return new ResponseEntity<>(valutazioneService.getAllValutazioni(idProgetto), HttpStatus.OK);
+		return new ResponseEntity<>(progettoService.getAllValutazioni(idProgetto), HttpStatus.OK);
 	}
 
 	@GetMapping("/{id_progetto}/last")

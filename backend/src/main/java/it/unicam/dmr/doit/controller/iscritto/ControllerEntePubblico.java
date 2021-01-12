@@ -16,6 +16,15 @@ import it.unicam.dmr.doit.repository.EnteRepository;
 import it.unicam.dmr.doit.service.iscritto.EnteService;
 import it.unicam.dmr.doit.utenti.Ente;
 
+/**
+ * Questo controller estende {@code ControllerVisitatore} secondo i tipo
+ * parametrici{@code Ente, EnteRepository, EnteService}, ed ha la
+ * responsabilita' di registrare un utente come {@code Ente}.
+ * 
+ * @author Damiano Cacchiarelli
+ * @author Matteo Romagnoli
+ * @author Roberto Cesetti
+ */
 @RestController
 @RequestMapping("/visitatore/ente")
 @CrossOrigin(origins = "http://localhost:4200")

@@ -5,6 +5,14 @@ import javax.validation.constraints.NotNull;
 
 import it.unicam.dmr.doit.controller.Utils;
 
+/**
+ * Questa classe fa parte degli oggetti che vengono trasfertiti in rete e
+ * rappresenta una {@code ValutazioneProgettista}.
+ * 
+ * @author Damiano Cacchiarelli
+ * @author Matteo Romagnoli
+ * @author Roberto Cesetti
+ */
 public class ValutazioneProgettistaDto {
 
 	@NotNull(message = Utils.nonNullo)

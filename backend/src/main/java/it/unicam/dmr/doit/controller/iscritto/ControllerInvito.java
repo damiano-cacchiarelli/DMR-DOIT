@@ -1,6 +1,7 @@
 package it.unicam.dmr.doit.controller.iscritto;
 
 import java.util.List;
+import java.util.NoSuchElementException;
 import java.util.Optional;
 import java.util.stream.Collectors;
 
@@ -15,6 +16,7 @@ import org.springframework.validation.BindingResult;
 import org.springframework.web.bind.annotation.CrossOrigin;
 import org.springframework.web.bind.annotation.DeleteMapping;
 import org.springframework.web.bind.annotation.GetMapping;
+import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.PutMapping;
 import org.springframework.web.bind.annotation.RequestBody;
@@ -27,7 +29,7 @@ import it.unicam.dmr.doit.dataTransferObject.invito.EliminazioneInvitoDto;
 import it.unicam.dmr.doit.dataTransferObject.invito.InvitoDto;
 import it.unicam.dmr.doit.dataTransferObject.invito.RispostaInvitoDto;
 import it.unicam.dmr.doit.invito.Invito;
-import it.unicam.dmr.doit.invito.InvitoId.RuoloSoggetto;
+import it.unicam.dmr.doit.invito.RuoloSoggetto;
 import it.unicam.dmr.doit.progetto.Progetto;
 import it.unicam.dmr.doit.repository.IscrittoRepository;
 import it.unicam.dmr.doit.service.iscritto.InvitoService;
@@ -36,8 +38,18 @@ import it.unicam.dmr.doit.service.progetto.ProgettoService;
 import it.unicam.dmr.doit.utenti.Iscritto;
 
 /**
- * Responsabilità: - inviare invito - eliminare invito - lista inviti -
- * accettare/rifiutare invito
+ * Questo controller ha la responsabilita' di:
+ * <ul>
+ * <li>Ottenere una lista di tutti gli inviti relativi ad un Iscritto;</li>
+ * <li>Ottenere uno specifico invito;</li>
+ * <li>Inviare un invito;</li>
+ * <li>Gestire un Invito;</li>
+ * <li>Eliminare un Invito;</li>
+ * </ul>
+ * 
+ * @author Damiano Cacchiarelli
+ * @author Matteo Romagnoli
+ * @author Roberto Cesetti
  */
 @RestController
 @RequestMapping("/invito")
@@ -56,11 +68,21 @@ public class ControllerInvito {
 		return new ResponseEntity<>(invitoService.listaInviti(authentication.getName()), HttpStatus.OK);
 	}
 
+	@GetMapping("/{id}")
+	public ResponseEntity<?> getInvito(@PathVariable("id") String id, Authentication authentication) {
+		if (!invitoService.esisteInvito(id))
+			return new ResponseEntity<>(new Messaggio("Invito inesistente"), HttpStatus.NOT_FOUND);
+		List<Invito> listaInviti = invitoService.listaInviti(authentication.getName());
+		Optional<Invito> invito = listaInviti.stream().filter(i -> i.getId().equals(id)).findFirst();
+		if (invito.isEmpty())
+			return new ResponseEntity<>(new Messaggio("Invito inesistente"), HttpStatus.NOT_FOUND);
+		return new ResponseEntity<>(invito.get(), HttpStatus.OK);
+	}
+
 	@PreAuthorize("hasRole('PROPONENTE') or hasRole('PROGETTISTA') or hasRole('ESPERTO')")
 	@PostMapping("/invia")
 	public ResponseEntity<Messaggio> inviaInvito(@Valid @RequestBody InvitoDto invitoDto, BindingResult bindingResult,
 			Authentication authentication) {
-		System.out.println("INVITO DTOOOOOOOOOOOO " + invitoDto.toString());
 		if (bindingResult.hasErrors())
 			return Utils.creaMessaggio(Utils.getErrore(bindingResult), HttpStatus.BAD_REQUEST);
 		for (String idDest : invitoDto.getIdDestinatario()) {
@@ -71,14 +93,20 @@ public class ControllerInvito {
 			return new ResponseEntity<>(new Messaggio("Progetto inesistente"), HttpStatus.NOT_FOUND);
 
 		for (String idDest : invitoDto.getIdDestinatario()) {
-			if (authentication.getName().equals(idDest)) continue;
+			if (authentication.getName().equals(idDest))
+				continue;
 			Iscritto mittente = iscrittoService.findByIdentificativo(authentication.getName()).get();
 			Iscritto destinatario = iscrittoService.findByIdentificativo(idDest).get();
 			Progetto progetto = progettoService.findById(invitoDto.getIdProgetto()).get();
-			mittente.getGestoreMessaggi().inviaMessaggio(destinatario, invitoDto.getContenuto(), progetto,
-					invitoDto.getTipologiaInvito());
+			try {
+				mittente.getGestoreMessaggi().inviaMessaggio(destinatario, invitoDto.getContenuto(), progetto,
+						invitoDto.getTipologiaInvito());
+
+			} catch (IllegalArgumentException e) {
+				return new ResponseEntity<>(new Messaggio(e.getMessage()), HttpStatus.BAD_REQUEST);
+			}
 			iscrittoService.salva(mittente);
-			iscrittoService.salva(destinatario);	
+			iscrittoService.salva(destinatario);
 		}
 		return new ResponseEntity<>(new Messaggio("Invito inviato"), HttpStatus.OK);
 	}
@@ -101,8 +129,12 @@ public class ControllerInvito {
 					HttpStatus.BAD_REQUEST);
 		}
 		Iscritto iscritto = iscrittoService.findByIdentificativo(authentication.getName()).get();
-		iscritto.getGestoreMessaggi().eliminaMessaggio(eliminazioneInvitoDto.getIdInvito(),
-				eliminazioneInvitoDto.isOpzioni());
+		try {
+			iscritto.getGestoreMessaggi().eliminaMessaggio(eliminazioneInvitoDto.getIdInvito(),
+					eliminazioneInvitoDto.isOpzioni());
+		} catch (NoSuchElementException e) {
+			new ResponseEntity<>(new Messaggio("Invito inesistente"), HttpStatus.BAD_REQUEST);
+		}
 		if (mittente.getIdentificativo().equals(authentication.getName())) {
 			if (eliminazioneInvitoDto.isOpzioni())
 				invitoService.eliminaInvito(eliminazioneInvitoDto.getIdInvito(),
@@ -133,8 +165,9 @@ public class ControllerInvito {
 		try {
 			inviti.forEach(i -> i.setTipologiaRisposta(rispostaInvitoDto.getRisposta()));
 			inviti.forEach(i -> invitoService.salvaInvito(i));
-			return new ResponseEntity<>(new Messaggio("L'invito e' stato " + rispostaInvitoDto.getRisposta().toString().toLowerCase()),
-					HttpStatus.OK);	
+			return new ResponseEntity<>(
+					new Messaggio("L'invito e' stato " + rispostaInvitoDto.getRisposta().toString().toLowerCase()),
+					HttpStatus.OK);
 		} catch (Exception e) {
 			return new ResponseEntity<>(new Messaggio(e.getMessage()), HttpStatus.BAD_REQUEST);
 		}

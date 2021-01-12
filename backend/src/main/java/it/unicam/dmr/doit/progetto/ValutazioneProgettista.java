@@ -12,25 +12,36 @@ import javax.validation.constraints.NotNull;
 
 import com.fasterxml.jackson.annotation.JsonBackReference;
 
+import it.unicam.dmr.doit.controller.Utils;
+
+/**
+ * Questa classe implementa {@code IValutazione} e rappresenta una valutazione
+ * di un {@code Progettista} in riferimento ad un {@code Progetto}.
+ * 
+ * @author Damiano Cacchiarelli
+ * @author Matteo Romagnoli
+ * @author Roberto Cesetti
+ */
 @Entity
 public class ValutazioneProgettista implements IValutazione {
-	
+
 	@Id
 	@GeneratedValue(strategy = GenerationType.IDENTITY)
 	private int id;
-	@NotNull
-	@NotBlank
+	@NotNull(message = Utils.nonNullo)
+	@NotBlank(message = Utils.nonVuoto)
 	private String recensione;
-	@NotNull
-	@NotBlank
+	@NotNull(message = Utils.nonNullo)
+	@NotBlank(message = Utils.nonVuoto)
 	private String identificativoProgettista;
 
 	@JsonBackReference
 	@ManyToOne(fetch = FetchType.LAZY, optional = false)
 	@JoinColumn(name = "valutazione_progetto", nullable = false)
 	private Valutazione valutazioneProgetto;
-	
-	public ValutazioneProgettista() {}
+
+	public ValutazioneProgettista() {
+	}
 
 	public ValutazioneProgettista(@NotNull @NotBlank String recensione,
 			@NotNull @NotBlank String identificativoProgettista) {
@@ -39,32 +50,20 @@ public class ValutazioneProgettista implements IValutazione {
 		this.identificativoProgettista = identificativoProgettista;
 	}
 
+	// ================================================================================
+	// Getters & Setters
+	// ================================================================================
+
 	public int getId() {
 		return id;
-	}
-
-	public void setId(int id) {
-		this.id = id;
 	}
 
 	public String getIdentificativoProgettista() {
 		return identificativoProgettista;
 	}
 
-	public void setIdentificativoProgettista(String identificativoProgettista) {
-		this.identificativoProgettista = identificativoProgettista;
-	}
-
 	public Valutazione getValutazioneProgetto() {
 		return valutazioneProgetto;
-	}
-
-	public void setValutazioneProgetto(Valutazione valutazioneProgetto) {
-		this.valutazioneProgetto = valutazioneProgetto;
-	}
-
-	public void setRecensione(String recensione) {
-		this.recensione = recensione;
 	}
 
 	@Override

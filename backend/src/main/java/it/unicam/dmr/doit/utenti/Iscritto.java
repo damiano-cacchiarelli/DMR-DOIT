@@ -23,59 +23,88 @@ import javax.validation.constraints.Size;
 import com.fasterxml.jackson.annotation.JsonIgnore;
 import com.fasterxml.jackson.annotation.JsonManagedReference;
 
+import it.unicam.dmr.doit.controller.Utils;
 import it.unicam.dmr.doit.invito.GestoreInviti;
 import it.unicam.dmr.doit.utenti.curriculum.Curriculum;
 import it.unicam.dmr.doit.utenti.ruoli.Ruolo;
 import it.unicam.dmr.doit.utenti.ruoli.TipologiaRuolo;
 
+/**
+ * Questa classe implementa l'interfaccia {@code Utente} e rappresenta un
+ * generico iscritto alla piattaforma. Ogni iscritto ha un
+ * {@code identificativo} univo, una {@code email} unica, una {@code password},
+ * un {@code curriculum} ed una lista di {@code Ruoli}. <br>
+ * Inoltre, implementando {@code Utente}, viene implementata anche l'interfaccia
+ * {@code Messaggiabile}, per la gestione dei {@code Messaggi}; in particolare,
+ * i messaggi inviati sono solamente del tipo {@code Invito}.
+ * 
+ * @author Damiano Cacchiarelli
+ * @author Matteo Romagnoli
+ * @author Roberto Cesetti
+ */
 @Entity
 @Inheritance(strategy = InheritanceType.JOINED)
 public abstract class Iscritto implements Utente {
 
 	@Id
 	@Column(length = 20, unique = true)
-	@Size(min = 3, max = 10)
+	@Size(min = 3, max = 20)
 	private String identificativo;
 
-	@NotNull
-	@NotBlank
+	@NotNull(message = Utils.nonNullo)
+	@NotBlank(message = Utils.nonVuoto)
 	@Column(unique = true)
 	private String email;
 
-	@NotNull
-	@NotBlank
+	@NotNull(message = Utils.nonNullo)
+	@NotBlank(message = Utils.nonVuoto)
 	private String password;
 
 	@OneToOne(cascade = CascadeType.ALL)
 	@JoinColumn(name = "curriculum_id", referencedColumnName = "id")
 	private Curriculum curriculum;
 
-	// @JsonManagedReference e' usato per impedire il ciclo infinito con la classe
-	// ruolo
 	@JsonManagedReference
 	@OneToMany(mappedBy = "iscritto", fetch = FetchType.EAGER, cascade = CascadeType.ALL)
 	private Set<Ruolo> ruoli = new HashSet<>();
 
 	@Embedded
-	private GestoreInviti gestoreInviti;
-	
-	protected Iscritto() { }
+	private GestoreInviti gestoreInviti = new GestoreInviti();
+
+	protected Iscritto() {
+	}
 
 	public Iscritto(String identificativo, @NotNull @NotBlank String email, @NotNull @NotBlank String password) {
 		super();
 		this.identificativo = identificativo;
 		this.email = email;
 		this.password = password;
-		setGestoreInviti(new GestoreInviti());
 	}
+
+	// ================================================================================
+	// Metodi
+	// ================================================================================
+
+	public abstract List<TipologiaRuolo> getTipoRuoliPossibili();
+
+	public List<TipologiaRuolo> getTipologiaRuoli() {
+		List<TipologiaRuolo> ruoli = new ArrayList<>();
+		this.ruoli.forEach(r -> ruoli.add(r.getRuolo()));
+		return ruoli;
+	}
+
+	public void addRuolo(Ruolo ruolo) {
+		ruolo.setIscritto(this);
+		this.ruoli.add(ruolo);
+	}
+
+	// ================================================================================
+	// Getters & Setters
+	// ================================================================================
 
 	@Override
 	public String getIdentificativo() {
 		return identificativo;
-	}
-
-	public void setIdentificativo(String identificativo) {
-		this.identificativo = identificativo;
 	}
 
 	@Override
@@ -83,46 +112,29 @@ public abstract class Iscritto implements Utente {
 		return email;
 	}
 
-	public void setEmail(String email) {
-		this.email = email;
-	}
-
 	@JsonIgnore
 	public String getPassword() {
 		return password;
-	}
-
-	public void setPassword(String password) {
-		this.password = password;
 	}
 
 	public Curriculum getCurriculum() {
 		return curriculum;
 	}
 
-	public void setCurriculum(Curriculum curriculum) {
-		this.curriculum = curriculum;
-	}
-
 	public Set<Ruolo> getRuoli() {
 		return ruoli;
 	}
 
-	public void setRuoli(Set<Ruolo> ruoli) {
-		this.ruoli = ruoli;
-	}
-
 	@Override
 	public GestoreInviti getGestoreMessaggi() {
-		if(gestoreInviti.getIscritto() == null)
+		if (gestoreInviti.getIscritto() == null)
 			gestoreInviti.setIscritto(this);
 		return gestoreInviti;
 	}
 
-	public void setGestoreInviti(GestoreInviti gestoreInviti) {
-		this.gestoreInviti = gestoreInviti;
-		this.gestoreInviti.setIscritto(this);
-	}
+	// ================================================================================
+	// Equals & HashCode & ToString
+	// ================================================================================
 
 	@Override
 	public int hashCode() {
@@ -149,24 +161,11 @@ public abstract class Iscritto implements Utente {
 
 	protected String parametriFormattati() {
 		return "identificativo=" + identificativo + ", email=" + email + ", password=" + password + ", curriculum="
-				+ curriculum + ", ruoli=" + ruoli + ", gestoreInviti="+gestoreInviti;
+				+ curriculum + ", ruoli=" + ruoli + ", gestoreInviti=" + gestoreInviti;
 	}
 
 	@Override
 	public String toString() {
 		return getClass().getSimpleName() + " [" + parametriFormattati() + "]";
-	}
-
-	public abstract List<TipologiaRuolo> getTipoRuoliPossibili();
-
-	public List<TipologiaRuolo> getTipologiaRuoli() {
-		List<TipologiaRuolo> ruoli = new ArrayList<>();
-		this.ruoli.forEach(r -> ruoli.add(r.getRuolo()));
-		return ruoli;
-	}
-
-	public void addRuolo(Ruolo ruolo) {
-		ruolo.setIscritto(this);
-		this.ruoli.add(ruolo);
 	}
 }

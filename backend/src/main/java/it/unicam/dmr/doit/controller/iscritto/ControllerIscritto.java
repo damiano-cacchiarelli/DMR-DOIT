@@ -25,10 +25,20 @@ import it.unicam.dmr.doit.utenti.Iscritto;
 import it.unicam.dmr.doit.utenti.ruoli.Ruolo;
 
 /**
- * Responsabilità: 
- * - visualizza messaggi
- * - aggiungi ruolo
- * - disconnettiti
+ * Questo controller ha la responsabilita' di:
+ * <ul>
+ * <li>Aggiungere un ruolo ad un Iscritto;</li>
+ * <li>Ottenere i ruoli disponibili di un Iscritto;</li>
+ * <li>Eliminare l'iscritto</li>
+ * </ul>
+ * 
+ * @author Damiano Cacchiarelli
+ * @author Matteo Romagnoli
+ * @author Roberto Cesetti
+ *
+ * @param <I> tipo di Iscritto
+ * @param <R> tipo di Repository (dipendente da I)
+ * @param <S> tipo di Service (dipendente da I e R)
  */
 @RestController
 @RequestMapping("/iscritto")

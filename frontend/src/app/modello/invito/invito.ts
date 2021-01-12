@@ -11,16 +11,18 @@ export class Invito extends InvitoDto {
     data: Date;
     tipologiaRisposta: TipologiaRisposta;
     idMittente: string;
-    progetto: Progetto;
+    idProgetto: number;
+    nomeProgetto: string;
 
-    constructor(contenuto: string, tipologiaInvito: TipologiaInvito, idDestinatario: string, idProgetto: number, id: string, soggetto: RuoloSoggetto, data: Date, tipologiaRisposta: TipologiaRisposta, idMittente: string,
-        progetto: Progetto) {
+    constructor(contenuto: string, tipologiaInvito: TipologiaInvito, idDestinatario: string, id: string, soggetto: RuoloSoggetto, data: Date, tipologiaRisposta: TipologiaRisposta, idMittente: string,
+        idProgetto: number, nomeProgetto: string) {
         super(contenuto, tipologiaInvito, [idDestinatario], idProgetto);
         this.id = id;
         this.soggetto = soggetto;
         this.data = data;
         this.tipologiaRisposta = tipologiaRisposta;
         this.idMittente = idMittente;
-        this.progetto = progetto;
+        this.idProgetto = idProgetto;
+        this.nomeProgetto = nomeProgetto;
     }
 }

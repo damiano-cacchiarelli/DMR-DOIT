@@ -11,8 +11,14 @@ import org.springframework.security.core.userdetails.UserDetails;
 import it.unicam.dmr.doit.utenti.Iscritto;
 
 /**
- * Ottiene le autorizzazioni dell'iscritto tramite la lista dei ruoli (i ruoli vengono
- * convertiti nella classe GrantedAuthority).
+ * Questa classe implementa {@code UserDetails} ed ha la responsabilita' di
+ * rappresentare un {@code Iscritto} contenente la lista delle autorizzazioni.
+ * La lista delle autorizzazioni derivano dalla conversione dei ruoli
+ * dell'{@code Iscritto} nella classe {@code GrantedAuthority}.
+ * 
+ * @author Damiano Cacchiarelli
+ * @author Matteo Romagnoli
+ * @author Roberto Cesetti
  */
 @SuppressWarnings("serial")
 public class IscrittoPrincipale implements UserDetails {

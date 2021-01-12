@@ -7,21 +7,29 @@ import javax.persistence.Column;
 import javax.persistence.Entity;
 import javax.persistence.Id;
 import javax.persistence.ManyToMany;
-import javax.validation.constraints.NotBlank;
 import javax.validation.constraints.NotNull;
 
 import com.fasterxml.jackson.annotation.JsonBackReference;
+
+import it.unicam.dmr.doit.controller.Utils;
+
+/**
+ * Questa classe rappresenta una categoria (o etochetta) e come tale presenta un
+ * nome ed una descrizione.
+ * 
+ * @author Damiano Cacchiarelli
+ * @author Matteo Romagnoli
+ * @author Roberto Cesetti
+ */
 @Entity
 public class Tag {
-	
+
 	@Id
-	@NotNull
-	@NotBlank
 	@Column(length = 64)
 	private String nome;
-	@NotNull
+	@NotNull(message = Utils.nonNullo)
 	private String descrizione;
-	
+
 	@JsonBackReference
 	@ManyToMany(mappedBy = "tags")
 	private Set<Progetto> progetti = new HashSet<>();
@@ -35,29 +43,25 @@ public class Tag {
 		this.descrizione = descrizione;
 	}
 
+	// ================================================================================
+	// Getters & Setters
+	// ================================================================================
+
 	public String getNome() {
 		return nome;
-	}
-
-	public void setNome(String nome) {
-		this.nome = nome;
 	}
 
 	public String getDescrizione() {
 		return descrizione;
 	}
 
-	public void setDescrizione(String descrizione) {
-		this.descrizione = descrizione;
-	}
-
 	public Set<Progetto> getProgetti() {
 		return progetti;
 	}
 
-	public void setProgetti(Set<Progetto> progetti) {
-		this.progetti = progetti;
-	}
+	// ================================================================================
+	// Equals & HashCode
+	// ================================================================================
 
 	@Override
 	public int hashCode() {
@@ -83,7 +87,5 @@ public class Tag {
 			return false;
 		return true;
 	}
-	
-	
 
 }

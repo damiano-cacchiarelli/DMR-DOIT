@@ -1,5 +1,12 @@
 package it.unicam.dmr.doit.dataTransferObject;
 
+/**
+ * Questa classe rappresenta un messaggio che deve essere inviato in rete.
+ * 
+ * @author Damiano Cacchiarelli
+ * @author Matteo Romagnoli
+ * @author Roberto Cesetti
+ */
 public class Messaggio {
 
 	private String messaggio;

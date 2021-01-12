@@ -8,15 +8,24 @@ import javax.validation.constraints.Email;
 import javax.validation.constraints.NotBlank;
 import javax.validation.constraints.NotNull;
 
+import it.unicam.dmr.doit.controller.Utils;
 import it.unicam.dmr.doit.utenti.ruoli.TipologiaRuolo;
 
+/**
+ * Questa classe estende {@code Iscritto} e rappresenta un ente (azienda) che
+ * presenta i campi {@code annoDiFondazione} e {@code sede}.
+ * 
+ * @author Damiano Cacchiarelli
+ * @author Matteo Romagnoli
+ * @author Roberto Cesetti
+ */
 @Entity
 public class Ente extends Iscritto {
 
-	@NotNull
-	@NotBlank
+	@NotNull(message = Utils.nonNullo)
+	@NotBlank(message = Utils.nonVuoto)
 	private String sede;
-	@NotNull
+	@NotNull(message = Utils.nonNullo)
 	private Date annoDiFondazione;
 
 	public Ente() {
@@ -28,6 +37,19 @@ public class Ente extends Iscritto {
 		this.sede = sede;
 		this.annoDiFondazione = annoDiFondazione;
 	}
+
+	// ================================================================================
+	// Metodi
+	// ================================================================================
+
+	@Override
+	public List<TipologiaRuolo> getTipoRuoliPossibili() {
+		return List.of(TipologiaRuolo.ROLE_PROPONENTE, TipologiaRuolo.ROLE_PROGETTISTA, TipologiaRuolo.ROLE_SPONSOR);
+	}
+
+	// ================================================================================
+	// Getters & Setters
+	// ================================================================================
 
 	public String getSede() {
 		return sede;
@@ -43,10 +65,5 @@ public class Ente extends Iscritto {
 
 	public void setAnnoDiFondazione(Date annoDiFondazione) {
 		this.annoDiFondazione = annoDiFondazione;
-	}
-	
-	@Override
-	public List<TipologiaRuolo> getTipoRuoliPossibili() {
-		return List.of(TipologiaRuolo.ROLE_PROPONENTE, TipologiaRuolo.ROLE_PROGETTISTA, TipologiaRuolo.ROLE_SPONSOR);
 	}
 }

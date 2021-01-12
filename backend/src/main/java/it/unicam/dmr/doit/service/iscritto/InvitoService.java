@@ -9,9 +9,18 @@ import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
 import it.unicam.dmr.doit.invito.Invito;
-import it.unicam.dmr.doit.invito.InvitoId.RuoloSoggetto;
+import it.unicam.dmr.doit.invito.RuoloSoggetto;
 import it.unicam.dmr.doit.repository.InvitoRepository;
 
+/**
+ * Questa classe inietta ({@code @Autowired}) {@code InvitoRepository} ed ha la
+ * responsabilita' di effettuare le operazioni di modifica, inserimento, ricerca
+ * ed eliminazione di un {@code Invito}.
+ * 
+ * @author Damiano Cacchiarelli
+ * @author Matteo Romagnoli
+ * @author Roberto Cesetti
+ */
 @Service
 @Transactional
 public class InvitoService {
@@ -19,6 +28,13 @@ public class InvitoService {
 	@Autowired
 	private InvitoRepository invitoRepository;
 
+	/**
+	 * Ricerca tutti gli inviti che sono riferiti ad un iscritto (l'iscritto e' il
+	 * mittente o il destinatario dell'invito).
+	 * 
+	 * @param identificativoIscritto
+	 * @return la lista degli inviti relativi l'iscritto
+	 */
 	public List<Invito> listaInviti(String identificativoIscritto) {
 		return invitoRepository.findAll().stream().filter(i -> {
 			if (i.getMittente().getIdentificativo().equals(identificativoIscritto)

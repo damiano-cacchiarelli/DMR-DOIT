@@ -11,12 +11,21 @@ import org.springframework.transaction.annotation.Transactional;
 import it.unicam.dmr.doit.progetto.Tag;
 import it.unicam.dmr.doit.repository.TagRepository;
 
+/**
+ * Questa classe inietta ({@code @Autowired}) {@code TagRepository} ed ha la
+ * responsabilita' di effettuare le operazioni di modifica, inserimento, ricerca
+ * ed eliminazione di un {@code Tag}.
+ * 
+ * @author Damiano Cacchiarelli
+ * @author Matteo Romagnoli
+ * @author Roberto Cesetti
+ */
 @Service
 @Transactional
 public class TagService {
 	
 	@Autowired
-	TagRepository tagRepository;
+	private TagRepository tagRepository;
 	
 	public Tag findById(String name) {
 		return tagRepository.findById(name).get();

@@ -30,8 +30,11 @@ import it.unicam.dmr.doit.utenti.ruoli.Esperto;
 import it.unicam.dmr.doit.utenti.ruoli.TipologiaRuolo;
 
 /**
- * Responsabilità: 
- * - valuta progetto
+ * Questo controller ha la responsabilita' di Valutare un progetto.
+ * 
+ * @author Damiano Cacchiarelli
+ * @author Matteo Romagnoli
+ * @author Roberto Cesetti
  */
 @RestController
 @RequestMapping("/esperto")
