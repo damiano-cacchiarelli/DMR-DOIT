@@ -3,6 +3,7 @@ package it.unicam.dmr.doit.invito;
 import java.util.Collections;
 import java.util.HashSet;
 import java.util.List;
+import java.util.NoSuchElementException;
 import java.util.Set;
 import java.util.function.Predicate;
 import java.util.stream.Collectors;
@@ -93,11 +94,12 @@ public class GestoreInviti implements GestoreMessaggi<Invito> {
 	public void riceviMessaggio(Invito messaggio) {
 		// inserisci il nuovo messaggio nella lista dei messaggi non letti?
 		messaggio.setSoggetto(RuoloSoggetto.DESTINATARIO);
-		listaInvitiRicevuti.add(messaggio);
+		if(!listaInvitiRicevuti.add(messaggio))
+			throw new IllegalArgumentException("Messaggio gia' ricevuto");
 	}
 
 	@Override
-	public void eliminaMessaggio(String idMessaggio) {
+	public void eliminaMessaggio(String idMessaggio){
 		this.eliminaMessaggio(idMessaggio, false);
 	}
 
@@ -122,16 +124,18 @@ public class GestoreInviti implements GestoreMessaggi<Invito> {
 	}
 
 	@Override
-	public void inviaMessaggio(Iscritto destinatario, Invito messaggio) {
+	public void inviaMessaggio(Iscritto destinatario, Invito messaggio){
 		messaggio.setSoggetto(RuoloSoggetto.MITTENTE);
 		listaInvitiInviati.add(messaggio);
+		if(!listaInvitiInviati.add(messaggio))
+			throw new IllegalArgumentException("Messaggio gia' inviato");
 		destinatario.getGestoreMessaggi()
 				.riceviMessaggio(new Invito(messaggio.getId(), messaggio.getContenuto(), messaggio.getTipologiaInvito(),
 						iscritto, destinatario, messaggio.getIdProgetto(), messaggio.getNomeProgetto()));
 	}
 
 	@Override
-	public Invito getMessaggio(String idMessaggio) {
+	public Invito getMessaggio(String idMessaggio) throws NoSuchElementException {
 		return getMessaggi().stream().filter(i -> i.getId().equals(idMessaggio)).findFirst().get();
 	}
 

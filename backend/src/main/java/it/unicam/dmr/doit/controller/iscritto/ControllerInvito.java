@@ -1,6 +1,7 @@
 package it.unicam.dmr.doit.controller.iscritto;
 
 import java.util.List;
+import java.util.NoSuchElementException;
 import java.util.Optional;
 import java.util.stream.Collectors;
 
@@ -69,11 +70,11 @@ public class ControllerInvito {
 
 	@GetMapping("/{id}")
 	public ResponseEntity<?> getInvito(@PathVariable("id") String id, Authentication authentication) {
-		if(!invitoService.esisteInvito(id))
+		if (!invitoService.esisteInvito(id))
 			return new ResponseEntity<>(new Messaggio("Invito inesistente"), HttpStatus.NOT_FOUND);
 		List<Invito> listaInviti = invitoService.listaInviti(authentication.getName());
 		Optional<Invito> invito = listaInviti.stream().filter(i -> i.getId().equals(id)).findFirst();
-		if(invito.isEmpty())
+		if (invito.isEmpty())
 			return new ResponseEntity<>(new Messaggio("Invito inesistente"), HttpStatus.NOT_FOUND);
 		return new ResponseEntity<>(invito.get(), HttpStatus.OK);
 	}
@@ -92,14 +93,20 @@ public class ControllerInvito {
 			return new ResponseEntity<>(new Messaggio("Progetto inesistente"), HttpStatus.NOT_FOUND);
 
 		for (String idDest : invitoDto.getIdDestinatario()) {
-			if (authentication.getName().equals(idDest)) continue;
+			if (authentication.getName().equals(idDest))
+				continue;
 			Iscritto mittente = iscrittoService.findByIdentificativo(authentication.getName()).get();
 			Iscritto destinatario = iscrittoService.findByIdentificativo(idDest).get();
 			Progetto progetto = progettoService.findById(invitoDto.getIdProgetto()).get();
-			mittente.getGestoreMessaggi().inviaMessaggio(destinatario, invitoDto.getContenuto(), progetto,
-					invitoDto.getTipologiaInvito());
+			try {
+				mittente.getGestoreMessaggi().inviaMessaggio(destinatario, invitoDto.getContenuto(), progetto,
+						invitoDto.getTipologiaInvito());
+
+			} catch (IllegalArgumentException e) {
+				return new ResponseEntity<>(new Messaggio(e.getMessage()), HttpStatus.BAD_REQUEST);
+			}
 			iscrittoService.salva(mittente);
-			iscrittoService.salva(destinatario);	
+			iscrittoService.salva(destinatario);
 		}
 		return new ResponseEntity<>(new Messaggio("Invito inviato"), HttpStatus.OK);
 	}
@@ -122,8 +129,12 @@ public class ControllerInvito {
 					HttpStatus.BAD_REQUEST);
 		}
 		Iscritto iscritto = iscrittoService.findByIdentificativo(authentication.getName()).get();
-		iscritto.getGestoreMessaggi().eliminaMessaggio(eliminazioneInvitoDto.getIdInvito(),
-				eliminazioneInvitoDto.isOpzioni());
+		try {
+			iscritto.getGestoreMessaggi().eliminaMessaggio(eliminazioneInvitoDto.getIdInvito(),
+					eliminazioneInvitoDto.isOpzioni());
+		} catch (NoSuchElementException e) {
+			new ResponseEntity<>(new Messaggio("Invito inesistente"), HttpStatus.BAD_REQUEST);
+		}
 		if (mittente.getIdentificativo().equals(authentication.getName())) {
 			if (eliminazioneInvitoDto.isOpzioni())
 				invitoService.eliminaInvito(eliminazioneInvitoDto.getIdInvito(),
@@ -154,8 +165,9 @@ public class ControllerInvito {
 		try {
 			inviti.forEach(i -> i.setTipologiaRisposta(rispostaInvitoDto.getRisposta()));
 			inviti.forEach(i -> invitoService.salvaInvito(i));
-			return new ResponseEntity<>(new Messaggio("L'invito e' stato " + rispostaInvitoDto.getRisposta().toString().toLowerCase()),
-					HttpStatus.OK);	
+			return new ResponseEntity<>(
+					new Messaggio("L'invito e' stato " + rispostaInvitoDto.getRisposta().toString().toLowerCase()),
+					HttpStatus.OK);
 		} catch (Exception e) {
 			return new ResponseEntity<>(new Messaggio(e.getMessage()), HttpStatus.BAD_REQUEST);
 		}

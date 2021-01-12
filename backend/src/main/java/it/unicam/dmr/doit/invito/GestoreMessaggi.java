@@ -4,6 +4,7 @@ import java.util.List;
 import java.util.function.Predicate;
 
 import it.unicam.dmr.doit.progetto.Progetto;
+import it.unicam.dmr.doit.progetto.exception.ExistingElementException;
 import it.unicam.dmr.doit.utenti.Iscritto;
 
 /**
@@ -28,7 +29,7 @@ public interface GestoreMessaggi<M extends Messaggio> {
 	 * 
 	 * @param messaggio
 	 */
-	public void riceviMessaggio(M messaggio);
+	public void riceviMessaggio(M messaggio) throws ExistingElementException;
 
 	/**
 	 * Elimina il messaggio che ha l'id corrispondente.
@@ -58,7 +59,7 @@ public interface GestoreMessaggi<M extends Messaggio> {
 	 * @param tipologiaInvito
 	 */
 	public void inviaMessaggio(Iscritto destinatario, String contenuto, Progetto progetto,
-			TipologiaInvito tipologiaInvito);
+			TipologiaInvito tipologiaInvito) throws ExistingElementException;
 
 	/**
 	 * Invia un messaggio al destinatario.
@@ -66,7 +67,7 @@ public interface GestoreMessaggi<M extends Messaggio> {
 	 * @param destinatario
 	 * @param messaggio
 	 */
-	public void inviaMessaggio(Iscritto destinatario, M messaggio);
+	public void inviaMessaggio(Iscritto destinatario, M messaggio) throws ExistingElementException;
 
 	/**
 	 * @param idMessaggio

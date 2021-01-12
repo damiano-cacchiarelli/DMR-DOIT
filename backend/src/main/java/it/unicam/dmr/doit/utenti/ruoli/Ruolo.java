@@ -78,6 +78,10 @@ public abstract class Ruolo implements IRuolo {
 	public int getId() {
 		return id;
 	}
+	
+	public void setId(int id) {
+		this.id = id;
+	}
 
 	public Iscritto getIscritto() {
 		return iscritto;
