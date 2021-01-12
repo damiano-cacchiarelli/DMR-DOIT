@@ -1,4 +1,5 @@
-export class Iscritto {
+
+export class IscrittoDto {
     identificativo: string;
     email: string;
     password: string;

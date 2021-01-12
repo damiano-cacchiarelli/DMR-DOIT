@@ -7,7 +7,7 @@ import { InvitoDto } from 'src/app/modello/invito/invito-dto';
 import { TipologiaInvito } from 'src/app/modello/invito/tipologia-invito.enum';
 import { TipologiaRuolo } from 'src/app/modello/iscritto/tipologia-ruolo.enum';
 import { Progetto } from 'src/app/modello/progetto/progetto';
-import { ProgettoDto } from 'src/app/modello/progetto/progettoDto';
+import { ProgettoDto } from 'src/app/modello/progetto/progetto-dto';
 import { Tag } from 'src/app/modello/progetto/tag';
 import { TagListDto } from 'src/app/modello/progetto/tag-list-dto';
 import { InvitoService } from 'src/app/servizi/invito.service';

@@ -2,7 +2,7 @@ import { HttpClient } from '@angular/common/http';
 import { Injectable } from '@angular/core';
 import { Observable } from 'rxjs';
 import { environment } from 'src/environments/environment';
-import { Ruolo } from '../modello/iscritto/ruolo';
+import { RuoloDto } from '../modello/iscritto/ruolo-dto';
 import { TipologiaRuolo } from '../modello/iscritto/tipologia-ruolo.enum';
 
 @Injectable({
@@ -14,7 +14,7 @@ export class IscrittoService {
 
   constructor(private httpClient: HttpClient) { }
 
-  public aggiungiRuolo(ruolo: Ruolo): Observable<any>{
+  public aggiungiRuolo(ruolo: RuoloDto): Observable<any>{
     return this.httpClient.put<any>(this.iscrittoURL + "/aggiungi_ruolo", ruolo);
   }
 

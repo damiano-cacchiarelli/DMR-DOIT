@@ -1,6 +1,6 @@
-import { Iscritto } from "./iscritto";
+import { IscrittoDto } from "./iscritto-dto";
 
-export class Ente extends Iscritto {
+export class EnteDto extends IscrittoDto {
 
     sede: string;
     annoDiFondazione: Date;
