@@ -1,0 +1,182 @@
+<app-menu></app-menu>
+
+<div class="container mt-5">
+    <h1 class="text-center">Valuta il progetto</h1>
+
+    <mat-vertical-stepper linear #stepper>
+        <mat-step label="Step 1 - Valutazione progetto" [stepControl]="formValutaProgetto">
+            <div class="container m-2">
+                <div class="row">
+                    <div class="col-md-6">
+                        <div class="d-md-flex">
+                            <div class="overflow-auto p-3 mb-3 mb-md-0 mr-md-3" style="max-height: 400px;">
+                                Progetto da vedere Progetto da vedere Progetto da vedere Progetto da vedere Progetto da vedere Progetto da vedere
+                                Progetto da vedere Progetto da vedere Progetto da vedere Progetto da vedere Progetto da vedere Progetto da vedere
+                                Progetto da vedere Progetto da vedere Progetto da vedere Progetto da vedere Progetto da vedere Progetto da vedere
+                                Progetto da vedere Progetto da vedere Progetto da vedere Progetto da vedere Progetto da vedere Progetto da vedere
+                                Progetto da vedere Progetto da vedere Progetto da vedere Progetto da vedere Progetto da vedere Progetto da vedere
+                                Progetto da vedere Progetto da vedere Progetto da vedere Progetto da vedere Progetto da vedere Progetto da vedere
+                                Progetto da vedere Progetto da vedere Progetto da vedere Progetto da vedere Progetto da vedere Progetto da vedere
+                                Progetto da vedere Progetto da vedere Progetto da vedere Progetto da vedere Progetto da vedere Progetto da vedere
+                                Progetto da vedere Progetto da vedere Progetto da vedere Progetto da vedere Progetto da vedere Progetto da vedere
+                                Progetto da vedere Progetto da vedere Progetto da vedere Progetto da vedere Progetto da vedere Progetto da vedere
+                                Progetto da vedere Progetto da vedere Progetto da vedere Progetto da vedere Progetto da vedere Progetto da vedere
+                                Progetto da vedere Progetto da vedere Progetto da vedere Progetto da vedere Progetto da vedere Progetto da vedere
+                                Progetto da vedere Progetto da vedere Progetto da vedere Progetto da vedere Progetto da vedere Progetto da vedere
+                                Progetto da vedere Progetto da vedere Progetto da vedere Progetto da vedere Progetto da vedere Progetto da vedere
+                                Progetto da vedere Progetto da vedere Progetto da vedere Progetto da vedere Progetto da vedere Progetto da vedere
+                                Progetto da vedere Progetto da vedere Progetto da vedere Progetto da vedere Progetto da vedere Progetto da vedere
+                                Progetto da vedere Progetto da vedere Progetto da vedere Progetto da vedere Progetto da vedere Progetto da vedere
+                                Progetto da vedere Progetto da vedere Progetto da vedere Progetto da vedere Progetto da vedere Progetto da vedere
+                                Progetto da vedere Progetto da vedere Progetto da vedere Progetto da vedere Progetto da vedere Progetto da vedere
+                                Progetto da vedere Progetto da vedere Progetto da vedere Progetto da vedere Progetto da vedere Progetto da vedere
+                                Progetto da vedere Progetto da vedere Progetto da vedere Progetto da vedere Progetto da vedere Progetto da vedere
+                                Progetto da vedere Progetto da vedere Progetto da vedere Progetto da vedere Progetto da vedere Progetto da vedere
+                                Progetto da vedere Progetto da vedere Progetto da vedere Progetto da vedere Progetto da vedere Progetto da vedere
+                                Progetto da vedere Progetto da vedere Progetto da vedere Progetto da vedere Progetto da vedere Progetto da vedere
+                                Progetto da vedere Progetto da vedere Progetto da vedere Progetto da vedere Progetto da vedere Progetto da vedere
+                                Progetto da vedere Progetto da vedere Progetto da vedere Progetto da vedere Progetto da vedere Progetto da vedere
+                                Progetto da vedere Progetto da vedere Progetto da vedere Progetto da vedere Progetto da vedere Progetto da vedere
+                            
+                                <!--<dettagli [progetto]="progetto"></dettagli>-->
+                            </div>
+                        </div>
+                    </div>
+                    <div class="col-md-6">
+                        <div class="row mt-4">
+                            <div class="col-md-7 mx-auto">
+                                <form novalidate #f="ngForm" [formGroup]="formValutaProgetto">
+                                    <div class="form-group mt-2 text-center form-floating">
+                                        <textarea class="form-control" placeholder="Recensione progetto"
+                                            formControlName="primoCtrl" name="recensioneProgetto"
+                                            [(ngModel)]="recensioneProgetto" id="recensioneProgetto"
+                                            style="height: 100px" required></textarea>
+                                        <label for="recensioneProgetto">Recensione progetto</label>
+                                    </div>
+                                </form>
+                            </div>
+                        </div>
+                        <div class="row">
+                            <div class="col text-center mt-4">
+                                <div class="col text-center mt-4">
+                                    <button class="btn btn-success btn-block text-center" [disabled]="!f.valid"
+                                        mat-button matStepperNext>Avanti</button>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </mat-step>
+        <mat-step label="Step 2 - Valutazione progettisti">
+            <div class="container m-2">
+                <div *ngIf="progettisti.length == 0">
+                    <h1 class="text-center">Non ci sono progettisti da valutare.</h1>
+                    <div class="row">
+                        <div class="col text-center mt-4">
+                            <div class="col text-center mt-4">
+                                <button class="btn btn-outline-warning mx-2" mat-button
+                                    matStepperPrevious>Indietro</button>
+                                <button class="btn btn-success btn-block text-center" mat-button
+                                    matStepperNext>Avanti</button>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                <div class="row"  *ngIf="progettisti.length != 0">
+                    <div class="col-md-6">
+                        <div class="d-md-flex">
+                            <div class="overflow-auto p-3 mb-3 mb-md-0 mr-md-3 bg-light" style="max-height: 400px;">
+                                {{progettisti[indexProgettista].identificativo}}
+                                Progettista da valutare Progettista da valutare Progettista da valutare Progettista da valutare Progettista da valutare
+                                Progettista da valutare Progettista da valutare Progettista da valutare Progettista da valutare Progettista da valutare
+                                Progettista da valutare Progettista da valutare Progettista da valutare Progettista da valutare Progettista da valutare
+                                Progettista da valutare Progettista da valutare Progettista da valutare Progettista da valutare Progettista da valutare
+                                Progettista da valutare Progettista da valutare Progettista da valutare Progettista da valutare Progettista da valutare
+                                Progettista da valutare Progettista da valutare Progettista da valutare Progettista da valutare Progettista da valutare
+                                Progettista da valutare Progettista da valutare Progettista da valutare Progettista da valutare Progettista da valutare
+                                Progettista da valutare Progettista da valutare Progettista da valutare Progettista da valutare Progettista da valutare
+                                Progettista da valutare Progettista da valutare Progettista da valutare Progettista da valutare Progettista da valutare
+                                Progettista da valutare Progettista da valutare Progettista da valutare Progettista da valutare Progettista da valutare
+                                Progettista da valutare Progettista da valutare Progettista da valutare Progettista da valutare Progettista da valutare
+                                Progettista da valutare Progettista da valutare Progettista da valutare Progettista da valutare Progettista da valutare
+                                Progettista da valutare Progettista da valutare Progettista da valutare Progettista da valutare Progettista da valutare
+                                Progettista da valutare Progettista da valutare Progettista da valutare Progettista da valutare Progettista da valutare
+                                Progettista da valutare Progettista da valutare Progettista da valutare Progettista da valutare Progettista da valutare
+                                Progettista da valutare Progettista da valutare Progettista da valutare Progettista da valutare Progettista da valutare
+                                Progettista da valutare Progettista da valutare Progettista da valutare Progettista da valutare Progettista da valutare
+                                Progettista da valutare Progettista da valutare Progettista da valutare Progettista da valutare Progettista da valutare
+                                Progettista da valutare Progettista da valutare Progettista da valutare Progettista da valutare Progettista da valutare
+                                Progettista da valutare Progettista da valutare Progettista da valutare Progettista da valutare Progettista da valutare
+                                Progettista da valutare Progettista da valutare Progettista da valutare Progettista da valutare Progettista da valutare
+                                Progettista da valutare Progettista da valutare Progettista da valutare Progettista da valutare Progettista da valutare
+                                Progettista da valutare Progettista da valutare Progettista da valutare Progettista da valutare Progettista da valutare
+                                Progettista da valutare Progettista da valutare Progettista da valutare Progettista da valutare Progettista da valutare
+                                Progettista da valutare Progettista da valutare Progettista da valutare Progettista da valutare Progettista da valutare
+                                Progettista da valutare Progettista da valutare Progettista da valutare Progettista da valutare Progettista da valutare
+                                Progettista da valutare Progettista da valutare Progettista da valutare Progettista da valutare Progettista da valutare
+                                Progettista da valutare Progettista da valutare Progettista da valutare Progettista da valutare Progettista da valutare
+                                Progettista da valutare Progettista da valutare Progettista da valutare Progettista da valutare Progettista da valutare
+                                Progettista da valutare Progettista da valutare Progettista da valutare Progettista da valutare Progettista da valutare
+
+                                <!--<profilo [iscritto]="iscritto"></dettagli>-->
+                            </div>
+                        </div>
+                    </div>
+                    <div class="col-md-6">
+                        <div class="row mt-4">
+                            <div class="col-md-7 mx-auto">
+                                <form>
+                                    <div class="form-group mt-2 text-center form-floating">
+                                        <span>Progettista {{indexProgettista+1}}/{{progettisti.length}}</span>
+                                    </div>
+                                    <div class="form-group mt-2 text-center form-floating">
+                                        <textarea class="form-control" placeholder="Recensione progettista"
+                                            name="recensioneProgettista" [(ngModel)]="recensioneProgettista[indexProgettista]"
+                                            id="recensioneProgettista" style="height: 100px" required></textarea>
+                                        <label for="recensioneProgettista">Recensione progettista</label>
+                                    </div>
+                                </form>
+                            </div>
+                        </div>
+                        <div class="row">
+                            <div class="col text-center mt-2">
+                                <div class="col text-center">
+                                    <button class="btn btn-outline-primary mx-2" (click)="onPrecedenteProgettista()">Precedente</button>
+                                    <button class="btn btn-outline-success btn-block text-center" (click)="onProssimoProgettista()">Prossimo
+                                        progettista</button>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="row">
+                        <div class="col text-center mt-4">
+                            <div class="col text-center mt-4">
+                                <button class="btn btn-outline-warning mx-2" mat-button
+                                    matStepperPrevious>Indietro</button>
+                                <button class="btn btn-success btn-block text-center" mat-button
+                                    matStepperNext>Avanti</button>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </mat-step>
+        <mat-step label="Step 3 - Invia valutazione">
+            <div class="container m-2 text-center">
+                <div class="row mt-4">
+                    <div class="col-md-6 mx-auto mt-2">
+                        <h3><b>Recensione progetto</b>: {{recensioneProgetto}}</h3>
+                        <h3 *ngIf="recensioneProgettista.length != 0"><b>Recensione progettista</b>:
+                            {{recensioneProgettista}}</h3>
+                    </div>
+                </div>
+                <div class="col text-center mt-4">
+                    <button class="btn btn-outline-warning mx-2" mat-button matStepperPrevious>Indietro</button>
+                    <button class="btn btn-success" (click)="onInviaValutazione()"><i class="far fa-paper-plane"></i>
+                        Invia valutazione</button>
+                </div>
+            </div>
+        </mat-step>
+    </mat-vertical-stepper>
+</div>

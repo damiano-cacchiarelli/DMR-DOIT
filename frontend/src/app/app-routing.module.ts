@@ -13,6 +13,7 @@ import { AggiungiRuoloComponent } from './pagine/iscritto/aggiungi-ruolo/aggiung
 import { ProfiloComponent } from './pagine/iscritto/profilo/profilo.component';
 import { DettagliComponent } from './pagine/progetto/dettagli/dettagli.component';
 import { VetrinaProgettiComponent } from './pagine/progetto/vetrina-progetti/vetrina-progetti.component';
+import { ValutaProgettoComponent } from './pagine/ruoli/esperto/valuta-progetto/valuta-progetto.component';
 import { ProponiComponent } from './pagine/ruoli/proponente/proponi/proponi.component';
 
 const routes: Routes = [
@@ -24,6 +25,7 @@ const routes: Routes = [
   {path: "dettagli-progetto/:id", component: DettagliComponent},
   {path: "visitatore/:id", component: ProfiloComponent},
   {path: "proponente/proponi", component: ProponiComponent, canActivate: [RuoloGuard], data: new Data([TipologiaRuolo.ROLE_PROPONENTE])},
+  {path: "esperto/valuta/:id", component: ValutaProgettoComponent, canActivate: [RuoloGuard], data: new Data([TipologiaRuolo.ROLE_ESPERTO])},
   
   {path: "bacheca", component: BachecaComponent, canActivate: [AutenticatoGuard], data: new Data([], true)},
   {path: "bacheca/:id", component: DettagliInvitoComponent, canActivate: [AutenticatoGuard], data: new Data([], true)},
