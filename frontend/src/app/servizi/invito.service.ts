@@ -4,6 +4,7 @@ import { Observable } from 'rxjs';
 import { environment } from 'src/environments/environment';
 import { Invito } from '../modello/invito/invito';
 import { InvitoDto } from '../modello/invito/invito-dto';
+import { RispostaInvitoDto } from '../modello/invito/risposta-invito-dto';
 
 @Injectable({
   providedIn: 'root'
@@ -24,5 +25,9 @@ export class InvitoService {
 
   public getAll(): Observable<Invito[]> {
     return this.httpClient.get<Invito[]>(this.invitoURL + "/all");
+  }
+
+  public gestisci(rispostaInvito: RispostaInvitoDto): Observable<any> {
+    return this.httpClient.put<any>(this.invitoURL + "/gestisci", rispostaInvito);
   }
 }

@@ -1,0 +1,27 @@
+<div class="row mt-4">
+    <div class="col-md-6 mx-auto mt-2">
+        <form>
+            <div class="form-group mt-2 text-center">
+                <label class="mb-2" for="idProgettista">Identificativo progettista</label>
+                <input type="text" class="form-control" id="idProgettista" [(ngModel)]="idProgettista"
+                    name="idProgettista" placeholder="Identificativo progettista" (keyup.enter)="ricercaIdProgettista()" (focusout)="ricercaIdProgettista()">
+                <small style="color:red" *ngIf="!ricercaProgettista && !progettistaEsistente">Progettista inesistente</small>
+                <small *ngIf="!ricercaProgettista && progettistaEsistente">Premere enter per aggiungere il progettista</small>
+                <small *ngIf="ricercaProgettista"><span class="spinner-border spinner-border-sm" role="status" aria-hidden="true"></span> Ricerca in corso...</small>
+            </div>
+            <div class="form-group mt-4 text-center form-floating" *ngIf="progettistiInvitati.size != 0">
+                <textarea class="form-control" placeholder="Messaggio..." name="messaggioProgettisti"
+                    [(ngModel)]="messaggioProgettisti" id="messaggioProgettisti" style="height: 100px"></textarea>
+                <label for="messaggioProgettisti">Messaggio da inviare ai progettisti</label>
+            </div>
+        </form>
+    </div>
+    <div class="col-md-6 mx-auto mt-2 text-center">
+        <label class="mb-2" for="progettistiInvitati">Progettisti Invitati</label>
+        <ul class="list-group" id="progettistiInvitati" *ngFor="let progettista of progettistiInvitati">
+            <li class="list-group-item d-flex justify-content-between align-items-center">{{progettista}}
+                <button class="btn btn-sm btn-danger" (click)="rimuoviProgettista(progettista)"><i class="fas fa-user-times"></i> Rimuovi</button>
+            </li>
+        </ul>
+    </div>
+</div>

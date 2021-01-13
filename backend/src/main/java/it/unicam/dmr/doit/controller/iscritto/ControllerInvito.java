@@ -30,12 +30,16 @@ import it.unicam.dmr.doit.dataTransferObject.invito.InvitoDto;
 import it.unicam.dmr.doit.dataTransferObject.invito.RispostaInvitoDto;
 import it.unicam.dmr.doit.invito.Invito;
 import it.unicam.dmr.doit.invito.RuoloSoggetto;
+import it.unicam.dmr.doit.invito.TipologiaInvito;
+import it.unicam.dmr.doit.invito.TipologiaRisposta;
 import it.unicam.dmr.doit.progetto.Progetto;
 import it.unicam.dmr.doit.repository.IscrittoRepository;
 import it.unicam.dmr.doit.service.iscritto.InvitoService;
 import it.unicam.dmr.doit.service.iscritto.IscrittoService;
 import it.unicam.dmr.doit.service.progetto.ProgettoService;
 import it.unicam.dmr.doit.utenti.Iscritto;
+import it.unicam.dmr.doit.utenti.ruoli.Progettista;
+import it.unicam.dmr.doit.utenti.ruoli.TipologiaRuolo;
 
 /**
  * Questo controller ha la responsabilita' di:
@@ -165,6 +169,18 @@ public class ControllerInvito {
 		try {
 			inviti.forEach(i -> i.setTipologiaRisposta(rispostaInvitoDto.getRisposta()));
 			inviti.forEach(i -> invitoService.salvaInvito(i));
+			
+			Progetto p = progettoService.findById(invito.getIdProgetto()).get();
+			if(invito.getTipologiaInvito() == TipologiaInvito.PROPOSTA || invito.getTipologiaInvito() == TipologiaInvito.RICHIESTA) {
+				if(invito.getTipologiaRisposta() == TipologiaRisposta.ACCETTATA) {
+					
+					Progettista pr = (Progettista) iscrittoService.getRuolo(authentication.getName(), TipologiaRuolo.ROLE_PROGETTISTA).get();
+					p.getGestoreCandidati().aggiungiCandidato(pr);
+				}
+			}
+			if(invito.getTipologiaInvito() == TipologiaInvito.PROPOSTA) p.getGestoreCandidati().confermaCandidato(authentication.getName());
+			progettoService.salvaProgetto(p);
+			
 			return new ResponseEntity<>(
 					new Messaggio("L'invito e' stato " + rispostaInvitoDto.getRisposta().toString().toLowerCase()),
 					HttpStatus.OK);

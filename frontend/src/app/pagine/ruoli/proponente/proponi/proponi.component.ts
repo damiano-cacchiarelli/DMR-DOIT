@@ -1,4 +1,4 @@
-import { Component, OnInit } from '@angular/core';
+import { Component, OnInit, ViewChild } from '@angular/core';
 import { FormBuilder, FormGroup, Validators } from '@angular/forms';
 import { Router } from '@angular/router';
 import { ToastrService } from 'ngx-toastr';
@@ -10,10 +10,13 @@ import { Progetto } from 'src/app/modello/progetto/progetto';
 import { ProgettoDto } from 'src/app/modello/progetto/progetto-dto';
 import { Tag } from 'src/app/modello/progetto/tag';
 import { TagListDto } from 'src/app/modello/progetto/tag-list-dto';
+import { SceltaTagComponent } from 'src/app/pagine/progetto/vetrina-progetti/scelta-tag/scelta-tag.component';
 import { InvitoService } from 'src/app/servizi/invito.service';
 import { ProponenteService } from 'src/app/servizi/proponente.service';
 import { TagService } from 'src/app/servizi/tag.service';
 import { VisitatoreService } from 'src/app/servizi/visitatore.service';
+import { InvitaProgettistiComponent } from '../../proponi/invita-progettisti/invita-progettisti.component';
+import { PermettiValutazioneComponent } from '../../proponi/permetti-valutazione/permetti-valutazione.component';
 
 @Component({
   selector: 'app-proponi',
@@ -22,11 +25,17 @@ import { VisitatoreService } from 'src/app/servizi/visitatore.service';
 })
 export class ProponiComponent implements OnInit {
 
+  idProgetto?: number;
+  @ViewChild("invitaProgettistiComponent") invitaProgettistiComponent?: InvitaProgettistiComponent;
+  @ViewChild("permettiValutazioneComponent") permettiValutazioneComponent?: PermettiValutazioneComponent;
+  @ViewChild("sceltaTagComponent") sceltaTagComponent?: SceltaTagComponent;
+ 
   nome: string = null as any;
   obiettivi: string = null as any;
   requisiti: string = null as any;
-  tags: Map<Tag, boolean> = new Map();
+  //tags: Map<Tag, boolean> = new Map();
 
+  /*
   progettistaEsistente: boolean = true;
   ricercaProgettista: boolean = false;
   idProgettista: string = null as any;
@@ -37,7 +46,7 @@ export class ProponiComponent implements OnInit {
   ricercaEsperto: boolean = false;
   idEsperto: string = null as any;
   messaggioEsperto: string = "";
-  espertiConsigliati: string[] = [];
+  */
 
   formProgetto: FormGroup = null as any;
 
@@ -52,6 +61,7 @@ export class ProponiComponent implements OnInit {
 
   ngOnInit(): void {
 
+    /*
     this.tagService.tuttiITag().subscribe(
       data => {
         this.tags = new Map();
@@ -77,17 +87,6 @@ export class ProponiComponent implements OnInit {
     this.espertiConsigliati = ["esperto1", "esperto1", "esperto1", "esperto1", "esperto1", "esperto1"];
     */
 
-    this.proponenteService.espertiConsigliati(this.getTagsScelti()).subscribe(
-      data => {
-        data.forEach(e => {
-          this.espertiConsigliati.push(e.identificativo);
-        });
-      },
-      err => {
-        console.log(err);
-      }
-    );
-
     this.formProgetto = this.formBuilder.group({
       primoCtrl: ['', Validators.required],
       secondoCtrl: ['', Validators.required],
@@ -96,21 +95,45 @@ export class ProponiComponent implements OnInit {
   }
 
   onProponi(): void {
-    const progetto: ProgettoDto = new ProgettoDto(this.nome, this.obiettivi, this.requisiti, this.getTagsScelti().tags);
+    if(!this.sceltaTagComponent) {
+      console.log("errore nel metodo proponi");
+      return;
+    }
+    const progetto: ProgettoDto = new ProgettoDto(this.nome, this.obiettivi, this.requisiti, this.sceltaTagComponent.getTagsScelti().tags);
     this.proponenteService.proponi(progetto).subscribe(
       (data: Progetto) => {
+        this.idProgetto = data.id;
+        this.invitaProgettistiComponent?.invitaProgettisti();
+        this.permettiValutazioneComponent?.permettiValutazione();
 
-        const idProgetto = data.id;
-        const messaggio = "Progetto creato";
-        if (this.progettistiInvitati.size > 0) {
-          this.invitaProgettisti(idProgetto).subscribe(
-            d => this.permettiValutazione(idProgetto, messaggio),
-            e => this.stampaMessaggioErrore(e.error.messaggio)
-          );
-        } else {
-          this.permettiValutazione(idProgetto, messaggio);
-        }
+        this.toastr.success("Progetto creato!", "OK", {
+          timeOut: 3000, positionClass: "toast-top-center"
+        });
+        this.router.navigate(["/"]);
+      },
+      err => {
+        this.toastr.error(err.error.messaggio, "Errore", {
+          timeOut: 3000, positionClass: "toast-top-center"
+        });
+      }
+    );
+  }
 
+  /*
+  private invitaProgettisti(idProgetto: number): Observable<any> {
+    return this.invitoService.invia(new InvitoDto(this.messaggioProgettisti, TipologiaInvito.PROPOSTA, Array.from(this.progettistiInvitati), idProgetto));
+  }*/
+
+  /*
+  private permettiValutazione(idProgetto: number, messaggio: string): void {
+    if(!this.idEsperto || this.idEsperto.length == 0) {
+      this.toastr.success(messaggio, "OK", {
+        timeOut: 3000, positionClass: "toast-top-center"
+      });
+      this.router.navigate(["/"]);
+    }
+    this.invitoService.invia(new InvitoDto(this.messaggioEsperto, TipologiaInvito.VALUTAZIONE, [this.idEsperto], idProgetto)).subscribe(
+      data => { 
         this.toastr.success(messaggio, "OK", {
           timeOut: 3000, positionClass: "toast-top-center"
         });
@@ -122,43 +145,19 @@ export class ProponiComponent implements OnInit {
     );
   }
 
-  private invitaProgettisti(idProgetto: number): Observable<any> {
-    return this.invitoService.invia(new InvitoDto(this.messaggioProgettisti, TipologiaInvito.PROPOSTA, Array.from(this.progettistiInvitati), idProgetto));
-  }
-
-  private permettiValutazione(idProgetto: number, messaggio: string): void {
-    if(!this.idEsperto || this.idEsperto.length == 0) return;
-    this.invitoService.invia(new InvitoDto(this.messaggioEsperto, TipologiaInvito.RICHIESTA, [this.idEsperto], idProgetto)).subscribe(
-      data => { },
-      err => {
-        this.stampaMessaggioErrore(err.error.messaggio);
-      }
-    );
-  }
-
   private stampaMessaggioErrore(messaggio: string): void {
     this.toastr.error(messaggio, "Errore", {
       timeOut: 3000, positionClass: "toast-top-center"
     });
   }
+  */
 
+  /*
   addTag(tag: Tag): void {
     this.tags.set(tag, !this.tags.get(tag));
-
-    let tagsScelti = this.getTagsScelti();
-    if (tagsScelti.tags.length != 0) {
-      this.espertiConsigliati = [];
-      this.proponenteService.espertiConsigliati(tagsScelti).subscribe(
-        data => {
-          console.log("espertiConsigliati" + data);
-          data.forEach(e => {
-            this.espertiConsigliati.push(e.identificativo);
-          });
-        },
-        err => {
-          console.log(err);
-        }
-      );
+    if(this.permettiValutazioneComponent){
+      this.permettiValutazioneComponent.tags = this.getTagsScelti();
+      this.permettiValutazioneComponent.aggiornaEsperti();
     }
   }
 
@@ -174,6 +173,7 @@ export class ProponiComponent implements OnInit {
     return new TagListDto(tagsScelti);
   }
 
+  /*
   ricercaIdEsperto(): void {
     if (!this.idEsperto || this.idEsperto.length == 0) return;
     this.ricercaEsperto = true;
@@ -194,6 +194,7 @@ export class ProponiComponent implements OnInit {
     );
   }
 
+  /*
   ricercaIdProgettista(): void {
     if (!this.idProgettista || this.idProgettista.length == 0) return;
     this.ricercaProgettista = true;
@@ -220,4 +221,5 @@ export class ProponiComponent implements OnInit {
   rimuoviProgettista(progettistaId: string): void {
     this.progettistiInvitati.delete(progettistaId);
   }
+  */
 }

@@ -3,6 +3,7 @@ package it.unicam.dmr.doit.dataTransferObject.iscritto;
 import javax.validation.constraints.Email;
 import javax.validation.constraints.NotBlank;
 import javax.validation.constraints.NotNull;
+import javax.validation.constraints.Size;
 
 import it.unicam.dmr.doit.controller.Utils;
 
@@ -18,6 +19,7 @@ public class IscrittoDto {
 
 	@NotNull(message = Utils.nonNullo)
 	@NotBlank(message = Utils.nonVuoto)
+	@Size(min = 3, max = 20, message = "deve avere una lunghezza compresa tra 3 e 20 caratteri")
 	private String identificativo;
 
 	@Email(message = Utils.nonValido)

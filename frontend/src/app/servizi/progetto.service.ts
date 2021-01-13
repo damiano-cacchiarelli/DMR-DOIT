@@ -3,6 +3,7 @@ import { Injectable } from '@angular/core';
 import { Observable } from 'rxjs';
 import { environment } from 'src/environments/environment';
 import { Progetto } from '../modello/progetto/progetto';
+import { TagListDto } from '../modello/progetto/tag-list-dto';
 
 @Injectable({
   providedIn: 'root'
@@ -21,7 +22,7 @@ export class ProgettoService {
     return this.httpClient.get<Progetto>(this.progettoURL+ "/" + id);
   }
 
-  public cercaProgetto(nome: string){
-    return this.httpClient.get<Progetto[]>(this.progettoURL+ "/ricerca" + "/" + nome);
+  public cercaProgetto(nome: string, tags: TagListDto){
+    return this.httpClient.post<Progetto[]>(this.progettoURL+ "/ricerca/" + nome, tags);
   }
 }

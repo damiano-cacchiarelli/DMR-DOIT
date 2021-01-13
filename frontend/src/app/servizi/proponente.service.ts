@@ -21,4 +21,12 @@ export class ProponenteService {
   public espertiConsigliati(tags: TagListDto): Observable<IscrittoDto[]>{
     return this.httpClient.post<IscrittoDto[]>(this.proponenteURL + "/esperti_consigliati", tags);
   }
+
+  public chiudiCandidature(id: number): Observable<any> {
+    return this.httpClient.put<any>(this.proponenteURL + "/chiudi_candidature/" + id, "");
+  }
+
+  public faseSuccessiva(id: number): Observable<any> {
+    return this.httpClient.put<any>(this.proponenteURL + "/fase_successiva/" + id, "");
+  }
 }

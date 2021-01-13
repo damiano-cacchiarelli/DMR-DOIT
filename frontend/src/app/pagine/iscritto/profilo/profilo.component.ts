@@ -1,4 +1,4 @@
-import { Component, Directive, OnInit } from '@angular/core';
+import { Component, Directive, Input, OnInit } from '@angular/core';
 import { ActivatedRoute } from '@angular/router';
 import { ToastrService } from 'ngx-toastr';
 import { EnteDto } from 'src/app/modello/iscritto/ente-dto';
@@ -15,16 +15,25 @@ import { ProfiloPersonaComponent } from '../profilo-persona/profilo-persona.comp
 })
 export class ProfiloComponent implements OnInit {
 
+  @Input() identificativo?: string;
+  @Input() valutazione = false;
+
   iscritto?: Iscritto;
   persona?: PersonaDto;
   ente?: EnteDto;
+
   constructor(private visitatoreService: VisitatoreService, private activatedRoute: ActivatedRoute,
     private toastr: ToastrService) {
 
   }
 
   ngOnInit(): void {
-    const id = this.activatedRoute.snapshot.params.id;
+    let id: string = "";
+    if (!this.valutazione)
+      id = this.activatedRoute.snapshot.params.id;
+    else if (this.identificativo) 
+      id = this.identificativo;
+
     this.visitatoreService.getIscritto(id).subscribe(
       data => {
         console.log(data);

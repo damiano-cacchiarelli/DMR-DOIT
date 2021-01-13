@@ -1,0 +1,17 @@
+<div class="row my-2 mb-3">
+    <div class="col-md-6 mx-auto" *ngIf="hasTags()">
+        <div class="form-group text-center">
+            <ul class="list-inline">
+                <li class="list-inline-item mx-1 my-1 btn"
+                    [ngClass]="tag.value ? 'btn-danger' : 'btn-primary'"
+                    *ngFor="let tag of tags | keyvalue" (click)="addTag(tag.key)"
+                    data-bs-toggle="tooltip" data-bs-placement="top" title="descrizione tag">
+                    <i class="fas fa-hashtag"></i>
+                    {{tag.key.nome}}
+                    <br>
+                    <span *ngIf="tag.value" style="font-size: 10px;">Rimuovi</span>
+                </li>
+            </ul>
+        </div>
+    </div>
+</div>

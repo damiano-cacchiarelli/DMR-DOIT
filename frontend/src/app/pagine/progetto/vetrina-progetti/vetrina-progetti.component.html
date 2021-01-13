@@ -1,16 +1,34 @@
 <app-menu></app-menu>
 <div class="container">
-    <div class="row my-5">
-        <div class="col-md-6 mx-auto">
+    <div class="row my-2">
+        <div class="col-md-6 mx-auto my-1">
             <form class="d-flex">
-                <input class="form-control mx-auto " type="search" placeholder="Cerca progetto" aria-label="Search"
+                <input class="form-control mx-auto " type="search" name="nomeProgetto" placeholder="Cerca progetto" aria-label="Search"
                     [(ngModel)]="nomeProgetto" (ngModelChange)="ripristino()" >
                 <button class="btn btn-outline-success mx-2" type="submit" (click)="ricerca()">Cerca</button>
             </form>
         </div>
     </div>
+    <scelta-tag #sceltaTagComponent></scelta-tag>
+    <!--<div class="row my-2 mb-3">
+        <div class="col-md-6 mx-auto" *ngIf="hasTags()">
+            <div class="form-group text-center">
+                <ul class="list-inline">
+                    <li class="list-inline-item mx-1 my-1 btn"
+                        [ngClass]="tag.value ? 'btn-danger' : 'btn-primary'"
+                        *ngFor="let tag of tags | keyvalue" (click)="addTag(tag.key)"
+                        data-bs-toggle="tooltip" data-bs-placement="top" title="descrizione tag">
+                        <i class="fas fa-hashtag"></i>
+                        {{tag.key.nome}}
+                        <br>
+                        <span *ngIf="tag.value" style="font-size: 10px;">Rimuovi</span>
+                    </li>
+                </ul>
+            </div>
+        </div>
+    </div>-->
     <div class="container" *ngIf="progetti">
-        <div class="card" style="width: 18rem;" *ngFor="let progetto of progetti">
+        <div class="card mt-2" style="width: 18rem;" *ngFor="let progetto of progetti">
             <div class="card-body">
                 <h3 class="card-title">{{progetto.nome}}</h3>
                 <h4 class="card-subtitle mb-2 text-muted">{{progetto.idProponente}}</h4>

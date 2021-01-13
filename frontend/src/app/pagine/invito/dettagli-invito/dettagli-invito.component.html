@@ -42,12 +42,18 @@
                             <small class="fw-bold">{{invito.tipologiaInvito}}</small>
                         </div>
 
-                        <div class="row text-center" *ngIf="invito.tipologiaRisposta == TipologiaRisposta.IN_ATTESA">
-                            <div class="col">
+                        <div class="row text-center">
+                            <div class="col" *ngIf="invito.tipologiaRisposta == TipologiaRisposta.IN_ATTESA">
                                 <button class="btn btn-sm btn-outline-success m-1" (click)="onAccetta(invito.id)"><i
                                         class="far fa-check-square"></i> Accetta</button>
                                 <button class="btn btn-sm btn-outline-warning m-1" (click)="onRifiuta(invito.id)">
                                     <i class="far fa-window-close"></i> Rifiuta</button>
+                            </div>
+                            <!-- Verificare se e' gia' stata valutata -->
+                            <div class="col" *ngIf="invito.tipologiaRisposta == TipologiaRisposta.ACCETTATA && invito.tipologiaInvito == TipologiaInvito.VALUTAZIONE">
+                                <button class="btn btn-sm btn-outline-primary m-1"
+                                    routerLink="/esperto/valuta/{{invito.idProgetto}}"><i
+                                        class="far fa-question-circle"></i> Valuta progetto</button>
                             </div>
                         </div>
                     </div>

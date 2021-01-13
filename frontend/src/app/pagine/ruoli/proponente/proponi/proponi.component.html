@@ -26,6 +26,8 @@
                             </div>
                         </form>
                     </div>
+                    <scelta-tag #sceltaTagComponent></scelta-tag>
+                    <!--
                     <div class="col-md-6 mx-auto" *ngIf="hasTags()">
                         <div class="form-group mt-2 text-center">
                             <label class="mb-2" for="tags">Tags</label>
@@ -34,14 +36,14 @@
                                     [ngClass]="tag.value ? 'btn-danger' : 'btn-primary'"
                                     *ngFor="let tag of tags | keyvalue" (click)="addTag(tag.key)"
                                     data-bs-toggle="tooltip" data-bs-placement="top" title="descrizione tag">
-                                    <i class="fas fa-plus"></i>
+                                    <i class="fas fa-hashtag"></i>
                                     {{tag.key.nome}}
                                     <br>
                                     <span *ngIf="tag.value" style="font-size: 10px;">Rimuovi</span>
                                 </li>
                             </ul>
                         </div>
-                    </div>
+                    </div>-->
                 </div>
                 <div class="row">
                     <div class="col text-center mt-4">
@@ -55,6 +57,8 @@
         </mat-step>
         <mat-step label="Step 2 - Inviata progettisti">
             <div class="container m-2">
+                <invita-progettisti #invitaProgettistiComponent [idProgetto]="idProgetto"></invita-progettisti>
+                <!--
                 <div class="row mt-4">
                     <div class="col-md-6 mx-auto mt-2">
                         <form>
@@ -94,10 +98,26 @@
                         </button>
                     </div>
                 </div>
+                -->
+                <div class="row">
+                    <div class="col text-center mt-4">
+                        <button class="btn btn-outline-warning mx-2" mat-button matStepperPrevious>Indietro</button>
+                        <button class="btn btn-success" type="button" disabled mat-button matStepperNext
+                            *ngIf="invitaProgettistiComponent.ricercaProgettista">
+                            <span class="spinner-border spinner-border-sm" role="status" aria-hidden="true"></span>
+                            Ricerca in corso...
+                        </button>
+                        <button class="btn btn-success" type="button" mat-button matStepperNext
+                            *ngIf="!invitaProgettistiComponent.ricercaProgettista">Avanti
+                        </button>
+                    </div>
+                </div>
             </div>
         </mat-step>
         <mat-step label="Step 3 - Valuta progetto">
             <div class="container m-2">
+                <permetti-valutazione #permettiValutazioneComponent [idProgetto]="idProgetto"></permetti-valutazione>
+                <!--
                 <div class="row mt-4">
                     <div class="col-md-6 mx-auto mt-2">
                         <form>
@@ -122,18 +142,18 @@
                             </li>
                         </ul>
                     </div>
-                </div>
+                </div>-->
                 
                 <div class="row">
                     <div class="col text-center mt-4">
                         <button class="btn btn-outline-warning mx-2" mat-button matStepperPrevious>Indietro</button>
                         <button class="btn btn-success" type="button" disabled mat-button matStepperNext
-                            *ngIf="ricercaEsperto">
+                            *ngIf="permettiValutazioneComponent.ricercaEsperto">
                             <span class="spinner-border spinner-border-sm" role="status" aria-hidden="true"></span>
                             Ricerca in corso...
                         </button>
                         <button class="btn btn-success" type="button" mat-button matStepperNext
-                            *ngIf="!ricercaEsperto">Avanti
+                            *ngIf="!permettiValutazioneComponent.ricercaEsperto">Avanti
                         </button>
                     </div>
                 </div>
@@ -146,10 +166,12 @@
                         <h3><b>Nome progetto</b>: {{nome}}</h3>
                         <h3><b>Obiettivi</b>: {{obiettivi}}</h3>
                         <h3><b>Requisiti</b>: {{requisiti}}</h3>
-                        <h3 *ngIf="getTagsScelti().tags.length > 0"><b>Tags</b>: <span
-                                *ngFor="let tag of getTagsScelti().tags">{{tag.nome}}</span></h3>
-                        <h3 *ngIf="idProgettista"><b>Progettisti invitati</b>: {{idProgettista}}</h3>
-                        <h3 *ngIf="idEsperto"><b>Esperto</b>: {{idEsperto}}</h3>
+                        <h3 *ngIf="sceltaTagComponent.getTagsScelti().tags.length > 0"><b>Tags</b>:<span
+                                *ngFor="let tag of sceltaTagComponent.getTagsScelti().tags"> {{tag.nome}}</span></h3>
+                        <h3 *ngIf="invitaProgettistiComponent.idProgettista"><b>Progettisti invitati</b>: {{invitaProgettistiComponent.idProgettista}}</h3>
+                        <!--<h3 *ngIf="idProgettista"><b>Progettisti invitati</b>: {{idProgettista}}</h3>-->
+                        <h3 *ngIf="permettiValutazioneComponent.idEsperto"><b>Esperto</b>: {{permettiValutazioneComponent.idEsperto}}</h3>
+                        <!--<h3 *ngIf="idEsperto"><b>Esperto</b>: {{idEsperto}}</h3>-->
                     </div>
                 </div>
                 <div class="col text-center mt-4">

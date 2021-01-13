@@ -1,0 +1,29 @@
+<div class="row mt-4">
+    <div class="col-md-6 mx-auto mt-2">
+        <form>
+            <div class="form-group mt-2 text-center">
+                <label class="mb-2" for="idEsperto">Identificativo esperto</label>
+                <input type="text" class="form-control" id="idEsperto" [(ngModel)]="idEsperto"
+                    (keyup.enter)="ricercaIdEsperto()" (focusout)="ricercaIdEsperto()" name="idEsperto"
+                    placeholder="Identificativo esperto">
+                <small style="color:red" *ngIf="!ricercaEsperto && !espertoEsistente">Esperto inesistente</small>
+                <small *ngIf="ricercaEsperto"><span class="spinner-border spinner-border-sm" role="status"
+                        aria-hidden="true"></span> Ricerca in corso...</small>
+            </div>
+            <div class="form-group mt-2 text-center form-floating"
+                *ngIf="espertoEsistente && idEsperto && idEsperto.length!=0">
+                <textarea class="form-control" placeholder="Messaggio..." name="messaggioEsperto"
+                    [(ngModel)]="messaggioEsperto" id="messaggioEsperto" style="height: 100px"></textarea>
+                <label for="messaggioEsperto">Messaggio da inviare all'esperto</label>
+            </div>
+        </form>
+    </div>
+    <div class="col-md-6 mx-auto mt-2 text-center">
+        <label class="mb-2" for="espertiConsigliati">Esperti consigliati</label>
+        <ul class="list-group" id="espertiConsigliati" *ngFor="let esperto of espertiConsigliati">
+            <li class="list-group-item d-flex justify-content-between align-items-center">{{esperto}}
+                <a href="">Visualizza</a>
+            </li>
+        </ul>
+    </div>
+</div>

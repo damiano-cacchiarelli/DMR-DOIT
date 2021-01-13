@@ -1,7 +1,8 @@
 import { Component, OnInit } from '@angular/core';
-import { ActivatedRoute } from '@angular/router';
+import { ActivatedRoute, Router } from '@angular/router';
 import { ToastrService } from 'ngx-toastr';
 import { Invito } from 'src/app/modello/invito/invito';
+import { RispostaInvitoDto } from 'src/app/modello/invito/risposta-invito-dto';
 import { RuoloSoggetto } from 'src/app/modello/invito/ruolo-soggetto.enum';
 import { TipologiaInvito } from 'src/app/modello/invito/tipologia-invito.enum';
 import { TipologiaRisposta } from 'src/app/modello/invito/tipologia-risposta.enum';
@@ -22,7 +23,9 @@ export class DettagliInvitoComponent implements OnInit {
   constructor(
     private activatedRoute: ActivatedRoute,
     private invitoService: InvitoService,
-    private toastr: ToastrService) { }
+    private toastr: ToastrService,
+    private router: Router
+    ) { }
 
   ngOnInit(): void {
     const id = this.activatedRoute.snapshot.params.id;
@@ -41,10 +44,27 @@ export class DettagliInvitoComponent implements OnInit {
   }
 
   onAccetta(id: string): void {
+    this.gestisci(new RispostaInvitoDto(id, TipologiaRisposta.ACCETTATA));
     console.log("accetta invito ", id);
   }
 
   onRifiuta(id: string): void {
+    this.gestisci(new RispostaInvitoDto(id, TipologiaRisposta.RIFIUTATA));
     console.log("rifiuta invito ", id);
+  }
+
+  private gestisci(rispostaInvito: RispostaInvitoDto): void {
+    this.invitoService.gestisci(rispostaInvito).subscribe(
+      data => {
+        this.toastr.success(data.messaggio, "OK", {
+          timeOut: 3000, positionClass: "toast-top-center"
+        });
+        this.router.navigate(["/bacheca"]);
+      },
+      err => {
+        this.toastr.error(err.error.messaggio, "Errore", {
+          timeOut: 3000, positionClass: "toast-top-center"
+        });
+      });
   }
 }

@@ -107,7 +107,7 @@ public class ControllerProponente {
 			if(progetto.getGestoreCandidati().isCandidatureAperte())
 				progetto.getGestoreCandidati().chiudiCandidature();
 			progettoService.salvaProgetto(progetto);
-			return new ResponseEntity<>(new Messaggio("Progetto nella fase "), HttpStatus.OK);
+			return new ResponseEntity<>(new Messaggio("Progetto nella fase " + progetto.getFase()), HttpStatus.OK);
 		} catch (NextFaseException e) {
 			return new ResponseEntity<>(new Messaggio(e.getMessage()), HttpStatus.BAD_REQUEST);
 		}

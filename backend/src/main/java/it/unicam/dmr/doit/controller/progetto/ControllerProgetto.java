@@ -16,6 +16,7 @@ import org.springframework.validation.BindingResult;
 import org.springframework.web.bind.annotation.CrossOrigin;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
+import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
@@ -23,7 +24,7 @@ import org.springframework.web.bind.annotation.RestController;
 import it.unicam.dmr.doit.controller.Utils;
 import it.unicam.dmr.doit.dataTransferObject.Messaggio;
 import it.unicam.dmr.doit.dataTransferObject.iscritto.RuoloDto;
-import it.unicam.dmr.doit.dataTransferObject.progetto.TagDto;
+import it.unicam.dmr.doit.dataTransferObject.progetto.TagListDto;
 import it.unicam.dmr.doit.progetto.Progetto;
 import it.unicam.dmr.doit.progetto.Tag;
 import it.unicam.dmr.doit.repository.IscrittoRepository;
@@ -72,54 +73,53 @@ public class ControllerProgetto {
 		return new ResponseEntity<>(progettoService.findById(idProgetto), HttpStatus.OK);
 	}
 
-	@GetMapping("/ricerca/{nome}")
-	public ResponseEntity<?> ricercaProgettoNome(@PathVariable("nome") String nome,
-			@Valid @RequestBody List<TagDto> tags, BindingResult bindingResult) {
+	@PostMapping("/ricerca/{nome}")
+	public ResponseEntity<?> ricercaProgettoNome(@PathVariable("nome") String nome, @Valid @RequestBody TagListDto tags,
+			BindingResult bindingResult) {
 		if (bindingResult.hasErrors())
 			return new ResponseEntity<>(new Messaggio(Utils.getErrore(bindingResult)), HttpStatus.BAD_REQUEST);
 		List<Progetto> progetti = progettoService.findByName(nome);
-		if (!tags.isEmpty()) {
-			List<Tag> tagRichiesti = getTag(tags);
-			progetti.stream().filter(p -> p.getTags().containsAll(tagRichiesti)).collect(Collectors.toList());
-		}
+		List<Tag> tagRichiesti = getTag(tags);
+		progetti = progetti.stream().filter(p -> p.getTags().containsAll(tagRichiesti)).collect(Collectors.toList());
+
 		return new ResponseEntity<>(progetti, HttpStatus.OK);
 	}
 
 	@GetMapping("/personali")
-	public ResponseEntity<?> progettiPersonali(@Valid @RequestBody List<RuoloDto> ruoli,
-			BindingResult bindingResult, Authentication authentication) {
+	public ResponseEntity<?> progettiPersonali(@Valid @RequestBody List<RuoloDto> ruoli, BindingResult bindingResult,
+			Authentication authentication) {
 
 		if (bindingResult.hasErrors())
 			return new ResponseEntity<>(new Messaggio(Utils.getErrore(bindingResult)), HttpStatus.BAD_REQUEST);
 
 		Set<Progetto> progetti = new HashSet<>();
 		Iscritto iscritto = iscrittoService.findByIdentificativo(authentication.getName()).get();
-		List<Ruolo> ruoliIscritto = iscritto.getRuoli().stream().collect(Collectors.toList());	
-		if (ruoli.isEmpty()) 
+		List<Ruolo> ruoliIscritto = iscritto.getRuoli().stream().collect(Collectors.toList());
+		if (ruoli.isEmpty())
 			addAllRole(ruoli, iscritto.getTipoRuoliPossibili());
 		for (RuoloDto ruoloDto : Set.copyOf(ruoli)) {
 			for (Ruolo r : ruoliIscritto) {
-				if(r.getRuolo().equals(ruoloDto.getRuolo())) {
+				if (r.getRuolo().equals(ruoloDto.getRuolo())) {
 					progetti.addAll(r.getProgettiPersonali());
 				}
 			}
 		}
 		/*
-		for (RuoloDto ruoloDto : ruoli) {
-			if (!ruoliUsati.contains(ruoloDto.getRuolo()) && listContainRole(ruoliIscritto, ruoloDto.getRuolo())) {
-				progetti.addAll(ruoliIscritto.stream().filter(r -> r.getRuolo().equals(ruoloDto.getRuolo())).findFirst()
-						.get().getProgettiPersonali());
-				ruoliUsati.add(ruoloDto.getRuolo());
-			}
-
-		}*/
+		 * for (RuoloDto ruoloDto : ruoli) { if
+		 * (!ruoliUsati.contains(ruoloDto.getRuolo()) && listContainRole(ruoliIscritto,
+		 * ruoloDto.getRuolo())) { progetti.addAll(ruoliIscritto.stream().filter(r ->
+		 * r.getRuolo().equals(ruoloDto.getRuolo())).findFirst()
+		 * .get().getProgettiPersonali()); ruoliUsati.add(ruoloDto.getRuolo()); }
+		 * 
+		 * }
+		 */
 		return new ResponseEntity<>(progetti, HttpStatus.OK);
 	}
 
-	private List<Tag> getTag(List<TagDto> tags) {
+	private List<Tag> getTag(TagListDto tags) {
 		List<Tag> listaTag = new LinkedList<>();
-		tags.forEach(t -> {
-			if(tagService.existsByNome(t.getNome()))
+		tags.getTags().forEach(t -> {
+			if (tagService.existsByNome(t.getNome()))
 				listaTag.add(tagService.findById(t.getNome()));
 		});
 		return listaTag;

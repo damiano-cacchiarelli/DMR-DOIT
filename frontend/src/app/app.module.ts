@@ -27,6 +27,9 @@ import { ProfiloPersonaComponent } from './pagine/iscritto/profilo-persona/profi
 import { BachecaComponent } from './pagine/invito/bacheca/bacheca.component';
 import { DettagliInvitoComponent } from './pagine/invito/dettagli-invito/dettagli-invito.component';
 import { ValutaProgettoComponent } from './pagine/ruoli/esperto/valuta-progetto/valuta-progetto.component';
+import { InvitaProgettistiComponent } from './pagine/ruoli/proponi/invita-progettisti/invita-progettisti.component';
+import { PermettiValutazioneComponent } from './pagine/ruoli/proponi/permetti-valutazione/permetti-valutazione.component';
+import { SceltaTagComponent } from './pagine/progetto/vetrina-progetti/scelta-tag/scelta-tag.component';
 
 @NgModule({
   declarations: [
@@ -45,7 +48,10 @@ import { ValutaProgettoComponent } from './pagine/ruoli/esperto/valuta-progetto/
     ProfiloPersonaComponent,
     BachecaComponent,
     DettagliInvitoComponent,
-    ValutaProgettoComponent
+    ValutaProgettoComponent,
+    InvitaProgettistiComponent,
+    PermettiValutazioneComponent,
+    SceltaTagComponent
   ],
   imports: [
     BrowserModule,

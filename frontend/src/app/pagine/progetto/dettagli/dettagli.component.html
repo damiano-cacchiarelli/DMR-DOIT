@@ -1,4 +1,4 @@
-<app-menu></app-menu>
+<app-menu *ngIf="!valutazione"></app-menu>
 
 <div *ngIf="progetto" class="container mx-auto">
   <div class="row mt-4">
@@ -23,8 +23,23 @@
         <p class="text-justify">{{progetto.lastValutazione.recensione}}</p>
         <a class="btn btn-outline-secondary btn-lg" href="#" role="button">Altro</a>
       </div>
-      <div>
-        <p>Candidati ... </p>
+      <hr class="my-4">
+      <div *ngIf="progetto.gestoreCandidati.identificativiCandidati.length != 0">
+        <p>Candidati:
+          <a *ngFor="let idProgettista of progetto.gestoreCandidati.identificativiCandidati"
+            routerLink="/visitatore/{{idProgettista}}">
+            <span class="lead">{{idProgettista}} </span>
+          </a>
+        </p>
+        <p>Partecipanti:
+          <a *ngFor="let idProgettista of progetto.gestoreCandidati.identificativiPartecipanti"
+            routerLink="/visitatore/{{idProgettista}}">
+            <span class="lead">{{idProgettista}} </span>
+          </a>
+        </p>
+      </div>
+      <div *ngIf="progetto.gestoreCandidati.identificativiCandidati.length == 0">
+        <h3>Nessun progettista presente.</h3>
       </div>
       <div class="jumbotron jumbotron-fluid mt-5 text-center">
         <div class="container">
@@ -35,22 +50,67 @@
         </div>
       </div>
     </div>
-    <div class="col-md-2 mx-auto mt-5 text-center">
-      <div class="list-group mx-auto border-start">
-        <!--Visitatore-->
-        <button type="button" class="list-group-item btn btn-outline-primary border-0">Visitatore</button>
-        <!--Proponente-->
-        <button type="button" class="list-group-item btn btn-outline-primary border-0 my-1">Chiudi candidature</button>
-        <button type="button" class="list-group-item btn btn-outline-primary border-0 my-1">Passa a fase
-          successiva</button>
-        <button type="button" class="list-group-item btn btn-outline-primary border-0 my-1">Fai valutare</button>
-        <button type="button" class="list-group-item btn btn-outline-primary border-0 my-1">Invita un
-          Progettista</button>
-        <!--Progettista-->
-        <button type="button" class="list-group-item btn btn-outline-primary border-0 my-1">Partecipa</button>
-        <!--Esperto-->
-        <button type="button" class="list-group-item btn btn-outline-primary border-0 my-1">Espero</button>
+    <div class="col-md-2 mx-auto mt-5 text-center" *ngIf="!valutazione">
+      <table class="table table-ligth table-hover">
+        <tbody>
+          <tr
+            *ngIf="hasRuolo(TipologiaRuolo.ROLE_PROPONENTE) && proprietarioProgetto() && progetto.gestoreCandidati.candidatureAperte">
+            <td class="list-group-item btn btn-outline-primary border-0 my-1" data-bs-toggle="modal"
+              data-bs-target="#genericModal" (click)="chiudiCandidature()">Chiudi candidature</td>
+          </tr>
+          <tr *ngIf="hasRuolo(TipologiaRuolo.ROLE_PROPONENTE) && proprietarioProgetto()">
+            <td class="list-group-item btn btn-outline-primary border-0 my-1" data-bs-toggle="modal"
+              data-bs-target="#genericModal" (click)="faseSuccessiva()">Passa a fase
+              successiva</td>
+          </tr>
+          <tr
+            *ngIf="hasRuolo(TipologiaRuolo.ROLE_PROPONENTE) && proprietarioProgetto() && progetto.stato != Stato.IN_VALUTAZIONE && progetto.fase == Fase.INIZIO">
+            <td class="list-group-item btn btn-outline-primary border-0 my-1" data-bs-toggle="modal"
+              data-bs-target="#genericModal" (click)="permettiValutazione()">Permetti valutazione</td>
+          </tr>
+          <tr
+            *ngIf="hasRuolo(TipologiaRuolo.ROLE_PROPONENTE) && proprietarioProgetto() && progetto.gestoreCandidati.candidatureAperte">
+            <td class="list-group-item btn btn-outline-primary border-0 my-1" data-bs-toggle="modal"
+              data-bs-target="#genericModal" (click)="invitaProgettista()">Invita un
+              Progettista</td>
+          </tr>
+          <tr *ngIf="hasRuolo(TipologiaRuolo.ROLE_PROGETTISTA)">
+            <td class="list-group-item btn btn-outline-primary border-0 my-1" data-bs-toggle="modal"
+              data-bs-target="#genericModal" (click)="partecipa()">Partecipa</td>
+          </tr>
+          <tr>
+            <td class="list-group-item btn btn-outline-primary border-0 my-1" routerLink="/vetrina">Indietro</td>
+          </tr>
+        </tbody>
+      </table>
+    </div>
+  </div>
 
+
+  <!-- Modal -->
+  <div class="modal modal-dialog-scrollable fade" id="genericModal" tabindex="-1" aria-labelledby="genericModalLabel"
+    aria-hidden="true">
+    <div class="modal-dialog">
+      <div class="modal-content">
+        <div class="modal-header">
+          <h2 class="modal-title" id="genericModalLabel">{{opzioniModal.titolo}}</h2>
+          <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+        </div>
+        <div class="modal-body text-center">
+          {{opzioniModal.messaggio}}
+          <invita-progettisti #invitaProgettisti *ngIf="opzioniModal.selettoreDaAttivare=='invita-progettisti'"
+            [idProgetto]="progetto.id">
+          </invita-progettisti>
+          <permetti-valutazione #permettiValutazioneProgetto
+            *ngIf="opzioniModal.selettoreDaAttivare=='permetti-valutazione'" [idProgetto]="progetto.id">
+          </permetti-valutazione>
+        </div>
+        <div class="modal-footer">
+          <button type="button" class="btn btn-secondary" data-bs-dismiss="modal"
+            (click)="chiudiModal()">Annulla</button>
+          <button type="button" class="btn btn-primary" data-bs-dismiss="modal"
+            (click)="procediModal()">Procedi</button>
+        </div>
       </div>
     </div>
   </div>
