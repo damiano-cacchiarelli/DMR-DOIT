@@ -2,6 +2,7 @@ import { Component, Directive, OnInit } from '@angular/core';
 import { ActivatedRoute } from '@angular/router';
 import { ToastrService } from 'ngx-toastr';
 import { EnteDto } from 'src/app/modello/iscritto/ente-dto';
+import { Iscritto } from 'src/app/modello/iscritto/iscritto';
 import { PersonaDto } from 'src/app/modello/iscritto/persona-dto';
 import { VisitatoreService } from 'src/app/servizi/visitatore.service';
 import { ProfiloEnteComponent } from '../profilo-ente/profilo-ente.component';
@@ -13,9 +14,10 @@ import { ProfiloPersonaComponent } from '../profilo-persona/profilo-persona.comp
   styleUrls: ['./profilo.component.css'],
 })
 export class ProfiloComponent implements OnInit {
+
+  iscritto?: Iscritto;
   persona?: PersonaDto;
   ente?: EnteDto;
-  isPersona?: boolean;
   constructor(private visitatoreService: VisitatoreService, private activatedRoute: ActivatedRoute,
     private toastr: ToastrService) {
 
@@ -28,11 +30,10 @@ export class ProfiloComponent implements OnInit {
         console.log(data);
         if (data.nome) {
           this.persona = data;
-          this.isPersona = true;
         } else {
           this.ente = data;
-          this.isPersona = false;
         }
+        this.iscritto = data;
       },
       err => {
         this.toastr.error(err.error.messaggio, "Errore", {

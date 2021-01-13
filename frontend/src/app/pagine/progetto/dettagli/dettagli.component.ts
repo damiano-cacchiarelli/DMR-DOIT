@@ -20,7 +20,7 @@ export class DettagliComponent implements OnInit {
   ngOnInit(): void {
 
     this.colore = Math.floor(Math.random() * Tag.colori.length + 1);
-    const id = this.activatedRoute.snapshot.params.id;
+    const id: number = this.activatedRoute.snapshot.params.id;
     this.progettoService.getProgetto(id).subscribe(
       data => { this.progetto = data;
       console.log(this.progetto);},

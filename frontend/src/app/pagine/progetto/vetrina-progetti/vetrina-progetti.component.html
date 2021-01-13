@@ -1,12 +1,22 @@
 <app-menu></app-menu>
-
-<div class="container" *ngIf = "progetti">
-    <div class="card" style="width: 18rem;" *ngFor="let progetto of progetti">
-        <div class="card-body">
-            <h3 class="card-title">{{progetto.nome}}</h3>
-            <h4 class="card-subtitle mb-2 text-muted">{{progetto.idProponente}}</h4>
-            <p class="card-text text-truncate">{{progetto.obiettivi}}</p>
-            <a routerLink="/dettagli-progetto/{{progetto.id}}" class="card-link">Dettagli</a>
-          </div> 
+<div class="container">
+    <div class="row my-5">
+        <div class="col-md-6 mx-auto">
+            <form class="d-flex">
+                <input class="form-control mx-auto " type="search" placeholder="Cerca progetto" aria-label="Search"
+                    [(ngModel)]="nomeProgetto" (ngModelChange)="ripristino()" >
+                <button class="btn btn-outline-success mx-2" type="submit" (click)="ricerca()">Cerca</button>
+            </form>
+        </div>
+    </div>
+    <div class="container" *ngIf="progetti">
+        <div class="card" style="width: 18rem;" *ngFor="let progetto of progetti">
+            <div class="card-body">
+                <h3 class="card-title">{{progetto.nome}}</h3>
+                <h4 class="card-subtitle mb-2 text-muted">{{progetto.idProponente}}</h4>
+                <p class="card-text text-truncate">{{progetto.obiettivi}}</p>
+                <a routerLink="/dettagli-progetto/{{progetto.id}}" class="card-link">Dettagli</a>
+            </div>
+        </div>
     </div>
 </div>

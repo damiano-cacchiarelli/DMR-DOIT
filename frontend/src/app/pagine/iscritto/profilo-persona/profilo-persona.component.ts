@@ -1,6 +1,5 @@
 import { Component, Input, OnInit } from '@angular/core';
-import { IscrittoDto } from 'src/app/modello/iscritto/iscritto-dto';
-import { PersonaDto } from 'src/app/modello/iscritto/persona-dto';
+import { Persona } from 'src/app/modello/iscritto/persona';
 
 @Component({
   selector: 'profilo-persona',
@@ -8,7 +7,7 @@ import { PersonaDto } from 'src/app/modello/iscritto/persona-dto';
   styleUrls: ['./profilo-persona.component.css']
 })
 export class ProfiloPersonaComponent implements OnInit {
-  @Input() persona?:PersonaDto;
+  @Input() persona?:Persona;
   
  constructor(){
  }

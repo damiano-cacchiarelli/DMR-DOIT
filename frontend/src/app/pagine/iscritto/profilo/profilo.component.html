@@ -1,10 +1,13 @@
 <app-menu></app-menu>
-<div class="container" *ngIf="isPersona, else elseBlock">
+<div class="container" *ngIf="persona, else elseBlock">
   <profilo-persona [persona]="persona"></profilo-persona>
 </div>
 <ng-template #elseBlock>
   <profilo-ente [ente]="ente"></profilo-ente>
 </ng-template>
-<div>
-  Ruoli
+<div *ngIf="iscritto.curriculum">
+  <p class="fw-light">Lingua: {{iscritto.curriculum.Lingua}}</p>
+  <p class="fw-light">Professione: {{iscritto.curriculum.Professione}}</p>
+  <p class="fw-light">Ruolo/i: {{iscritto.ruoli}}</p>
+  <a href="{{iscritto.curriculum.sito}}" class="stretched-link">Sito</a>
 </div>
