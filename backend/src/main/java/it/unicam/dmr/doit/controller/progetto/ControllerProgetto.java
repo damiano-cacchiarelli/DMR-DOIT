@@ -70,7 +70,7 @@ public class ControllerProgetto {
 		if (!progettoService.existsById(idProgetto)) {
 			return new ResponseEntity<>(new Messaggio("Progetto inesistente"), HttpStatus.NOT_FOUND);
 		}
-		return new ResponseEntity<>(progettoService.findById(idProgetto), HttpStatus.OK);
+		return new ResponseEntity<>(progettoService.findById(idProgetto).get(), HttpStatus.OK);
 	}
 
 	@PostMapping("/ricerca/{nome}")

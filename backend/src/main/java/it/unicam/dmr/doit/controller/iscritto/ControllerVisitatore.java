@@ -1,15 +1,12 @@
 package it.unicam.dmr.doit.controller.iscritto;
 
+import java.util.NoSuchElementException;
+
 import javax.validation.Valid;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
-import org.springframework.security.authentication.AuthenticationManager;
-import org.springframework.security.authentication.UsernamePasswordAuthenticationToken;
-import org.springframework.security.core.Authentication;
-import org.springframework.security.core.context.SecurityContextHolder;
-import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.validation.BindingResult;
 import org.springframework.web.bind.annotation.CrossOrigin;
 import org.springframework.web.bind.annotation.GetMapping;
@@ -20,15 +17,12 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
 import it.unicam.dmr.doit.controller.Utils;
-import it.unicam.dmr.doit.dataTransferObject.Messaggio;
-import it.unicam.dmr.doit.dataTransferObject.iscritto.IscrittoDto;
-import it.unicam.dmr.doit.dataTransferObject.security.JwtDto;
 import it.unicam.dmr.doit.dataTransferObject.security.LoginIscritto;
 import it.unicam.dmr.doit.repository.IscrittoRepository;
-import it.unicam.dmr.doit.security.jwt.JwtProvider;
 import it.unicam.dmr.doit.service.iscritto.IscrittoService;
 import it.unicam.dmr.doit.utenti.Iscritto;
 import it.unicam.dmr.doit.utenti.ruoli.TipologiaRuolo;
+import javassist.NotFoundException;
 
 /**
  * Responsabilità:
@@ -59,61 +53,39 @@ public class ControllerVisitatore<I extends Iscritto, R extends IscrittoReposito
 	@Autowired
 	protected S iscrittoService;
 
-	@Autowired
-	protected PasswordEncoder passwordEncoder;
-
-	@Autowired
-	private AuthenticationManager authenticationManager;
-
-	@Autowired
-	private JwtProvider jwtProvider;
-
 	@GetMapping("/{id}")
 	public ResponseEntity<?> getIscritto(@PathVariable("id") String idIscritto) {
-		if (!iscrittoService.existsByIdentificativo(idIscritto))
-			return new ResponseEntity<>(new Messaggio("L'iscritto non esiste"), HttpStatus.NOT_FOUND);
-		I iscritto = iscrittoService.findByIdentificativo(idIscritto).get();
-		return new ResponseEntity<>(iscritto, HttpStatus.OK);
+		try {
+			return Utils.creaRisposta(iscrittoService.getIscritto(idIscritto), HttpStatus.OK);
+		} catch (NotFoundException e) {
+			return Utils.creaMessaggio(e, HttpStatus.NOT_FOUND);
+		}
 	}
 
+	/**
+	 * A che serve???????
+	 * @param idIscritto
+	 * @param ruolo
+	 * @return
+	 */
 	@GetMapping("/{id}/{ruolo}")
 	public ResponseEntity<?> getIscritto(@PathVariable("id") String idIscritto,
 			@PathVariable("ruolo") TipologiaRuolo ruolo) {
 		try {
-			return new ResponseEntity<>(iscrittoService.getRuolo(idIscritto, ruolo), HttpStatus.OK);
-		} catch (Exception e) {
-			return new ResponseEntity<>(new Messaggio(e.getMessage()), HttpStatus.NOT_FOUND);
+			return Utils.creaRisposta(iscrittoService.getIscritto(idIscritto, ruolo), HttpStatus.OK);
+		} catch (NoSuchElementException e) {
+			return Utils.creaMessaggio(e, HttpStatus.NOT_FOUND);
 		}
 	}
 
 	@PostMapping("/accedi")
 	public ResponseEntity<?> accedi(@Valid @RequestBody LoginIscritto loginIscritto, BindingResult bindingResult) {
 		if (bindingResult.hasErrors())
-			return new ResponseEntity<>(new Messaggio(Utils.getErrore(bindingResult)), HttpStatus.BAD_REQUEST);
-		if (!iscrittoService.existsByIdentificativo(loginIscritto.getIdentificativo()))
-			return new ResponseEntity<>(new Messaggio("L'identificativo non esiste!"), HttpStatus.NOT_FOUND);
-		Authentication authentication = authenticationManager.authenticate(new UsernamePasswordAuthenticationToken(
-				loginIscritto.getIdentificativo(), loginIscritto.getPassword()));
-		SecurityContextHolder.getContext().setAuthentication(authentication);
-		String jwt = jwtProvider.generateToken(authentication);
-		JwtDto jwtDto = new JwtDto(jwt);
-		return new ResponseEntity<>(jwtDto, HttpStatus.OK);
-	}
-
-	/**
-	 * Controlla se i campi inseriti sono validi e verifica se l'identificativo e'
-	 * gia' presente nel database.
-	 * 
-	 * @param iscrittoDto
-	 * @param bindingResult
-	 * @return {@code true} se l'iscritto può esser creato, {@code false} altrimenti.
-	 */
-	protected ResponseEntity<?> canCreate(IscrittoDto iscrittoDto, BindingResult bindingResult) {
-		if (bindingResult.hasErrors())
-			return new ResponseEntity<>(new Messaggio(Utils.getErrore(bindingResult)), HttpStatus.BAD_REQUEST);
-		if (iscrittoService.existsByIdentificativo(iscrittoDto.getIdentificativo()))
-			return new ResponseEntity<>(new Messaggio("L'identificativo esiste gia'"), HttpStatus.BAD_REQUEST);
-
-		return new ResponseEntity<>(new Messaggio("Iscrizione avvenuta con successo"), HttpStatus.CREATED);
+			return Utils.creaMessaggioDaErrore(bindingResult);
+		try {
+			return Utils.creaRisposta(iscrittoService.accedi(loginIscritto), HttpStatus.OK);
+		} catch (NotFoundException e) {
+			return Utils.creaRisposta(e, HttpStatus.NOT_FOUND);
+		}
 	}
 }

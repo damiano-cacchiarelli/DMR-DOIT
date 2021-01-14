@@ -12,10 +12,12 @@ import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
+import it.unicam.dmr.doit.controller.Utils;
 import it.unicam.dmr.doit.dataTransferObject.iscritto.EnteDto;
 import it.unicam.dmr.doit.repository.EnteRepository;
 import it.unicam.dmr.doit.service.iscritto.EnteService;
 import it.unicam.dmr.doit.utenti.Ente;
+import javassist.NotFoundException;
 
 /**
  * Questo controller estende {@code ControllerVisitatore} secondo i tipo
@@ -33,6 +35,15 @@ public class ControllerEnte extends ControllerIscritto<Ente, EnteRepository, Ent
 
 	@PutMapping("/aggiorna")
 	protected ResponseEntity<?> aggiorna(@Valid @RequestBody EnteDto enteDto, BindingResult bindingResult, Authentication authentication) {
+		if (bindingResult.hasErrors())
+			return Utils.creaMessaggioDaErrore(bindingResult);
+
+		try {
+			return Utils.creaRisposta(iscrittoService.aggiorna(authentication.getName(), enteDto), HttpStatus.OK);
+		} catch (NotFoundException e) {
+			return Utils.creaMessaggio(e, HttpStatus.NOT_FOUND);
+		}
+		/*
 		ResponseEntity<?> res = super.canUpdate(enteDto, bindingResult);
 		if (res.getStatusCode() != HttpStatus.OK)
 			return res;
@@ -43,5 +54,6 @@ public class ControllerEnte extends ControllerIscritto<Ente, EnteRepository, Ent
 		iscrittoService.salva(ente);
 
 		return res;
+		*/
 	}
 }

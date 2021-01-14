@@ -47,9 +47,32 @@ public final class Utils {
 	/**
 	 * @param messaggio
 	 * @param status
-	 * @return un {@code ResponseEntity<Messaggio>} con il messaggio e lo status passati.
+	 * @return un {@code ResponseEntity<Messaggio>} con il messaggio e lo status
+	 *         passati.
 	 */
 	public static ResponseEntity<Messaggio> creaMessaggio(String messaggio, HttpStatus status) {
 		return new ResponseEntity<>(new Messaggio(messaggio), status);
+	}
+
+	/**
+	 * 
+	 * @param eccezione
+	 * @param status
+	 * @returnun {@code ResponseEntity<Messaggio>} con il messaggio dell'errore e lo status
+	 *         passati.
+	 */
+	public static ResponseEntity<Messaggio> creaMessaggio(Exception eccezione, HttpStatus status) {
+		return new ResponseEntity<>(new Messaggio(eccezione.getMessage()), status);
+	}
+	
+	/**
+	 * @param bindingResult
+	 * @return un {@code ResponseEntity<Messaggio>} con il messaggio ottenuto dal
+	 *         bindingResult se sono presenti errori, null altrimenti.
+	 */
+	public static ResponseEntity<Messaggio> creaMessaggioDaErrore(BindingResult bindingResult) {
+		if (bindingResult.hasErrors())
+			return new ResponseEntity<>(new Messaggio(getErrore(bindingResult)), HttpStatus.BAD_REQUEST);
+		return null;
 	}
 }

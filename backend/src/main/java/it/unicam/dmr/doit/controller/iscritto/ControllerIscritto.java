@@ -1,5 +1,7 @@
 package it.unicam.dmr.doit.controller.iscritto;
 
+import java.util.NoSuchElementException;
+
 import javax.validation.Valid;
 
 import org.springframework.beans.factory.annotation.Autowired;
@@ -17,12 +19,10 @@ import org.springframework.web.bind.annotation.RestController;
 
 import it.unicam.dmr.doit.controller.Utils;
 import it.unicam.dmr.doit.dataTransferObject.Messaggio;
-import it.unicam.dmr.doit.dataTransferObject.iscritto.IscrittoDto;
 import it.unicam.dmr.doit.dataTransferObject.iscritto.RuoloDto;
 import it.unicam.dmr.doit.repository.IscrittoRepository;
 import it.unicam.dmr.doit.service.iscritto.IscrittoService;
 import it.unicam.dmr.doit.utenti.Iscritto;
-import it.unicam.dmr.doit.utenti.ruoli.Ruolo;
 
 /**
  * Questo controller ha la responsabilita' di:
@@ -51,7 +51,16 @@ public class ControllerIscritto<I extends Iscritto, R extends IscrittoRepository
 	@PutMapping("/aggiungi_ruolo")
 	public ResponseEntity<?> aggiungiRuolo(@Valid @RequestBody RuoloDto ruolo, BindingResult bindingResult, Authentication authentication) {
 		if (bindingResult.hasErrors())
-			return new ResponseEntity<>(new Messaggio(Utils.getErrore(bindingResult)), HttpStatus.BAD_REQUEST);
+			return Utils.creaMessaggioDaErrore(bindingResult);
+		try {
+			if( iscrittoService.aggiungiRuolo(authentication.getName(), ruolo))
+				return new ResponseEntity<>(new Messaggio("Il ruolo e' stato aggiunto!"), HttpStatus.OK);
+			return new ResponseEntity<>(new Messaggio("Il ruolo non e' disponibile"), HttpStatus.OK);
+		} catch (NoSuchElementException e) {
+			return Utils.creaMessaggio(e, HttpStatus.NOT_FOUND);
+		}
+		
+		/*
 		I iscritto = iscrittoService.findByIdentificativo(authentication.getName()).get();
 		if(iscrittoService.getRuoliDisponibili(authentication.getName()).contains(ruolo.getRuolo())) {
 			Ruolo r = Ruolo.create(ruolo.getRuolo());
@@ -60,11 +69,13 @@ public class ControllerIscritto<I extends Iscritto, R extends IscrittoRepository
 			return new ResponseEntity<>(new Messaggio("Il ruolo e' stato aggiunto!"), HttpStatus.OK);
 		}
 		else return new ResponseEntity<>(new Messaggio("Il ruolo non e' disponibile."), HttpStatus.BAD_REQUEST);
+		*/
 	}
 	
 	@GetMapping("/ruoli_disponibili")
 	public ResponseEntity<?> ruoliDisponibili(Authentication authentication) {
-		return new ResponseEntity<>(iscrittoService.getRuoliDisponibili(authentication.getName()), HttpStatus.OK);
+		return Utils.creaRisposta(iscrittoService.getRuoliDisponibili(authentication.getName()), HttpStatus.OK);
+		//return new ResponseEntity<>(iscrittoService.getRuoliDisponibili(authentication.getName()), HttpStatus.OK);
 	}
 	
 	@DeleteMapping("/elimina")
@@ -73,10 +84,11 @@ public class ControllerIscritto<I extends Iscritto, R extends IscrittoRepository
 		return new ResponseEntity<>(new Messaggio("L'iscritto e' stato eliminato"), HttpStatus.OK); 
 	}
 	
+	/*
 	protected ResponseEntity<?> canUpdate(IscrittoDto iscrittoDto, BindingResult bindingResult){
 		if (bindingResult.hasErrors())
 			return new ResponseEntity<>(new Messaggio(Utils.getErrore(bindingResult)), HttpStatus.BAD_REQUEST);
 
 		return new ResponseEntity<>(new Messaggio("L'iscritto e' stato aggiornato"), HttpStatus.OK); 
-	}
+	}*/
 }

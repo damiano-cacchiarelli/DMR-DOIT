@@ -3,6 +3,7 @@ package it.unicam.dmr.doit.utenti;
 import java.util.ArrayList;
 import java.util.HashSet;
 import java.util.List;
+import java.util.NoSuchElementException;
 import java.util.Set;
 
 import javax.persistence.CascadeType;
@@ -123,6 +124,12 @@ public abstract class Iscritto implements Utente {
 
 	public Set<Ruolo> getRuoli() {
 		return ruoli;
+	}
+
+	@JsonIgnore
+	public Ruolo getRuolo(TipologiaRuolo ruolo) throws NoSuchElementException {
+		return ruoli.stream().filter(r -> r.getRuolo().equals(ruolo)).findFirst()
+				.orElseThrow(() -> new NoSuchElementException("Ruolo " + ruolo + " non posseduto."));
 	}
 
 	@Override

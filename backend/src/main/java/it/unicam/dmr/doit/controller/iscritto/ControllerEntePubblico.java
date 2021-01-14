@@ -11,7 +11,9 @@ import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
+import it.unicam.dmr.doit.controller.Utils;
 import it.unicam.dmr.doit.dataTransferObject.iscritto.EnteDto;
+import it.unicam.dmr.doit.progetto.exception.ExistingElementException;
 import it.unicam.dmr.doit.repository.EnteRepository;
 import it.unicam.dmr.doit.service.iscritto.EnteService;
 import it.unicam.dmr.doit.utenti.Ente;
@@ -32,14 +34,14 @@ public class ControllerEntePubblico extends ControllerVisitatore<Ente, EnteRepos
 
 	@PostMapping("/crea")
 	protected ResponseEntity<?> crea(@Valid @RequestBody EnteDto enteDto, BindingResult bindingResult) {
-		ResponseEntity<?> res = super.canCreate(enteDto, bindingResult);
-		if (res.getStatusCode() != HttpStatus.CREATED)
-			return res;
-
-		Ente ente = new Ente(enteDto.getIdentificativo(), enteDto.getEmail(),
-				passwordEncoder.encode(enteDto.getPassword()), enteDto.getSede(), enteDto.getAnnoDiFondazione());
-		iscrittoService.salva(ente);
-
-		return res;
+		if (bindingResult.hasErrors())
+			return Utils.creaMessaggioDaErrore(bindingResult);
+		
+		try {
+			iscrittoService.registra(enteDto);
+			return Utils.creaRisposta("Registrazione avvenuta con successo.", HttpStatus.CREATED);
+		} catch (ExistingElementException e) {
+			return Utils.creaMessaggio(e, HttpStatus.BAD_REQUEST);
+		}
 	}
 }

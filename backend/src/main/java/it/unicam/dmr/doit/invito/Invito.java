@@ -106,7 +106,7 @@ public class Invito implements Messaggio {
 		return tipologiaRisposta;
 	}
 
-	public void setTipologiaRisposta(TipologiaRisposta tipologiaRisposta) {
+	public void setTipologiaRisposta(TipologiaRisposta tipologiaRisposta) throws IllegalArgumentException {
 		if (tipologiaRisposta.equals(TipologiaRisposta.IN_ATTESA))
 			throw new IllegalArgumentException("La risposta inviata non e' valida");
 		if (!this.tipologiaRisposta.equals(TipologiaRisposta.IN_ATTESA))

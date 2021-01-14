@@ -124,7 +124,7 @@ public class GestoreInviti implements GestoreMessaggi<Invito> {
 	}
 
 	@Override
-	public void inviaMessaggio(Iscritto destinatario, Invito messaggio){
+	public void inviaMessaggio(Iscritto destinatario, Invito messaggio) throws IllegalArgumentException{
 		messaggio.setSoggetto(RuoloSoggetto.MITTENTE);
 		if(!listaInvitiInviati.add(messaggio))
 			throw new IllegalArgumentException("Messaggio gia' inviato");

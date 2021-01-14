@@ -11,7 +11,9 @@ import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
+import it.unicam.dmr.doit.controller.Utils;
 import it.unicam.dmr.doit.dataTransferObject.iscritto.PersonaDto;
+import it.unicam.dmr.doit.progetto.exception.ExistingElementException;
 import it.unicam.dmr.doit.repository.PersonaRepository;
 import it.unicam.dmr.doit.service.iscritto.PersonaService;
 import it.unicam.dmr.doit.utenti.Persona;
@@ -32,6 +34,16 @@ public class ControllerPersonaPubblico extends ControllerVisitatore<Persona, Per
 
 	@PostMapping("/crea")
 	protected ResponseEntity<?> crea(@Valid @RequestBody PersonaDto personaDto, BindingResult bindingResult) {
+		if (bindingResult.hasErrors())
+			return Utils.creaMessaggioDaErrore(bindingResult);
+		
+		try {
+			iscrittoService.registra(personaDto);
+			return Utils.creaRisposta("Registrazione avvenuta con successo.", HttpStatus.CREATED);
+		} catch (ExistingElementException e) {
+			return Utils.creaMessaggio(e, HttpStatus.BAD_REQUEST);
+		}
+		/*
 		ResponseEntity<?> res = super.canCreate(personaDto, bindingResult);
 		if (res.getStatusCode() != HttpStatus.CREATED)
 			return res;
@@ -41,6 +53,6 @@ public class ControllerPersonaPubblico extends ControllerVisitatore<Persona, Per
 				personaDto.getCittadinanza(), personaDto.getSesso(), personaDto.getTelefono());
 		iscrittoService.salva(persona);
 
-		return res;
+		return res;*/
 	}
 }
