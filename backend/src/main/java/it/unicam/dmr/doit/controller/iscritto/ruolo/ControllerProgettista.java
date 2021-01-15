@@ -60,13 +60,16 @@ public class ControllerProgettista {
 		Progettista p = (Progettista) iscrittoService
 				.getRuolo(authentication.getName(), TipologiaRuolo.ROLE_PROGETTISTA).get();
 		try {
-			Progetto pr = progettoService.findById(idProgetto).get();
+			Progetto pr = progettoService.findById(idProgetto);
 			pr.getGestoreCandidati().aggiungiCandidato(p);
 			progettoService.salvaProgetto(pr);
 		} catch (ExistingElementException e) {
 			return new ResponseEntity<>(new Messaggio(e.getMessage()), HttpStatus.BAD_REQUEST);
 		} catch (CandidacyStatusException e) {
 			return new ResponseEntity<>(new Messaggio(e.getMessage()), HttpStatus.BAD_REQUEST);
+		} catch (NotFoundException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
 		}
 		return new ResponseEntity<>(new Messaggio("Candidato inserito"), HttpStatus.OK);
 	}

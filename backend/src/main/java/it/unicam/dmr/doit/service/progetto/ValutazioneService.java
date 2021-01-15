@@ -7,6 +7,7 @@ import org.springframework.stereotype.Service;
 
 import it.unicam.dmr.doit.progetto.Valutazione;
 import it.unicam.dmr.doit.repository.ValutazioneRepository;
+import javassist.NotFoundException;
 
 /**
  * Questa classe inietta ({@code @Autowired}) {@code ValutazioneRepository} ed ha la
@@ -28,8 +29,8 @@ public class ValutazioneService {
 		return valutazioneRepository.existsById(idValutazione);
 	}
 
-	public Valutazione findById(int idValutazione) {
-		return valutazioneRepository.findById(idValutazione).get();
+	public Valutazione findById(int idValutazione) throws NotFoundException {
+		return valutazioneRepository.findById(idValutazione).orElseThrow(() -> new NotFoundException("Nessuna valutazione trovata"));
 	}
 
 	public void salvaValutazione(Valutazione v) {

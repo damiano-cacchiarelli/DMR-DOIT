@@ -10,6 +10,7 @@ import org.springframework.transaction.annotation.Transactional;
 
 import it.unicam.dmr.doit.progetto.Tag;
 import it.unicam.dmr.doit.repository.TagRepository;
+import javassist.NotFoundException;
 
 /**
  * Questa classe inietta ({@code @Autowired}) {@code TagRepository} ed ha la
@@ -27,8 +28,8 @@ public class TagService {
 	@Autowired
 	private TagRepository tagRepository;
 	
-	public Tag findById(String name) {
-		return tagRepository.findById(name).get();
+	public Tag findById(String name) throws NotFoundException {
+		return tagRepository.findById(name).orElseThrow(()->new NotFoundException("Nessun Tag trovato con questo nome"));
 	}
 	
 	public List<Tag> findAllTag(){
@@ -39,11 +40,18 @@ public class TagService {
 		return tagRepository.existsById(nome);
 	}
 
+	
+	//TODO: da eliminare?
 	public Set<Tag> getTags(List<String> tagsName) {
 		Set<Tag> tags = new HashSet<>();
 		tagsName.forEach(t->{
 			if(existsByNome(t))
-				tags.add(findById(t));
+				try {
+					tags.add(findById(t));
+				} catch (NotFoundException e) {
+					// TODO Auto-generated catch block
+					e.printStackTrace();
+				}
 		});
 		return tags;
 	}
