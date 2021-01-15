@@ -171,6 +171,10 @@ public class Progetto implements IProgetto {
 	public Fase getFase() {
 		return fase;
 	}
+	
+	public String getOperazioniFase() {
+		return fase.operazioniFase();
+	}
 
 	@Override
 	public void nextFase() throws NextFaseException {

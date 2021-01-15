@@ -1,5 +1,5 @@
 import { Component, Input, OnInit, ViewChild } from '@angular/core';
-import { ActivatedRoute } from '@angular/router';
+import { ActivatedRoute, Router } from '@angular/router';
 import { ToastrService } from 'ngx-toastr';
 import { Progetto } from 'src/app/modello/progetto/progetto';
 import { ProgettoService } from 'src/app/servizi/progetto.service';
@@ -32,13 +32,14 @@ export class DettagliComponent implements OnInit {
   TipologiaRuolo = TipologiaRuolo;
   Stato = Stato;
   Fase = Fase;
-  valutazioneCorrente:number=0;
+  valutazioneCorrente: number = 0;
 
-  opzioniModal = { titolo: "", messaggio: "", selettoreDaAttivare: "", onClickProcedi: () => {} };
+  opzioniModal = { titolo: "", messaggio: "", selettoreDaAttivare: "", onClickProcedi: () => { } };
 
   constructor(
     private progettoService: ProgettoService,
     private activatedRoute: ActivatedRoute,
+    private router: Router,
     private toastr: ToastrService,
     private tokenService: TokenService,
     private progettistaService: ProgettistaService,
@@ -51,7 +52,6 @@ export class DettagliComponent implements OnInit {
     this.progettoService.getProgetto(id).subscribe(
       data => {
         this.progetto = data;
-        console.log(this.progetto);
       },
       err => {
         this.toastr.error(err.error.messaggio, "Errore", {
@@ -69,12 +69,13 @@ export class DettagliComponent implements OnInit {
     this.opzioniModal.titolo = "Chiusura candidature";
     this.opzioniModal.messaggio = "Sei sicuro di voler chiudere le candidature? Attenzione: una volta chiuse non possono essre più aperte!";
     this.opzioniModal.onClickProcedi = () => {
-      if(this.progetto)
+      if (this.progetto)
         this.proponenteService.chiudiCandidature(this.progetto.id).subscribe(
           data => {
-            this.toastr.error(data.messaggio, "OK", {
+            this.toastr.success(data.messaggio, "OK", {
               timeOut: 3000, positionClass: "toast-bottom-right"
             });
+            this.home();
           },
           err => {
             this.toastr.error(err.error.messaggio, "Errore", {
@@ -87,14 +88,15 @@ export class DettagliComponent implements OnInit {
 
   faseSuccessiva(): void {
     this.opzioniModal.titolo = "Passa a fase successiva";
-    this.opzioniModal.messaggio = "Sei sicuro di voler passare alla fase successiva? Attenzione: di seguito sono elencate le operazioni che non possono esser fatte nella fase successiva: ";
+    this.opzioniModal.messaggio = "Sei sicuro di voler passare alla fase successiva? Attenzione! Di seguito sono elencate le operazioni che non possono esser fatte nella fase successiva: " + this.progetto?.operazioniFase;
     this.opzioniModal.onClickProcedi = () => {
-      if(this.progetto)
+      if (this.progetto)
         this.proponenteService.faseSuccessiva(this.progetto.id).subscribe(
           data => {
-            this.toastr.error(data.messaggio, "OK", {
+            this.toastr.success(data.messaggio, "OK", {
               timeOut: 3000, positionClass: "toast-bottom-right"
             });
+            this.home();
           },
           err => {
             this.toastr.error(err.error.messaggio, "Errore", {
@@ -123,14 +125,15 @@ export class DettagliComponent implements OnInit {
 
   partecipa(): void {
     this.opzioniModal.titolo = "Partecipa al progetto";
-    this.opzioniModal.messaggio = "Sei sicuro di voler partecipare al Progetto?";
+    this.opzioniModal.messaggio = "Sei sicuro di voler candidarti al progetto?";
     this.opzioniModal.onClickProcedi = () => {
-      if(this.progetto)
+      if (this.progetto)
         this.progettistaService.candidati(this.progetto.id).subscribe(
           data => {
-            this.toastr.error(data.messaggio, "OK", {
+            this.toastr.success(data.messaggio, "OK", {
               timeOut: 3000, positionClass: "toast-bottom-right"
             });
+            this.home();
           },
           err => {
             this.toastr.error(err.error.messaggio, "Errore", {
@@ -153,17 +156,21 @@ export class DettagliComponent implements OnInit {
       this.opzioniModal.onClickProcedi();
   }
 
-  hasRuolo(ruolo: TipologiaRuolo): boolean{
+  hasRuolo(ruolo: TipologiaRuolo): boolean {
     return this.tokenService.getRuoli().includes(ruolo);
   }
 
-  proprietarioProgetto(): boolean{
+  proprietarioProgetto(): boolean {
     return this.progetto?.idProponente == this.tokenService.getIdentificativo();
   }
 
-  vautazioniCandidati(i:number):void{
+  vautazioniCandidati(i: number): void {
     this.opzioniModal.titolo = "Valutazioni progettisti";
     this.opzioniModal.selettoreDaAttivare = "valutazioni-candidati";
-    this.valutazioneCorrente=i;
+    this.valutazioneCorrente = i;
+  }
+
+  private home(): void{
+    this.router.navigate(["/"]);
   }
 }

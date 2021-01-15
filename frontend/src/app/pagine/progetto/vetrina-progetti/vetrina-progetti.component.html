@@ -10,30 +10,16 @@
         </div>
     </div>
     <scelta-tag #sceltaTagComponent></scelta-tag>
-    <!--<div class="row my-2 mb-3">
-        <div class="col-md-6 mx-auto" *ngIf="hasTags()">
-            <div class="form-group text-center">
-                <ul class="list-inline">
-                    <li class="list-inline-item mx-1 my-1 btn"
-                        [ngClass]="tag.value ? 'btn-danger' : 'btn-primary'"
-                        *ngFor="let tag of tags | keyvalue" (click)="addTag(tag.key)"
-                        data-bs-toggle="tooltip" data-bs-placement="top" title="descrizione tag">
-                        <i class="fas fa-hashtag"></i>
-                        {{tag.key.nome}}
-                        <br>
-                        <span *ngIf="tag.value" style="font-size: 10px;">Rimuovi</span>
-                    </li>
-                </ul>
-            </div>
-        </div>
-    </div>-->
-    <div class="container" *ngIf="progetti">
-        <div class="card mt-2" style="width: 18rem;" *ngFor="let progetto of progetti">
-            <div class="card-body">
-                <h3 class="card-title">{{progetto.nome}}</h3>
-                <h4 class="card-subtitle mb-2 text-muted">{{progetto.idProponente}}</h4>
-                <p class="card-text text-truncate">{{progetto.obiettivi}}</p>
-                <a routerLink="/dettagli-progetto/{{progetto.id}}" class="card-link">Dettagli</a>
+    <div class="row" *ngIf="progetti">
+        <div class="col">
+            <div class="card mx-auto mt-2" style="width: 18rem;" *ngFor="let progetto of progetti">
+                <div class="card-body">
+                    <h3 class="card-title">{{progetto.nome}}</h3>
+                    <p>tags</p>
+                    <h4 class="card-subtitle mb-2 text-muted">{{progetto.idProponente}}</h4>
+                    <p class="card-text text-truncate">{{progetto.obiettivi}}</p>
+                    <a routerLink="/dettagli-progetto/{{progetto.id}}" class="card-link">Dettagli</a>
+                </div>
             </div>
         </div>
     </div>

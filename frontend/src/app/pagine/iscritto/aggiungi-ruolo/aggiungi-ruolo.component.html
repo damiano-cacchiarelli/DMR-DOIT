@@ -3,7 +3,7 @@
 <div class="container px-4 px-md-3 my-5">
     <div class="row mb-5 pb-md-4 justify-content-center">
         <div class="card text-white mb-3 col-md-5 mx-1" style="max-width: 18rem;"
-            *ngFor="let ruoloOpzioni of ruoliDisponibili; index as i;" [ngClass]="ruoloOpzioni.colore">
+            *ngFor="let ruoloOpzioni of ruoliDisponibili; index as i;" [ngClass]="'bg-'+ruoloOpzioni.colore">
             <div class="card-header">Ruolo {{ruoloOpzioni.nome}}</div>
             <div class="card-body d-flex flex-column">
                 <h5 class="card-title">{{ruoloOpzioni.nome}}</h5>
