@@ -129,7 +129,7 @@ public class ControllerProponente {
 	@PostMapping("/esperti_consigliati")
 	public ResponseEntity<?> espertiConsigliati(@Valid @RequestBody TagListDto tags, BindingResult bindingResult) {
 		if (bindingResult.hasErrors())
-			return new ResponseEntity<>(new Messaggio(Utils.getErrore(bindingResult)), HttpStatus.BAD_REQUEST);
+			return Utils.creaMessaggioDaErrore(bindingResult);
 		return new ResponseEntity<>(iscrittoService.getEspertiConsigliati(tags.getTags()), HttpStatus.OK);
 	}
 }

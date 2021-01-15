@@ -74,7 +74,6 @@ public class ControllerProgettista {
 		return new ResponseEntity<>(new Messaggio("Candidato inserito"), HttpStatus.OK);
 	}
 
-	// FATTO 14-01-21
 	@PreAuthorize("hasRole('PROGETTISTA')")
 	@PutMapping("/gestisci_richiesta_partecipazione")
 	public ResponseEntity<Messaggio> gestisciRichiestePartecipazione(@Valid @RequestBody RispostaInvitoDto rispostaInvitoDto,
