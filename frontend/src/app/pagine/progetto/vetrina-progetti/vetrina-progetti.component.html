@@ -1,5 +1,5 @@
 <app-menu></app-menu>
-<div class="container">
+<div class="container my-2">
     <div class="row my-2">
         <div class="col-md-6 mx-auto my-1">
             <form class="d-flex">
@@ -11,11 +11,11 @@
     </div>
     <scelta-tag #sceltaTagComponent></scelta-tag>
     <div class="row" *ngIf="progetti">
-        <div class="col">
-            <div class="card mx-auto mt-2" style="width: 18rem;" *ngFor="let progetto of progetti">
+        <div class="col" *ngFor="let progetto of progetti">
+            <div class="card mx-auto my-2" style="width: 18rem;">
                 <div class="card-body">
                     <h3 class="card-title">{{progetto.nome}}</h3>
-                    <ul class="list-inline">
+                    <ul class="list-inline" *ngIf="progetto.tags.length != 0">
                         Tags:
                         <li class="badge m-1" [ngClass]="getColore(i)" *ngFor="let tag of progetto.tags; index as i;">
                             {{tag.nome}}</li>

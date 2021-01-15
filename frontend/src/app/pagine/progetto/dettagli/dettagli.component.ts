@@ -47,7 +47,7 @@ export class DettagliComponent implements OnInit {
 
   ngOnInit(): void {
 
-    this.colore = Math.floor(Math.random() * Tag.colori.length + 1);
+    this.colore = Math.floor(Math.random() * Tag.COLORI.length + 1);
     const id: number = this.activatedRoute.snapshot.params.id;
     this.progettoService.getProgetto(id).subscribe(
       data => {
@@ -62,7 +62,7 @@ export class DettagliComponent implements OnInit {
   }
 
   public getColore(i: number): string {
-    return Tag.colori[(i + this.colore) % Tag.colori.length];
+    return "btn-" + Tag.COLORI[(i + this.colore) % Tag.COLORI.length];
   }
 
   chiudiCandidature(): void {

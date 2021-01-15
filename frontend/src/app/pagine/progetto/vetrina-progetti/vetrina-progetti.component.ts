@@ -14,7 +14,6 @@ import { SceltaTagComponent } from './scelta-tag/scelta-tag.component';
 })
 export class VetrinaProgettiComponent implements OnInit {
 
-  private colore: number = 0;
   @ViewChild("sceltaTagComponent") sceltaTagComponent?: SceltaTagComponent;
   nomeProgetto: string = "";
   progetti: Progetto[] = [];
@@ -28,65 +27,29 @@ export class VetrinaProgettiComponent implements OnInit {
 
   ngOnInit(): void {
     this.vetrina();
-
-    /*
-    this.tagService.tuttiITag().subscribe(
-      data => {
-        this.tags = new Map();
-        data.forEach((tag: Tag) => {
-          this.tags.set(tag, false);
-        });
-      },
-      err => {
-        this.toastr.error(err.error.messaggio, "Errore", {
-          timeOut: 3000, positionClass: "toast-top-center"
-        });
-      }
-    );*/
   }
 
   public getColore(i: number): string {
-    return Tag.colori[(i + this.colore) % Tag.colori.length];
+    const colore = Math.floor(Math.random() * Tag.COLORI.length + 1);
+    return "bg-" + Tag.COLORI[(i + colore) % Tag.COLORI.length];
   }
 
-  ricerca(): void{
-    if(this.nomeProgetto.length==0 || !this.sceltaTagComponent) return;
+  ricerca(): void {
+    if (this.nomeProgetto.length == 0 || !this.sceltaTagComponent) return;
     this.progettoService.cercaProgetto(this.nomeProgetto, this.sceltaTagComponent.getTagsScelti()).subscribe(
-      data => {this.progetti = data},
-      err => {console.log(err);}
+      data => { this.progetti = data },
+      err => { console.log(err); }
     );
   }
 
-  vetrina(): void{
+  vetrina(): void {
     this.progettoService.vetrinaProgetti().subscribe(
-      data => {this.progetti = data},
-      err => {console.log(err);}
+      data => { this.progetti = data },
+      err => { console.log(err); }
     );
   }
 
-  ripristino(): void{
-    if(this.nomeProgetto.length == 0) this.vetrina();
+  ripristino(): void {
+    if (this.nomeProgetto.length == 0) this.vetrina();
   }
-
-  /*
-  addTag(tag: Tag): void {
-    this.tags.set(tag, !this.tags.get(tag));
-
-    let tagsScelti = this.getTagsScelti();
-    if (tagsScelti.tags.length != 0) {
-      
-    }
-  }
-
-  hasTags(): boolean {
-    return this.tags.size > 0;
-  }
-
-  getTagsScelti(): TagListDto {
-    let tagsScelti: Tag[] = [];
-    this.tags.forEach((value: boolean, key: Tag) => {
-      if (value) tagsScelti.push(key);
-    });
-    return new TagListDto(tagsScelti);
-  }*/
 }

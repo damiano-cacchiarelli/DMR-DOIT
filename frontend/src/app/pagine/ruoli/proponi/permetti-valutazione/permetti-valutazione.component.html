@@ -22,7 +22,7 @@
         <label class="mb-2" for="espertiConsigliati">Esperti consigliati</label>
         <ul class="list-group" id="espertiConsigliati" *ngFor="let esperto of espertiConsigliati">
             <li class="list-group-item d-flex justify-content-between align-items-center">{{esperto}}
-                <a href="">Visualizza</a>
+                <a routerLink="/visitatore/{{esperto}}">Visualizza</a>
             </li>
         </ul>
     </div>

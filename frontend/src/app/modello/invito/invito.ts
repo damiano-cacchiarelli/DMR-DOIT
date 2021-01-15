@@ -1,4 +1,3 @@
-import { Progetto } from "../progetto/progetto";
 import { InvitoDto } from "./invito-dto";
 import { RuoloSoggetto } from "./ruolo-soggetto.enum";
 import { TipologiaInvito } from "./tipologia-invito.enum";

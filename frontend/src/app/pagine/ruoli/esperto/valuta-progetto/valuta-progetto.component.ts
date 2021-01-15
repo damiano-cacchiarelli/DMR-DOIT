@@ -2,15 +2,9 @@ import { Component, OnInit } from '@angular/core';
 import { FormBuilder, FormGroup, Validators } from '@angular/forms';
 import { ActivatedRoute, Router } from '@angular/router';
 import { ToastrService } from 'ngx-toastr';
-import { IscrittoDto } from 'src/app/modello/iscritto/iscritto-dto';
-import { PersonaDto } from 'src/app/modello/iscritto/persona-dto';
-import { Fase } from 'src/app/modello/progetto/fase.enum';
 import { Progetto } from 'src/app/modello/progetto/progetto';
-import { Stato } from 'src/app/modello/progetto/stato.enum';
-import { Valutazione } from 'src/app/modello/progetto/valutazione';
 import { ValutazioneCandidati } from 'src/app/modello/progetto/valutazione-candidati';
 import { ValutazioneDto } from 'src/app/modello/progetto/valutazione-dto';
-import { DettagliComponent } from 'src/app/pagine/progetto/dettagli/dettagli.component';
 import { EspertoService } from 'src/app/servizi/esperto.service';
 import { ProgettoService } from 'src/app/servizi/progetto.service';
 
@@ -21,6 +15,7 @@ import { ProgettoService } from 'src/app/servizi/progetto.service';
 })
 export class ValutaProgettoComponent implements OnInit {
 
+  idInvito: string = "";
   progetto: Progetto = null as any;
   recensioneProgetto: string = "";
 
@@ -40,6 +35,7 @@ export class ValutaProgettoComponent implements OnInit {
 
   ngOnInit(): void {
     const id: number = this.activatedRoute.snapshot.params.id;
+    this.idInvito = this.activatedRoute.snapshot.params.idInvito;
     this.progettoService.getProgetto(id).subscribe(
       data => {
         this.progetto = data;
@@ -78,11 +74,12 @@ export class ValutaProgettoComponent implements OnInit {
       }
     }
     const valutazione: ValutazioneDto = new ValutazioneDto(this.recensioneProgetto, this.progetto.id, valutazioneCandidati);
-    this.espertoService.valutaProgetto(valutazione).subscribe(
+    this.espertoService.valutaProgetto(this.idInvito, valutazione).subscribe(
       data => {
         this.toastr.success(data.messaggio, "OK", {
           timeOut: 3000, positionClass: "toast-bottom-right"
         });
+
         this.router.navigate([".."]);
       },
       err => {

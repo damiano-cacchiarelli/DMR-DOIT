@@ -43,17 +43,5 @@ public class ControllerEnte extends ControllerIscritto<Ente, EnteRepository, Ent
 		} catch (NotFoundException e) {
 			return Utils.creaMessaggio(e, HttpStatus.NOT_FOUND);
 		}
-		/*
-		ResponseEntity<?> res = super.canUpdate(enteDto, bindingResult);
-		if (res.getStatusCode() != HttpStatus.OK)
-			return res;
-
-		Ente ente = iscrittoService.findByIdentificativo(authentication.getName()).get();
-		ente.setSede(enteDto.getSede());
-		ente.setAnnoDiFondazione(enteDto.getAnnoDiFondazione());
-		iscrittoService.salva(ente);
-
-		return res;
-		*/
 	}
 }

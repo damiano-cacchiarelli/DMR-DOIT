@@ -62,7 +62,7 @@ public class IscrittoService<I extends Iscritto, R extends IscrittoRepository<I>
 		Authentication authentication = authenticationManager.authenticate(new UsernamePasswordAuthenticationToken(
 				loginIscritto.getIdentificativo(), loginIscritto.getPassword()));
 		SecurityContextHolder.getContext().setAuthentication(authentication);
-		String jwt = jwtProvider.generateToken(authentication);
+		String jwt = jwtProvider.generaToken(authentication);
 		return new JwtDto(jwt);
 	}	
 	
@@ -84,6 +84,14 @@ public class IscrittoService<I extends Iscritto, R extends IscrittoRepository<I>
 		List<TipologiaRuolo> ruoliDisponibili = new ArrayList<>(iscritto.getTipoRuoliPossibili());
 		ruoliDisponibili.removeAll(iscritto.getTipologiaRuoli());
 		return ruoliDisponibili;
+	}
+	
+	public boolean esisteIscrittoByRuolo(String identificativo, TipologiaRuolo ruolo) {
+		I iscritto = iscrittoRepository.findById(identificativo).get();
+		if(iscritto != null)
+			if(iscritto.getRuoli().stream().filter(r -> r.getRuolo() == ruolo).findFirst().get() != null)
+				return true;
+		return false;
 	}
 	
 	public void elimina(String identificativo) {

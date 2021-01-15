@@ -9,6 +9,7 @@ import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.security.core.Authentication;
 import org.springframework.validation.BindingResult;
 import org.springframework.web.bind.annotation.CrossOrigin;
+import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
@@ -36,15 +37,15 @@ public class ControllerEsperto {
 	private ValutazioneService valutazioneService;
 
 	@PreAuthorize("hasRole('ESPERTO')")
-	@PostMapping("/progetto/valuta")
-	public ResponseEntity<?> valutaProgetto(@Valid @RequestBody ValutazioneDto valutazioneDto,
+	@PostMapping("/progetto/valuta/{id_invito}")
+	public ResponseEntity<?> valutaProgetto(@PathVariable("id_invito") String idInvito, @Valid @RequestBody ValutazioneDto valutazioneDto,
 			BindingResult bindingResult, Authentication authentication) {
 
 		if (bindingResult.hasErrors())
 			return Utils.creaMessaggioDaErrore(bindingResult);
 
 		try {
-			valutazioneService.valuta(valutazioneDto, authentication.getName());
+			valutazioneService.valuta(idInvito, valutazioneDto, authentication.getName());
 		} catch (ExistingElementException e) {
 			return Utils.creaMessaggio(e, HttpStatus.BAD_REQUEST);
 		} catch (NotFoundException e) {

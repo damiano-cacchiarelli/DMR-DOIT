@@ -20,6 +20,10 @@ public class ValutazioneDto {
 	
 	@NotNull(message = Utils.nonNullo)
 	@NotBlank(message = Utils.nonVuoto)
+	private String idInvito;
+	
+	@NotNull(message = Utils.nonNullo)
+	@NotBlank(message = Utils.nonVuoto)
 	private String recensione;
 
 	private Set<ValutazioneProgettistaDto> valutazioniCandidati = new HashSet<>();
@@ -61,6 +65,14 @@ public class ValutazioneDto {
 
 	public void setIdProgetto(int idProgetto) {
 		this.idProgetto = idProgetto;
+	}
+	
+	public String getIdInvito() {
+		return idInvito;
+	}
+	
+	public void setIdInvito(String idInvito) {
+		this.idInvito = idInvito;
 	}
 
 }

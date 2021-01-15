@@ -13,8 +13,8 @@ export class EspertoService {
 
   constructor(private httpClient: HttpClient) { }
 
-  public valutaProgetto(valutazione: ValutazioneDto): Observable<any> {
-    return this.httpClient.post<any>(this.espertoURL + "/progetto/valuta", valutazione);
+  public valutaProgetto(idInvito: string, valutazione: ValutazioneDto): Observable<any> {
+    return this.httpClient.post<any>(this.espertoURL + "/progetto/valuta/" + idInvito, valutazione);
   }
 
   public gestisciValutazione(rispostaInvito: RispostaInvitoDto): Observable<any> {

@@ -59,6 +59,7 @@ export class RegistratiComponent implements OnInit {
         this.toastr.error(err.error.messaggio, "Errore", {
           timeOut: 3000, positionClass: "toast-top-center"
         });
+        console.log(err);
       });
   }
 

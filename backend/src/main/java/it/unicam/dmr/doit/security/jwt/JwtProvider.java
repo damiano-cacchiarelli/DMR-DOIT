@@ -4,7 +4,6 @@ import java.util.Date;
 import java.util.List;
 import java.util.stream.Collectors;
 
-import org.slf4j.Logger;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.security.core.Authentication;
 import org.springframework.security.core.GrantedAuthority;
@@ -30,14 +29,12 @@ import it.unicam.dmr.doit.security.IscrittoPrincipale;
 @Component
 public class JwtProvider {
 
-	private final static Logger logger = org.slf4j.LoggerFactory.getLogger(JwtProvider.class);
-
 	@Value("${jwt.secret}")
 	private String secret;
 	@Value("${jwt.expiration}")
 	private int expiration;
 
-	public String generateToken(Authentication authentication) {
+	public String generaToken(Authentication authentication) {
 		IscrittoPrincipale iscrittoPrincipale = (IscrittoPrincipale) authentication.getPrincipal();
 		List<String> ruoli = iscrittoPrincipale.getAuthorities().stream().map(GrantedAuthority::getAuthority)
 				.collect(Collectors.toList());
@@ -52,20 +49,20 @@ public class JwtProvider {
 		return Jwts.parser().setSigningKey(secret.getBytes()).parseClaimsJws(token).getBody().getSubject();
 	}
 
-	public boolean validateToken(String token) {
+	public boolean verificaToken(String token) {
 		try {
 			Jwts.parser().setSigningKey(secret.getBytes()).parseClaimsJws(token);
 			return true;
 		} catch (MalformedJwtException e) {
-			logger.error("Token malformato");
+			System.out.println("Token malformato " + e.getMessage());
 		} catch (UnsupportedJwtException e) {
-			logger.error("Token non supportato");
+			System.out.println("Token non supportato " + e.getMessage());
 		} catch (ExpiredJwtException e) {
-			logger.error("Token scaduto");
+			System.out.println("Token scaduto " + e.getMessage());
 		} catch (IllegalArgumentException e) {
-			logger.error("Token vuoto");
+			System.out.println("Token vuoto " + e.getMessage());
 		} catch (SignatureException e) {
-			logger.error("Errore nella firma");
+			System.out.println("Errore nella firma " + e.getMessage());
 		}
 		return false;
 	}

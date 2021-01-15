@@ -6,6 +6,7 @@ import { RuoloOpzioni } from 'src/app/modello/iscritto/ruolo-opzioni';
 import { TipologiaRuolo } from 'src/app/modello/iscritto/tipologia-ruolo.enum';
 import { Tag } from 'src/app/modello/progetto/tag';
 import { IscrittoService } from 'src/app/servizi/iscritto.service';
+import { TokenService } from 'src/app/servizi/token.service';
 
 @Component({
   selector: 'app-aggiungi-ruolo',
@@ -18,8 +19,8 @@ export class AggiungiRuoloComponent implements OnInit {
 
   constructor(
     private iscrittoService: IscrittoService,
-    private toastr: ToastrService,
-    private router: Router) { }
+    private tokenService: TokenService,
+    private toastr: ToastrService) { }
 
   ngOnInit(): void {
     this.iscrittoService.ruoliDisponibili().subscribe(
@@ -42,7 +43,11 @@ export class AggiungiRuoloComponent implements OnInit {
         this.toastr.success(data.messaggio, "Ruolo aggiunto", {
           timeOut: 3000, positionClass: "toast-top-center"
         });
-        this.router.navigate(["/"]);
+        this.toastr.warning("Affinchè l'aggiunta del ruolo sia applicata, è necessario rieffettuare l'accesso.<br>Disconnessione in corso...", "Ruolo aggiunto - Attenzione!", {
+          timeOut: 6000, positionClass: "toast-top-center",
+          enableHtml:  true
+        });
+        this.tokenService.disconnetti();
       },
       err => {
         this.toastr.error(err.error.messaggio, "Errore", {

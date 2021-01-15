@@ -25,6 +25,8 @@ public class PersonaService extends IscrittoService<Persona, PersonaRepository> 
 	public Persona registra(PersonaDto personaDto) throws ExistingElementException {
 		if (iscrittoRepository.existsById(personaDto.getIdentificativo()))
 			throw new ExistingElementException("L'identificativo esiste gia'");
+		if (iscrittoRepository.existsByEmail(personaDto.getEmail()))
+			throw new ExistingElementException("L'email e' in uso");
 
 		Persona persona = new Persona(personaDto.getIdentificativo(), personaDto.getEmail(),
 				passwordEncoder.encode(personaDto.getPassword()), personaDto.getNome(), personaDto.getCognome(),

@@ -23,6 +23,8 @@ import it.unicam.dmr.doit.utenti.ruoli.TipologiaRuolo;
 @Repository
 public interface IscrittoRepository<I extends Iscritto> extends JpaRepository<I, String> {
 
+	public boolean existsByEmail(String email);
+	
 	/**
 	 * @return tutti gli iscritti aventi il ruolo definito dal parametro passato
 	 */
@@ -33,7 +35,7 @@ public interface IscrittoRepository<I extends Iscritto> extends JpaRepository<I,
 	 * @return tutti gli iscritti aventi il ruolo esperto ordinati in modo
 	 *         decrescente in base al rango
 	 */
-	@Query("select i from Iscritto i join Ruolo r on r.iscritto=i.identificativo join Esperto e on r.id=e.id where r.ruolo='ROLE_ESPERTO' order by rango desc")
+	@Query("select i from Iscritto i join Ruolo r on r.iscritto=i.identificativo join Esperto e on r.id=e.id where r.ruolo='ROLE_ESPERTO' order by rango desc LIMIT 5")
 	public List<I> findEsperti();
 
 	/*

@@ -78,19 +78,5 @@ public class ControllerProgetto {
 		} catch (NotFoundException e) {
 			return Utils.creaMessaggio(e, HttpStatus.NOT_FOUND);
 		}
-		
-		/*
-		 * for (RuoloDto ruoloDto : ruoli) { if
-		 * (!ruoliUsati.contains(ruoloDto.getRuolo()) && listContainRole(ruoliIscritto,
-		 * ruoloDto.getRuolo())) { progetti.addAll(ruoliIscritto.stream().filter(r ->
-		 * r.getRuolo().equals(ruoloDto.getRuolo())).findFirst()
-		 * .get().getProgettiPersonali()); ruoliUsati.add(ruoloDto.getRuolo()); }
-		 * 
-		 * }
-		 */
-		//return new ResponseEntity<>(progetti, HttpStatus.OK);
 	}
-
-	
-
 }

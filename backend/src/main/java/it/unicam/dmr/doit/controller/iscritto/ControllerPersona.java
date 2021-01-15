@@ -44,21 +44,5 @@ public class ControllerPersona extends ControllerIscritto<Persona, PersonaReposi
 		} catch (NotFoundException e) {
 			return Utils.creaMessaggio(e, HttpStatus.NOT_FOUND);
 		}
-		/*
-		 * iscrittoService.aggiorna(personaDto); ResponseEntity<?> res =
-		 * super.canUpdate(personaDto, bindingResult); if (res.getStatusCode() !=
-		 * HttpStatus.OK) return res;
-		 * 
-		 * Persona persona =
-		 * iscrittoService.findByIdentificativo(authentication.getName()).get();
-		 * persona.setNome(personaDto.getNome());
-		 * persona.setCognome(personaDto.getCognome());
-		 * persona.setCittadinanza(personaDto.getCittadinanza());
-		 * persona.setSesso(personaDto.getSesso());
-		 * persona.setTelefono(personaDto.getTelefono());
-		 * iscrittoService.salva(persona);
-		 * 
-		 * return res;
-		 */
 	}
 }

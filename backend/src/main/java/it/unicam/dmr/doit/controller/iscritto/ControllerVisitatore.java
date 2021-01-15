@@ -19,6 +19,7 @@ import it.unicam.dmr.doit.dataTransferObject.security.LoginIscritto;
 import it.unicam.dmr.doit.repository.IscrittoRepository;
 import it.unicam.dmr.doit.service.iscritto.IscrittoService;
 import it.unicam.dmr.doit.utenti.Iscritto;
+import it.unicam.dmr.doit.utenti.ruoli.TipologiaRuolo;
 import javassist.NotFoundException;
 
 /**
@@ -68,5 +69,10 @@ public class ControllerVisitatore<I extends Iscritto, R extends IscrittoReposito
 		} catch (NotFoundException e) {
 			return Utils.creaRisposta(e, HttpStatus.NOT_FOUND);
 		}
+	}
+	
+	@GetMapping("/esiste/{identificativo}/{ruolo}")
+	public ResponseEntity<?> esisteIscrittoByRuolo(@PathVariable("identificativo") String id, @PathVariable("ruolo") TipologiaRuolo ruolo) {
+		return Utils.creaRisposta(iscrittoService.esisteIscrittoByRuolo(id, ruolo), HttpStatus.OK);
 	}
 }

@@ -37,7 +37,7 @@ public class JwtTokenFilter extends OncePerRequestFilter {
 			throws ServletException, IOException {
 		try {
 			String token = getToken(request);
-			if (token != null && jwtProvider.validateToken(token)) {
+			if (token != null && jwtProvider.verificaToken(token)) {
 				String identificativoIscritto = jwtProvider.getIdentificativoFromToken(token);
 				UserDetails userDetails = iscrittoDetailsServiceImpl.loadUserByUsername(identificativoIscritto);
 				UsernamePasswordAuthenticationToken auth = new UsernamePasswordAuthenticationToken(userDetails, null,

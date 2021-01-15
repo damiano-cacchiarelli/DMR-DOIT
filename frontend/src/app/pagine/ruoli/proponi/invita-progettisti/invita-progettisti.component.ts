@@ -51,6 +51,7 @@ export class InvitaProgettistiComponent implements OnInit {
     this.ricercaProgettista = true;
     this.visitatoreService.getIscrittoByRuolo(this.idProgettista, TipologiaRuolo.ROLE_PROGETTISTA).subscribe(
       data => {
+        console.log(data);
         if (data.messaggio) {
           this.progettistaEsistente = false;
           this.idProgettista = null as any;

@@ -39,20 +39,9 @@ public class ControllerPersonaPubblico extends ControllerVisitatore<Persona, Per
 		
 		try {
 			iscrittoService.registra(personaDto);
-			return Utils.creaRisposta("Registrazione avvenuta con successo.", HttpStatus.CREATED);
+			return Utils.creaMessaggio("Registrazione avvenuta con successo.", HttpStatus.CREATED);
 		} catch (ExistingElementException e) {
 			return Utils.creaMessaggio(e, HttpStatus.BAD_REQUEST);
 		}
-		/*
-		ResponseEntity<?> res = super.canCreate(personaDto, bindingResult);
-		if (res.getStatusCode() != HttpStatus.CREATED)
-			return res;
-
-		Persona persona = new Persona(personaDto.getIdentificativo(), personaDto.getEmail(),
-				passwordEncoder.encode(personaDto.getPassword()), personaDto.getNome(), personaDto.getCognome(),
-				personaDto.getCittadinanza(), personaDto.getSesso(), personaDto.getTelefono());
-		iscrittoService.salva(persona);
-
-		return res;*/
 	}
 }

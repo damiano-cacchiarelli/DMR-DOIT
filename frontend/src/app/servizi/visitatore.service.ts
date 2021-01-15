@@ -29,6 +29,6 @@ export class VisitatoreService {
   }
 
   public getIscrittoByRuolo(id: string, ruolo: TipologiaRuolo): Observable<any> {
-    return this.httpClient.get<any>(this.autenticazioneURL + "/" + id + "/" + ruolo);
+    return this.httpClient.get<any>(this.autenticazioneURL + "/esiste/" + id + "/" + ruolo);
   }
 }

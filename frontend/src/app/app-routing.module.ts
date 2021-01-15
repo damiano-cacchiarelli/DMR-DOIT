@@ -25,7 +25,7 @@ const routes: Routes = [
   {path: "dettagli-progetto/:id", component: DettagliComponent},
   {path: "visitatore/:id", component: ProfiloComponent},
   {path: "proponente/proponi", component: ProponiComponent, canActivate: [RuoloGuard], data: new Data([TipologiaRuolo.ROLE_PROPONENTE])},
-  {path: "esperto/valuta/:id", component: ValutaProgettoComponent, canActivate: [RuoloGuard], data: new Data([TipologiaRuolo.ROLE_ESPERTO])},
+  {path: "esperto/valuta/:id/:idInvito", component: ValutaProgettoComponent, canActivate: [RuoloGuard], data: new Data([TipologiaRuolo.ROLE_ESPERTO])},
   
   {path: "bacheca", component: BachecaComponent, canActivate: [AutenticatoGuard], data: new Data([], true)},
   {path: "bacheca/:id", component: DettagliInvitoComponent, canActivate: [AutenticatoGuard], data: new Data([], true)},

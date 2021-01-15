@@ -25,6 +25,8 @@ public class EnteService extends IscrittoService<Ente, EnteRepository> {
 	public Ente registra(EnteDto enteDto) throws ExistingElementException {
 		if (iscrittoRepository.existsById(enteDto.getIdentificativo()))
 			throw new ExistingElementException("L'identificativo esiste gia'");
+		if (iscrittoRepository.existsByEmail(enteDto.getEmail()))
+			throw new ExistingElementException("L'email e' in uso");
 
 		Ente ente = new Ente(enteDto.getIdentificativo(), enteDto.getEmail(),
 				passwordEncoder.encode(enteDto.getPassword()), enteDto.getSede(), enteDto.getAnnoDiFondazione());

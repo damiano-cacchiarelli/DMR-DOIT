@@ -11,7 +11,6 @@
                     (click)="messaggiInviati()">Messaggi inviati</button>
                 <button type="button" class="list-group-item list-group-item-action"
                     (click)="messaggiRicevuti()">Messaggi ricevuti</button>
-                <button type="button" class="list-group-item list-group-item-action">Scrivi</button>
             </div>
         </div>
         <div class="col-md-9 mt-2">
@@ -49,16 +48,15 @@
                             </div>
                             <div class="row">
                                 <div class="col" *ngIf="invito.tipologiaRisposta == TipologiaRisposta.IN_ATTESA">
-                                    <button class="btn btn-sm btn-outline-success m-1" (click)="onAccetta(invito.id)"><i
+                                    <button *ngIf="invito.tipologiaInvito != TipologiaInvito.VALUTAZIONE"
+                                        class="btn btn-sm btn-outline-success m-1" (click)="onAccetta(invito.id)"><i
                                             class="far fa-check-square"></i></button>
+                                    <button *ngIf="invito.tipologiaInvito == TipologiaInvito.VALUTAZIONE"
+                                        class="btn btn-sm btn-outline-primary m-1"
+                                        routerLink="/esperto/valuta/{{invito.idProgetto}}/{{invito.id}}"><i
+                                            class="far fa-question-circle"></i></button>
                                     <button class="btn btn-sm btn-outline-warning m-1" (click)="onRifiuta(invito.id)">
                                         <i class="far fa-window-close"></i></button>
-                                </div>
-                                <!-- Verificare se e' gia' stata valutata -->
-                                <div class="col" *ngIf="invito.tipologiaRisposta == TipologiaRisposta.ACCETTATA && invito.tipologiaInvito == TipologiaInvito.VALUTAZIONE">
-                                    <button class="btn btn-sm btn-outline-primary m-1"
-                                        routerLink="/esperto/valuta/{{invito.idProgetto}}"><i
-                                            class="far fa-question-circle"></i></button>
                                 </div>
                             </div>
                         </td>

@@ -30,7 +30,6 @@ export class BachecaComponent implements OnInit {
     private invitoService: InvitoService,
     private progettistaService: ProgettistaService,
     private proponenteService: ProponenteService,
-    private espertoService: EspertoService,
     private toastr: ToastrService) { }
 
   ngOnInit(): void {
