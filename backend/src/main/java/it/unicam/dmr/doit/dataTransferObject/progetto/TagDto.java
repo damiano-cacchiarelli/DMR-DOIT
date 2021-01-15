@@ -4,6 +4,7 @@ import javax.validation.constraints.NotBlank;
 import javax.validation.constraints.NotNull;
 
 import it.unicam.dmr.doit.controller.Utils;
+import it.unicam.dmr.doit.progetto.InterfaceTag;
 
 /**
  * Questa classe fa parte degli oggetti che vengono trasfertiti in rete e
@@ -13,7 +14,7 @@ import it.unicam.dmr.doit.controller.Utils;
  * @author Matteo Romagnoli
  * @author Roberto Cesetti
  */
-public class TagDto {
+public class TagDto implements InterfaceTag {
 
 	@NotNull(message = Utils.nonNullo)
 	@NotBlank(message = Utils.nonVuoto)
@@ -27,6 +28,7 @@ public class TagDto {
 		this.nome = nome;
 	}
 
+	@Override
 	public String getNome() {
 		return nome;
 	}

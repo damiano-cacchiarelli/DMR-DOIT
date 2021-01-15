@@ -12,7 +12,7 @@ import it.unicam.dmr.doit.progetto.exception.NextFaseException;
  * @author Matteo Romagnoli
  * @author Roberto Cesetti
  */
-public interface IProgetto {
+public interface InterfaceProgetto {
 
 	public int getId();
 

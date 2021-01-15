@@ -1,7 +1,5 @@
 package it.unicam.dmr.doit.controller.progetto;
 
-import java.util.NoSuchElementException;
-
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
@@ -11,9 +9,10 @@ import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
-import it.unicam.dmr.doit.progetto.Valutazione;
+import it.unicam.dmr.doit.controller.Utils;
 import it.unicam.dmr.doit.service.progetto.ProgettoService;
 import it.unicam.dmr.doit.service.progetto.ValutazioneService;
+import javassist.NotFoundException;
 
 /**
  * Resposabilita�:
@@ -44,27 +43,28 @@ public class ControllerValutazione {
 
 	@GetMapping("/{id}")
 	public ResponseEntity<?> getValutazione(@PathVariable("id") int id) {
-		if(!valutazioneService.existsById(id))
-			return new ResponseEntity<>("La valutazione non esiste", HttpStatus.NOT_FOUND);
-		return new ResponseEntity<>(valutazioneService.findById(id), HttpStatus.OK);
+		try {
+			return Utils.creaRisposta(valutazioneService.findById(id), HttpStatus.OK);
+		} catch (NotFoundException e) {
+			return Utils.creaMessaggio(e, HttpStatus.NOT_FOUND);
+		}
 	}
 	
 	@GetMapping("/{id_progetto}/all")
 	public ResponseEntity<?> valutazioniProgetto(@PathVariable("id_progetto") int idProgetto) {
-		if(!progettoService.existsById(idProgetto))
-			return new ResponseEntity<>("Il progetto non esiste", HttpStatus.NOT_FOUND);
-		return new ResponseEntity<>(progettoService.getAllValutazioni(idProgetto), HttpStatus.OK);
+		try {
+			return Utils.creaRisposta(progettoService.getAllValutazioni(idProgetto), HttpStatus.OK);
+		} catch (NotFoundException e) {
+			return Utils.creaMessaggio(e, HttpStatus.NOT_FOUND);
+		}
 	}
 
 	@GetMapping("/{id_progetto}/last")
 	public ResponseEntity<?> ultimaValutazioneProgetto(@PathVariable("id_progetto") int idProgetto) {
-		if(!progettoService.existsById(idProgetto))
-			return new ResponseEntity<>("Il progetto non esiste", HttpStatus.NOT_FOUND);
 		try {
-			Valutazione val = progettoService.findById(idProgetto).get().getLastValutazione();
-			return new ResponseEntity<>(val, HttpStatus.OK);
-		} catch (NoSuchElementException e) {
-			return new ResponseEntity<>(e.getMessage(), HttpStatus.OK);
+			return Utils.creaRisposta(progettoService.findById(idProgetto).getLastValutazione(), HttpStatus.OK);
+		} catch (NotFoundException e) {
+			return Utils.creaMessaggio(e, HttpStatus.NOT_FOUND);
 		}
 	}
 }

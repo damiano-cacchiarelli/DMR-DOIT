@@ -11,7 +11,7 @@ import it.unicam.dmr.doit.progetto.Progetto;
  * @author Matteo Romagnoli
  * @author Roberto Cesetti
  */
-public interface IRuolo {
+public interface InterfaceRuolo {
 	public TipologiaRuolo getRuolo();
 
 	public Collection<Progetto> getProgettiPersonali();

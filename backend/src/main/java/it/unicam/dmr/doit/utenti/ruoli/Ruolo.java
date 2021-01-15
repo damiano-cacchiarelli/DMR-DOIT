@@ -34,7 +34,7 @@ import it.unicam.dmr.doit.utenti.Iscritto;
 @Table(name = "ruolo")
 //TODO: @Inheritance strategia da modificare: crea una tabella per tutti i ruoli (?)
 @Inheritance(strategy = InheritanceType.JOINED)
-public abstract class Ruolo implements IRuolo {
+public abstract class Ruolo implements InterfaceRuolo {
 
 	@Id
 	@GeneratedValue(strategy = GenerationType.IDENTITY)

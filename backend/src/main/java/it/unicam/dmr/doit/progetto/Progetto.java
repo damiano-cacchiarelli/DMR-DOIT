@@ -50,7 +50,7 @@ import it.unicam.dmr.doit.utenti.ruoli.Proponente;
  * @author Roberto Cesetti
  */
 @Entity
-public class Progetto implements IProgetto {
+public class Progetto implements InterfaceProgetto {
 
 	@Id
 	@GeneratedValue(strategy = GenerationType.IDENTITY)

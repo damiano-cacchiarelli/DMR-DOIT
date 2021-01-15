@@ -18,16 +18,10 @@ import org.springframework.web.bind.annotation.RestController;
 import it.unicam.dmr.doit.controller.Utils;
 import it.unicam.dmr.doit.dataTransferObject.Messaggio;
 import it.unicam.dmr.doit.dataTransferObject.invito.RispostaInvitoDto;
-import it.unicam.dmr.doit.progetto.Progetto;
 import it.unicam.dmr.doit.progetto.exception.CandidacyStatusException;
 import it.unicam.dmr.doit.progetto.exception.ExistingElementException;
-import it.unicam.dmr.doit.repository.IscrittoRepository;
 import it.unicam.dmr.doit.service.iscritto.InvitoService;
-import it.unicam.dmr.doit.service.iscritto.IscrittoService;
 import it.unicam.dmr.doit.service.progetto.ProgettoService;
-import it.unicam.dmr.doit.utenti.Iscritto;
-import it.unicam.dmr.doit.utenti.ruoli.Progettista;
-import it.unicam.dmr.doit.utenti.ruoli.TipologiaRuolo;
 import javassist.NotFoundException;
 
 /**
@@ -46,29 +40,22 @@ public class ControllerProgettista {
 	@Autowired
 	private ProgettoService progettoService;
 	@Autowired
-	private IscrittoService<Iscritto, IscrittoRepository<Iscritto>> iscrittoService;
-	@Autowired
 	private InvitoService invitoService;
 
 	@PreAuthorize("hasRole('PROGETTISTA')")
 	@PutMapping("/candidati/{id_progetto}")
 	public ResponseEntity<Messaggio> candidatiAlProgetto(@PathVariable("id_progetto") int idProgetto,
 			Authentication authentication) {
-		if (!progettoService.existsById(idProgetto)) {
-			return new ResponseEntity<>(new Messaggio("Il progetto non esiste"), HttpStatus.NOT_FOUND);
-		}
-		Progettista p = (Progettista) iscrittoService
-				.getRuolo(authentication.getName(), TipologiaRuolo.ROLE_PROGETTISTA).get();
 		try {
-			Progetto pr = progettoService.findById(idProgetto).get();
-			pr.getGestoreCandidati().aggiungiCandidato(p);
-			progettoService.salvaProgetto(pr);
+			progettoService.candidatiAlProgetto(authentication.getName(), idProgetto);
+			return Utils.creaMessaggio("Candidatura effettuata", HttpStatus.OK);
+		} catch (NotFoundException e) {
+			return Utils.creaMessaggio(e, HttpStatus.NOT_FOUND);
 		} catch (ExistingElementException e) {
-			return new ResponseEntity<>(new Messaggio(e.getMessage()), HttpStatus.BAD_REQUEST);
+			return Utils.creaMessaggio(e, HttpStatus.BAD_REQUEST);
 		} catch (CandidacyStatusException e) {
-			return new ResponseEntity<>(new Messaggio(e.getMessage()), HttpStatus.BAD_REQUEST);
+			return Utils.creaMessaggio(e, HttpStatus.BAD_REQUEST);
 		}
-		return new ResponseEntity<>(new Messaggio("Candidato inserito"), HttpStatus.OK);
 	}
 
 	// FATTO 14-01-21
