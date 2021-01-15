@@ -35,7 +35,7 @@ public interface IscrittoRepository<I extends Iscritto> extends JpaRepository<I,
 	 * @return tutti gli iscritti aventi il ruolo esperto ordinati in modo
 	 *         decrescente in base al rango
 	 */
-	@Query("select i from Iscritto i join Ruolo r on r.iscritto=i.identificativo join Esperto e on r.id=e.id where r.ruolo='ROLE_ESPERTO' order by rango desc LIMIT 5")
+	@Query("select i from Iscritto i join Ruolo r on r.iscritto=i.identificativo join Esperto e on r.id=e.id where r.ruolo='ROLE_ESPERTO' order by rango desc")
 	public List<I> findEsperti();
 
 	/*

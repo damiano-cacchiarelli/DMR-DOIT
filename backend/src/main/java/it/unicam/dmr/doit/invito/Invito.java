@@ -10,6 +10,7 @@ import javax.persistence.FetchType;
 import javax.persistence.Id;
 import javax.persistence.IdClass;
 import javax.persistence.JoinColumn;
+import javax.persistence.Lob;
 import javax.persistence.ManyToOne;
 import javax.persistence.Temporal;
 import javax.persistence.TemporalType;
@@ -46,7 +47,7 @@ public class Invito implements Messaggio, InterfaceInvito  {
 	@Enumerated(EnumType.STRING)
 	@Column(length = 15)
 	private RuoloSoggetto soggetto = RuoloSoggetto.MITTENTE;
-
+	@Lob
 	@NotNull(message = Utils.nonNullo)
 	private String contenuto;
 	@Temporal(TemporalType.TIMESTAMP)

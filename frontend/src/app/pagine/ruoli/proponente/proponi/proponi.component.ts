@@ -29,7 +29,7 @@ export class ProponiComponent implements OnInit {
   @ViewChild("invitaProgettistiComponent") invitaProgettistiComponent?: InvitaProgettistiComponent;
   @ViewChild("permettiValutazioneComponent") permettiValutazioneComponent?: PermettiValutazioneComponent;
   @ViewChild("sceltaTagComponent") sceltaTagComponent?: SceltaTagComponent;
- 
+
   nome: string = null as any;
   obiettivi: string = null as any;
   requisiti: string = null as any;
@@ -95,7 +95,7 @@ export class ProponiComponent implements OnInit {
   }
 
   onProponi(): void {
-    if(!this.sceltaTagComponent) {
+    if (!this.sceltaTagComponent) {
       console.log("errore nel metodo proponi");
       return;
     }
@@ -103,8 +103,19 @@ export class ProponiComponent implements OnInit {
     this.proponenteService.proponi(progetto).subscribe(
       (data: Progetto) => {
         this.idProgetto = data.id;
-        this.invitaProgettistiComponent?.invitaProgettisti();
-        this.permettiValutazioneComponent?.permettiValutazione();
+        if (this.invitaProgettistiComponent) {
+          this.invitaProgettistiComponent.invitaProgettisti().subscribe(data => {
+            this.toastr.success(data, "OK", {
+              timeOut: 3000, positionClass: "toast-top-center"
+            });
+            this.permettiValutazioneComponent?.permettiValutazione();
+          },
+            err => {
+              this.toastr.error(err.error.messaggio, "Errore", {
+                timeOut: 3000, positionClass: "toast-top-center"
+              });
+            });
+        } else this.permettiValutazioneComponent?.permettiValutazione();
 
         this.toastr.success("Progetto creato!", "OK", {
           timeOut: 3000, positionClass: "toast-top-center"

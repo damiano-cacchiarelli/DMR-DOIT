@@ -119,7 +119,17 @@ export class DettagliComponent implements OnInit {
     this.opzioniModal.titolo = "Invita progettisti";
     this.opzioniModal.selettoreDaAttivare = "invita-progettisti";
     this.opzioniModal.onClickProcedi = () => {
-      this.invitaProgettisti?.invitaProgettisti();
+      this.invitaProgettisti?.invitaProgettisti().subscribe(
+        data => {
+          this.toastr.success(data, "OK", {
+            timeOut: 3000, positionClass: "toast-top-center"
+          });
+        },
+        err => {
+          this.toastr.error(err.error.messaggio, "Errore", {
+            timeOut: 3000, positionClass: "toast-top-center"
+          });
+        });
     }
   }
 
@@ -170,7 +180,7 @@ export class DettagliComponent implements OnInit {
     this.valutazioneCorrente = i;
   }
 
-  private home(): void{
+  private home(): void {
     this.router.navigate(["/"]);
   }
 }

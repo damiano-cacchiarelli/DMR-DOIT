@@ -30,20 +30,11 @@ export class InvitaProgettistiComponent implements OnInit {
   ngOnInit(): void {
   }
 
-  invitaProgettisti(): void {
+  invitaProgettisti(): Observable<any> {
     if (this.idProgetto && this.progettistiInvitati.size > 0)
-      this.invitoService
-        .invia(new InvitoDto(this.messaggioProgettisti, TipologiaInvito.PROPOSTA, Array.from(this.progettistiInvitati), this.idProgetto))
-        .subscribe(data => {
-          this.toastr.success(data, "OK", {
-            timeOut: 3000, positionClass: "toast-top-center"
-          });
-        },
-          err => {
-            this.toastr.error(err.error.messaggio, "Errore", {
-              timeOut: 3000, positionClass: "toast-top-center"
-            });
-          });
+      return this.invitoService
+        .invia(new InvitoDto(this.messaggioProgettisti, TipologiaInvito.PROPOSTA, Array.from(this.progettistiInvitati), this.idProgetto));
+    return null as any;
   }
 
   ricercaIdProgettista(): void {
