@@ -1,10 +1,6 @@
 package it.unicam.dmr.doit.controller.progetto;
 
-import java.util.HashSet;
-import java.util.LinkedList;
 import java.util.List;
-import java.util.Set;
-import java.util.stream.Collectors;
 
 import javax.validation.Valid;
 
@@ -22,18 +18,10 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
 import it.unicam.dmr.doit.controller.Utils;
-import it.unicam.dmr.doit.dataTransferObject.Messaggio;
 import it.unicam.dmr.doit.dataTransferObject.iscritto.RuoloDto;
 import it.unicam.dmr.doit.dataTransferObject.progetto.TagListDto;
 import it.unicam.dmr.doit.progetto.Progetto;
-import it.unicam.dmr.doit.progetto.Tag;
-import it.unicam.dmr.doit.repository.IscrittoRepository;
-import it.unicam.dmr.doit.service.iscritto.IscrittoService;
 import it.unicam.dmr.doit.service.progetto.ProgettoService;
-import it.unicam.dmr.doit.service.progetto.TagService;
-import it.unicam.dmr.doit.utenti.Iscritto;
-import it.unicam.dmr.doit.utenti.ruoli.Ruolo;
-import it.unicam.dmr.doit.utenti.ruoli.TipologiaRuolo;
 import javassist.NotFoundException;
 
 /**
@@ -56,8 +44,6 @@ public class ControllerProgetto {
 
 	@Autowired
 	private ProgettoService progettoService;
-	@Autowired
-	private IscrittoService<Iscritto, IscrittoRepository<Iscritto>> iscrittoService;
 
 	@GetMapping("/vetrina")
 	public ResponseEntity<List<Progetto>> vetrinaProgetti() {
