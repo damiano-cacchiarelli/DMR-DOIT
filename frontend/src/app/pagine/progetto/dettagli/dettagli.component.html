@@ -1,4 +1,4 @@
-<app-menu *ngIf="!valutazione"></app-menu>
+<app-menu></app-menu>
 
 <div *ngIf="progetto" class="container mx-auto">
   <div class="row mt-4">
@@ -27,7 +27,8 @@
             <p class="card-text">{{progetto.listaValutazioni[0].recensione}}</p>
             <div class="container">
               <div class="row align-items-center">
-                <button type="button" class="col list-inline-item btn btn-primary">
+                <button type="button" class="col list-inline-item btn btn-primary"
+                  routerLink="/visitatore/{{progetto.listaValutazioni[0].identificativoEsperto}}">
                   Esperto: {{progetto.listaValutazioni[0].identificativoEsperto}}
                 </button>
                 <button type="button" *ngIf="progetto.listaValutazioni[0].valutazioniCandidati"
@@ -55,7 +56,8 @@
                   <p class="card-text">{{valutazione.recensione}}</p>
                   <div class="container">
                     <div class="row align-items-center">
-                      <button type="button" class="col list-inline-item btn btn-primary">
+                      <button type="button" class="col list-inline-item btn btn-primary"
+                        routerLink="/visitatore/{{valutazione.identificativoEsperto}}">
                         Esperto: {{valutazione.identificativoEsperto}}
                       </button>
                       <button type="button" *ngIf="valutazione.valutazioniCandidati"
@@ -117,7 +119,8 @@
             <td class="list-group-item btn btn-outline-primary border-0 my-1" data-bs-toggle="modal"
               data-bs-target="#genericModal" (click)="chiudiCandidature()">Chiudi candidature</td>
           </tr>
-          <tr *ngIf="hasRuolo(TipologiaRuolo.ROLE_PROPONENTE) && proprietarioProgetto() && progetto.fase != Fase.PUBBLICAZIONE">
+          <tr
+            *ngIf="hasRuolo(TipologiaRuolo.ROLE_PROPONENTE) && proprietarioProgetto() && progetto.fase != Fase.PUBBLICAZIONE">
             <td class="list-group-item btn btn-outline-primary border-0 my-1" data-bs-toggle="modal"
               data-bs-target="#genericModal" (click)="faseSuccessiva()">Passa a fase
               successiva</td>
@@ -185,9 +188,9 @@
             <button type="button" class="btn btn-primary  mx-1" data-bs-dismiss="modal"
               (click)="procediModal()">Procedi</button>
           </span>
-          <ng-template #elseBlockButtonModal> 
+          <ng-template #elseBlockButtonModal>
             <button type="button" class="btn btn-secondary" data-bs-dismiss="modal"
-            (click)="chiudiModal()">Chiudi</button>
+              (click)="chiudiModal()">Chiudi</button>
           </ng-template>
         </div>
       </div>

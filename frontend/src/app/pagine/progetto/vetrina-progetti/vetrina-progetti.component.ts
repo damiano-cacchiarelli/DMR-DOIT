@@ -14,6 +14,7 @@ import { SceltaTagComponent } from './scelta-tag/scelta-tag.component';
 })
 export class VetrinaProgettiComponent implements OnInit {
 
+  private colore: number = 0;
   @ViewChild("sceltaTagComponent") sceltaTagComponent?: SceltaTagComponent;
   nomeProgetto: string = "";
   progetti: Progetto[] = [];
@@ -42,6 +43,10 @@ export class VetrinaProgettiComponent implements OnInit {
         });
       }
     );*/
+  }
+
+  public getColore(i: number): string {
+    return Tag.colori[(i + this.colore) % Tag.colori.length];
   }
 
   ricerca(): void{

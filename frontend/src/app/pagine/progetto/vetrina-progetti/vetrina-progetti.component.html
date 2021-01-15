@@ -3,8 +3,8 @@
     <div class="row my-2">
         <div class="col-md-6 mx-auto my-1">
             <form class="d-flex">
-                <input class="form-control mx-auto " type="search" name="nomeProgetto" placeholder="Cerca progetto" aria-label="Search"
-                    [(ngModel)]="nomeProgetto" (ngModelChange)="ripristino()" >
+                <input class="form-control mx-auto " type="search" name="nomeProgetto" placeholder="Cerca progetto"
+                    aria-label="Search" [(ngModel)]="nomeProgetto" (ngModelChange)="ripristino()">
                 <button class="btn btn-outline-success mx-2" type="submit" (click)="ricerca()">Cerca</button>
             </form>
         </div>
@@ -15,7 +15,12 @@
             <div class="card mx-auto mt-2" style="width: 18rem;" *ngFor="let progetto of progetti">
                 <div class="card-body">
                     <h3 class="card-title">{{progetto.nome}}</h3>
-                    <p>tags</p>
+                    <ul class="list-inline">
+                        Tags:
+                        <li class="badge m-1" [ngClass]="getColore(i)" *ngFor="let tag of progetto.tags; index as i;">
+                            {{tag.nome}}</li>
+                    </ul>
+                    <hr class="my-2">
                     <h4 class="card-subtitle mb-2 text-muted">{{progetto.idProponente}}</h4>
                     <p class="card-text text-truncate">{{progetto.obiettivi}}</p>
                     <a routerLink="/dettagli-progetto/{{progetto.id}}" class="card-link">Dettagli</a>
