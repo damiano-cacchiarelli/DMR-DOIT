@@ -3,10 +3,10 @@ import { TipologiaRuolo } from "./tipologia-ruolo.enum";
 export class RuoloOpzioni {
 
     public static readonly RUOLI: Map<TipologiaRuolo, RuoloOpzioni> = new Map([
-        [TipologiaRuolo.ROLE_PROPONENTE, new RuoloOpzioni(TipologiaRuolo.ROLE_PROPONENTE, "Questo ruolo permette di proporre progetti e gestirli.", "bg-primary")],
-        [TipologiaRuolo.ROLE_PROGETTISTA, new RuoloOpzioni(TipologiaRuolo.ROLE_PROGETTISTA, "Questo ruolo permette di partecipare a progetti.", "bg-success")],
-        [TipologiaRuolo.ROLE_ESPERTO, new RuoloOpzioni(TipologiaRuolo.ROLE_ESPERTO, "Questo ruolo permette di valutare progetti e relativi candidati.", "bg-secondary")],
-        [TipologiaRuolo.ROLE_SPONSOR, new RuoloOpzioni(TipologiaRuolo.ROLE_SPONSOR, "Questo ruolo permette di finanziare progetti.", "bg-danger")]
+        [TipologiaRuolo.ROLE_PROPONENTE, new RuoloOpzioni(TipologiaRuolo.ROLE_PROPONENTE, "Questo ruolo permette di proporre progetti e gestirli.", "primary")],
+        [TipologiaRuolo.ROLE_PROGETTISTA, new RuoloOpzioni(TipologiaRuolo.ROLE_PROGETTISTA, "Questo ruolo permette di partecipare a progetti.", "success")],
+        [TipologiaRuolo.ROLE_ESPERTO, new RuoloOpzioni(TipologiaRuolo.ROLE_ESPERTO, "Questo ruolo permette di valutare progetti e relativi candidati.", "secondary")],
+        [TipologiaRuolo.ROLE_SPONSOR, new RuoloOpzioni(TipologiaRuolo.ROLE_SPONSOR, "Questo ruolo permette di finanziare progetti.", "danger")]
     ]);
 
     tipo: TipologiaRuolo;

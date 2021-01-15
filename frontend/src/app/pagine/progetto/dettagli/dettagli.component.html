@@ -117,7 +117,7 @@
             <td class="list-group-item btn btn-outline-primary border-0 my-1" data-bs-toggle="modal"
               data-bs-target="#genericModal" (click)="chiudiCandidature()">Chiudi candidature</td>
           </tr>
-          <tr *ngIf="hasRuolo(TipologiaRuolo.ROLE_PROPONENTE) && proprietarioProgetto()">
+          <tr *ngIf="hasRuolo(TipologiaRuolo.ROLE_PROPONENTE) && proprietarioProgetto() && progetto.fase != Fase.PUBBLICAZIONE">
             <td class="list-group-item btn btn-outline-primary border-0 my-1" data-bs-toggle="modal"
               data-bs-target="#genericModal" (click)="faseSuccessiva()">Passa a fase
               successiva</td>
@@ -180,9 +180,9 @@
         </div>
         <div class="modal-footer">
           <span *ngIf="opzioniModal.selettoreDaAttivare!='valutazioni-candidati'; else elseBlockButtonModal">
-            <button type="button" class="btn btn-secondary" data-bs-dismiss="modal"
+            <button type="button" class="btn btn-secondary mx-1" data-bs-dismiss="modal"
               (click)="chiudiModal()">Annulla</button>
-            <button type="button" class="btn btn-primary" data-bs-dismiss="modal"
+            <button type="button" class="btn btn-primary  mx-1" data-bs-dismiss="modal"
               (click)="procediModal()">Procedi</button>
           </span>
           <ng-template #elseBlockButtonModal> 

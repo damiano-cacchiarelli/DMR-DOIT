@@ -1,14 +1,40 @@
 <app-menu *ngIf="!valutazione"></app-menu>
 
-<div class="container" *ngIf="persona, else elseBlock">
-  <profilo-persona [persona]="persona"></profilo-persona>
+<div class="container">
+  <div class="row">
+    <div class="col mt-2 mx-auto">
+      <div *ngIf="persona, else elseBlock">
+        <profilo-persona [persona]="persona"></profilo-persona>
+      </div>
+    </div>
+  </div>
+  <div class="row">
+    <div class="col mt-2 mx-auto" *ngIf="iscritto && iscritto.curriculum">
+      <p class="fw-light">Lingua: {{iscritto.curriculum.lingue}}</p>
+      <p class="fw-light">Professione: {{iscritto.curriculum.professione}}</p>
+      <p class="fw-light">Ruolo/i: {{iscritto.ruoli}}</p>
+      <a href="{{iscritto.curriculum.sito}}" class="stretched-link">Sito</a>
+    </div>
+  </div>
+  <div class="row">
+    <div class="mt-5 text-center mx-auto col-md-6" *ngIf="iscritto && hasRuoli()">
+      <h2>Progetti personali</h2>
+      <table class="table table-striped table-hover align-middle mt-2" *ngFor="let ruolo of iscritto.ruoli">
+        <thead>
+          <tr>
+            <th scope="col" [ngClass]="'bg-'+getColore(ruolo.ruolo)">Ruolo {{TipologiaRuolo[ruolo.ruolo]}}</th>
+          </tr>
+        </thead>
+        <tbody>
+          <tr *ngFor="let progetto of ruolo.progettiPersonali">
+            <td routerLink="/dettagli-progetto/{{progetto.id}}"><span>Progetto: {{progetto.nome}}</span></td>
+          </tr>
+        </tbody>
+      </table>
+    </div>
+  </div>
 </div>
+
 <ng-template #elseBlock>
   <profilo-ente [ente]="ente"></profilo-ente>
 </ng-template>
-<div *ngIf="iscritto && iscritto.curriculum">
-  <p class="fw-light">Lingua: {{iscritto.curriculum.lingue}}</p>
-  <p class="fw-light">Professione: {{iscritto.curriculum.professione}}</p>
-  <p class="fw-light">Ruolo/i: {{iscritto.ruoli}}</p>
-  <a href="{{iscritto.curriculum.sito}}" class="stretched-link">Sito</a>
-</div>
