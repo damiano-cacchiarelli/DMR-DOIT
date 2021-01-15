@@ -10,9 +10,9 @@ import it.unicam.dmr.doit.utenti.Ente;
 import javassist.NotFoundException;
 
 /**
- * Questa classe estende {@code IscrittoService<Ente, EnteRepository>} ed ha
- * la responsabilita' di effettuare le operazioni di modifica, inserimento,
- * ricerca ed eliminazione di un {@code Ente}.
+ * Questa classe estende {@code IscrittoService<Ente, EnteRepository>} ed ha la
+ * responsabilita' di effettuare le operazioni di modifica, inserimento, ricerca
+ * ed eliminazione di un {@code Ente}.
  * 
  * @author Damiano Cacchiarelli
  * @author Matteo Romagnoli
@@ -31,12 +31,10 @@ public class EnteService extends IscrittoService<Ente, EnteRepository> {
 		iscrittoRepository.save(ente);
 		return ente;
 	}
-	
+
 	public Ente aggiorna(String identificativo, EnteDto enteDto) throws NotFoundException {
-		if (!iscrittoRepository.existsById(identificativo))
-			throw new NotFoundException("L'identificativo non esiste");
-		
-		Ente ente = iscrittoRepository.findById(identificativo).get();
+		Ente ente = iscrittoRepository.findById(identificativo)
+				.orElseThrow(() -> new NotFoundException("L'identificativo non esiste"));
 		ente.setSede(enteDto.getSede());
 		ente.setAnnoDiFondazione(enteDto.getAnnoDiFondazione());
 		iscrittoRepository.save(ente);

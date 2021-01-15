@@ -33,11 +33,8 @@ public class PersonaService extends IscrittoService<Persona, PersonaRepository> 
 		return persona;
 	}
 	
-	public Persona aggiorna(String identificativo, PersonaDto personaDto) throws NotFoundException {
-		if (!iscrittoRepository.existsById(personaDto.getIdentificativo()))
-			throw new NotFoundException("L'identificativo non esiste");
-		
-		Persona persona = iscrittoRepository.findById(identificativo).get();
+	public Persona aggiorna(String identificativo, PersonaDto personaDto) throws NotFoundException {		
+		Persona persona = iscrittoRepository.findById(identificativo).orElseThrow(() -> new NotFoundException("L'identificativo non esiste"));
 		persona.setNome(personaDto.getNome());
 		persona.setCognome(personaDto.getCognome());
 		persona.setCittadinanza(personaDto.getCittadinanza());

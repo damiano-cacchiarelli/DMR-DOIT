@@ -2,14 +2,10 @@ package it.unicam.dmr.doit.service.iscritto;
 
 import java.util.ArrayList;
 import java.util.List;
-import java.util.NoSuchElementException;
-import java.util.Optional;
 
 import javax.validation.Valid;
 
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.http.HttpStatus;
-import org.springframework.http.ResponseEntity;
 import org.springframework.security.authentication.AuthenticationManager;
 import org.springframework.security.authentication.UsernamePasswordAuthenticationToken;
 import org.springframework.security.core.Authentication;
@@ -57,14 +53,8 @@ public class IscrittoService<I extends Iscritto, R extends IscrittoRepository<I>
 	// SEZIONE METODI CONTROLLER VISITATORE - PUBBLICI
 	
 	public I getIscritto(String identificativo) throws NotFoundException{
-		if (!iscrittoRepository.existsById(identificativo))
-			throw new NotFoundException("L'iscritto non esiste");
-		return iscrittoRepository.findById(identificativo).get();
+		return iscrittoRepository.findById(identificativo).orElseThrow(() -> new NotFoundException("L'iscritto non esiste"));
 	}	
-	
-	public ResponseEntity<Ruolo> getIscritto(String identificativo, TipologiaRuolo ruolo) throws NoSuchElementException {
-		return new ResponseEntity<>(getRuolo(identificativo, ruolo).get(), HttpStatus.OK);
-	}
 	
 	public JwtDto accedi(LoginIscritto loginIscritto) throws NotFoundException {
 		if (!iscrittoRepository.existsById(loginIscritto.getIdentificativo()))
@@ -78,7 +68,7 @@ public class IscrittoService<I extends Iscritto, R extends IscrittoRepository<I>
 	
 	// SEZIONE METODI CONTROLLER ISCRITTO - PRIVATI
 	
-	public boolean aggiungiRuolo(String identificativo, @Valid RuoloDto ruolo) {
+	public boolean aggiungiRuolo(String identificativo, @Valid RuoloDto ruolo) throws NotFoundException {
 		I iscritto = iscrittoRepository.findById(identificativo).get();
 		if(getRuoliDisponibili(identificativo).contains(ruolo.getRuolo())) {
 			Ruolo r = Ruolo.create(ruolo.getRuolo());
@@ -89,10 +79,8 @@ public class IscrittoService<I extends Iscritto, R extends IscrittoRepository<I>
 		return false;
 	}
 	
-	public List<TipologiaRuolo> getRuoliDisponibili(String identificativo) {
-		if (!existsByIdentificativo(identificativo))
-			throw new NoSuchElementException("Identificativo inesistente.");
-		I iscritto = findByIdentificativo(identificativo).get();
+	public List<TipologiaRuolo> getRuoliDisponibili(String identificativo) throws NotFoundException {
+		I iscritto = iscrittoRepository.findById(identificativo).orElseThrow(() -> new NotFoundException("Identificativo inesistente."));
 		List<TipologiaRuolo> ruoliDisponibili = new ArrayList<>(iscritto.getTipoRuoliPossibili());
 		ruoliDisponibili.removeAll(iscritto.getTipologiaRuoli());
 		return ruoliDisponibili;
@@ -100,31 +88,6 @@ public class IscrittoService<I extends Iscritto, R extends IscrittoRepository<I>
 	
 	public void elimina(String identificativo) {
 		iscrittoRepository.deleteById(identificativo);
-	}
-	
-	// PROBABILMENTE DA RIMUOVERE
-	
-	public List<I> getAll() {
-		return iscrittoRepository.findAll();
-	}
-
-	public Optional<I> findByIdentificativo(String identificativo) {
-		return iscrittoRepository.findById(identificativo);
-	}
-
-	public boolean existsByIdentificativo(String identificativo) {
-		return iscrittoRepository.existsById(identificativo);
-	}
-
-	public void salva(I iscritto) {
-		iscrittoRepository.save(iscritto);
-	}
-
-	public Optional<Ruolo> getRuolo(String identificativo, TipologiaRuolo ruolo) throws NoSuchElementException {
-		if (!existsByIdentificativo(identificativo))
-			throw new NoSuchElementException("Identificativo inesistente.");
-		I iscritto = findByIdentificativo(identificativo).get();
-		return iscritto.getRuoli().stream().filter(r -> r.getRuolo().equals(ruolo)).findFirst();
 	}
 
 	public List<I> getEspertiConsigliati(List<TagDto> tags) {

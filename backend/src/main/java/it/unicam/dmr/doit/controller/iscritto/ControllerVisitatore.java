@@ -1,7 +1,5 @@
 package it.unicam.dmr.doit.controller.iscritto;
 
-import java.util.NoSuchElementException;
-
 import javax.validation.Valid;
 
 import org.springframework.beans.factory.annotation.Autowired;
@@ -21,7 +19,6 @@ import it.unicam.dmr.doit.dataTransferObject.security.LoginIscritto;
 import it.unicam.dmr.doit.repository.IscrittoRepository;
 import it.unicam.dmr.doit.service.iscritto.IscrittoService;
 import it.unicam.dmr.doit.utenti.Iscritto;
-import it.unicam.dmr.doit.utenti.ruoli.TipologiaRuolo;
 import javassist.NotFoundException;
 
 /**
@@ -58,22 +55,6 @@ public class ControllerVisitatore<I extends Iscritto, R extends IscrittoReposito
 		try {
 			return Utils.creaRisposta(iscrittoService.getIscritto(idIscritto), HttpStatus.OK);
 		} catch (NotFoundException e) {
-			return Utils.creaMessaggio(e, HttpStatus.NOT_FOUND);
-		}
-	}
-
-	/**
-	 * A che serve???????
-	 * @param idIscritto
-	 * @param ruolo
-	 * @return
-	 */
-	@GetMapping("/{id}/{ruolo}")
-	public ResponseEntity<?> getIscritto(@PathVariable("id") String idIscritto,
-			@PathVariable("ruolo") TipologiaRuolo ruolo) {
-		try {
-			return Utils.creaRisposta(iscrittoService.getIscritto(idIscritto, ruolo), HttpStatus.OK);
-		} catch (NoSuchElementException e) {
 			return Utils.creaMessaggio(e, HttpStatus.NOT_FOUND);
 		}
 	}

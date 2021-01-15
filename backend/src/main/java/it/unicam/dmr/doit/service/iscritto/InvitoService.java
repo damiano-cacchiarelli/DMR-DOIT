@@ -167,26 +167,4 @@ public class InvitoService {
 				return false;
 		}).collect(Collectors.toList());
 	}
-
-	// DA ELIMINARE
-
-	public void salvaInvito(Invito invito) {
-		invitoRepository.save(invito);
-	}
-
-	public void eliminaInvito(String invito, List<RuoloSoggetto> soggetti) {
-		invitoRepository.deleteByIdAndSoggettoIn(invito, soggetti);
-	}
-
-	public boolean esisteInvito(String idInvito) {
-		return invitoRepository.existsById(idInvito);
-	}
-
-	public Optional<Invito> getInvito(String idInvito) {
-		return invitoRepository.findById(idInvito).get(0);
-	}
-
-	public List<Optional<Invito>> getInviti(String idInvito) {
-		return invitoRepository.findById(idInvito);
-	}
 }
