@@ -12,16 +12,22 @@ import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
 import it.unicam.dmr.doit.dataTransferObject.iscritto.RuoloDto;
+import it.unicam.dmr.doit.dataTransferObject.progetto.ProgettoDto;
+import it.unicam.dmr.doit.dataTransferObject.progetto.TagDto;
 import it.unicam.dmr.doit.dataTransferObject.progetto.TagListDto;
 import it.unicam.dmr.doit.progetto.InterfaceTag;
 import it.unicam.dmr.doit.progetto.Progetto;
+import it.unicam.dmr.doit.progetto.Stato;
+import it.unicam.dmr.doit.progetto.Tag;
 import it.unicam.dmr.doit.progetto.Valutazione;
 import it.unicam.dmr.doit.progetto.exception.CandidacyStatusException;
 import it.unicam.dmr.doit.progetto.exception.ExistingElementException;
+import it.unicam.dmr.doit.progetto.exception.NextFaseException;
 import it.unicam.dmr.doit.repository.IscrittoRepository;
 import it.unicam.dmr.doit.repository.ProgettoRepository;
 import it.unicam.dmr.doit.utenti.Iscritto;
 import it.unicam.dmr.doit.utenti.ruoli.Progettista;
+import it.unicam.dmr.doit.utenti.ruoli.Proponente;
 import it.unicam.dmr.doit.utenti.ruoli.Ruolo;
 import it.unicam.dmr.doit.utenti.ruoli.TipologiaRuolo;
 import javassist.NotFoundException;
@@ -44,6 +50,9 @@ public class ProgettoService {
 
 	@Autowired
 	private IscrittoRepository<Iscritto> iscrittoRepository;
+
+	@Autowired
+	private TagService tagService;
 
 	public List<Progetto> listaProgetti() {
 		return progettoRepository.findAll();
@@ -97,7 +106,7 @@ public class ProgettoService {
 	}
 
 	public void candidatiAlProgetto(String idIscritto, int idProgetto)
-			throws NotFoundException, ExistingElementException, CandidacyStatusException{
+			throws NotFoundException, ExistingElementException, CandidacyStatusException {
 
 		Progettista progettista = (Progettista) iscrittoRepository.findById(idIscritto)
 				.orElseThrow(() -> new NotFoundException("Iscritto inesistente"))
@@ -106,6 +115,46 @@ public class ProgettoService {
 				.orElseThrow(() -> new NotFoundException("Progetto inesistente"));
 		progetto.getGestoreCandidati().aggiungiCandidato(progettista);
 
+	}
+
+	public Progetto proponi(ProgettoDto progetto, String identificativo)
+			throws NoSuchElementException, NotFoundException {
+
+		Proponente proponente = (Proponente) iscrittoRepository.findById(identificativo)
+				.orElseThrow(() -> new NotFoundException("Iscritto inesistente"))
+				.getRuolo(TipologiaRuolo.ROLE_PROPONENTE);
+		Set<Tag> tags = tagService
+				.getTags(progetto.getTags().stream().map(TagDto::getNome).collect(Collectors.toList()));
+		Progetto p = new Progetto(progetto.getNome(), progetto.getObiettivi(), progetto.getRequisiti(), proponente,
+				tags);
+		progettoRepository.save(p);
+		return p;
+	}
+
+	public void chiudiCandidature(int idProgetto) throws NotFoundException {
+
+		Progetto progetto = progettoRepository.findById(idProgetto)
+				.orElseThrow(() -> new NotFoundException("Progetto inesistente"));
+		progetto.getGestoreCandidati().chiudiCandidature();
+		progettoRepository.save(progetto);
+	}
+
+	public Progetto faseSuccessiva(int idProgetto) throws NotFoundException, NextFaseException {
+		Progetto progetto = progettoRepository.findById(idProgetto)
+				.orElseThrow(() -> new NotFoundException("Progetto inesistente"));
+		progetto.nextFase();
+		if (progetto.getGestoreCandidati().isCandidatureAperte())
+			progetto.getGestoreCandidati().chiudiCandidature();
+		progettoRepository.save(progetto);
+		return progetto;
+
+	}
+
+	public void valuta(int idProgetto) throws NotFoundException {
+		Progetto progetto = progettoRepository.findById(idProgetto)
+				.orElseThrow(() -> new NotFoundException("Progetto inesistente"));
+		progetto.setStato(Stato.IN_VALUTAZIONE);
+		progettoRepository.save(progetto);
 	}
 
 	private Set<String> getListName(Collection<? extends InterfaceTag> tags) {
@@ -119,4 +168,5 @@ public class ProgettoService {
 			ruoli.add(new RuoloDto(tr));
 		}
 	}
+
 }
