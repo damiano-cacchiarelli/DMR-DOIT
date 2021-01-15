@@ -8,6 +8,6 @@ package it.unicam.dmr.doit.progetto;
  * @author Matteo Romagnoli
  * @author Roberto Cesetti
  */
-public interface IValutazione {
+public interface InterfaceValutazione {
 	public String getRecensione();
 }

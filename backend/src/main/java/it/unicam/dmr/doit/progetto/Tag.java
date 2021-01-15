@@ -22,7 +22,7 @@ import it.unicam.dmr.doit.controller.Utils;
  * @author Roberto Cesetti
  */
 @Entity
-public class Tag {
+public class Tag implements InterfaceTag {
 
 	@Id
 	@Column(length = 64)
@@ -47,6 +47,7 @@ public class Tag {
 	// Getters & Setters
 	// ================================================================================
 
+	@Override
 	public String getNome() {
 		return nome;
 	}

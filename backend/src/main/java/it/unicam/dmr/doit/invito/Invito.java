@@ -37,7 +37,7 @@ import it.unicam.dmr.doit.utenti.Iscritto;
  */
 @Entity
 @IdClass(InvitoId.class)
-public class Invito implements Messaggio {
+public class Invito implements Messaggio, InterfaceInvito  {
 
 	@Id
 	@Column(length = 36)
@@ -125,6 +125,7 @@ public class Invito implements Messaggio {
 		return destinatario;
 	}
 
+	@Override
 	public int getIdProgetto() {
 		return idProgetto;
 	}
@@ -142,6 +143,7 @@ public class Invito implements Messaggio {
 		return data;
 	}
 
+	@Override
 	public TipologiaInvito getTipologiaInvito() {
 		return tipologiaInvito;
 	}

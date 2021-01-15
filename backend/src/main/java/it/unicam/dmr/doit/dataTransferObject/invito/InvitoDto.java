@@ -6,6 +6,7 @@ import javax.validation.constraints.NotEmpty;
 import javax.validation.constraints.NotNull;
 
 import it.unicam.dmr.doit.controller.Utils;
+import it.unicam.dmr.doit.invito.InterfaceInvito;
 import it.unicam.dmr.doit.invito.TipologiaInvito;
 
 /**
@@ -16,7 +17,7 @@ import it.unicam.dmr.doit.invito.TipologiaInvito;
  * @author Matteo Romagnoli
  * @author Roberto Cesetti
  */
-public class InvitoDto {
+public class InvitoDto implements InterfaceInvito{
 
 	@NotNull(message = Utils.nonNullo)
 	private String contenuto;
@@ -39,15 +40,17 @@ public class InvitoDto {
 		this.idDestinatario = idDestinatario;
 		this.idProgetto = idProgetto;
 	}
-
+    
+	@Override
 	public String getContenuto() {
 		return contenuto;
 	}
-
+ 
 	public void setContenuto(String contenuto) {
 		this.contenuto = contenuto;
 	}
 
+	@Override
 	public TipologiaInvito getTipologiaInvito() {
 		return tipologiaInvito;
 	}
@@ -68,6 +71,7 @@ public class InvitoDto {
 		this.idProgetto = idProgetto;
 	}
 
+	@Override
 	public int getIdProgetto() {
 		return idProgetto;
 	}

@@ -24,7 +24,7 @@ import it.unicam.dmr.doit.controller.Utils;
  * @author Roberto Cesetti
  */
 @Entity
-public class ValutazioneProgettista implements IValutazione {
+public class ValutazioneProgettista implements InterfaceValutazione {
 
 	@Id
 	@GeneratedValue(strategy = GenerationType.IDENTITY)

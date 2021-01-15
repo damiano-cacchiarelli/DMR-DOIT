@@ -39,7 +39,7 @@ import it.unicam.dmr.doit.utenti.ruoli.Esperto;
  * @author Roberto Cesetti
  */
 @Entity
-public class Valutazione implements IValutazione {
+public class Valutazione implements InterfaceValutazione {
 
 	@Id
 	@GeneratedValue(strategy = GenerationType.IDENTITY)
