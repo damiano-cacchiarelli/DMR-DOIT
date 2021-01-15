@@ -1,6 +1,6 @@
 import { Component, OnInit } from '@angular/core';
 import { FormBuilder, FormGroup, Validators } from '@angular/forms';
-import { ActivatedRoute } from '@angular/router';
+import { ActivatedRoute, Router } from '@angular/router';
 import { ToastrService } from 'ngx-toastr';
 import { IscrittoDto } from 'src/app/modello/iscritto/iscritto-dto';
 import { PersonaDto } from 'src/app/modello/iscritto/persona-dto';
@@ -35,7 +35,8 @@ export class ValutaProgettoComponent implements OnInit {
     private espertoService: EspertoService,
     private activatedRoute: ActivatedRoute,
     private toastr: ToastrService,
-    private formBuilder: FormBuilder) { }
+    private formBuilder: FormBuilder,
+    private router:Router) { }
 
   ngOnInit(): void {
     const id: number = this.activatedRoute.snapshot.params.id;
@@ -77,11 +78,12 @@ export class ValutaProgettoComponent implements OnInit {
       }
     }
     const valutazione: ValutazioneDto = new ValutazioneDto(this.recensioneProgetto, this.progetto.id, valutazioneCandidati);
-    this.espertoService.valutaProgetto(this.progetto.id, valutazione).subscribe(
+    this.espertoService.valutaProgetto(valutazione).subscribe(
       data => {
-        this.toastr.error(data.messaggio, "OK", {
+        this.toastr.success(data.messaggio, "OK", {
           timeOut: 3000, positionClass: "toast-bottom-right"
         });
+        this.router.navigate([".."]);
       },
       err => {
         this.toastr.error(err.error.messaggio, "Errore", {

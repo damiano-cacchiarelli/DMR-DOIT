@@ -4,12 +4,13 @@ import { ValutazioneDto } from "./valutazione-dto";
 import { ValutazioneCandidati } from "./valutazione-candidati";
 
 export class Valutazione extends ValutazioneDto{
-    data: Data;
+    creatoIl: Data;
     identificativoEsperto: string;
 
-    constructor(recensione: string, idProgetto: number, valutazioneCandidati: ValutazioneCandidati[], data: Data, identificativoEsperto: string){
+    constructor(recensione: string, idProgetto: number, valutazioneCandidati: ValutazioneCandidati[], creatoIl: Data, identificativoEsperto: string){
         super(recensione, idProgetto, valutazioneCandidati);
-        this.data = data;
+        this.creatoIl = creatoIl;
         this.identificativoEsperto = identificativoEsperto;
+        
     }
 }

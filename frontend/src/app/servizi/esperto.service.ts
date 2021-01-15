@@ -12,7 +12,7 @@ export class EspertoService {
 
   constructor(private httpClient: HttpClient) { }
 
-  public valutaProgetto(idProgetto: number, valutazione: ValutazioneDto): Observable<any> {
-    return this.httpClient.post<any>(this.espertoURL + "/progetto/valuta/" + idProgetto, valutazione);
+  public valutaProgetto(valutazione: ValutazioneDto): Observable<any> {
+    return this.httpClient.post<any>(this.espertoURL + "/progetto/valuta", valutazione);
   }
 }

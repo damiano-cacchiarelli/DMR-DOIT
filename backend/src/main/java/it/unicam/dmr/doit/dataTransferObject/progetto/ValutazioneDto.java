@@ -26,7 +26,6 @@ public class ValutazioneDto {
 	
 	@NotNull(message = Utils.nonNullo)
 	private int idProgetto;
-	
 
 	public ValutazioneDto() {
 
@@ -63,6 +62,5 @@ public class ValutazioneDto {
 	public void setIdProgetto(int idProgetto) {
 		this.idProgetto = idProgetto;
 	}
-	
 
 }

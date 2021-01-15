@@ -33,7 +33,7 @@ import it.unicam.dmr.doit.service.security.IscrittoDetailsServiceImpl;
 @EnableGlobalMethodSecurity(prePostEnabled = true)
 public class MainSecurity extends WebSecurityConfigurerAdapter {
 
-	private final static String[] urlsPubblici = new String[] { "/visitatore/**", "/progetto/**" };
+	private final static String[] urlsPubblici = new String[] { "/visitatore/**", "/progetto/**", "/tag/**" };
 
 	@Autowired
 	private IscrittoDetailsServiceImpl iscrittoDetailsServiceImpl;

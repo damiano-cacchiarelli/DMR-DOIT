@@ -10,18 +10,77 @@
           *ngFor="let tag of progetto.tags; index as i;" style="cursor: default">{{tag.nome}}</li>
       </ul>
       <hr class="my-4">
-      <h3>Obiettivi</h3>
+      <h3 class="fw-bold">Obiettivi</h3>
       <p class="text-justify">{{progetto.obiettivi}}</p>
       <hr class="my-4">
-      <h3>Requisiti</h3>
+      <h3 class="fw-bold">Requisiti</h3>
       <p class="text-justify">{{progetto.requisiti}}</p>
-      <div *ngIf="progetto.lastValutazione">
+      <div *ngIf="progetto.listaValutazioni && progetto.listaValutazioni.length !=0">
         <hr class="my-4">
-        <h3>Valutazione</h3>
-        <a href="#"><span
-            class="badge rounded-pill bg-success">{{progetto.lastValutazione.identificativoEsperto}}</span></a>
-        <p class="text-justify">{{progetto.lastValutazione.recensione}}</p>
-        <a class="btn btn-outline-secondary btn-lg" href="#" role="button">Altro</a>
+        <h3 class="fw-bold">Valutazioni</h3>
+        <!--
+          Creare un component separato?
+        -->
+        <div class="card my-1">
+          <div class="card-body">
+            <h4 class="card-title fw-bold">{{progetto.listaValutazioni[0].creatoIl}}</h4>
+            <p class="card-text">{{progetto.listaValutazioni[0].recensione}}</p>
+            <div class="container">
+              <div class="row align-items-center">
+                <button type="button" class="col list-inline-item btn btn-primary">
+                  Esperto: {{progetto.listaValutazioni[0].identificativoEsperto}}
+                </button>
+                <button type="button" *ngIf="progetto.listaValutazioni[0].valutazioniCandidati"
+                  class="col list-inline-item btn btn-outline-success my-1" data-bs-toggle="modal"
+                  data-bs-target="#genericModal" (click)="vautazioniCandidati(0)">
+                  Valutazioni Progettisti
+                </button>
+              </div>
+            </div>
+          </div>
+        </div>
+        <!--
+        <div class="d-grid gap-2 col-6 mx-auto">
+          <button class="text-center align-middle btn btn-secondary my-3" type="button" data-bs-toggle="collapse"
+            data-bs-target="#collapseValutazioni" aria-expanded="false" aria-controls="collapseExample">Vedi
+            altro</button>
+        </div>
+-->
+        <div class="collapse" id="collapseValutazioni">
+          <div *ngFor="let valutazione of progetto.listaValutazioni;  index as i">
+            <span *ngIf="i!=0">
+              <div class="card my-1">
+                <div class="card-body">
+                  <h4 class="card-title fw-bold">{{valutazione.creatoIl}}</h4>
+                  <p class="card-text">{{valutazione.recensione}}</p>
+                  <div class="container">
+                    <div class="row align-items-center">
+                      <button type="button" class="col list-inline-item btn btn-primary">
+                        Esperto: {{valutazione.identificativoEsperto}}
+                      </button>
+                      <button type="button" *ngIf="valutazione.valutazioniCandidati"
+                        class="col list-inline-item btn btn-outline-success my-1" data-bs-toggle="modal"
+                        data-bs-target="#genericModal" (click)="vautazioniCandidati(i)">
+                        Valutazioni Progettisti
+                      </button>
+                    </div>
+                  </div>
+                </div>
+              </div>
+            </span>
+          </div>
+        </div>
+
+        <div class="d-grid gap-2 col-6 mx-auto">
+          <button class="text-center align-middle btn btn-secondary my-3" type="button" data-bs-toggle="collapse"
+            data-bs-target="#collapseValutazioni" aria-expanded="false" aria-controls="collapseExample">Vedi
+            altro</button>
+        </div>
+
+      </div>
+      <div *ngIf="!progetto.listaValutazioni || progetto.listaValutazioni.length ==0">
+        <hr class="my-4">
+        <h3>Nessuna valutazione.</h3>
       </div>
       <hr class="my-4">
       <div *ngIf="progetto.gestoreCandidati.identificativiCandidati.length != 0">
@@ -104,12 +163,32 @@
           <permetti-valutazione #permettiValutazioneProgetto
             *ngIf="opzioniModal.selettoreDaAttivare=='permetti-valutazione'" [idProgetto]="progetto.id">
           </permetti-valutazione>
+          <div *ngIf="opzioniModal.selettoreDaAttivare=='valutazioni-candidati'">
+            <span
+              *ngIf="progetto.listaValutazioni[valutazioneCorrente].valutazioniCandidati && progetto.listaValutazioni[valutazioneCorrente].valutazioniCandidati.length!=0; else elseBlockValCandidati">
+              <span *ngFor="let valCandidato of progetto.listaValutazioni[valutazioneCorrente].valutazioniCandidati">
+                <div class="card my-1">
+                  <div class="card-body">
+                    <h4 class="card-title fw-bold">{{valCandidato.identificativoProgettista}}</h4>
+                    <p class="card-text">{{valCandidato.recensione}}</p>
+                  </div>
+                </div>
+              </span>
+            </span>
+            <ng-template #elseBlockValCandidati>Nessuna valutazione</ng-template>
+          </div>
         </div>
         <div class="modal-footer">
-          <button type="button" class="btn btn-secondary" data-bs-dismiss="modal"
-            (click)="chiudiModal()">Annulla</button>
-          <button type="button" class="btn btn-primary" data-bs-dismiss="modal"
-            (click)="procediModal()">Procedi</button>
+          <span *ngIf="opzioniModal.selettoreDaAttivare!='valutazioni-candidati'; else elseBlockButtonModal">
+            <button type="button" class="btn btn-secondary" data-bs-dismiss="modal"
+              (click)="chiudiModal()">Annulla</button>
+            <button type="button" class="btn btn-primary" data-bs-dismiss="modal"
+              (click)="procediModal()">Procedi</button>
+          </span>
+          <ng-template #elseBlockButtonModal> 
+            <button type="button" class="btn btn-secondary" data-bs-dismiss="modal"
+            (click)="chiudiModal()">Chiudi</button>
+          </ng-template>
         </div>
       </div>
     </div>

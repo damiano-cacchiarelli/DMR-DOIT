@@ -12,6 +12,8 @@ import { ProponenteService } from 'src/app/servizi/proponente.service';
 import { InvitaProgettistiComponent } from '../../ruoli/proponi/invita-progettisti/invita-progettisti.component';
 import { PermettiValutazioneComponent } from '../../ruoli/proponi/permetti-valutazione/permetti-valutazione.component';
 import { ProgettistaService } from 'src/app/servizi/progettista.service';
+import { Valutazione } from 'src/app/modello/progetto/valutazione';
+import { ValutazioneCandidati } from "src/app/modello/progetto/valutazione-candidati";
 
 @Component({
   selector: 'app-dettagli',
@@ -30,6 +32,7 @@ export class DettagliComponent implements OnInit {
   TipologiaRuolo = TipologiaRuolo;
   Stato = Stato;
   Fase = Fase;
+  valutazioneCorrente:number=0;
 
   opzioniModal = { titolo: "", messaggio: "", selettoreDaAttivare: "", onClickProcedi: () => {} };
 
@@ -48,6 +51,7 @@ export class DettagliComponent implements OnInit {
     this.progettoService.getProgetto(id).subscribe(
       data => {
         this.progetto = data;
+        console.log(this.progetto);
       },
       err => {
         this.toastr.error(err.error.messaggio, "Errore", {
@@ -155,5 +159,11 @@ export class DettagliComponent implements OnInit {
 
   proprietarioProgetto(): boolean{
     return this.progetto?.idProponente == this.tokenService.getIdentificativo();
+  }
+
+  vautazioniCandidati(i:number):void{
+    this.opzioniModal.titolo = "Valutazioni progettisti";
+    this.opzioniModal.selettoreDaAttivare = "valutazioni-candidati";
+    this.valutazioneCorrente=i;
   }
 }

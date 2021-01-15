@@ -13,18 +13,18 @@ export class Progetto extends ProgettoDto {
     fase: Fase;
     creatoIl: Data;
     idProponente: string;
-    lastValutazione: Valutazione;
+    listaValutazioni: Valutazione[];
     gestoreCandidati: GestoreCandidati;
 
     constructor(nome: string, obiettivi: string, requisiti: string, tags: Tag[], id: number,
-        stato: Stato, fase: Fase, creatoIl: Data, idProponente: string, lastValutazione: Valutazione, gestoreCandidati: GestoreCandidati) {
+        stato: Stato, fase: Fase, creatoIl: Data, idProponente: string, listaValutazioni: Valutazione[], gestoreCandidati: GestoreCandidati) {
         super(nome, obiettivi, requisiti, tags);
         this.id = id;
         this.stato = stato;
         this.fase = fase;
         this.creatoIl = creatoIl;
         this.idProponente = idProponente;
-        this.lastValutazione = lastValutazione;
+        this.listaValutazioni = listaValutazioni;
         this.gestoreCandidati = gestoreCandidati;
     }
 }
