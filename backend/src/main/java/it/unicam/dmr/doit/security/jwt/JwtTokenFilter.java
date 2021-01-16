@@ -26,6 +26,10 @@ import it.unicam.dmr.doit.service.security.IscrittoDetailsServiceImpl;
  */
 public class JwtTokenFilter extends OncePerRequestFilter {
 	
+	public static final String AUTHORIZATION_HEADER_NAME = "Authorization";
+	public static final String TOKEN_BEARER_HEADER_NAME = "Bearer ";
+
+	
 	@Autowired
 	private JwtProvider jwtProvider;
 
@@ -51,9 +55,9 @@ public class JwtTokenFilter extends OncePerRequestFilter {
 	}
 
 	private String getToken(HttpServletRequest request) {
-		String header = request.getHeader("Authorization");
-		if (header != null && header.startsWith("Bearer"))
-			return header.replace("Bearer ", "");
+		String header = request.getHeader(AUTHORIZATION_HEADER_NAME);
+		if (header != null && header.startsWith(TOKEN_BEARER_HEADER_NAME.trim()))
+			return header.replace(TOKEN_BEARER_HEADER_NAME, "");
 		return null;
 	}
 }

@@ -1,5 +1,6 @@
 package it.unicam.dmr.doit.controller.iscritto;
 
+import javax.naming.AuthenticationException;
 import javax.validation.Valid;
 
 import org.springframework.beans.factory.annotation.Autowired;
@@ -68,6 +69,8 @@ public class ControllerVisitatore<I extends Iscritto, R extends IscrittoReposito
 			return Utils.creaRisposta(iscrittoService.accedi(loginIscritto), HttpStatus.OK);
 		} catch (NotFoundException e) {
 			return Utils.creaRisposta(e, HttpStatus.NOT_FOUND);
+		} catch (AuthenticationException e) {
+			return Utils.creaRisposta(e, HttpStatus.BAD_REQUEST);
 		}
 	}
 	

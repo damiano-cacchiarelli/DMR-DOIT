@@ -3,6 +3,7 @@ package it.unicam.dmr.doit.service.iscritto;
 import java.util.ArrayList;
 import java.util.List;
 
+import javax.naming.AuthenticationException;
 import javax.validation.Valid;
 
 import org.springframework.beans.factory.annotation.Autowired;
@@ -56,14 +57,18 @@ public class IscrittoService<I extends Iscritto, R extends IscrittoRepository<I>
 		return iscrittoRepository.findById(identificativo).orElseThrow(() -> new NotFoundException("L'iscritto non esiste"));
 	}	
 	
-	public JwtDto accedi(LoginIscritto loginIscritto) throws NotFoundException {
+	public JwtDto accedi(LoginIscritto loginIscritto) throws NotFoundException, AuthenticationException {
 		if (!iscrittoRepository.existsById(loginIscritto.getIdentificativo()))
 			throw new NotFoundException("L'iscritto non esiste");
-		Authentication authentication = authenticationManager.authenticate(new UsernamePasswordAuthenticationToken(
-				loginIscritto.getIdentificativo(), loginIscritto.getPassword()));
-		SecurityContextHolder.getContext().setAuthentication(authentication);
-		String jwt = jwtProvider.generaToken(authentication);
-		return new JwtDto(jwt);
+		try {
+			Authentication authentication = authenticationManager.authenticate(new UsernamePasswordAuthenticationToken(
+					loginIscritto.getIdentificativo(), loginIscritto.getPassword()));
+			SecurityContextHolder.getContext().setAuthentication(authentication);
+			String jwt = jwtProvider.generaToken(authentication);
+			return new JwtDto(jwt);
+		} catch (Exception e) {
+			throw new AuthenticationException("Identificativo o password errati.");
+		}
 	}	
 	
 	// SEZIONE METODI CONTROLLER ISCRITTO - PRIVATI
@@ -86,10 +91,10 @@ public class IscrittoService<I extends Iscritto, R extends IscrittoRepository<I>
 		return ruoliDisponibili;
 	}
 	
-	public boolean esisteIscrittoByRuolo(String identificativo, TipologiaRuolo ruolo) {
-		I iscritto = iscrittoRepository.findById(identificativo).get();
+	public boolean esisteIscrittoByRuolo(String identificativo, TipologiaRuolo ruolo)  {
+		I iscritto = iscrittoRepository.findById(identificativo).orElse(null);
 		if(iscritto != null)
-			if(iscritto.getRuoli().stream().filter(r -> r.getRuolo() == ruolo).findFirst().get() != null)
+			if(iscritto.getRuoli().stream().filter(r -> r.getRuolo() == ruolo).findFirst().orElse(null) != null)
 				return true;
 		return false;
 	}

@@ -54,7 +54,7 @@ public class ControllerIscritto<I extends Iscritto, R extends IscrittoRepository
 		try {
 			if(iscrittoService.aggiungiRuolo(authentication.getName(), ruolo))
 				return new ResponseEntity<>(new Messaggio("Il ruolo e' stato aggiunto!"), HttpStatus.OK);
-			return new ResponseEntity<>(new Messaggio("Il ruolo non e' disponibile"), HttpStatus.OK);
+			return new ResponseEntity<>(new Messaggio("Il ruolo non e' disponibile"), HttpStatus.BAD_REQUEST);
 		} catch (NotFoundException e) {
 			return Utils.creaMessaggio(e, HttpStatus.NOT_FOUND);
 		}

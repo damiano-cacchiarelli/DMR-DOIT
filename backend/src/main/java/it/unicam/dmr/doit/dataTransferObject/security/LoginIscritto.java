@@ -17,6 +17,13 @@ public class LoginIscritto {
 	private String identificativo;
 	@NotBlank(message = Utils.nonVuoto)
 	private String password;
+	
+	public LoginIscritto() { }
+	
+	public LoginIscritto(String identificativo, String password) {
+		this.identificativo = identificativo;
+		this.password = password;
+	}
 
 	public String getIdentificativo() {
 		return identificativo;
