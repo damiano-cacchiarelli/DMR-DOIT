@@ -87,9 +87,7 @@ class ControllerInvitoTest {
 	@Test
 	@Order(3)
 	void testInviaInvito() throws Exception {
-		mvc.perform(MockMvcRequestBuilders.post("/invito/invia").contentType(MediaType.APPLICATION_JSON).header(
-				JwtTokenFilter.AUTHORIZATION_HEADER_NAME, JwtTokenFilter.TOKEN_BEARER_HEADER_NAME + jwt.getToken())
-				.content(DoitTest.asJsonString(new InvitoDto("contenuto invito", TipologiaInvito.RICHIESTA, List.of("persona"), 1))));
+
 		mvc.perform(MockMvcRequestBuilders.post("/invito/invia").contentType(MediaType.APPLICATION_JSON).header(
 				JwtTokenFilter.AUTHORIZATION_HEADER_NAME, JwtTokenFilter.TOKEN_BEARER_HEADER_NAME + jwt2.getToken())
 				.content(DoitTest.asJsonString(new InvitoDto("contenuto invito", TipologiaInvito.RICHIESTA, List.of("persona"), 1))))

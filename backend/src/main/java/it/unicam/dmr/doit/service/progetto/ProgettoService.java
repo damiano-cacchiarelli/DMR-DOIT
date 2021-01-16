@@ -23,6 +23,7 @@ import it.unicam.dmr.doit.progetto.Valutazione;
 import it.unicam.dmr.doit.progetto.exception.CandidacyStatusException;
 import it.unicam.dmr.doit.progetto.exception.ExistingElementException;
 import it.unicam.dmr.doit.progetto.exception.NextFaseException;
+import it.unicam.dmr.doit.progetto.exception.ProjectStatusException;
 import it.unicam.dmr.doit.repository.IscrittoRepository;
 import it.unicam.dmr.doit.repository.ProgettoRepository;
 import it.unicam.dmr.doit.utenti.Iscritto;
@@ -131,10 +132,12 @@ public class ProgettoService {
 		return p;
 	}
 
-	public void chiudiCandidature(int idProgetto) throws NotFoundException {
+	public void chiudiCandidature(int idProgetto) throws NotFoundException, CandidacyStatusException {
 
 		Progetto progetto = progettoRepository.findById(idProgetto)
 				.orElseThrow(() -> new NotFoundException("Progetto inesistente"));
+		if(!progetto.getGestoreCandidati().isCandidatureAperte())
+			new CandidacyStatusException("Le candidature sono gia' chiuse");
 		progetto.getGestoreCandidati().chiudiCandidature();
 		progettoRepository.save(progetto);
 	}
@@ -150,9 +153,13 @@ public class ProgettoService {
 
 	}
 
-	public void valuta(int idProgetto) throws NotFoundException {
+	public void valuta(int idProgetto) throws NotFoundException, ProjectStatusException {
 		Progetto progetto = progettoRepository.findById(idProgetto)
 				.orElseThrow(() -> new NotFoundException("Progetto inesistente"));
+		if (progetto.getStato().equals(Stato.IN_VALUTAZIONE))
+			new ProjectStatusException(
+					"Il progetto è in stato di valutazione. Non puoi richiedere una nuova valutazione.");
+
 		progetto.setStato(Stato.IN_VALUTAZIONE);
 		progettoRepository.save(progetto);
 	}

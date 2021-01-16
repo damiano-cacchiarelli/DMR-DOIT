@@ -51,26 +51,26 @@ public class ControllerProgettista {
 			return Utils.creaMessaggio("Candidatura effettuata", HttpStatus.OK);
 		} catch (NotFoundException e) {
 			return Utils.creaMessaggio(e, HttpStatus.NOT_FOUND);
-		} catch (ExistingElementException e) {
-			return Utils.creaMessaggio(e, HttpStatus.BAD_REQUEST);
-		} catch (CandidacyStatusException e) {
+		} catch (ExistingElementException | CandidacyStatusException e) {
 			return Utils.creaMessaggio(e, HttpStatus.BAD_REQUEST);
 		}
 	}
 
 	@PreAuthorize("hasRole('PROGETTISTA')")
 	@PutMapping("/gestisci_richiesta_partecipazione")
-	public ResponseEntity<Messaggio> gestisciRichiestePartecipazione(@Valid @RequestBody RispostaInvitoDto rispostaInvitoDto,
-			BindingResult bindingResult, Authentication authentication) {
+	public ResponseEntity<Messaggio> gestisciRichiestePartecipazione(
+			@Valid @RequestBody RispostaInvitoDto rispostaInvitoDto, BindingResult bindingResult,
+			Authentication authentication) {
 		if (bindingResult.hasErrors())
 			return Utils.creaMessaggioDaErrore(bindingResult);
 
 		try {
 			invitoService.gestisciRichiestePartecipazione(rispostaInvitoDto, authentication.getName());
-			
+
 			return Utils.creaMessaggio("L'invito e' stato " + rispostaInvitoDto.getRisposta().toString().toLowerCase(),
 					HttpStatus.OK);
-		} catch (IllegalStateException | IllegalArgumentException | ExistingElementException | CandidacyStatusException e) {
+		} catch (IllegalStateException | IllegalArgumentException | ExistingElementException
+				| CandidacyStatusException e) {
 			return Utils.creaMessaggio(e, HttpStatus.BAD_REQUEST);
 		} catch (NotFoundException e) {
 			return Utils.creaMessaggio(e, HttpStatus.NOT_FOUND);

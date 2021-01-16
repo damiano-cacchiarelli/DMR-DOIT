@@ -23,7 +23,9 @@ import it.unicam.dmr.doit.dataTransferObject.Messaggio;
 import it.unicam.dmr.doit.dataTransferObject.progetto.ProgettoDto;
 import it.unicam.dmr.doit.dataTransferObject.progetto.TagListDto;
 import it.unicam.dmr.doit.progetto.Progetto;
+import it.unicam.dmr.doit.progetto.exception.CandidacyStatusException;
 import it.unicam.dmr.doit.progetto.exception.NextFaseException;
+import it.unicam.dmr.doit.progetto.exception.ProjectStatusException;
 import it.unicam.dmr.doit.repository.IscrittoRepository;
 import it.unicam.dmr.doit.service.iscritto.IscrittoService;
 import it.unicam.dmr.doit.service.progetto.ProgettoService;
@@ -37,7 +39,8 @@ import javassist.NotFoundException;
  * <li>Chiudere le candidature ad un progetto;</li>
  * <li>Passare alla fase successiva;</li>
  * <li>Permettere di far valutare il progetto;</li>
- * <li>Ottenere una lista di esperti consigliati relativi al progetto proposto;</li>
+ * <li>Ottenere una lista di esperti consigliati relativi al progetto
+ * proposto;</li>
  * </ul>
  * 
  * @author Damiano Cacchiarelli
@@ -51,14 +54,14 @@ public class ControllerProponente {
 
 	@Autowired
 	private ProgettoService progettoService;
-	
+
 	@Autowired
 	private IscrittoService<Iscritto, IscrittoRepository<Iscritto>> iscrittoService;
 
 	@PreAuthorize("hasRole('PROPONENTE')")
 	@PostMapping("/proponi")
-	public ResponseEntity<?> proponiProgetto(@Valid @RequestBody ProgettoDto progetto,
-			BindingResult bindingResult, Authentication authentication) {
+	public ResponseEntity<?> proponiProgetto(@Valid @RequestBody ProgettoDto progetto, BindingResult bindingResult,
+			Authentication authentication) {
 		if (bindingResult.hasErrors())
 			return Utils.creaMessaggioDaErrore(bindingResult);
 		try {
@@ -76,22 +79,24 @@ public class ControllerProponente {
 			return Utils.creaMessaggio("Candidature chiuse", HttpStatus.OK);
 		} catch (NotFoundException e) {
 			return Utils.creaMessaggio(e, HttpStatus.NOT_FOUND);
+		} catch (CandidacyStatusException e) {
+			return Utils.creaMessaggio(e, HttpStatus.BAD_REQUEST);
 		}
-	
+
 	}
 
 	@PreAuthorize("hasRole('PROPONENTE')")
 	@PutMapping("/fase_successiva/{id}")
 	public ResponseEntity<Messaggio> faseSuccessiva(@PathVariable("id") int idProgetto) {
 		try {
-			Progetto progetto = progettoService.faseSuccessiva(idProgetto);			
+			Progetto progetto = progettoService.faseSuccessiva(idProgetto);
 			return Utils.creaMessaggio("Progetto nella fase " + progetto.getFase(), HttpStatus.OK);
 		} catch (NotFoundException e) {
 			return Utils.creaMessaggio(e, HttpStatus.NOT_FOUND);
 		} catch (NextFaseException e) {
 			return Utils.creaMessaggio(e, HttpStatus.BAD_REQUEST);
-		}
-		
+		} 
+
 	}
 
 	@PreAuthorize("hasRole('PROPONENTE')")
@@ -102,10 +107,12 @@ public class ControllerProponente {
 			return Utils.creaMessaggio("Progetto in valutazione", HttpStatus.OK);
 		} catch (NotFoundException e) {
 			return Utils.creaMessaggio(e, HttpStatus.NOT_FOUND);
+		} catch (ProjectStatusException e) {
+			return Utils.creaMessaggio(e, HttpStatus.BAD_REQUEST);
 		}
-	
+
 	}
-	
+
 	@PreAuthorize("hasRole('PROPONENTE')")
 	@PostMapping("/esperti_consigliati")
 	public ResponseEntity<?> espertiConsigliati(@Valid @RequestBody TagListDto tags, BindingResult bindingResult) {

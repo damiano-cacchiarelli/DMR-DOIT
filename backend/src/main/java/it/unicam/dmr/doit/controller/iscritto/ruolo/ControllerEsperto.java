@@ -18,6 +18,7 @@ import org.springframework.web.bind.annotation.RestController;
 import it.unicam.dmr.doit.controller.Utils;
 import it.unicam.dmr.doit.dataTransferObject.progetto.ValutazioneDto;
 import it.unicam.dmr.doit.progetto.exception.ExistingElementException;
+import it.unicam.dmr.doit.progetto.exception.ProjectStatusException;
 import it.unicam.dmr.doit.service.progetto.ValutazioneService;
 import javassist.NotFoundException;
 
@@ -39,14 +40,14 @@ public class ControllerEsperto {
 	@PreAuthorize("hasRole('ESPERTO')")
 	@PostMapping("/progetto/valuta/{id_invito}")
 	public ResponseEntity<?> valutaProgetto(@PathVariable("id_invito") String idInvito, @Valid @RequestBody ValutazioneDto valutazioneDto,
-			BindingResult bindingResult, Authentication authentication) {
+			BindingResult bindingResult, Authentication authentication) throws ProjectStatusException {
 
 		if (bindingResult.hasErrors())
 			return Utils.creaMessaggioDaErrore(bindingResult);
 
 		try {
 			valutazioneService.valuta(idInvito, valutazioneDto, authentication.getName());
-		} catch (ExistingElementException e) {
+		} catch (ExistingElementException | ProjectStatusException e) {
 			return Utils.creaMessaggio(e, HttpStatus.BAD_REQUEST);
 		} catch (NotFoundException e) {
 			return Utils.creaMessaggio(e, HttpStatus.NOT_FOUND);

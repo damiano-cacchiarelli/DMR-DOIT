@@ -71,9 +71,7 @@ public class GestoreCandidatiProgetto {
 		return ids;
 	}
 
-	public void chiudiCandidature() {
-		if (!candidature)
-			throw new IllegalStateException("Le candidature sono gia' chiuse");
+	public void chiudiCandidature(){
 		this.candidature = false;
 	}
 
