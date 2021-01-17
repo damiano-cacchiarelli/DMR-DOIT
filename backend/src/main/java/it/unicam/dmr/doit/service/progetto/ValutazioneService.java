@@ -1,9 +1,5 @@
 package it.unicam.dmr.doit.service.progetto;
 
-import java.util.List;
-import java.util.Optional;
-import java.util.stream.Collectors;
-
 import javax.transaction.Transactional;
 
 import org.springframework.beans.factory.annotation.Autowired;
@@ -11,15 +7,12 @@ import org.springframework.stereotype.Service;
 
 import it.unicam.dmr.doit.dataTransferObject.progetto.ValutazioneDto;
 import it.unicam.dmr.doit.dataTransferObject.progetto.ValutazioneProgettistaDto;
-import it.unicam.dmr.doit.invito.Invito;
-import it.unicam.dmr.doit.invito.TipologiaRisposta;
 import it.unicam.dmr.doit.progetto.Progetto;
 import it.unicam.dmr.doit.progetto.Stato;
 import it.unicam.dmr.doit.progetto.Valutazione;
 import it.unicam.dmr.doit.progetto.ValutazioneProgettista;
 import it.unicam.dmr.doit.progetto.exception.ExistingElementException;
 import it.unicam.dmr.doit.progetto.exception.ProjectStatusException;
-import it.unicam.dmr.doit.repository.InvitoRepository;
 import it.unicam.dmr.doit.repository.IscrittoRepository;
 import it.unicam.dmr.doit.repository.ProgettoRepository;
 import it.unicam.dmr.doit.repository.ValutazioneRepository;
@@ -50,8 +43,8 @@ public class ValutazioneService {
 	@Autowired
 	private IscrittoRepository<Iscritto> iscrittoRepository;
 
-	@Autowired
-	private InvitoRepository invitoRepository;
+	//@Autowired
+	//private InvitoRepository invitoRepository;
 
 	public void valuta(String idInvito, ValutazioneDto valutazioneDto, String identificativo)
 			throws ExistingElementException, NotFoundException, ProjectStatusException {
@@ -60,14 +53,14 @@ public class ValutazioneService {
 				.orElseThrow(() -> new NotFoundException("Progetto non trovato"));
 		Esperto esperto = (Esperto) iscrittoRepository.findById(identificativo)
 				.orElseThrow(() -> new NotFoundException("Iscritto inesistente")).getRuolo(TipologiaRuolo.ROLE_ESPERTO);
-		List<Invito> inviti = invitoRepository.findById(idInvito).stream().map(Optional::get)
+		/*List<Invito> inviti = invitoRepository.findById(idInvito).stream().map(Optional::get)
 				.collect(Collectors.toList());
-		
+		*/
 		if (!progetto.getStato().equals(Stato.IN_VALUTAZIONE))
-			new ProjectStatusException("Non è possibile valutare il progetto");
-		if (!inviti.stream().allMatch(i -> i.getIdDestinatario().equals(identificativo) && i.getTipologiaRisposta().equals(TipologiaRisposta.IN_ATTESA)))
+			new ProjectStatusException("Non e' possibile valutare il progetto");
+		/*if (!inviti.stream().allMatch(i -> i.getIdDestinatario().equals(identificativo) && i.getTipologiaRisposta().equals(TipologiaRisposta.IN_ATTESA)))
 			new NotFoundException("Invito non trovato");
-
+		 */
 		Valutazione valutazione = new Valutazione(valutazioneDto.getRecensione(), esperto, progetto);
 		for (ValutazioneProgettistaDto vpd : valutazioneDto.getValutazioniCandidati()) {
 			valutazione.addValutazioneCandidato(
@@ -79,8 +72,8 @@ public class ValutazioneService {
 		valutazioneRepository.save(valutazione);
 		progettoRepository.save(progetto);
 
-		inviti.forEach(i -> i.setTipologiaRisposta(TipologiaRisposta.ACCETTATA));
-		inviti.forEach(i -> invitoRepository.save(i));
+		//inviti.forEach(i -> i.setTipologiaRisposta(TipologiaRisposta.ACCETTATA));
+		//inviti.forEach(i -> invitoRepository.save(i));
 	}
 
 	public boolean existsById(int idValutazione) {

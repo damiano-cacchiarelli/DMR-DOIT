@@ -17,7 +17,7 @@ export class EspertoService {
     return this.httpClient.post<any>(this.espertoURL + "/progetto/valuta/" + idInvito, valutazione);
   }
 
-  public gestisciValutazione(rispostaInvito: RispostaInvitoDto): Observable<any> {
-    throw new Error('Method not implemented.');
+  public rifiutaValutazione(risposta: RispostaInvitoDto): Observable<any> {
+    return this.httpClient.put<any>(this.espertoURL + "/rifiuta_richiesta/" + risposta.idInvito, "");
   }
 }

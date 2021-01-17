@@ -29,6 +29,7 @@ export class BachecaComponent implements OnInit {
   constructor(
     private invitoService: InvitoService,
     private progettistaService: ProgettistaService,
+    private espertoService: EspertoService,
     private proponenteService: ProponenteService,
     private toastr: ToastrService) { }
 
@@ -106,7 +107,7 @@ export class BachecaComponent implements OnInit {
         this.responseSub(this.progettistaService.gestisciRichiestaPartecipazione(rispostaInvito));
         break;
       case TipologiaInvito.VALUTAZIONE:
-        this.responseSub(this.invitoService.gestisci(rispostaInvito));
+        this.responseSub(this.espertoService.rifiutaValutazione(rispostaInvito));
         break;
       case TipologiaInvito.RICHIESTA:
         this.responseSub(this.proponenteService.gestisciRichiestaPartecipazione(rispostaInvito));

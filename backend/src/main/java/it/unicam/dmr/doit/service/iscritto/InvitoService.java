@@ -126,18 +126,6 @@ public class InvitoService {
 		List<Invito> inviti = invitoRepository.findById(rispostaInvitoDto.getIdInvito()).stream().map(Optional::get)
 				.collect(Collectors.toList());
 
-		//TODO: creare un metodo separato come per gestisciRichiestePartecipazione?
-		if (invito.getTipologiaInvito().equals(TipologiaInvito.VALUTAZIONE)
-				&& rispostaInvitoDto.getRisposta().equals(TipologiaRisposta.RIFIUTATA)) {
-			Progetto progetto = progettoRepository.findById(invito.getIdProgetto())
-					.orElseThrow(() -> new NotFoundException("Progetto non trovato"));
-			if(progetto.getListaValutazioni().size()>0) {
-				progetto.setStato(Stato.VALUTATO);
-			}else {
-				progetto.setStato(Stato.NON_VALUTATO);
-			}
-			progettoRepository.save(progetto);
-		}
 		inviti.forEach(i -> i.setTipologiaRisposta(rispostaInvitoDto.getRisposta()));
 		inviti.forEach(i -> invitoRepository.save(i));
 	}
@@ -160,6 +148,20 @@ public class InvitoService {
 			}
 		}
 		progettoRepository.save(p);
+	}
+
+	public void gestisciRifiutaValutazioneProgetto(String idInvito, String identificativo) throws NotFoundException {
+		Invito invito = invitoRepository.findById(idInvito).get(0).get();
+		if (invito.getTipologiaInvito().equals(TipologiaInvito.VALUTAZIONE)) {
+			Progetto progetto = progettoRepository.findById(invito.getIdProgetto())
+					.orElseThrow(() -> new NotFoundException("Progetto non trovato"));
+			if (progetto.getListaValutazioni().size() > 0) {
+				progetto.setStato(Stato.VALUTATO);
+			} else {
+				progetto.setStato(Stato.NON_VALUTATO);
+			}
+			progettoRepository.save(progetto);
+		}
 	}
 
 	/**

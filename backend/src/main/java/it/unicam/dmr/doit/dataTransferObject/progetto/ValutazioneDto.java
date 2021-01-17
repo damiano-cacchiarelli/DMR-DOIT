@@ -17,11 +17,7 @@ import it.unicam.dmr.doit.controller.Utils;
  * @author Roberto Cesetti
  */
 public class ValutazioneDto {
-	
-	@NotNull(message = Utils.nonNullo)
-	@NotBlank(message = Utils.nonVuoto)
-	private String idInvito;
-	
+		
 	@NotNull(message = Utils.nonNullo)
 	@NotBlank(message = Utils.nonVuoto)
 	private String recensione;
@@ -66,13 +62,4 @@ public class ValutazioneDto {
 	public void setIdProgetto(int idProgetto) {
 		this.idProgetto = idProgetto;
 	}
-	
-	public String getIdInvito() {
-		return idInvito;
-	}
-	
-	public void setIdInvito(String idInvito) {
-		this.idInvito = idInvito;
-	}
-
 }
