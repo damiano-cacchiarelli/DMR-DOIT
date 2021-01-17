@@ -153,15 +153,23 @@ public class ProgettoService {
 
 	}
 
-	public void valuta(int idProgetto) throws NotFoundException, ProjectStatusException {
+	public void setInValutazione(int idProgetto) throws NotFoundException, ProjectStatusException {
 		Progetto progetto = progettoRepository.findById(idProgetto)
 				.orElseThrow(() -> new NotFoundException("Progetto inesistente"));
 		if (progetto.getStato().equals(Stato.IN_VALUTAZIONE))
 			new ProjectStatusException(
-					"Il progetto è in stato di valutazione. Non puoi richiedere una nuova valutazione.");
+					"Il progetto e' in stato di valutazione. Non puoi richiedere una nuova valutazione.");
 
 		progetto.setStato(Stato.IN_VALUTAZIONE);
 		progettoRepository.save(progetto);
+	}
+	
+	
+	public boolean isValutabile(int idProgetto) throws NotFoundException {
+		Progetto progetto = progettoRepository.findById(idProgetto).orElseThrow(()-> new NotFoundException("Progetto non trovato."));
+			if(progetto.getStato().equals(Stato.IN_VALUTAZIONE)) 
+				return false;
+			return true;
 	}
 
 	private Set<String> getListName(Collection<? extends InterfaceTag> tags) {

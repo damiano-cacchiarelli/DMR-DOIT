@@ -57,8 +57,9 @@ public class ControllerEsperto {
 			invitoService.gestisci(new RispostaInvitoDto(idInvito, TipologiaRisposta.ACCETTATA),
 					authentication.getName());
 			valutazioneService.valuta(idInvito, valutazioneDto, authentication.getName());
+			
 			return new ResponseEntity<>("Valutazione aggiunta", HttpStatus.OK);
-		} catch (ExistingElementException | ProjectStatusException e) {
+		} catch (ExistingElementException | ProjectStatusException | IllegalStateException e) {
 			return Utils.creaMessaggio(e, HttpStatus.BAD_REQUEST);
 		} catch (NotFoundException e) {
 			return Utils.creaMessaggio(e, HttpStatus.NOT_FOUND);

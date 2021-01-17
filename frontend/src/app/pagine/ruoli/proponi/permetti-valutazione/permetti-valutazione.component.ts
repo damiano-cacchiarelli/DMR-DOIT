@@ -57,7 +57,8 @@ export class PermettiValutazioneComponent implements OnInit {
 
   permettiValutazione(): void {
     if(!this.idEsperto || this.idEsperto.length == 0 || !this.idProgetto) return;
-    this.invitoService.invia(new InvitoDto(this.messaggioEsperto, TipologiaInvito.VALUTAZIONE, [this.idEsperto], this.idProgetto)).subscribe(
+    //this.invitoService.invia(new InvitoDto(this.messaggioEsperto, TipologiaInvito.VALUTAZIONE, [this.idEsperto], this.idProgetto)).subscribe(
+      this.proponenteService.permettiValutazione(new InvitoDto(this.messaggioEsperto, TipologiaInvito.VALUTAZIONE, [this.idEsperto], this.idProgetto)).subscribe(
       data => { 
         this.toastr.success(data.messaggio, "OK", {
           timeOut: 3000, positionClass: "toast-top-center"

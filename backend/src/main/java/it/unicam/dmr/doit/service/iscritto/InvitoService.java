@@ -62,6 +62,7 @@ public class InvitoService {
 
 	public void invia(InvitoDto invitoDto, String identificativoIscritto)
 			throws NotFoundException, IllegalArgumentException {
+
 		for (String idDest : invitoDto.getIdDestinatario())
 			if (!iscrittoRepository.existsById(idDest))
 				throw new NotFoundException("Id destinatario inesistente");
@@ -71,9 +72,10 @@ public class InvitoService {
 		for (String idDest : invitoDto.getIdDestinatario()) {
 			if (identificativoIscritto.equals(idDest))
 				continue;
+
+			Progetto progetto = progettoRepository.findById(invitoDto.getIdProgetto()).get();
 			Iscritto mittente = iscrittoRepository.findById(identificativoIscritto).get();
 			Iscritto destinatario = iscrittoRepository.findById(idDest).get();
-			Progetto progetto = progettoRepository.findById(invitoDto.getIdProgetto()).get();
 			mittente.getGestoreMessaggi().inviaMessaggio(destinatario, invitoDto.getContenuto(), progetto,
 					invitoDto.getTipologiaInvito());
 
@@ -116,12 +118,14 @@ public class InvitoService {
 		if (!invitoRepository.existsById(rispostaInvitoDto.getIdInvito()))
 			throw new NotFoundException("Invito inesistente");
 		if (!iscrittoRepository.existsById(identificativoIscritto))
-			throw new NotFoundException("Identificativo iscritto inesistente");
+			throw new NotFoundException("Identificativo iscritto inesistente.");
 
 		Invito invito = invitoRepository.findById(rispostaInvitoDto.getIdInvito()).get(0).get();
 		if (!invito.getIdDestinatario().equals(identificativoIscritto))
 			throw new IllegalStateException(
 					"Non sei autorizzato a rispondere a questo invito (non sei il destinatario)");
+		if (!invito.getTipologiaRisposta().equals(TipologiaRisposta.IN_ATTESA))
+			throw new IllegalStateException("L'invito ha gia' ricevuto una risposta.");
 
 		List<Invito> inviti = invitoRepository.findById(rispostaInvitoDto.getIdInvito()).stream().map(Optional::get)
 				.collect(Collectors.toList());

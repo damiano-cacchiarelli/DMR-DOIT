@@ -20,6 +20,7 @@ import org.springframework.web.bind.annotation.RestController;
 
 import it.unicam.dmr.doit.controller.Utils;
 import it.unicam.dmr.doit.dataTransferObject.Messaggio;
+import it.unicam.dmr.doit.dataTransferObject.invito.InvitoDto;
 import it.unicam.dmr.doit.dataTransferObject.progetto.ProgettoDto;
 import it.unicam.dmr.doit.dataTransferObject.progetto.TagListDto;
 import it.unicam.dmr.doit.progetto.Progetto;
@@ -27,6 +28,7 @@ import it.unicam.dmr.doit.progetto.exception.CandidacyStatusException;
 import it.unicam.dmr.doit.progetto.exception.NextFaseException;
 import it.unicam.dmr.doit.progetto.exception.ProjectStatusException;
 import it.unicam.dmr.doit.repository.IscrittoRepository;
+import it.unicam.dmr.doit.service.iscritto.InvitoService;
 import it.unicam.dmr.doit.service.iscritto.IscrittoService;
 import it.unicam.dmr.doit.service.progetto.ProgettoService;
 import it.unicam.dmr.doit.utenti.Iscritto;
@@ -57,6 +59,9 @@ public class ControllerProponente {
 
 	@Autowired
 	private IscrittoService<Iscritto, IscrittoRepository<Iscritto>> iscrittoService;
+
+	@Autowired
+	private InvitoService invitoService;
 
 	@PreAuthorize("hasRole('PROPONENTE')")
 	@PostMapping("/proponi")
@@ -95,20 +100,29 @@ public class ControllerProponente {
 			return Utils.creaMessaggio(e, HttpStatus.NOT_FOUND);
 		} catch (NextFaseException e) {
 			return Utils.creaMessaggio(e, HttpStatus.BAD_REQUEST);
-		} 
+		}
 
 	}
 
 	@PreAuthorize("hasRole('PROPONENTE')")
-	@PutMapping("/permette_valutazione/{id}")
-	public ResponseEntity<Messaggio> permetteValutazione(@PathVariable("id") int idProgetto) {
+	@PostMapping("/permetti_valutazione")
+	public ResponseEntity<Messaggio> permetteValutazione(@Valid @RequestBody InvitoDto invitoDto,
+			BindingResult bindingResult, Authentication authentication) {
+		if (bindingResult.hasErrors())
+			return Utils.creaMessaggioDaErrore(bindingResult);
+
 		try {
-			progettoService.valuta(idProgetto);
+			if (!progettoService.isValutabile(invitoDto.getIdProgetto()))
+				return Utils.creaMessaggio("Richiesta di valutazione gia' effettuata.", HttpStatus.BAD_REQUEST);
+
+			invitoService.invia(invitoDto, authentication.getName());
+			progettoService.setInValutazione(invitoDto.getIdProgetto());
 			return Utils.creaMessaggio("Progetto in valutazione", HttpStatus.OK);
+
+		} catch (IllegalArgumentException | ProjectStatusException e) {
+			return Utils.creaMessaggio(e, HttpStatus.BAD_REQUEST);
 		} catch (NotFoundException e) {
 			return Utils.creaMessaggio(e, HttpStatus.NOT_FOUND);
-		} catch (ProjectStatusException e) {
-			return Utils.creaMessaggio(e, HttpStatus.BAD_REQUEST);
 		}
 
 	}
