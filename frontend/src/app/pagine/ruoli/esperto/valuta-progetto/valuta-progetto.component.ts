@@ -79,11 +79,11 @@ export class ValutaProgettoComponent implements OnInit {
     let valutazioneCandidati: ValutazioneCandidati[] = [];
     for (let index = 0; index < this.progettisti.length; index++) {
       if (this.recensioneProgetto[index] && this.recensioneProgetto[index].length != 0) {
-        valutazioneCandidati.push(new ValutazioneCandidati(this.recensioneProgetto[index], this.progettisti[index]));
+        valutazioneCandidati.push(new ValutazioneCandidati(this.recensioneProgettista[index], this.progettisti[index]));
       }
-    }
+    }   
     const valutazione: ValutazioneDto = new ValutazioneDto(this.recensioneProgetto, this.progetto.id, valutazioneCandidati);
-    this.espertoService.valutaProgetto(this.idInvito, valutazione).subscribe(
+    this.espertoService.valutaProgetto(this.idInvito, valutazione)?.subscribe(
       data => {
         this.toastr.success(data.messaggio, "OK", {
           timeOut: 3000, positionClass: "toast-bottom-right"
