@@ -25,6 +25,7 @@ import it.unicam.dmr.doit.dataTransferObject.progetto.ProgettoDto;
 import it.unicam.dmr.doit.dataTransferObject.progetto.TagListDto;
 import it.unicam.dmr.doit.progetto.Progetto;
 import it.unicam.dmr.doit.progetto.exception.CandidacyStatusException;
+import it.unicam.dmr.doit.progetto.exception.ExistingElementException;
 import it.unicam.dmr.doit.progetto.exception.NextFaseException;
 import it.unicam.dmr.doit.progetto.exception.ProjectStatusException;
 import it.unicam.dmr.doit.repository.IscrittoRepository;
@@ -125,6 +126,28 @@ public class ControllerProponente {
 			return Utils.creaMessaggio(e, HttpStatus.NOT_FOUND);
 		}
 
+	}
+	
+	@PreAuthorize("hasRole('PROPONENTE')")
+	@PostMapping("/invita_candidati")
+	public ResponseEntity<Messaggio> invitaCandidati(@Valid @RequestBody InvitoDto invitoDto,
+			BindingResult bindingResult, Authentication authentication) {
+		if (bindingResult.hasErrors())
+			return Utils.creaMessaggioDaErrore(bindingResult);
+		//TODO: invitoService.invia va dentro al for
+		try {
+			for(String idProgettista: invitoDto.getIdDestinatario()) {
+				progettoService.partecipaAlProgetto(idProgettista, invitoDto.getIdProgetto());
+			}
+			invitoService.invia(invitoDto, authentication.getName());
+			return Utils.creaMessaggio("Progettisti invitati", HttpStatus.OK);
+		} catch (NotFoundException e) {
+			return Utils.creaMessaggio(e, HttpStatus.NOT_FOUND);
+		} catch (NoSuchElementException |ExistingElementException e) {
+			return Utils.creaMessaggio(e, HttpStatus.BAD_REQUEST);
+		} 
+		
+		
 	}
 
 	@PreAuthorize("hasRole('PROPONENTE')")

@@ -105,6 +105,15 @@ public class ProgettoService {
 	public Collection<Valutazione> getAllValutazioni(int idProgetto) throws NotFoundException {
 		return findById(idProgetto).getListaValutazioni();
 	}
+	
+	public void partecipaAlProgetto(String idIscritto, int idProgetto) throws NoSuchElementException, NotFoundException, ExistingElementException {
+		Progettista progettista = (Progettista) iscrittoRepository.findById(idIscritto)
+				.orElseThrow(() -> new NotFoundException("Iscritto inesistente")).getRuolo(TipologiaRuolo.ROLE_PROGETTISTA);
+		Progetto progetto = progettoRepository.findById(idProgetto)
+				.orElseThrow(() -> new NotFoundException("Progetto inesistente"));
+		progetto.getGestoreCandidati().aggiungiPartecipante(progettista);
+	}
+
 
 	public void candidatiAlProgetto(String idIscritto, int idProgetto)
 			throws NotFoundException, ExistingElementException, CandidacyStatusException {

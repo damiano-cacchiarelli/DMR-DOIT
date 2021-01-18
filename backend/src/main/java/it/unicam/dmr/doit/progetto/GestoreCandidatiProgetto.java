@@ -88,6 +88,11 @@ public class GestoreCandidatiProgetto {
 		partecipantiAlProgetto.add(progettista);
 		candidatiAlProgetto.remove(progettista);
 	}
+	
+	public void aggiungiPartecipante(Progettista progettista) throws ExistingElementException {
+		if(!partecipantiAlProgetto.add(progettista))
+			throw new ExistingElementException("Il progettista partecipa gia'");
+	}
 
 	public boolean progettistaPresente(String idProgettista) {
 		for (Progettista progettista : candidatiAlProgetto) {
