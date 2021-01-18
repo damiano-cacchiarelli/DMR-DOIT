@@ -11,8 +11,7 @@ import it.unicam.dmr.doit.utenti.ruoli.TipologiaRuolo;
 
 /**
  * Questa interfaccia implementa {@code JpaRepository<I, String>} e permette
- * l'interazione con il database per la gestione di un {@code I}.
- * <br>
+ * l'interazione con il database per la gestione di un {@code I}. <br>
  * Vengono definite delle funzioni per una ricerca intelligente sugli {@code I}
  * memorizzati.
  * 
@@ -24,7 +23,10 @@ import it.unicam.dmr.doit.utenti.ruoli.TipologiaRuolo;
 public interface IscrittoRepository<I extends Iscritto> extends JpaRepository<I, String> {
 
 	public boolean existsByEmail(String email);
-	
+
+	@Query("select i from Iscritto i where i.identificativo=?1 or i.email=?2")
+	public Iscritto esiste(String identificativo, String email);
+
 	/**
 	 * @return tutti gli iscritti aventi il ruolo definito dal parametro passato
 	 */
@@ -40,7 +42,7 @@ public interface IscrittoRepository<I extends Iscritto> extends JpaRepository<I,
 
 	/*
 	 * @return tutti gli iscritti aventi il ruolo esperto e che hanno valutato
-	 *         almeno un progetto che presenta la lista dei tag passati
+	 * almeno un progetto che presenta la lista dei tag passati
 	 */
 	// @Query("SELECT i FROM Iscritto i JOIN Ruolo r ON r.iscritto =
 	// i.identificativo JOIN Valutazione v ON v.id_esperto = r.id JOIN Progetto p ON

@@ -23,11 +23,9 @@ import javassist.NotFoundException;
 public class PersonaService extends IscrittoService<Persona, PersonaRepository> {
 
 	public Persona registra(PersonaDto personaDto) throws ExistingElementException {
-		if (iscrittoRepository.existsById(personaDto.getIdentificativo()))
-			throw new ExistingElementException("L'identificativo esiste gia'");
-		if (iscrittoRepository.existsByEmail(personaDto.getEmail()))
-			throw new ExistingElementException("L'email e' in uso");
-
+		if(iscrittoRepository.esiste(personaDto.getIdentificativo(), personaDto.getEmail()) != null)
+			throw new ExistingElementException("L'identificativo o l'email sono gia' in uso.");
+		
 		Persona persona = new Persona(personaDto.getIdentificativo(), personaDto.getEmail(),
 				passwordEncoder.encode(personaDto.getPassword()), personaDto.getNome(), personaDto.getCognome(),
 				personaDto.getCittadinanza(), personaDto.getSesso(), personaDto.getTelefono());

@@ -1,5 +1,7 @@
 package it.unicam.dmr.doit.repository;
 
+import org.springframework.stereotype.Repository;
+
 import it.unicam.dmr.doit.utenti.Persona;
 
 /**
@@ -10,6 +12,7 @@ import it.unicam.dmr.doit.utenti.Persona;
  * @author Matteo Romagnoli
  * @author Roberto Cesetti
  */
+@Repository
 public interface PersonaRepository extends IscrittoRepository<Persona>{
 
 }
