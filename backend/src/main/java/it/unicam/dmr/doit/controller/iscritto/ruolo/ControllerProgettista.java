@@ -53,7 +53,7 @@ public class ControllerProgettista {
 			return Utils.creaMessaggio("Candidatura effettuata", HttpStatus.OK);
 		} catch (NotFoundException e) {
 			return Utils.creaMessaggio(e, HttpStatus.NOT_FOUND);
-		} catch (ExistingElementException | CandidacyStatusException e) {
+		} catch (ExistingElementException | CandidacyStatusException | IllegalArgumentException e) {
 			return Utils.creaMessaggio(e, HttpStatus.BAD_REQUEST);
 		}
 	}

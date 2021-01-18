@@ -116,13 +116,14 @@ public class ProgettoService {
 
 
 	public void candidatiAlProgetto(String idIscritto, int idProgetto)
-			throws NotFoundException, ExistingElementException, CandidacyStatusException {
-
+			throws NotFoundException, ExistingElementException, CandidacyStatusException, IllegalArgumentException {
 		Progettista progettista = (Progettista) iscrittoRepository.findById(idIscritto)
 				.orElseThrow(() -> new NotFoundException("Iscritto inesistente"))
 				.getRuolo(TipologiaRuolo.ROLE_PROGETTISTA);
 		Progetto progetto = progettoRepository.findById(idProgetto)
 				.orElseThrow(() -> new NotFoundException("Progetto inesistente"));
+		if(progetto.getIdProponente().equals(idIscritto))
+			throw new IllegalArgumentException();
 		progetto.getGestoreCandidati().aggiungiCandidato(progettista);
 
 	}
