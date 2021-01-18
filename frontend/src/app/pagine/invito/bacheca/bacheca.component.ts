@@ -10,6 +10,7 @@ import { EspertoService } from 'src/app/servizi/esperto.service';
 import { InvitoService } from 'src/app/servizi/invito.service';
 import { ProgettistaService } from 'src/app/servizi/progettista.service';
 import { ProponenteService } from 'src/app/servizi/proponente.service';
+import { TokenService } from 'src/app/servizi/token.service';
 
 @Component({
   selector: 'app-bacheca',
@@ -30,6 +31,7 @@ export class BachecaComponent implements OnInit {
     private invitoService: InvitoService,
     private progettistaService: ProgettistaService,
     private espertoService: EspertoService,
+    private tokenService: TokenService,
     private proponenteService: ProponenteService,
     private toastr: ToastrService) { }
 
@@ -147,5 +149,9 @@ export class BachecaComponent implements OnInit {
       default:
         return "";
     }
+  }
+
+  hasRuolo(ruolo: string): boolean{
+    return this.tokenService.getRuoli().includes(ruolo);
   }
 }

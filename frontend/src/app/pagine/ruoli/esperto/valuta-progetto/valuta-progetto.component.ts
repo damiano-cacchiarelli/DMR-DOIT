@@ -1,10 +1,11 @@
-import { Component, OnInit } from '@angular/core';
+import { Component, OnInit, ViewChild } from '@angular/core';
 import { FormBuilder, FormGroup, Validators } from '@angular/forms';
 import { ActivatedRoute, Router } from '@angular/router';
 import { ToastrService } from 'ngx-toastr';
 import { Progetto } from 'src/app/modello/progetto/progetto';
 import { ValutazioneCandidati } from 'src/app/modello/progetto/valutazione-candidati';
 import { ValutazioneDto } from 'src/app/modello/progetto/valutazione-dto';
+import { ProfiloComponent } from 'src/app/pagine/iscritto/profilo/profilo.component';
 import { EspertoService } from 'src/app/servizi/esperto.service';
 import { ProgettoService } from 'src/app/servizi/progetto.service';
 
@@ -14,6 +15,8 @@ import { ProgettoService } from 'src/app/servizi/progetto.service';
   styleUrls: ['./valuta-progetto.component.css']
 })
 export class ValutaProgettoComponent implements OnInit {
+
+  @ViewChild("profiloComponent") profiloComponent?: ProfiloComponent;
 
   idInvito: string = "";
   progetto: Progetto = null as any;
@@ -31,7 +34,7 @@ export class ValutaProgettoComponent implements OnInit {
     private activatedRoute: ActivatedRoute,
     private toastr: ToastrService,
     private formBuilder: FormBuilder,
-    private router:Router) { }
+    private router: Router) { }
 
   ngOnInit(): void {
     const id: number = this.activatedRoute.snapshot.params.id;
@@ -58,12 +61,18 @@ export class ValutaProgettoComponent implements OnInit {
     if (this.indexProgettista >= this.progettisti.length - 1)
       this.indexProgettista = 0;
     else this.indexProgettista++;
+
+    if (this.profiloComponent)
+      this.profiloComponent.identificativo = this.progettisti[this.indexProgettista];
   }
 
   onPrecedenteProgettista(): void {
     if (this.indexProgettista <= 0)
-      this.indexProgettista = this.progettisti.length;
+      this.indexProgettista = this.progettisti.length - 1;
     else this.indexProgettista--;
+
+    if (this.profiloComponent)
+      this.profiloComponent.identificativo = this.progettisti[this.indexProgettista];
   }
 
   onInviaValutazione(): void {

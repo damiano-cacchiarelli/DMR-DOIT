@@ -111,6 +111,7 @@ export class DettagliComponent implements OnInit {
     this.opzioniModal.titolo = "Permetti valutazione progetto";
     this.opzioniModal.selettoreDaAttivare = "permetti-valutazione";
     this.opzioniModal.onClickProcedi = () => {
+      if(this.permettiValutazioneProgetto) this.permettiValutazioneProgetto.idProgetto = this.progetto?.id;
       this.permettiValutazioneProgetto?.permettiValutazione();
     }
   }
@@ -119,6 +120,7 @@ export class DettagliComponent implements OnInit {
     this.opzioniModal.titolo = "Invita progettisti";
     this.opzioniModal.selettoreDaAttivare = "invita-progettisti";
     this.opzioniModal.onClickProcedi = () => {
+      if(this.invitaProgettisti) this.invitaProgettisti.idProgetto = this.progetto?.id;
       this.invitaProgettisti?.invitaProgettisti().subscribe(
         data => {
           this.toastr.success(data, "OK", {

@@ -32,7 +32,7 @@ export class InvitaProgettistiComponent implements OnInit {
   ngOnInit(): void {
   }
 
-  invitaProgettisti(): Observable<any> {
+  public invitaProgettisti(): Observable<any> {
     if (this.idProgetto && this.progettistiInvitati.size > 0)
       return this.proponenteService.invitaProgettista(new InvitoDto(this.messaggioProgettisti, TipologiaInvito.PROPOSTA, Array.from(this.progettistiInvitati), this.idProgetto));
     return null as any;

@@ -61,6 +61,8 @@ export class ProponiComponent implements OnInit {
 
   ngOnInit(): void {
 
+    if (this.permettiValutazioneComponent && this.sceltaTagComponent)
+      this.permettiValutazioneComponent.tags = this.sceltaTagComponent.getTagsScelti();
     /*
     this.tagService.tuttiITag().subscribe(
       data => {
@@ -104,10 +106,15 @@ export class ProponiComponent implements OnInit {
       (data: Progetto) => {
         this.idProgetto = data.id;
         if (this.invitaProgettistiComponent) {
+          this.invitaProgettistiComponent.idProgetto = this.idProgetto;
           this.invitaProgettistiComponent.invitaProgettisti().subscribe(data => {
             this.toastr.success(data, "OK", {
               timeOut: 3000, positionClass: "toast-top-center"
             });
+            if (this.permettiValutazioneComponent)
+              this.permettiValutazioneComponent.idProgetto = this.idProgetto;
+            if (this.permettiValutazioneComponent && this.sceltaTagComponent)
+              this.permettiValutazioneComponent.tags = this.sceltaTagComponent.getTagsScelti();
             this.permettiValutazioneComponent?.permettiValutazione();
           },
             err => {
@@ -115,8 +122,13 @@ export class ProponiComponent implements OnInit {
                 timeOut: 3000, positionClass: "toast-top-center"
               });
             });
-        } else this.permettiValutazioneComponent?.permettiValutazione();
-
+        } else {
+          if (this.permettiValutazioneComponent)
+            this.permettiValutazioneComponent.idProgetto = this.idProgetto;
+          if (this.permettiValutazioneComponent && this.sceltaTagComponent)
+            this.permettiValutazioneComponent.tags = this.sceltaTagComponent.getTagsScelti();
+          this.permettiValutazioneComponent?.permettiValutazione();
+        }
         this.toastr.success("Progetto creato!", "OK", {
           timeOut: 3000, positionClass: "toast-top-center"
         });

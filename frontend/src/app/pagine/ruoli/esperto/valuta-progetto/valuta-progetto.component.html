@@ -56,7 +56,7 @@
                 <div class="row" *ngIf="progettisti.length != 0">
                     <div class="col-xl-6">
                         <div class="overflow-auto p-3 mb-3 mb-md-0 mr-md-3 bg-light" style="max-height: 400px;">
-                            <app-profilo [identificativo]="progettisti[indexProgettista]" [valutazione]=true>
+                            <app-profilo #profiloComponent [identificativo]="progettisti[indexProgettista]" [valutazione]=true>
                             </app-profilo>
                         </div>
                     </div>
