@@ -108,7 +108,7 @@ export class ProponiComponent implements OnInit {
         if (this.invitaProgettistiComponent) {
           this.invitaProgettistiComponent.idProgetto = this.idProgetto;
           this.invitaProgettistiComponent.invitaProgettisti().subscribe(data => {
-            this.toastr.success(data, "OK", {
+            this.toastr.success(data.messaggio, "OK", {
               timeOut: 3000, positionClass: "toast-top-center"
             });
             if (this.permettiValutazioneComponent)

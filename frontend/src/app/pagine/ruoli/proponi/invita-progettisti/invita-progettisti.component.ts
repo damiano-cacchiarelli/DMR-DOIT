@@ -1,4 +1,5 @@
 import { Component, Input, OnInit } from '@angular/core';
+import { resetFakeAsyncZone } from '@angular/core/testing';
 import { ToastrService } from 'ngx-toastr';
 import { Observable } from 'rxjs';
 import { InvitoDto } from 'src/app/modello/invito/invito-dto';
@@ -33,9 +34,21 @@ export class InvitaProgettistiComponent implements OnInit {
   }
 
   public invitaProgettisti(): Observable<any> {
-    if (this.idProgetto && this.progettistiInvitati.size > 0)
-      return this.proponenteService.invitaProgettista(new InvitoDto(this.messaggioProgettisti, TipologiaInvito.PROPOSTA, Array.from(this.progettistiInvitati), this.idProgetto));
+    if (this.idProgetto && this.progettistiInvitati.size > 0) {
+      const resp = this.proponenteService.invitaProgettista(new InvitoDto(this.messaggioProgettisti, TipologiaInvito.PROPOSTA, Array.from(this.progettistiInvitati), this.idProgetto));
+      this.reset();
+      return resp;
+    }
+    this.reset();
     return null as any;
+  }
+
+  reset(): void {
+    this.progettistaEsistente = true;
+    this.ricercaProgettista = false;
+    this.idProgettista = null as any;
+    this.progettistiInvitati = new Set();
+    this.messaggioProgettisti = "";
   }
 
   ricercaIdProgettista(): void {
@@ -44,7 +57,7 @@ export class InvitaProgettistiComponent implements OnInit {
     this.visitatoreService.getIscrittoByRuolo(this.idProgettista, TipologiaRuolo.ROLE_PROGETTISTA).subscribe(
       data => {
         console.log(data);
-        if (data.messaggio) {
+        if (!data) {
           this.progettistaEsistente = false;
           this.idProgettista = null as any;
         }
@@ -55,6 +68,7 @@ export class InvitaProgettistiComponent implements OnInit {
         this.ricercaProgettista = false;
       },
       err => {
+        console.log(err);
         this.progettistaEsistente = false;
         this.ricercaProgettista = false;
       }

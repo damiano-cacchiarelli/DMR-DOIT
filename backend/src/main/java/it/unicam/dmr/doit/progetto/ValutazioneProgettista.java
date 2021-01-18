@@ -46,10 +46,11 @@ public class ValutazioneProgettista implements InterfaceValutazione {
 	}
 
 	public ValutazioneProgettista(@NotNull @NotBlank String recensione,
-			@NotNull @NotBlank String identificativoProgettista) {
+			@NotNull @NotBlank String identificativoProgettista, Valutazione valutazioneProgetto) {
 		super();
 		this.recensione = recensione;
 		this.identificativoProgettista = identificativoProgettista;
+		this.valutazioneProgetto = valutazioneProgetto;
 	}
 
 	// ================================================================================
