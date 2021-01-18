@@ -110,7 +110,7 @@
                         <h3 *ngIf="recensioneProgettista.length != 0"><b>Recensione progettista</b>: </h3>
                         <ul class="list-group text-start">
                             <li class="list-group-item" *ngFor="let rp of recensioneProgettista; index as i;">
-                                Progettista {{i}}: {{rp}}</li>
+                                Progettista <b>{{progettisti[i]}}</b>: {{rp}}</li>
                         </ul>
                     </div>
                 </div>

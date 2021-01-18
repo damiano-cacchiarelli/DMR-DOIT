@@ -103,7 +103,6 @@ export class BachecaComponent implements OnInit {
   private gestisci(rispostaInvito: RispostaInvitoDto): void {
     let i: Invito = null as any;
     this.inviti.forEach(invi => { if (invi.id == rispostaInvito.idInvito) i = invi; });
-
     switch (i.tipologiaInvito) {
       case TipologiaInvito.PROPOSTA:
         this.responseSub(this.progettistaService.gestisciRichiestaPartecipazione(rispostaInvito));

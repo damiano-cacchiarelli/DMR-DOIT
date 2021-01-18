@@ -57,7 +57,6 @@ public class ControllerEsperto {
 			invitoService.gestisci(new RispostaInvitoDto(idInvito, TipologiaRisposta.ACCETTATA),
 					authentication.getName());
 			valutazioneService.valuta(idInvito, valutazioneDto, authentication.getName());
-			
 			return new ResponseEntity<>("Valutazione aggiunta", HttpStatus.OK);
 		} catch (ExistingElementException | ProjectStatusException | IllegalStateException e) {
 			return Utils.creaMessaggio(e, HttpStatus.BAD_REQUEST);
@@ -70,7 +69,6 @@ public class ControllerEsperto {
 	@PutMapping("/rifiuta_richiesta/{id_invito}")
 	public ResponseEntity<?> rifiutaRichiesta(@PathVariable("id_invito") String idInvito, Authentication authentication)
 			throws ProjectStatusException {
-
 		try {
 			invitoService.gestisci(new RispostaInvitoDto(idInvito, TipologiaRisposta.RIFIUTATA),
 					authentication.getName());

@@ -83,7 +83,7 @@ export class ValutaProgettoComponent implements OnInit {
       }
     }   
     const valutazione: ValutazioneDto = new ValutazioneDto(this.recensioneProgetto, this.progetto.id, valutazioneCandidati);
-    this.espertoService.valutaProgetto(this.idInvito, valutazione)?.subscribe(
+    this.espertoService.valutaProgetto(this.idInvito, valutazione).subscribe(
       data => {
         this.toastr.success(data.messaggio, "OK", {
           timeOut: 3000, positionClass: "toast-bottom-right"

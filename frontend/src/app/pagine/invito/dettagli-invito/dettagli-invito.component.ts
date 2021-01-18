@@ -9,6 +9,7 @@ import { TipologiaInvito } from 'src/app/modello/invito/tipologia-invito.enum';
 import { TipologiaRisposta } from 'src/app/modello/invito/tipologia-risposta.enum';
 import { TipologiaRuolo } from 'src/app/modello/iscritto/tipologia-ruolo.enum';
 import { Progetto } from 'src/app/modello/progetto/progetto';
+import { EspertoService } from 'src/app/servizi/esperto.service';
 import { InvitoService } from 'src/app/servizi/invito.service';
 import { ProgettistaService } from 'src/app/servizi/progettista.service';
 import { ProponenteService } from 'src/app/servizi/proponente.service';
@@ -32,6 +33,7 @@ export class DettagliInvitoComponent implements OnInit {
     private progettistaService: ProgettistaService,
     private tokenService: TokenService,
     private proponenteService: ProponenteService,
+    private espertoService:EspertoService,
     private toastr: ToastrService,
     private router: Router
     ) { }
@@ -66,7 +68,7 @@ export class DettagliInvitoComponent implements OnInit {
         this.responseSub(this.progettistaService.gestisciRichiestaPartecipazione(rispostaInvito));
         break;
       case TipologiaInvito.VALUTAZIONE:
-        this.responseSub(this.invitoService.gestisci(rispostaInvito));
+        this.responseSub(this.espertoService.rifiutaValutazione(rispostaInvito));
         break;
       case TipologiaInvito.RICHIESTA:
         this.responseSub(this.proponenteService.gestisciRichiestaPartecipazione(rispostaInvito));
