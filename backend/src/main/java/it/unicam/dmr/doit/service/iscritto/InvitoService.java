@@ -1,6 +1,7 @@
 package it.unicam.dmr.doit.service.iscritto;
 
 import java.util.List;
+import java.util.NoSuchElementException;
 import java.util.Optional;
 import java.util.stream.Collectors;
 
@@ -135,23 +136,33 @@ public class InvitoService {
 	}
 
 	public void gestisciRichiestePartecipazione(RispostaInvitoDto rispostaInvitoDto, String identificativoIscritto)
-			throws IllegalStateException, IllegalArgumentException, NotFoundException, ExistingElementException,
-			CandidacyStatusException {
-		gestisci(rispostaInvitoDto, identificativoIscritto);
+			throws IllegalArgumentException, NotFoundException, ExistingElementException,
+			CandidacyStatusException, NoSuchElementException {
 
-		Invito invito = invitoRepository.findById(rispostaInvitoDto.getIdInvito()).get(0).get();
-		Progetto p = progettoRepository.findById(invito.getIdProgetto()).get();
-		if (invito.getTipologiaInvito() == TipologiaInvito.PROPOSTA
-				|| invito.getTipologiaInvito() == TipologiaInvito.RICHIESTA) {
-			if (invito.getTipologiaRisposta() == TipologiaRisposta.ACCETTATA) {
-				Iscritto iscritto = iscrittoRepository.findById(identificativoIscritto).get();
-				Progettista pr = (Progettista) iscritto.getRuolo(TipologiaRuolo.ROLE_PROGETTISTA);
-				p.getGestoreCandidati().aggiungiCandidato(pr);
-				if (invito.getTipologiaInvito() == TipologiaInvito.PROPOSTA)
-					p.getGestoreCandidati().confermaCandidato(identificativoIscritto);
-			}
+		Invito invito = invitoRepository.findById(rispostaInvitoDto.getIdInvito()).get(0)
+				.orElseThrow(() -> new NotFoundException("Invito inesistente"));
+		Progetto progetto = progettoRepository.findById(invito.getIdProgetto())
+				.orElseThrow(() -> new NotFoundException("Progetto inesistente."));
+		
+		if(rispostaInvitoDto.getRisposta().equals(TipologiaRisposta.RIFIUTATA)){
+			progetto.getGestoreCandidati().rimuoviProgettista(identificativoIscritto);
 		}
-		progettoRepository.save(p);
+		/*
+		 * Invito invito =
+		 * invitoRepository.findById(rispostaInvitoDto.getIdInvito()).get(0).get();
+		 * Progetto p = progettoRepository.findById(invito.getIdProgetto()).get(); if
+		 * (invito.getTipologiaInvito() == TipologiaInvito.PROPOSTA ||
+		 * invito.getTipologiaInvito() == TipologiaInvito.RICHIESTA) { if
+		 * (invito.getTipologiaRisposta() == TipologiaRisposta.ACCETTATA) { Iscritto
+		 * iscritto = iscrittoRepository.findById(identificativoIscritto).get();
+		 * Progettista pr = (Progettista)
+		 * iscritto.getRuolo(TipologiaRuolo.ROLE_PROGETTISTA);
+		 * p.getGestoreCandidati().aggiungiCandidato(pr); if
+		 * (invito.getTipologiaInvito() == TipologiaInvito.PROPOSTA)
+		 * p.getGestoreCandidati().confermaCandidato(identificativoIscritto); } }
+		 */
+		gestisci(rispostaInvitoDto, identificativoIscritto);
+		progettoRepository.save(progetto);
 	}
 
 	public void gestisciRifiutaValutazioneProgetto(String idInvito, String identificativo) throws NotFoundException {

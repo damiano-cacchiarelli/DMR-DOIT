@@ -1,5 +1,7 @@
 package it.unicam.dmr.doit.controller.iscritto.ruolo;
 
+import java.util.NoSuchElementException;
+
 import javax.validation.Valid;
 
 import org.springframework.beans.factory.annotation.Autowired;
@@ -74,6 +76,8 @@ public class ControllerProgettista {
 			return Utils.creaMessaggio(e, HttpStatus.BAD_REQUEST);
 		} catch (NotFoundException e) {
 			return Utils.creaMessaggio(e, HttpStatus.NOT_FOUND);
+		}catch (NoSuchElementException e) {
+			return Utils.creaMessaggio(e, HttpStatus.CONFLICT);
 		}
 	}
 }
