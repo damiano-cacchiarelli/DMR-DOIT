@@ -40,4 +40,8 @@ export class ProponenteService {
   public gestisciRichiestaPartecipazione(rispostaInvito: RispostaInvitoDto): Observable<any> {
     throw new Error('Method not implemented.');
   }
+
+  public invitaProgettista(invito: InvitoDto): Observable<any> {
+    return this.httpClient.post<any>(this.proponenteURL + "/invita_candidati" , invito);
+  }
 }
