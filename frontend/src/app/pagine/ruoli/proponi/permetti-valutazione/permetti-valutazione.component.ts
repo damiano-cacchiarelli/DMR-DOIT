@@ -70,6 +70,8 @@ export class PermettiValutazioneComponent implements OnInit {
         });
       }
     );
+
+    this.reset();
   }
 
   aggiornaEsperti(){
@@ -83,6 +85,14 @@ export class PermettiValutazioneComponent implements OnInit {
         console.log(err);
       }
     );
+  }
+
+  reset(): void{
+    this.espertoEsistente = true;
+    this.ricercaEsperto = false;
+    this.idEsperto = null as any;
+    this.messaggioEsperto = "";
+    this.espertiConsigliati = [];
   }
 
 }

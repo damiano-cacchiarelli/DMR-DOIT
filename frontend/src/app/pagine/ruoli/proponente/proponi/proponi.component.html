@@ -83,7 +83,7 @@
                         <h3><b>Requisiti</b>: {{requisiti}}</h3>
                         <h3 *ngIf="sceltaTagComponent.getTagsScelti().tags.length > 0"><b>Tags</b>:<span
                                 *ngFor="let tag of sceltaTagComponent.getTagsScelti().tags"> {{tag.nome}}</span></h3>
-                        <h3 *ngIf="invitaProgettistiComponent.idProgettista"><b>Progettisti invitati</b>: {{invitaProgettistiComponent.idProgettista}}</h3>
+                        <h3 *ngIf="invitaProgettistiComponent.progettistiInvitati.size != 0"><b>Progettisti invitati</b>: <span *ngFor="let p of invitaProgettistiComponent.progettistiInvitati">{{p}} </span></h3>
                         <h3 *ngIf="permettiValutazioneComponent.idEsperto"><b>Esperto</b>: {{permettiValutazioneComponent.idEsperto}}</h3>
                     </div>
                 </div>

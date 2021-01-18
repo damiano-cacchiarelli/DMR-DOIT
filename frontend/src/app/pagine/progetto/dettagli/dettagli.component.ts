@@ -123,7 +123,7 @@ export class DettagliComponent implements OnInit {
       if(this.invitaProgettisti) this.invitaProgettisti.idProgetto = this.progetto?.id;
       this.invitaProgettisti?.invitaProgettisti().subscribe(
         data => {
-          this.toastr.success(data, "OK", {
+          this.toastr.success(data.messaggio, "OK", {
             timeOut: 3000, positionClass: "toast-top-center"
           });
         },

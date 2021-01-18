@@ -64,7 +64,7 @@ public class ValutazioneService {
 		Valutazione valutazione = new Valutazione(valutazioneDto.getRecensione(), esperto, progetto);
 		for (ValutazioneProgettistaDto vpd : valutazioneDto.getValutazioniCandidati()) {
 			valutazione.addValutazioneCandidato(
-					new ValutazioneProgettista(vpd.getRecensione(), vpd.getIdentificativoProgettista()));
+					new ValutazioneProgettista(vpd.getRecensione(), vpd.getIdentificativoProgettista(), valutazione));
 		}
 		
 		progetto.aggiungiValutazione(valutazione);
