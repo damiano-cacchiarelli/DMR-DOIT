@@ -44,7 +44,8 @@
 
                         <div class="row text-center">
                             <div class="col" *ngIf="invito.tipologiaRisposta == TipologiaRisposta.IN_ATTESA">
-                                <button class="btn btn-sm btn-outline-success m-1" (click)="onAccetta(invito.id)"><i
+                                <button class="btn btn-sm btn-outline-success m-1" (click)="onAccetta(invito.id)"
+                                    *ngIf="invito.tipologiaInvito != TipologiaInvito.VALUTAZIONE"><i
                                         class="far fa-check-square"></i> Accetta</button>
                                 <button
                                     *ngIf="invito.tipologiaInvito == TipologiaInvito.VALUTAZIONE && hasRuolo('ROLE_ESPERTO')"

@@ -22,7 +22,7 @@
       <table class="table table-striped table-hover align-middle mt-2" *ngFor="let ruolo of iscritto.ruoli">
         <thead>
           <tr>
-            <th scope="col" [ngClass]="'bg-'+getColore(ruolo.ruolo)">Ruolo {{TipologiaRuolo[ruolo.ruolo]}}</th>
+            <th scope="col" [ngClass]="'bg-'+getColore(ruolo.ruolo)">Ruolo: {{getRuolo(ruolo)}} </th>
           </tr>
         </thead>
         <tbody>

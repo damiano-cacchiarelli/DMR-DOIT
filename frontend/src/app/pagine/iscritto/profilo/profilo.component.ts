@@ -4,6 +4,7 @@ import { ToastrService } from 'ngx-toastr';
 import { EnteDto } from 'src/app/modello/iscritto/ente-dto';
 import { Iscritto } from 'src/app/modello/iscritto/iscritto';
 import { PersonaDto } from 'src/app/modello/iscritto/persona-dto';
+import { Ruolo } from 'src/app/modello/iscritto/ruolo';
 import { RuoloOpzioni } from 'src/app/modello/iscritto/ruolo-opzioni';
 import { TipologiaRuolo } from 'src/app/modello/iscritto/tipologia-ruolo.enum';
 import { VisitatoreService } from 'src/app/servizi/visitatore.service';
@@ -65,5 +66,20 @@ export class ProfiloComponent implements OnInit {
     if (ro)
       return ro.colore;
     return "table-primary";
+  }
+
+  getRuolo(ruolo: Ruolo): string {
+    switch (ruolo.ruolo) {
+      case TipologiaRuolo.ROLE_ESPERTO:
+        return "ESPERTO";
+      case TipologiaRuolo.ROLE_PROGETTISTA:
+        return "PROGETTISTA";
+      case TipologiaRuolo.ROLE_PROPONENTE:
+        return "PROPONENTE";
+      case TipologiaRuolo.ROLE_SPONSOR:
+        return "SPONSOR";
+      default:
+        return "";
+    }
   }
 }
