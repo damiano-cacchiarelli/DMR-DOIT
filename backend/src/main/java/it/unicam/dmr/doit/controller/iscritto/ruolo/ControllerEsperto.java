@@ -19,13 +19,10 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
 import it.unicam.dmr.doit.controller.Utils;
-import it.unicam.dmr.doit.dataTransferObject.invito.RispostaInvitoDto;
 import it.unicam.dmr.doit.dataTransferObject.progetto.ValutazioneDto;
-import it.unicam.dmr.doit.invito.TipologiaRisposta;
 import it.unicam.dmr.doit.progetto.exception.ExistingElementException;
 import it.unicam.dmr.doit.progetto.exception.ProjectStatusException;
-import it.unicam.dmr.doit.service.iscritto.InvitoService;
-import it.unicam.dmr.doit.service.progetto.ValutazioneService;
+import it.unicam.dmr.doit.service.iscritto.ruoli.EspertoService;
 import javassist.NotFoundException;
 
 /**
@@ -41,10 +38,7 @@ import javassist.NotFoundException;
 public class ControllerEsperto {
 
 	@Autowired
-	private ValutazioneService valutazioneService;
-
-	@Autowired
-	private InvitoService invitoService;
+	private EspertoService espertoService;
 
 	@PreAuthorize("hasRole('ESPERTO')")
 	@PostMapping("/progetto/valuta/{id_invito}")
@@ -55,9 +49,7 @@ public class ControllerEsperto {
 			return Utils.creaMessaggioDaErrore(bindingResult);
 
 		try {
-			invitoService.gestisci(new RispostaInvitoDto(idInvito, TipologiaRisposta.ACCETTATA),
-					authentication.getName());
-			valutazioneService.valuta(idInvito, valutazioneDto, authentication.getName());
+			espertoService.valuta(idInvito, valutazioneDto, authentication.getName());
 			return Utils.creaMessaggio("Valutazione aggiunta", HttpStatus.OK);
 		} catch (NoSuchElementException | ExistingElementException | ProjectStatusException | IllegalStateException e) {
 			return Utils.creaMessaggio(e, HttpStatus.BAD_REQUEST);
@@ -71,10 +63,7 @@ public class ControllerEsperto {
 	public ResponseEntity<?> rifiutaRichiesta(@PathVariable("id_invito") String idInvito, Authentication authentication)
 			throws ProjectStatusException {
 		try {
-			invitoService.gestisci(new RispostaInvitoDto(idInvito, TipologiaRisposta.RIFIUTATA),
-					authentication.getName());
-			invitoService.gestisciRifiutaValutazioneProgetto(idInvito, authentication.getName());
-
+			espertoService.rifiuta(idInvito, authentication.getName());
 			return new ResponseEntity<>("Richista di valutazione rifiutata", HttpStatus.OK);
 		} catch (IllegalStateException | IllegalArgumentException e) {
 			return Utils.creaMessaggio(e, HttpStatus.BAD_REQUEST);

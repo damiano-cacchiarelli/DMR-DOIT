@@ -3,7 +3,6 @@ package it.unicam.dmr.doit.service.progetto;
 import java.util.Collection;
 import java.util.HashSet;
 import java.util.List;
-import java.util.NoSuchElementException;
 import java.util.Set;
 import java.util.stream.Collectors;
 
@@ -12,23 +11,15 @@ import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
 import it.unicam.dmr.doit.dataTransferObject.iscritto.RuoloDto;
-import it.unicam.dmr.doit.dataTransferObject.progetto.ProgettoDto;
-import it.unicam.dmr.doit.dataTransferObject.progetto.TagDto;
 import it.unicam.dmr.doit.dataTransferObject.progetto.TagListDto;
 import it.unicam.dmr.doit.progetto.InterfaceTag;
 import it.unicam.dmr.doit.progetto.Progetto;
 import it.unicam.dmr.doit.progetto.Stato;
-import it.unicam.dmr.doit.progetto.Tag;
 import it.unicam.dmr.doit.progetto.Valutazione;
-import it.unicam.dmr.doit.progetto.exception.CandidacyStatusException;
-import it.unicam.dmr.doit.progetto.exception.ExistingElementException;
-import it.unicam.dmr.doit.progetto.exception.NextFaseException;
 import it.unicam.dmr.doit.progetto.exception.ProjectStatusException;
 import it.unicam.dmr.doit.repository.IscrittoRepository;
 import it.unicam.dmr.doit.repository.ProgettoRepository;
 import it.unicam.dmr.doit.utenti.Iscritto;
-import it.unicam.dmr.doit.utenti.ruoli.Progettista;
-import it.unicam.dmr.doit.utenti.ruoli.Proponente;
 import it.unicam.dmr.doit.utenti.ruoli.Ruolo;
 import it.unicam.dmr.doit.utenti.ruoli.TipologiaRuolo;
 import javassist.NotFoundException;
@@ -51,9 +42,6 @@ public class ProgettoService {
 
 	@Autowired
 	private IscrittoRepository<Iscritto> iscrittoRepository;
-
-	@Autowired
-	private TagService tagService;
 
 	public List<Progetto> listaProgetti() {
 		return progettoRepository.findAll();
@@ -105,27 +93,27 @@ public class ProgettoService {
 	public Collection<Valutazione> getAllValutazioni(int idProgetto) throws NotFoundException {
 		return findById(idProgetto).getListaValutazioni();
 	}
-
-	public void chiudiCandidature(int idProgetto) throws NotFoundException, CandidacyStatusException {
-
-		Progetto progetto = progettoRepository.findById(idProgetto)
-				.orElseThrow(() -> new NotFoundException("Progetto inesistente"));
-		if(!progetto.getGestoreCandidati().isCandidatureAperte())
-			new CandidacyStatusException("Le candidature sono gia' chiuse");
-		progetto.getGestoreCandidati().chiudiCandidature();
-		progettoRepository.save(progetto);
-	}
-
-	public Progetto faseSuccessiva(int idProgetto) throws NotFoundException, NextFaseException {
-		Progetto progetto = progettoRepository.findById(idProgetto)
-				.orElseThrow(() -> new NotFoundException("Progetto inesistente"));
-		progetto.nextFase();
-		if (progetto.getGestoreCandidati().isCandidatureAperte())
-			progetto.getGestoreCandidati().chiudiCandidature();
-		progettoRepository.save(progetto);
-		return progetto;
-
-	}
+	/*
+	 * public void chiudiCandidature(int idProgetto) throws NotFoundException,
+	 * CandidacyStatusException {
+	 * 
+	 * Progetto progetto = progettoRepository.findById(idProgetto) .orElseThrow(()
+	 * -> new NotFoundException("Progetto inesistente"));
+	 * if(!progetto.getGestoreCandidati().isCandidatureAperte()) new
+	 * CandidacyStatusException("Le candidature sono gia' chiuse");
+	 * progetto.getGestoreCandidati().chiudiCandidature();
+	 * progettoRepository.save(progetto); }
+	 * 
+	 * public Progetto faseSuccessiva(int idProgetto) throws NotFoundException,
+	 * NextFaseException { Progetto progetto =
+	 * progettoRepository.findById(idProgetto) .orElseThrow(() -> new
+	 * NotFoundException("Progetto inesistente")); progetto.nextFase(); if
+	 * (progetto.getGestoreCandidati().isCandidatureAperte())
+	 * progetto.getGestoreCandidati().chiudiCandidature();
+	 * progettoRepository.save(progetto); return progetto;
+	 * 
+	 * }
+	 */
 
 	public void setInValutazione(int idProgetto) throws NotFoundException, ProjectStatusException {
 		Progetto progetto = progettoRepository.findById(idProgetto)
@@ -137,13 +125,13 @@ public class ProgettoService {
 		progetto.setStato(Stato.IN_VALUTAZIONE);
 		progettoRepository.save(progetto);
 	}
-	
-	
+
 	public boolean isValutabile(int idProgetto) throws NotFoundException {
-		Progetto progetto = progettoRepository.findById(idProgetto).orElseThrow(()-> new NotFoundException("Progetto non trovato."));
-			if(progetto.getStato().equals(Stato.IN_VALUTAZIONE)) 
-				return false;
-			return true;
+		Progetto progetto = progettoRepository.findById(idProgetto)
+				.orElseThrow(() -> new NotFoundException("Progetto non trovato."));
+		if (progetto.getStato().equals(Stato.IN_VALUTAZIONE))
+			return false;
+		return true;
 	}
 
 	private Set<String> getListName(Collection<? extends InterfaceTag> tags) {

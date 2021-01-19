@@ -21,6 +21,7 @@ import org.springframework.web.bind.annotation.RestController;
 import it.unicam.dmr.doit.controller.Utils;
 import it.unicam.dmr.doit.dataTransferObject.Messaggio;
 import it.unicam.dmr.doit.dataTransferObject.invito.InvitoDto;
+import it.unicam.dmr.doit.dataTransferObject.invito.RispostaInvitoDto;
 import it.unicam.dmr.doit.dataTransferObject.progetto.ProgettoDto;
 import it.unicam.dmr.doit.dataTransferObject.progetto.TagListDto;
 import it.unicam.dmr.doit.progetto.Progetto;
@@ -29,10 +30,8 @@ import it.unicam.dmr.doit.progetto.exception.ExistingElementException;
 import it.unicam.dmr.doit.progetto.exception.NextFaseException;
 import it.unicam.dmr.doit.progetto.exception.ProjectStatusException;
 import it.unicam.dmr.doit.repository.IscrittoRepository;
-import it.unicam.dmr.doit.service.iscritto.InvitoService;
 import it.unicam.dmr.doit.service.iscritto.IscrittoService;
 import it.unicam.dmr.doit.service.iscritto.ruoli.ProponenteService;
-import it.unicam.dmr.doit.service.progetto.ProgettoService;
 import it.unicam.dmr.doit.utenti.Iscritto;
 import javassist.NotFoundException;
 
@@ -57,13 +56,7 @@ import javassist.NotFoundException;
 public class ControllerProponente {
 
 	@Autowired
-	private ProgettoService progettoService;
-
-	@Autowired
 	private IscrittoService<Iscritto, IscrittoRepository<Iscritto>> iscrittoService;
-
-	@Autowired
-	private InvitoService invitoService;
 	@Autowired
 	private ProponenteService proponenteService;
 
@@ -74,7 +67,8 @@ public class ControllerProponente {
 		if (bindingResult.hasErrors())
 			return Utils.creaMessaggioDaErrore(bindingResult);
 		try {
-			return Utils.creaRisposta(progettoService.proponi(progetto, authentication.getName()), HttpStatus.CREATED);
+			return Utils.creaRisposta(proponenteService.proponi(progetto, authentication.getName()),
+					HttpStatus.CREATED);
 		} catch (NoSuchElementException | NotFoundException e) {
 			return Utils.creaMessaggio(e, HttpStatus.NOT_FOUND);
 		}
@@ -84,7 +78,7 @@ public class ControllerProponente {
 	@PutMapping("/chiudi_candidature/{id}")
 	public ResponseEntity<Messaggio> chiudiCandidature(@PathVariable("id") int idProgetto) {
 		try {
-			progettoService.chiudiCandidature(idProgetto);
+			proponenteService.chiudiCandidature(idProgetto);
 			return Utils.creaMessaggio("Candidature chiuse", HttpStatus.OK);
 		} catch (NotFoundException e) {
 			return Utils.creaMessaggio(e, HttpStatus.NOT_FOUND);
@@ -98,7 +92,7 @@ public class ControllerProponente {
 	@PutMapping("/fase_successiva/{id}")
 	public ResponseEntity<Messaggio> faseSuccessiva(@PathVariable("id") int idProgetto) {
 		try {
-			Progetto progetto = progettoService.faseSuccessiva(idProgetto);
+			Progetto progetto = proponenteService.faseSuccessiva(idProgetto);
 			return Utils.creaMessaggio("Progetto nella fase " + progetto.getFase(), HttpStatus.OK);
 		} catch (NotFoundException e) {
 			return Utils.creaMessaggio(e, HttpStatus.NOT_FOUND);
@@ -116,13 +110,8 @@ public class ControllerProponente {
 			return Utils.creaMessaggioDaErrore(bindingResult);
 
 		try {
-			if (!progettoService.isValutabile(invitoDto.getIdProgetto()))
-				return Utils.creaMessaggio("Richiesta di valutazione gia' effettuata.", HttpStatus.BAD_REQUEST);
-
-			invitoService.invia(invitoDto, authentication.getName());
-			progettoService.setInValutazione(invitoDto.getIdProgetto());
+			proponenteService.permetteValutazione(invitoDto, authentication.getName());
 			return Utils.creaMessaggio("Progetto in valutazione", HttpStatus.OK);
-
 		} catch (IllegalArgumentException | ProjectStatusException e) {
 			return Utils.creaMessaggio(e, HttpStatus.BAD_REQUEST);
 		} catch (NotFoundException e) {
@@ -146,6 +135,22 @@ public class ControllerProponente {
 			return Utils.creaMessaggio(e, HttpStatus.BAD_REQUEST);
 		}
 
+	}
+
+	@PreAuthorize("hasRole('PROPONENTE')")
+	@PostMapping("/seleziona_candidati")
+	public ResponseEntity<Messaggio> selezionaCandidati(@Valid @RequestBody RispostaInvitoDto rispostaInvitoDto,
+			BindingResult bindingResult, Authentication authentication) {
+		if (bindingResult.hasErrors())
+			return Utils.creaMessaggioDaErrore(bindingResult);
+		try {
+			proponenteService.selezionaCandidato(rispostaInvitoDto, authentication.getName());
+			return Utils.creaMessaggio("Candidati selezionati", HttpStatus.OK);
+		} catch (IllegalStateException | IllegalArgumentException e) {
+			return Utils.creaMessaggio(e, HttpStatus.BAD_REQUEST);
+		} catch (NotFoundException e) {
+			return Utils.creaMessaggio(e, HttpStatus.NOT_FOUND);
+		}
 	}
 
 	@PreAuthorize("hasRole('PROPONENTE')")

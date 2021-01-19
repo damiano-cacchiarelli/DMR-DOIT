@@ -11,7 +11,6 @@ import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.security.core.Authentication;
 import org.springframework.validation.BindingResult;
 import org.springframework.web.bind.annotation.CrossOrigin;
-import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PutMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
@@ -23,9 +22,7 @@ import it.unicam.dmr.doit.dataTransferObject.invito.InvitoDto;
 import it.unicam.dmr.doit.dataTransferObject.invito.RispostaInvitoDto;
 import it.unicam.dmr.doit.progetto.exception.CandidacyStatusException;
 import it.unicam.dmr.doit.progetto.exception.ExistingElementException;
-import it.unicam.dmr.doit.service.iscritto.InvitoService;
 import it.unicam.dmr.doit.service.iscritto.ruoli.ProgettistaService;
-import it.unicam.dmr.doit.service.progetto.ProgettoService;
 import javassist.NotFoundException;
 
 /**
@@ -43,8 +40,6 @@ public class ControllerProgettista {
 
 	@Autowired
 	private ProgettistaService progettistaService;
-	@Autowired
-	private InvitoService invitoService;
 
 	@PreAuthorize("hasRole('PROGETTISTA')")
 	@PutMapping("/candidati")
@@ -64,25 +59,22 @@ public class ControllerProgettista {
 	}
 
 	@PreAuthorize("hasRole('PROGETTISTA')")
-	@PutMapping("/gestisci_richiesta_partecipazione")
-	public ResponseEntity<Messaggio> gestisciRichiestePartecipazione(
+	@PutMapping("/gestisci_proposta_partecipazione")
+	public ResponseEntity<Messaggio> gestisciPropostaPartecipazione(
 			@Valid @RequestBody RispostaInvitoDto rispostaInvitoDto, BindingResult bindingResult,
 			Authentication authentication) {
 		if (bindingResult.hasErrors())
 			return Utils.creaMessaggioDaErrore(bindingResult);
 
 		try {
-			invitoService.gestisciRichiestePartecipazione(rispostaInvitoDto, authentication.getName());
+			progettistaService.gestisciPropostaPartecipazione(rispostaInvitoDto, authentication.getName());
 
 			return Utils.creaMessaggio("L'invito e' stato " + rispostaInvitoDto.getRisposta().toString().toLowerCase(),
 					HttpStatus.OK);
-		} catch (IllegalStateException | IllegalArgumentException | ExistingElementException
-				| CandidacyStatusException e) {
+		} catch (IllegalStateException | IllegalArgumentException | NoSuchElementException e) {
 			return Utils.creaMessaggio(e, HttpStatus.BAD_REQUEST);
 		} catch (NotFoundException e) {
 			return Utils.creaMessaggio(e, HttpStatus.NOT_FOUND);
-		}catch (NoSuchElementException e) {
-			return Utils.creaMessaggio(e, HttpStatus.CONFLICT);
 		}
 	}
 }

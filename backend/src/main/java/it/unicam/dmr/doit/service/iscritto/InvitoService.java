@@ -1,7 +1,6 @@
 package it.unicam.dmr.doit.service.iscritto;
 
 import java.util.List;
-import java.util.NoSuchElementException;
 import java.util.Optional;
 import java.util.stream.Collectors;
 
@@ -14,18 +13,12 @@ import it.unicam.dmr.doit.dataTransferObject.invito.InvitoDto;
 import it.unicam.dmr.doit.dataTransferObject.invito.RispostaInvitoDto;
 import it.unicam.dmr.doit.invito.Invito;
 import it.unicam.dmr.doit.invito.RuoloSoggetto;
-import it.unicam.dmr.doit.invito.TipologiaInvito;
 import it.unicam.dmr.doit.invito.TipologiaRisposta;
 import it.unicam.dmr.doit.progetto.Progetto;
-import it.unicam.dmr.doit.progetto.Stato;
-import it.unicam.dmr.doit.progetto.exception.CandidacyStatusException;
-import it.unicam.dmr.doit.progetto.exception.ExistingElementException;
 import it.unicam.dmr.doit.repository.InvitoRepository;
 import it.unicam.dmr.doit.repository.IscrittoRepository;
 import it.unicam.dmr.doit.repository.ProgettoRepository;
 import it.unicam.dmr.doit.utenti.Iscritto;
-import it.unicam.dmr.doit.utenti.ruoli.Progettista;
-import it.unicam.dmr.doit.utenti.ruoli.TipologiaRuolo;
 import javassist.NotFoundException;
 
 /**
@@ -134,51 +127,6 @@ public class InvitoService {
 		inviti.forEach(i -> i.setTipologiaRisposta(rispostaInvitoDto.getRisposta()));
 		inviti.forEach(i -> invitoRepository.save(i));
 	}
-
-	public void gestisciRichiestePartecipazione(RispostaInvitoDto rispostaInvitoDto, String identificativoIscritto)
-			throws IllegalArgumentException, NotFoundException, ExistingElementException,
-			CandidacyStatusException, NoSuchElementException {
-
-		Invito invito = invitoRepository.findById(rispostaInvitoDto.getIdInvito()).get(0)
-				.orElseThrow(() -> new NotFoundException("Invito inesistente"));
-		Progetto progetto = progettoRepository.findById(invito.getIdProgetto())
-				.orElseThrow(() -> new NotFoundException("Progetto inesistente."));
-		
-		if(rispostaInvitoDto.getRisposta().equals(TipologiaRisposta.RIFIUTATA)){
-			progetto.getGestoreCandidati().rimuoviProgettista(identificativoIscritto);
-		}
-		/*
-		 * Invito invito =
-		 * invitoRepository.findById(rispostaInvitoDto.getIdInvito()).get(0).get();
-		 * Progetto p = progettoRepository.findById(invito.getIdProgetto()).get(); if
-		 * (invito.getTipologiaInvito() == TipologiaInvito.PROPOSTA ||
-		 * invito.getTipologiaInvito() == TipologiaInvito.RICHIESTA) { if
-		 * (invito.getTipologiaRisposta() == TipologiaRisposta.ACCETTATA) { Iscritto
-		 * iscritto = iscrittoRepository.findById(identificativoIscritto).get();
-		 * Progettista pr = (Progettista)
-		 * iscritto.getRuolo(TipologiaRuolo.ROLE_PROGETTISTA);
-		 * p.getGestoreCandidati().aggiungiCandidato(pr); if
-		 * (invito.getTipologiaInvito() == TipologiaInvito.PROPOSTA)
-		 * p.getGestoreCandidati().confermaCandidato(identificativoIscritto); } }
-		 */
-		gestisci(rispostaInvitoDto, identificativoIscritto);
-		progettoRepository.save(progetto);
-	}
-
-	public void gestisciRifiutaValutazioneProgetto(String idInvito, String identificativo) throws NotFoundException {
-		Invito invito = invitoRepository.findById(idInvito).get(0).get();
-		if (invito.getTipologiaInvito().equals(TipologiaInvito.VALUTAZIONE)) {
-			Progetto progetto = progettoRepository.findById(invito.getIdProgetto())
-					.orElseThrow(() -> new NotFoundException("Progetto non trovato"));
-			if (progetto.getListaValutazioni().size() > 0) {
-				progetto.setStato(Stato.VALUTATO);
-			} else {
-				progetto.setStato(Stato.NON_VALUTATO);
-			}
-			progettoRepository.save(progetto);
-		}
-	}
-
 	/**
 	 * Ricerca tutti gli inviti che sono riferiti ad un iscritto (l'iscritto e' il
 	 * mittente o il destinatario dell'invito).

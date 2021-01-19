@@ -13,7 +13,6 @@ import org.springframework.web.bind.annotation.DeleteMapping;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
-import org.springframework.web.bind.annotation.PutMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
@@ -22,7 +21,6 @@ import it.unicam.dmr.doit.controller.Utils;
 import it.unicam.dmr.doit.dataTransferObject.Messaggio;
 import it.unicam.dmr.doit.dataTransferObject.invito.EliminazioneInvitoDto;
 import it.unicam.dmr.doit.dataTransferObject.invito.InvitoDto;
-import it.unicam.dmr.doit.dataTransferObject.invito.RispostaInvitoDto;
 import it.unicam.dmr.doit.service.iscritto.InvitoService;
 import javassist.NotFoundException;
 
@@ -95,7 +93,7 @@ public class ControllerInvito {
 			return Utils.creaMessaggio(e, HttpStatus.NOT_FOUND);
 		}
 	}
-
+/*
 	@PreAuthorize("hasRole('PROPONENTE') or hasRole('PROGETTISTA') or hasRole('ESPERTO')")
 	@PutMapping("/gestisci")
 	public ResponseEntity<Messaggio> gestisciInvito(@Valid @RequestBody RispostaInvitoDto rispostaInvitoDto,
@@ -113,4 +111,5 @@ public class ControllerInvito {
 			return Utils.creaMessaggio(e, HttpStatus.NOT_FOUND);
 		}
 	}
+*/
 }
