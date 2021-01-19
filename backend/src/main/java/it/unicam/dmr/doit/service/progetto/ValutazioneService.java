@@ -1,5 +1,7 @@
 package it.unicam.dmr.doit.service.progetto;
 
+import java.util.NoSuchElementException;
+
 import javax.transaction.Transactional;
 
 import org.springframework.beans.factory.annotation.Autowired;
@@ -47,7 +49,7 @@ public class ValutazioneService {
 	//private InvitoRepository invitoRepository;
 
 	public void valuta(String idInvito, ValutazioneDto valutazioneDto, String identificativo)
-			throws ExistingElementException, NotFoundException, ProjectStatusException {
+			throws ExistingElementException, NotFoundException, ProjectStatusException, NoSuchElementException {
 
 		Progetto progetto = progettoRepository.findById(valutazioneDto.getIdProgetto())
 				.orElseThrow(() -> new NotFoundException("Progetto non trovato"));

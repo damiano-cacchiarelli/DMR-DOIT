@@ -92,6 +92,7 @@ export class ValutaProgettoComponent implements OnInit {
         this.router.navigate([".."]);
       },
       err => {
+        console.log(err);
         this.toastr.error(err.error.messaggio, "Errore", {
           timeOut: 3000, positionClass: "toast-bottom-right"
         });

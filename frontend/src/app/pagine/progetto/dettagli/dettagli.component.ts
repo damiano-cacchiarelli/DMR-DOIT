@@ -28,6 +28,7 @@ export class DettagliComponent implements OnInit {
   @ViewChild("invitaProgettisti") invitaProgettisti?: InvitaProgettistiComponent;
   @ViewChild("permettiValutazioneProgetto") permettiValutazioneProgetto?: PermettiValutazioneComponent;
 
+  private idProgetto: number = 0;
   private colore: number = 0;
   TipologiaRuolo = TipologiaRuolo;
   Stato = Stato;
@@ -48,8 +49,12 @@ export class DettagliComponent implements OnInit {
   ngOnInit(): void {
 
     this.colore = Math.floor(Math.random() * Tag.COLORI.length + 1);
-    const id: number = this.activatedRoute.snapshot.params.id;
-    this.progettoService.getProgetto(id).subscribe(
+    this.idProgetto = this.activatedRoute.snapshot.params.id;
+    this.aggiornaProgetto();
+  }
+
+  private aggiornaProgetto(): void{
+    this.progettoService.getProgetto(this.idProgetto).subscribe(
       data => {
         this.progetto = data;
       },
@@ -112,7 +117,19 @@ export class DettagliComponent implements OnInit {
     this.opzioniModal.selettoreDaAttivare = "permetti-valutazione";
     this.opzioniModal.onClickProcedi = () => {
       if(this.permettiValutazioneProgetto) this.permettiValutazioneProgetto.idProgetto = this.progetto?.id;
-      this.permettiValutazioneProgetto?.permettiValutazione();
+      this.permettiValutazioneProgetto?.permettiValutazioneObs().subscribe(
+        data => {
+          this.toastr.success(data.messaggio, "OK", {
+            timeOut: 3000, positionClass: "toast-top-center"
+          });
+          this.aggiornaProgetto();
+        },
+        err => {
+          this.toastr.error(err.error.messaggio, "Errore", {
+            timeOut: 3000, positionClass: "toast-top-center"
+          });
+        });
+        
     }
   }
 
@@ -126,6 +143,7 @@ export class DettagliComponent implements OnInit {
           this.toastr.success(data.messaggio, "OK", {
             timeOut: 3000, positionClass: "toast-top-center"
           });
+          this.aggiornaProgetto();
         },
         err => {
           this.toastr.error(err.error.messaggio, "Errore", {

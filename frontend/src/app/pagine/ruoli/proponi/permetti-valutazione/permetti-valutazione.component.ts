@@ -1,5 +1,7 @@
 import { Component, Input, OnInit } from '@angular/core';
+import { resetFakeAsyncZone } from '@angular/core/testing';
 import { ToastrService } from 'ngx-toastr';
+import { Observable } from 'rxjs';
 import { InvitoDto } from 'src/app/modello/invito/invito-dto';
 import { TipologiaInvito } from 'src/app/modello/invito/tipologia-invito.enum';
 import { TipologiaRuolo } from 'src/app/modello/iscritto/tipologia-ruolo.enum';
@@ -14,7 +16,7 @@ import { VisitatoreService } from 'src/app/servizi/visitatore.service';
   styleUrls: ['./permetti-valutazione.component.css']
 })
 export class PermettiValutazioneComponent implements OnInit {
-  
+
   @Input() idProgetto?: number;
   @Input() tags: TagListDto = new TagListDto([]);
 
@@ -41,7 +43,7 @@ export class PermettiValutazioneComponent implements OnInit {
     console.log("ricerca id esperto " + this.idEsperto);
     this.visitatoreService.getIscrittoByRuolo(this.idEsperto, TipologiaRuolo.ROLE_ESPERTO).subscribe(
       data => {
-        if (data.messaggio) {
+        if (!data) {
           this.espertoEsistente = false;
           this.idEsperto = null as any;
         }
@@ -56,10 +58,10 @@ export class PermettiValutazioneComponent implements OnInit {
   }
 
   permettiValutazione(): void {
-    if(!this.idEsperto || this.idEsperto.length == 0 || !this.idProgetto) return;
+    if (!this.idEsperto || this.idEsperto.length == 0 || !this.idProgetto) return;
     //this.invitoService.invia(new InvitoDto(this.messaggioEsperto, TipologiaInvito.VALUTAZIONE, [this.idEsperto], this.idProgetto)).subscribe(
-      this.proponenteService.permettiValutazione(new InvitoDto(this.messaggioEsperto, TipologiaInvito.VALUTAZIONE, [this.idEsperto], this.idProgetto)).subscribe(
-      data => { 
+    this.proponenteService.permettiValutazione(new InvitoDto(this.messaggioEsperto, TipologiaInvito.VALUTAZIONE, [this.idEsperto], this.idProgetto)).subscribe(
+      data => {
         this.toastr.success(data.messaggio, "OK", {
           timeOut: 3000, positionClass: "toast-top-center"
         });
@@ -70,11 +72,19 @@ export class PermettiValutazioneComponent implements OnInit {
         });
       }
     );
-
+    console.log("permetti valutazione");
     this.reset();
   }
 
-  aggiornaEsperti(){
+  permettiValutazioneObs(): Observable<any> {
+    if (!this.idEsperto || this.idEsperto.length == 0 || !this.idProgetto) return null as any;
+    
+    const res = this.proponenteService.permettiValutazione(new InvitoDto(this.messaggioEsperto, TipologiaInvito.VALUTAZIONE, [this.idEsperto], this.idProgetto));
+    this.reset();
+    return res;
+  }
+
+  aggiornaEsperti() {
     this.proponenteService.espertiConsigliati(this.tags).subscribe(
       data => {
         data.forEach(e => {
@@ -87,7 +97,7 @@ export class PermettiValutazioneComponent implements OnInit {
     );
   }
 
-  reset(): void{
+  reset(): void {
     this.espertoEsistente = true;
     this.ricercaEsperto = false;
     this.idEsperto = null as any;

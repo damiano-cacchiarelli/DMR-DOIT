@@ -105,29 +105,32 @@ export class ProponiComponent implements OnInit {
     this.proponenteService.proponi(progetto).subscribe(
       (data: Progetto) => {
         this.idProgetto = data.id;
-        if (this.invitaProgettistiComponent) {
+        if (this.invitaProgettistiComponent && this.invitaProgettistiComponent.progettistiInvitati.size > 0) {
           this.invitaProgettistiComponent.idProgetto = this.idProgetto;
-          this.invitaProgettistiComponent.invitaProgettisti()?.subscribe(data => {
-            this.toastr.success(data.messaggio, "OK", {
-              timeOut: 3000, positionClass: "toast-top-center"
-            });
-            if (this.permettiValutazioneComponent)
-              this.permettiValutazioneComponent.idProgetto = this.idProgetto;
-            if (this.permettiValutazioneComponent && this.sceltaTagComponent)
-              this.permettiValutazioneComponent.tags = this.sceltaTagComponent.getTagsScelti();
-            this.permettiValutazioneComponent?.permettiValutazione();
-          },
+          this.invitaProgettistiComponent.invitaProgettisti()?.subscribe(
+            data => {
+              this.toastr.success(data.messaggio, "OK", {
+                timeOut: 3000, positionClass: "toast-top-center"
+              });
+              if (this.permettiValutazioneComponent)
+                this.permettiValutazioneComponent.idProgetto = this.idProgetto;
+              if (this.permettiValutazioneComponent && this.sceltaTagComponent)
+                this.permettiValutazioneComponent.tags = this.sceltaTagComponent.getTagsScelti();
+              this.permettiValutazioneComponent?.permettiValutazione();
+            },
             err => {
               this.toastr.error(err.error.messaggio, "Errore", {
                 timeOut: 3000, positionClass: "toast-top-center"
               });
             });
+            console.log("invitaProgettistiComponent fuori");
         } else {
           if (this.permettiValutazioneComponent)
             this.permettiValutazioneComponent.idProgetto = this.idProgetto;
           if (this.permettiValutazioneComponent && this.sceltaTagComponent)
             this.permettiValutazioneComponent.tags = this.sceltaTagComponent.getTagsScelti();
           this.permettiValutazioneComponent?.permettiValutazione();
+          console.log("permetti valutazione fuori");
         }
         this.toastr.success("Progetto creato!", "OK", {
           timeOut: 3000, positionClass: "toast-top-center"

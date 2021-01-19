@@ -1,5 +1,7 @@
 package it.unicam.dmr.doit.controller.iscritto.ruolo;
 
+import java.util.NoSuchElementException;
+
 import javax.validation.Valid;
 
 import org.springframework.beans.factory.annotation.Autowired;
@@ -49,7 +51,6 @@ public class ControllerEsperto {
 	public ResponseEntity<?> valutaProgetto(@PathVariable("id_invito") String idInvito,
 			@Valid @RequestBody ValutazioneDto valutazioneDto, BindingResult bindingResult,
 			Authentication authentication) throws ProjectStatusException {
-
 		if (bindingResult.hasErrors())
 			return Utils.creaMessaggioDaErrore(bindingResult);
 
@@ -57,8 +58,8 @@ public class ControllerEsperto {
 			invitoService.gestisci(new RispostaInvitoDto(idInvito, TipologiaRisposta.ACCETTATA),
 					authentication.getName());
 			valutazioneService.valuta(idInvito, valutazioneDto, authentication.getName());
-			return new ResponseEntity<>("Valutazione aggiunta", HttpStatus.OK);
-		} catch (ExistingElementException | ProjectStatusException | IllegalStateException e) {
+			return Utils.creaMessaggio("Valutazione aggiunta", HttpStatus.OK);
+		} catch (NoSuchElementException | ExistingElementException | ProjectStatusException | IllegalStateException e) {
 			return Utils.creaMessaggio(e, HttpStatus.BAD_REQUEST);
 		} catch (NotFoundException e) {
 			return Utils.creaMessaggio(e, HttpStatus.NOT_FOUND);

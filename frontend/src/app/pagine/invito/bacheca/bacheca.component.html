@@ -47,16 +47,16 @@
                                 </div>
                             </div>
                             <div class="row">
-                                <div class="col" *ngIf="invito.tipologiaRisposta == TipologiaRisposta.IN_ATTESA && TipologiaInvito[invito.tipologiaInvito] != TipologiaInvito.VALUTAZIONE">
+                                <div class="col" *ngIf="invito.tipologiaRisposta == TipologiaRisposta.IN_ATTESA">
                                     <button *ngIf="invito.tipologiaInvito != TipologiaInvito.VALUTAZIONE"
                                         class="btn btn-sm btn-outline-success m-1" (click)="onAccetta(invito.id)"><i
                                             class="far fa-check-square"></i></button>
                                     <button
-                                        *ngIf="TipologiaInvito[invito.tipologiaInvito] == TipologiaInvito.VALUTAZIONE && hasRuolo('ROLE_ESPERTO')"
+                                    *ngIf="invito.tipologiaInvito == TipologiaInvito.VALUTAZIONE && hasRuolo('ROLE_ESPERTO')"
                                         class="btn btn-sm btn-outline-primary m-1"
                                         routerLink="/esperto/valuta/{{invito.idProgetto}}/{{invito.id}}"><i
                                             class="far fa-question-circle"></i></button>
-                                    <button *ngIf="invito.tipologiaRisposta == TipologiaRisposta.IN_ATTESA && TipologiaInvito[invito.tipologiaInvito] != TipologiaInvito.VALUTAZIONE"
+                                    <button *ngIf="invito.tipologiaRisposta == TipologiaRisposta.IN_ATTESA"
                                         class="btn btn-sm btn-outline-warning m-1" (click)="onRifiuta(invito.id)">
                                         <i class="far fa-window-close"></i></button>
                                 </div>
