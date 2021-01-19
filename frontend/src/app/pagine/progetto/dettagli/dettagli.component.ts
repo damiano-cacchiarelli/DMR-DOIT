@@ -14,6 +14,8 @@ import { PermettiValutazioneComponent } from '../../ruoli/proponi/permetti-valut
 import { ProgettistaService } from 'src/app/servizi/progettista.service';
 import { Valutazione } from 'src/app/modello/progetto/valutazione';
 import { ValutazioneCandidati } from "src/app/modello/progetto/valutazione-candidati";
+import { InvitoDto } from 'src/app/modello/invito/invito-dto';
+import { TipologiaInvito } from 'src/app/modello/invito/tipologia-invito.enum';
 
 @Component({
   selector: 'app-dettagli',
@@ -53,7 +55,7 @@ export class DettagliComponent implements OnInit {
     this.aggiornaProgetto();
   }
 
-  private aggiornaProgetto(): void{
+  private aggiornaProgetto(): void {
     this.progettoService.getProgetto(this.idProgetto).subscribe(
       data => {
         this.progetto = data;
@@ -116,7 +118,7 @@ export class DettagliComponent implements OnInit {
     this.opzioniModal.titolo = "Permetti valutazione progetto";
     this.opzioniModal.selettoreDaAttivare = "permetti-valutazione";
     this.opzioniModal.onClickProcedi = () => {
-      if(this.permettiValutazioneProgetto) this.permettiValutazioneProgetto.idProgetto = this.progetto?.id;
+      if (this.permettiValutazioneProgetto) this.permettiValutazioneProgetto.idProgetto = this.progetto?.id;
       this.permettiValutazioneProgetto?.permettiValutazioneObs().subscribe(
         data => {
           this.toastr.success(data.messaggio, "OK", {
@@ -129,7 +131,7 @@ export class DettagliComponent implements OnInit {
             timeOut: 3000, positionClass: "toast-top-center"
           });
         });
-        
+
     }
   }
 
@@ -137,7 +139,7 @@ export class DettagliComponent implements OnInit {
     this.opzioniModal.titolo = "Invita progettisti";
     this.opzioniModal.selettoreDaAttivare = "invita-progettisti";
     this.opzioniModal.onClickProcedi = () => {
-      if(this.invitaProgettisti) this.invitaProgettisti.idProgetto = this.progetto?.id;
+      if (this.invitaProgettisti) this.invitaProgettisti.idProgetto = this.progetto?.id;
       this.invitaProgettisti?.invitaProgettisti().subscribe(
         data => {
           this.toastr.success(data.messaggio, "OK", {
@@ -158,7 +160,7 @@ export class DettagliComponent implements OnInit {
     this.opzioniModal.messaggio = "Sei sicuro di voler candidarti al progetto?";
     this.opzioniModal.onClickProcedi = () => {
       if (this.progetto)
-        this.progettistaService.candidati(this.progetto.id).subscribe(
+        this.progettistaService.candidati(new InvitoDto("Vorrei candidarmi al progetto", TipologiaInvito.RICHIESTA, [this.progetto.idProponente], this.progetto.id)).subscribe(
           data => {
             this.toastr.success(data.messaggio, "OK", {
               timeOut: 3000, positionClass: "toast-bottom-right"

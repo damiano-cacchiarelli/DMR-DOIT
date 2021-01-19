@@ -59,7 +59,7 @@ public class ProgettoService {
 		return progettoRepository.findAll();
 	}
 
-	public void salvaProgetto(Progetto p) {
+	public void salva(Progetto p) {
 		progettoRepository.save(p);
 	}
 
@@ -104,42 +104,6 @@ public class ProgettoService {
 
 	public Collection<Valutazione> getAllValutazioni(int idProgetto) throws NotFoundException {
 		return findById(idProgetto).getListaValutazioni();
-	}
-	
-	public void partecipaAlProgetto(String idIscritto, int idProgetto) throws NoSuchElementException, NotFoundException, ExistingElementException {
-		Progettista progettista = (Progettista) iscrittoRepository.findById(idIscritto)
-				.orElseThrow(() -> new NotFoundException("Iscritto inesistente")).getRuolo(TipologiaRuolo.ROLE_PROGETTISTA);
-		Progetto progetto = progettoRepository.findById(idProgetto)
-				.orElseThrow(() -> new NotFoundException("Progetto inesistente"));
-		progetto.getGestoreCandidati().aggiungiPartecipante(progettista);
-	}
-
-
-	public void candidatiAlProgetto(String idIscritto, int idProgetto)
-			throws NotFoundException, ExistingElementException, CandidacyStatusException, IllegalArgumentException {
-		Progettista progettista = (Progettista) iscrittoRepository.findById(idIscritto)
-				.orElseThrow(() -> new NotFoundException("Iscritto inesistente"))
-				.getRuolo(TipologiaRuolo.ROLE_PROGETTISTA);
-		Progetto progetto = progettoRepository.findById(idProgetto)
-				.orElseThrow(() -> new NotFoundException("Progetto inesistente"));
-		if(progetto.getIdProponente().equals(idIscritto))
-			throw new IllegalArgumentException();
-		progetto.getGestoreCandidati().aggiungiCandidato(progettista);
-
-	}
-
-	public Progetto proponi(ProgettoDto progetto, String identificativo)
-			throws NoSuchElementException, NotFoundException {
-
-		Proponente proponente = (Proponente) iscrittoRepository.findById(identificativo)
-				.orElseThrow(() -> new NotFoundException("Iscritto inesistente"))
-				.getRuolo(TipologiaRuolo.ROLE_PROPONENTE);
-		Set<Tag> tags = tagService
-				.getTags(progetto.getTags().stream().map(TagDto::getNome).collect(Collectors.toList()));
-		Progetto p = new Progetto(progetto.getNome(), progetto.getObiettivi(), progetto.getRequisiti(), proponente,
-				tags);
-		progettoRepository.save(p);
-		return p;
 	}
 
 	public void chiudiCandidature(int idProgetto) throws NotFoundException, CandidacyStatusException {

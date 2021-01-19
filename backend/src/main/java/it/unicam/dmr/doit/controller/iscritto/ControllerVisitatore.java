@@ -55,7 +55,7 @@ public class ControllerVisitatore<I extends Iscritto, R extends IscrittoReposito
 	@GetMapping("/{id}")
 	public ResponseEntity<?> getIscritto(@PathVariable("id") String idIscritto) {
 		try {
-			return Utils.creaRisposta(iscrittoService.getIscritto(idIscritto), HttpStatus.OK);
+			return Utils.creaRisposta(iscrittoService.findById(idIscritto), HttpStatus.OK);
 		} catch (NotFoundException e) {
 			return Utils.creaMessaggio(e, HttpStatus.NOT_FOUND);
 		}

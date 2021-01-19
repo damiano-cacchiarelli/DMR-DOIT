@@ -19,10 +19,12 @@ import org.springframework.web.bind.annotation.RestController;
 
 import it.unicam.dmr.doit.controller.Utils;
 import it.unicam.dmr.doit.dataTransferObject.Messaggio;
+import it.unicam.dmr.doit.dataTransferObject.invito.InvitoDto;
 import it.unicam.dmr.doit.dataTransferObject.invito.RispostaInvitoDto;
 import it.unicam.dmr.doit.progetto.exception.CandidacyStatusException;
 import it.unicam.dmr.doit.progetto.exception.ExistingElementException;
 import it.unicam.dmr.doit.service.iscritto.InvitoService;
+import it.unicam.dmr.doit.service.iscritto.ruoli.ProgettistaService;
 import it.unicam.dmr.doit.service.progetto.ProgettoService;
 import javassist.NotFoundException;
 
@@ -40,16 +42,19 @@ import javassist.NotFoundException;
 public class ControllerProgettista {
 
 	@Autowired
-	private ProgettoService progettoService;
+	private ProgettistaService progettistaService;
 	@Autowired
 	private InvitoService invitoService;
 
 	@PreAuthorize("hasRole('PROGETTISTA')")
-	@PutMapping("/candidati/{id_progetto}")
-	public ResponseEntity<Messaggio> candidatiAlProgetto(@PathVariable("id_progetto") int idProgetto,
-			Authentication authentication) {
+	@PutMapping("/candidati")
+	public ResponseEntity<Messaggio> candidatiAlProgetto(@Valid @RequestBody InvitoDto invitoDto,
+			BindingResult bindingResult, Authentication authentication) {
+		if (bindingResult.hasErrors())
+			return Utils.creaMessaggioDaErrore(bindingResult);
+		
 		try {
-			progettoService.candidatiAlProgetto(authentication.getName(), idProgetto);
+			progettistaService.candidatiAlProgetto(authentication.getName(), invitoDto);
 			return Utils.creaMessaggio("Candidatura effettuata", HttpStatus.OK);
 		} catch (NotFoundException e) {
 			return Utils.creaMessaggio(e, HttpStatus.NOT_FOUND);
