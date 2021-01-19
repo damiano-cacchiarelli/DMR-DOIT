@@ -37,8 +37,8 @@ export class ProponenteService {
     return this.httpClient.post<any>(this.proponenteURL + "/permetti_valutazione" , invito);
   }
 
-  public gestisciRichiestaPartecipazione(rispostaInvito: RispostaInvitoDto): Observable<any> {
-    throw new Error('Method not implemented.');
+  public selezionaCandidati(rispostaInvito: RispostaInvitoDto): Observable<any> {
+    return this.httpClient.post<any>(this.proponenteURL + "/seleziona_candidati" , rispostaInvito);
   }
 
   public invitaProgettista(invito: InvitoDto): Observable<any> {

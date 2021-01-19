@@ -105,13 +105,13 @@ export class BachecaComponent implements OnInit {
     this.inviti.forEach(invi => { if (invi.id == rispostaInvito.idInvito) i = invi; });
     switch (i.tipologiaInvito) {
       case TipologiaInvito.PROPOSTA:
-        this.responseSub(this.progettistaService.gestisciRichiestaPartecipazione(rispostaInvito));
+        this.responseSub(this.progettistaService.gestisciPropostaPartecipazione(rispostaInvito));
         break;
       case TipologiaInvito.VALUTAZIONE:
         this.responseSub(this.espertoService.rifiutaValutazione(rispostaInvito));
         break;
       case TipologiaInvito.RICHIESTA:
-        this.responseSub(this.proponenteService.gestisciRichiestaPartecipazione(rispostaInvito));
+        this.responseSub(this.proponenteService.selezionaCandidati(rispostaInvito));
         break;
       default:
         break;

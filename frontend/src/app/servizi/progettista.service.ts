@@ -17,7 +17,7 @@ export class ProgettistaService {
     return this.httpClient.put<any>(this.progettistaURL + "/candidati", invitoDto);
   }
 
-  public gestisciRichiestaPartecipazione(risposta: RispostaInvitoDto): Observable<any>{
-    return this.httpClient.put<any>(this.progettistaURL + "/gestisci_richiesta_partecipazione", risposta);
+  public gestisciPropostaPartecipazione(risposta: RispostaInvitoDto): Observable<any>{
+    return this.httpClient.put<any>(this.progettistaURL + "/gestisci_proposta_partecipazione", risposta);
   }
 }

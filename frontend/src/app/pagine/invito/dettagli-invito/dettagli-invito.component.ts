@@ -4,11 +4,9 @@ import { ToastrService } from 'ngx-toastr';
 import { Observable } from 'rxjs';
 import { Invito } from 'src/app/modello/invito/invito';
 import { RispostaInvitoDto } from 'src/app/modello/invito/risposta-invito-dto';
-import { RuoloSoggetto } from 'src/app/modello/invito/ruolo-soggetto.enum';
 import { TipologiaInvito } from 'src/app/modello/invito/tipologia-invito.enum';
 import { TipologiaRisposta } from 'src/app/modello/invito/tipologia-risposta.enum';
 import { TipologiaRuolo } from 'src/app/modello/iscritto/tipologia-ruolo.enum';
-import { Progetto } from 'src/app/modello/progetto/progetto';
 import { EspertoService } from 'src/app/servizi/esperto.service';
 import { InvitoService } from 'src/app/servizi/invito.service';
 import { ProgettistaService } from 'src/app/servizi/progettista.service';
@@ -65,13 +63,13 @@ export class DettagliInvitoComponent implements OnInit {
   private gestisci(rispostaInvito: RispostaInvitoDto): void {
     switch (this.invito?.tipologiaInvito) {
       case TipologiaInvito.PROPOSTA:
-        this.responseSub(this.progettistaService.gestisciRichiestaPartecipazione(rispostaInvito));
+        this.responseSub(this.progettistaService.gestisciPropostaPartecipazione(rispostaInvito));
         break;
       case TipologiaInvito.VALUTAZIONE:
         this.responseSub(this.espertoService.rifiutaValutazione(rispostaInvito));
         break;
       case TipologiaInvito.RICHIESTA:
-        this.responseSub(this.proponenteService.gestisciRichiestaPartecipazione(rispostaInvito));
+        this.responseSub(this.proponenteService.selezionaCandidati(rispostaInvito));
         break;
       default:
         break;
