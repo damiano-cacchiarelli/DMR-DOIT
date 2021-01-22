@@ -4,6 +4,7 @@ import { ToastrService } from 'ngx-toastr';
 import { Observable } from 'rxjs';
 import { Invito } from 'src/app/modello/invito/invito';
 import { RispostaInvitoDto } from 'src/app/modello/invito/risposta-invito-dto';
+import { RuoloSoggetto } from 'src/app/modello/invito/ruolo-soggetto.enum';
 import { TipologiaInvito } from 'src/app/modello/invito/tipologia-invito.enum';
 import { TipologiaRisposta } from 'src/app/modello/invito/tipologia-risposta.enum';
 import { TipologiaRuolo } from 'src/app/modello/iscritto/tipologia-ruolo.enum';
@@ -24,6 +25,7 @@ export class DettagliInvitoComponent implements OnInit {
   TipologiaRisposta = TipologiaRisposta;
   TipologiaInvito = TipologiaInvito;
   TipologiaRuolo = TipologiaRuolo;
+  RuoloSoggetto = RuoloSoggetto;
 
   constructor(
     private activatedRoute: ActivatedRoute,

@@ -111,6 +111,8 @@ public class ProponenteService {
 			progetto.getGestoreCandidati().confermaCandidato(invito.getIdMittente());
 		} else {
 			progetto.getGestoreCandidati().rimuoviProgettista(invito.getIdMittente());
+			Progettista progettista = (Progettista) iscrittoService.getByRuolo(TipologiaRuolo.ROLE_PROGETTISTA, invito.getIdMittente());
+			progettoService.rimuoviProgettista(progetto.getId(), progettista.getId());
 		}
 		progettoService.salva(progetto);
 	}

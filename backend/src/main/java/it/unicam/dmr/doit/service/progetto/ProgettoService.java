@@ -69,6 +69,11 @@ public class ProgettoService {
 		}
 		return progetti;
 	}
+	
+	public void rimuoviProgettista(int idProgetto, int idProgettista) {
+		progettoRepository.deleteProgettistaCandidato(idProgetto, idProgettista);
+		progettoRepository.deleteProgettistaPartecipante(idProgetto, idProgettista);
+	}
 
 	public Set<Progetto> findProgettiPersonali(String identificativo, List<RuoloDto> ruoli) throws NotFoundException {
 		Set<Progetto> progetti = new HashSet<>();
@@ -145,5 +150,4 @@ public class ProgettoService {
 			ruoli.add(new RuoloDto(tr));
 		}
 	}
-
 }

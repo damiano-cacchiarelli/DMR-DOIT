@@ -24,6 +24,7 @@ export class BachecaComponent implements OnInit {
 
   TipologiaInvito = TipologiaInvito;
   TipologiaRisposta = TipologiaRisposta;
+  RuoloSoggetto = RuoloSoggetto;
 
   cercaMessaggio: string = "";
 

@@ -87,21 +87,24 @@
       <hr class="my-4">
       <div *ngIf="progetto.gestoreCandidati.identificativiCandidati.length != 0 ">
         <p>Candidati:
-          <a *ngFor="let idProgettista of progetto.gestoreCandidati.identificativiCandidati"
-            routerLink="/visitatore/{{idProgettista}}">
-            <span class="lead">{{idProgettista}} </span>
-          </a>
+          <span *ngFor="let idProgettista of progetto.gestoreCandidati.identificativiCandidati">
+            <a routerLink="/visitatore/{{idProgettista}}">
+              <span class="lead">{{idProgettista}}</span>
+            </a> 
+          </span>
         </p>
       </div>
       <div *ngIf="progetto.gestoreCandidati.identificativiPartecipanti.length != 0 ">
         <p>Partecipanti:
-          <a *ngFor="let idProgettista of progetto.gestoreCandidati.identificativiPartecipanti"
-            routerLink="/visitatore/{{idProgettista}}">
-            <span class="lead">{{idProgettista}} </span>
-          </a>
+          <span *ngFor="let idProgettista of progetto.gestoreCandidati.identificativiPartecipanti">
+            <a routerLink="/visitatore/{{idProgettista}}">
+              <span class="lead">{{idProgettista}}</span>
+            </a> 
+          </span>
         </p>
       </div>
-      <div *ngIf="progetto.gestoreCandidati.identificativiCandidati.length == 0 && progetto.gestoreCandidati.identificativiPartecipanti.length == 0">
+      <div
+        *ngIf="progetto.gestoreCandidati.identificativiCandidati.length == 0 && progetto.gestoreCandidati.identificativiPartecipanti.length == 0">
         <h3>Nessun progettista presente.</h3>
       </div>
       <div class="jumbotron jumbotron-fluid mt-5 text-center">
@@ -138,7 +141,8 @@
               data-bs-target="#genericModal" (click)="invitaProgettista()">Invita un
               Progettista</td>
           </tr>
-          <tr *ngIf="hasRuolo(TipologiaRuolo.ROLE_PROGETTISTA)">
+          <tr
+            *ngIf="hasRuolo(TipologiaRuolo.ROLE_PROGETTISTA) && !hasRuolo(TipologiaRuolo.ROLE_PROPONENTE) && progetto.fase != Fase.INIZIO">
             <td class="list-group-item btn btn-outline-primary border-0 my-1" data-bs-toggle="modal"
               data-bs-target="#genericModal" (click)="partecipa()">Partecipa</td>
           </tr>
@@ -152,13 +156,14 @@
 
 
   <!-- Modal -->
-  <div class="modal modal-dialog-scrollable fade" id="genericModal" data-bs-backdrop="static" data-bs-keyboard="false" tabindex="-1" aria-labelledby="genericModalLabel"
-    aria-hidden="true">
+  <div class="modal modal-dialog-scrollable fade" id="genericModal" data-bs-backdrop="static" data-bs-keyboard="false"
+    tabindex="-1" aria-labelledby="genericModalLabel" aria-hidden="true">
     <div class="modal-dialog">
       <div class="modal-content">
         <div class="modal-header">
           <h2 class="modal-title" id="genericModalLabel">{{opzioniModal.titolo}}</h2>
-          <button type="button" (click)="chiudiModal()" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+          <button type="button" (click)="chiudiModal()" class="btn-close" data-bs-dismiss="modal"
+            aria-label="Close"></button>
         </div>
         <div class="modal-body text-center">
           {{opzioniModal.messaggio}}
