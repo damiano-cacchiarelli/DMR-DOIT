@@ -90,7 +90,7 @@
           <span *ngFor="let idProgettista of progetto.gestoreCandidati.identificativiCandidati">
             <a routerLink="/visitatore/{{idProgettista}}">
               <span class="lead">{{idProgettista}}</span>
-            </a> 
+            </a><span>&nbsp;</span>
           </span>
         </p>
       </div>
@@ -99,7 +99,7 @@
           <span *ngFor="let idProgettista of progetto.gestoreCandidati.identificativiPartecipanti">
             <a routerLink="/visitatore/{{idProgettista}}">
               <span class="lead">{{idProgettista}}</span>
-            </a> 
+            </a><span>&nbsp;</span>
           </span>
         </p>
       </div>
@@ -142,7 +142,7 @@
               Progettista</td>
           </tr>
           <tr
-            *ngIf="hasRuolo(TipologiaRuolo.ROLE_PROGETTISTA) && !hasRuolo(TipologiaRuolo.ROLE_PROPONENTE) && progetto.fase != Fase.INIZIO">
+            *ngIf="hasRuolo(TipologiaRuolo.ROLE_PROGETTISTA) && !proprietarioProgetto() && progetto.fase == Fase.INIZIO">
             <td class="list-group-item btn btn-outline-primary border-0 my-1" data-bs-toggle="modal"
               data-bs-target="#genericModal" (click)="partecipa()">Partecipa</td>
           </tr>

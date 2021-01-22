@@ -56,7 +56,6 @@ export class InvitaProgettistiComponent implements OnInit {
     this.ricercaProgettista = true;
     this.visitatoreService.getIscrittoByRuolo(this.idProgettista, TipologiaRuolo.ROLE_PROGETTISTA).subscribe(
       data => {
-        console.log(data);
         if (!data) {
           this.progettistaEsistente = false;
           this.idProgettista = null as any;
@@ -68,7 +67,6 @@ export class InvitaProgettistiComponent implements OnInit {
         this.ricercaProgettista = false;
       },
       err => {
-        console.log(err);
         this.progettistaEsistente = false;
         this.ricercaProgettista = false;
       }
