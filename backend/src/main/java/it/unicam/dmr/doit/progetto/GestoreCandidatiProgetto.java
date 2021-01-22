@@ -32,16 +32,16 @@ import javassist.NotFoundException;
 public class GestoreCandidatiProgetto {
 
 	/**
-	 * Lista di progettisti (ruolo) che sono stati invitati o si sono candidati al progetto
-	 * ma che la loro candidatura non e' stata ancora confermata.
+	 * Lista di progettisti (ruolo) che sono stati invitati o si sono candidati al
+	 * progetto ma che la loro candidatura non e' stata ancora confermata.
 	 */
 	@JsonBackReference
 	@ManyToMany(fetch = FetchType.LAZY)
 	private Set<Progettista> candidatiAlProgetto = new HashSet<>();
 
 	/**
-	 * Lista di progettisti (ruolo) che sono stati invitati o si sono candidati al progetto
-	 * e che la loro candidatura e' stata confermata.
+	 * Lista di progettisti (ruolo) che sono stati invitati o si sono candidati al
+	 * progetto e che la loro candidatura e' stata confermata.
 	 */
 	@JsonBackReference
 	@ManyToMany(fetch = FetchType.LAZY)
@@ -73,7 +73,7 @@ public class GestoreCandidatiProgetto {
 		return ids;
 	}
 
-	public void chiudiCandidature(){
+	public void chiudiCandidature() {
 		this.candidature = false;
 	}
 
@@ -90,34 +90,42 @@ public class GestoreCandidatiProgetto {
 		partecipantiAlProgetto.add(progettista);
 		candidatiAlProgetto.remove(progettista);
 	}
-	
-	public void aggiungiPartecipante(Progettista progettista) throws ExistingElementException {
-		if(candidatiAlProgetto.contains(progettista)) {
+
+	/**
+	 * @param progettista
+	 * @return
+	 * @throws NoSuchElementException
+	 */
+	public boolean aggiungiPartecipante(Progettista progettista) throws NoSuchElementException {
+		if (candidatiAlProgetto.contains(progettista)) {
 			confermaCandidato(progettista.getIscritto().getIdentificativo());
-		}else if(!partecipantiAlProgetto.add(progettista))
-			throw new ExistingElementException("Il progettista partecipa gia'");
+			return true;
+		}
+		return partecipantiAlProgetto.add(progettista);
+
+		// throw new ExistingElementException("Il progettista partecipa gia'");
 	}
-	
+
 	public void rimuoviProgettista(String idProgettista) throws NotFoundException {
-		if(!progettistaPresente(idProgettista))
+		if (!progettistaPresente(idProgettista))
 			throw new NotFoundException("il progettista non e' presente");
-		
+
 		Iterator<Progettista> iteratorCandidati = candidatiAlProgetto.iterator();
-		while(iteratorCandidati.hasNext()) {
-			if(iteratorCandidati.next().getIscritto().getIdentificativo().equals(idProgettista)) {
+		while (iteratorCandidati.hasNext()) {
+			if (iteratorCandidati.next().getIscritto().getIdentificativo().equals(idProgettista)) {
 				iteratorCandidati.remove();
 				return;
 			}
 		}
-		
+
 		Iterator<Progettista> iteratorpartecipanti = partecipantiAlProgetto.iterator();
-		while(iteratorpartecipanti.hasNext()) {
-			if(iteratorpartecipanti.next().getIscritto().getIdentificativo().equals(idProgettista)) {
+		while (iteratorpartecipanti.hasNext()) {
+			if (iteratorpartecipanti.next().getIscritto().getIdentificativo().equals(idProgettista)) {
 				iteratorpartecipanti.remove();
 				return;
 			}
 		}
-		
+
 	}
 
 	public boolean progettistaPresente(String idProgettista) {

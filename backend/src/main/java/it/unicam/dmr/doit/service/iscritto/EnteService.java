@@ -1,5 +1,7 @@
 package it.unicam.dmr.doit.service.iscritto;
 
+import java.util.Date;
+
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
@@ -22,10 +24,18 @@ import javassist.NotFoundException;
 @Transactional
 public class EnteService extends IscrittoService<Ente, EnteRepository> {
 
-	public Ente registra(EnteDto enteDto) throws ExistingElementException {
-		if(iscrittoRepository.esiste(enteDto.getIdentificativo(), enteDto.getEmail()) != null)
+	/**
+	 * @param enteDto
+	 * @return
+	 * @throws ExistingElementException
+	 * @throws IllegalArgumentException
+	 */
+	public Ente registra(EnteDto enteDto) throws ExistingElementException,IllegalArgumentException {
+		if (iscrittoRepository.esiste(enteDto.getIdentificativo(), enteDto.getEmail()) != null)
 			throw new ExistingElementException("L'identificativo o l'email sono gia' in uso.");
-		
+		if (enteDto.getAnnoDiFondazione().after(new Date()))
+			throw new IllegalArgumentException("Anno di fondazione errato");
+
 		Ente ente = new Ente(enteDto.getIdentificativo(), enteDto.getEmail(),
 				passwordEncoder.encode(enteDto.getPassword()), enteDto.getSede(), enteDto.getAnnoDiFondazione());
 		iscrittoRepository.save(ente);
