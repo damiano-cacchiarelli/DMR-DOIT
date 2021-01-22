@@ -6,6 +6,8 @@ import { RuoloGuard } from './guardie/ruolo.guard';
 import { TipologiaRuolo } from './modello/iscritto/tipologia-ruolo.enum';
 import { AccediComponent } from './pagine/autenticazione/accedi/accedi.component';
 import { RegistratiComponent } from './pagine/autenticazione/registrati/registrati.component';
+import { ForbiddenComponent } from './pagine/error/forbidden/forbidden.component';
+import { NotFoundComponent } from './pagine/error/not-found/not-found.component';
 import { HomeComponent } from './pagine/home/home.component';
 import { BachecaComponent } from './pagine/invito/bacheca/bacheca.component';
 import { DettagliInvitoComponent } from './pagine/invito/dettagli-invito/dettagli-invito.component';
@@ -29,10 +31,10 @@ const routes: Routes = [
   
   {path: "bacheca", component: BachecaComponent, canActivate: [AutenticatoGuard], data: new Data([], true)},
   {path: "bacheca/:id", component: DettagliInvitoComponent, canActivate: [AutenticatoGuard], data: new Data([], true)},
-  // Esempio su come utilizzare la guardia RuoloGurad
-  {path: "test", component: RegistratiComponent, canActivate: [RuoloGuard], data: new Data([TipologiaRuolo.ROLE_PROPONENTE, TipologiaRuolo.ROLE_ESPERTO])},
-    
-  {path: "**", redirectTo: "", pathMatch: "full"}
+  {path: "not-found", component: NotFoundComponent},  
+  {path: "forbidden", component: ForbiddenComponent}, 
+
+  {path: "**", redirectTo: "not-found", pathMatch: "full"}
 ];
 
 @NgModule({

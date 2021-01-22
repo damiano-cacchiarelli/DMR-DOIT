@@ -18,7 +18,7 @@ export class RuoloGuard implements CanActivate {
 
   canActivate(route: ActivatedRouteSnapshot, state: RouterStateSnapshot): boolean {
     if (!this.autenticatoGuard.canActivate(route, state)){
-      this.router.navigate(["/"]);
+      this.router.navigate(["/forbidden"]);
       return false;
     }
 
@@ -33,7 +33,7 @@ export class RuoloGuard implements CanActivate {
     });
     if (haRuolo) return true;
 
-    this.router.navigate(["/"])
+    this.router.navigate(["/forbidden"])
     return false;
     /*
     if (!this.tokenService.getToken() || !haRuolo) {

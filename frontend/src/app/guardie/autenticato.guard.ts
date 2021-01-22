@@ -13,13 +13,13 @@ export class AutenticatoGuard implements CanActivate {
     console.log(loggedIn);
     if(loggedIn){
       if (!this.tokenService.isLogged()) {
-        this.router.navigate(["/"])
+        this.router.navigate(["/forbidden"])
         return false;
       }
       return true;
     }else{
       if (this.tokenService.isLogged()) {
-        this.router.navigate(["/"])
+        this.router.navigate(["/forbidden"])
         return false;
       }
       return true;

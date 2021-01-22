@@ -30,6 +30,8 @@ import { ValutaProgettoComponent } from './pagine/ruoli/esperto/valuta-progetto/
 import { InvitaProgettistiComponent } from './pagine/ruoli/proponi/invita-progettisti/invita-progettisti.component';
 import { PermettiValutazioneComponent } from './pagine/ruoli/proponi/permetti-valutazione/permetti-valutazione.component';
 import { SceltaTagComponent } from './pagine/progetto/vetrina-progetti/scelta-tag/scelta-tag.component';
+import { ForbiddenComponent } from './pagine/error/forbidden/forbidden.component';
+import { NotFoundComponent } from './pagine/error/not-found/not-found.component';
 
 @NgModule({
   declarations: [
@@ -51,7 +53,9 @@ import { SceltaTagComponent } from './pagine/progetto/vetrina-progetti/scelta-ta
     ValutaProgettoComponent,
     InvitaProgettistiComponent,
     PermettiValutazioneComponent,
-    SceltaTagComponent
+    SceltaTagComponent,
+    ForbiddenComponent,
+    NotFoundComponent
   ],
   imports: [
     BrowserModule,

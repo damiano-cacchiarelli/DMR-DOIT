@@ -1,5 +1,4 @@
 import { Component, OnInit } from '@angular/core';
-import { TipologiaRuolo } from 'src/app/modello/iscritto/tipologia-ruolo.enum';
 import { TokenService } from 'src/app/servizi/token.service';
 
 @Component({
@@ -23,5 +22,9 @@ export class MenuComponent implements OnInit {
 
   hasRuolo(ruolo: string): boolean{
     return this.tokenService.getRuoli().indexOf(ruolo) >= 0;
+  }
+
+  getId(): string{
+    return this.tokenService.getIdentificativo() as string;
   }
 }

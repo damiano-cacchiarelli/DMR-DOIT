@@ -25,8 +25,6 @@
                     </a>
                     <ul class="dropdown-menu" aria-labelledby="navbarDropdownProponente">
                         <li><a class="dropdown-item" routerLink="/proponente/proponi">Proponi progetto</a></li>
-                        <li><a class="dropdown-item" href="#">Another action</a></li>
-                        <li><a class="dropdown-item" href="#">Something else here</a></li>
                     </ul>
                 </li>
             </ul>
@@ -35,8 +33,9 @@
                         class="fas fa-sign-in-alt"></i> Accedi</button>
             </form>
             <form class="d-flex" *ngIf="isLogged">
-                <button class="btn btn-outline-success mx-2" type="button" routerLink="/bacheca"><i class="fas fa-envelope"></i> Messaggi</button>
-                <button class="btn btn-outline-danger" type="button" (click)="onDisconnettiti()"><i class="fas fa-sign-out-alt"></i>
+                <button class="btn btn-outline-primary mx-1" type="button" routerLink="/visitatore/{{getId()}}"><i class="far fa-user"></i> Profilo</button>
+                <button class="btn btn-outline-success mx-1" type="button" routerLink="/bacheca"><i class="fas fa-envelope"></i> Messaggi</button>
+                <button class="btn btn-outline-danger mx-1" type="button" (click)="onDisconnettiti()"><i class="fas fa-sign-out-alt"></i>
                     Disconnettiti</button>
             </form>
         </div>
