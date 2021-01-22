@@ -40,7 +40,7 @@ public class ControllerEntePubblico extends ControllerVisitatore<Ente, EnteRepos
 		try {
 			iscrittoService.registra(enteDto);
 			return Utils.creaMessaggio("Registrazione avvenuta con successo.", HttpStatus.CREATED);
-		} catch (ExistingElementException e) {
+		} catch (ExistingElementException| IllegalArgumentException e) {
 			return Utils.creaMessaggio(e, HttpStatus.BAD_REQUEST);
 		}
 	}

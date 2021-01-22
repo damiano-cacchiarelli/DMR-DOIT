@@ -1,5 +1,7 @@
 package it.unicam.dmr.doit.service.iscritto.ruoli;
 
+import java.util.LinkedList;
+import java.util.List;
 import java.util.NoSuchElementException;
 import java.util.Set;
 import java.util.stream.Collectors;
@@ -15,6 +17,7 @@ import it.unicam.dmr.doit.dataTransferObject.invito.RispostaInvitoDto;
 import it.unicam.dmr.doit.dataTransferObject.progetto.ProgettoDto;
 import it.unicam.dmr.doit.dataTransferObject.progetto.TagDto;
 import it.unicam.dmr.doit.invito.Invito;
+import it.unicam.dmr.doit.invito.TipologiaInvito;
 import it.unicam.dmr.doit.invito.TipologiaRisposta;
 import it.unicam.dmr.doit.progetto.Progetto;
 import it.unicam.dmr.doit.progetto.Tag;
@@ -46,17 +49,31 @@ public class ProponenteService {
 	@Autowired
 	private TagService tagService;
 
-	public void invitaProgettisti(InvitoDto invitoDto, String idIscrittoProponente)
+	public List<String> invitaProgettisti(InvitoDto invitoDto, String idIscrittoProponente)
 			throws NoSuchElementException, NotFoundException, ExistingElementException {
 		Progetto progetto = progettoService.findById(invitoDto.getIdProgetto());
+		String contenuto = invitoDto.getContenuto();
+		TipologiaInvito tipologiaInvito = invitoDto.getTipologiaInvito();
+		Iscritto mittente = iscrittoService.findById(idIscrittoProponente);
+		List<String> progettistiNonInvittati = new LinkedList<>();
 		for (String idIscrittoProgettista : invitoDto.getIdDestinatario()) {
 			Progettista progettista = (Progettista) iscrittoService.getByRuolo(TipologiaRuolo.ROLE_PROGETTISTA,
 					idIscrittoProgettista);
-			progetto.getGestoreCandidati().aggiungiPartecipante(progettista);
+			try {
+				if (progetto.getGestoreCandidati().aggiungiPartecipante(progettista)) {
+					invitoService.invia(idIscrittoProgettista, contenuto, progetto, tipologiaInvito, mittente);
+				}else{
+					progettistiNonInvittati.add(idIscrittoProgettista);
+				}
+			} catch (NoSuchElementException e) {
+				progettistiNonInvittati.add(idIscrittoProgettista);
+			}
+			
 		}
 
 		progettoService.salva(progetto);
-		invitoService.invia(invitoDto, idIscrittoProponente);
+		// invitoService.invia(invitoDto, idIscrittoProponente);
+		return progettistiNonInvittati;
 	}
 
 	public Progetto proponi(ProgettoDto progettoDto, String idIscrittoProponente)
@@ -111,7 +128,8 @@ public class ProponenteService {
 			progetto.getGestoreCandidati().confermaCandidato(invito.getIdMittente());
 		} else {
 			progetto.getGestoreCandidati().rimuoviProgettista(invito.getIdMittente());
-			Progettista progettista = (Progettista) iscrittoService.getByRuolo(TipologiaRuolo.ROLE_PROGETTISTA, invito.getIdMittente());
+			Progettista progettista = (Progettista) iscrittoService.getByRuolo(TipologiaRuolo.ROLE_PROGETTISTA,
+					invito.getIdMittente());
 			progettoService.rimuoviProgettista(progetto.getId(), progettista.getId());
 		}
 		progettoService.salva(progetto);

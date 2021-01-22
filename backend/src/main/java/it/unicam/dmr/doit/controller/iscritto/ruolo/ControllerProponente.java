@@ -1,5 +1,6 @@
 package it.unicam.dmr.doit.controller.iscritto.ruolo;
 
+import java.util.List;
 import java.util.NoSuchElementException;
 
 import javax.validation.Valid;
@@ -127,8 +128,12 @@ public class ControllerProponente {
 		if (bindingResult.hasErrors())
 			return Utils.creaMessaggioDaErrore(bindingResult);
 		try {
-			proponenteService.invitaProgettisti(invitoDto, authentication.getName());
-			return Utils.creaMessaggio("Progettisti invitati", HttpStatus.OK);
+			List<String> progettistiNonInvitati = proponenteService.invitaProgettisti(invitoDto,
+					authentication.getName());
+			if (progettistiNonInvitati.isEmpty())
+				return Utils.creaMessaggio("Progettisti invitati", HttpStatus.OK);
+			return Utils.creaMessaggio("Non sono stati invitati i progettisti: " + progettistiNonInvitati.toString(),
+					HttpStatus.OK);
 		} catch (NotFoundException e) {
 			return Utils.creaMessaggio(e, HttpStatus.NOT_FOUND);
 		} catch (NoSuchElementException | ExistingElementException e) {

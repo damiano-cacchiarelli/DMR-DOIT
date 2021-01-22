@@ -58,6 +58,11 @@ public class IscrittoService<I extends Iscritto, R extends IscrittoRepository<I>
 		return iscrittoRepository.findById(identificativo)
 				.orElseThrow(() -> new NotFoundException("L'iscritto non esiste"));
 	}
+	
+	public boolean existsById(String identificativo) throws NotFoundException {
+		return iscrittoRepository.existsById(identificativo);
+				//.orElseThrow(() -> new NotFoundException("L'iscritto non esiste"));
+	}
 
 	public JwtDto accedi(LoginIscritto loginIscritto) throws NotFoundException, AuthenticationException {
 		if (!iscrittoRepository.existsById(loginIscritto.getIdentificativo()))
@@ -113,5 +118,9 @@ public class IscrittoService<I extends Iscritto, R extends IscrittoRepository<I>
 
 	public List<I> getEspertiConsigliati(List<TagDto> tags) {
 		return iscrittoRepository.findEsperti();
+	}
+	
+	public void salva(I iscritto) {
+		iscrittoRepository.save(iscritto);
 	}
 }
