@@ -20,6 +20,15 @@ import it.unicam.dmr.doit.utenti.ruoli.Progettista;
 import it.unicam.dmr.doit.utenti.ruoli.TipologiaRuolo;
 import javassist.NotFoundException;
 
+/**
+ * Questa classe ha la responsabilita' di effettuare le operazioni relative alla
+ * candidatura di un {@code Progettista}.
+ * 
+ * @author Damiano Cacchiarelli
+ * @author Matteo Romagnoli
+ * @author Roberto Cesetti
+ *
+ */
 @Service
 @Transactional
 public class ProgettistaService {
@@ -45,7 +54,8 @@ public class ProgettistaService {
 
 	}
 
-	public void gestisciPropostaPartecipazione(RispostaInvitoDto rispostaInvitoDto, String idIscrittoProgettista) throws IllegalStateException, IllegalArgumentException, NotFoundException {
+	public void gestisciPropostaPartecipazione(RispostaInvitoDto rispostaInvitoDto, String idIscrittoProgettista)
+			throws IllegalStateException, IllegalArgumentException, NotFoundException {
 		Invito invito = invitoService.getInvito(rispostaInvitoDto.getIdInvito(), idIscrittoProgettista);
 		Progetto progetto = progettoService.findById(invito.getIdProgetto());
 		if (rispostaInvitoDto.getRisposta().equals(TipologiaRisposta.RIFIUTATA)) {

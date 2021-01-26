@@ -25,7 +25,7 @@ import it.unicam.dmr.doit.controller.Utils;
 import it.unicam.dmr.doit.utenti.Iscritto;
 
 /**
- * Questa classe rappresenta un invito, cioè un messaggio inviato tra due
+ * Questa classe rappresenta un invito, ovvero un messaggio inviato tra due
  * iscritti che ha una {@code TipologiaInvito}. Ogni invito fa riferimento ad un
  * {@code Progetto} ed ha un {@code Iscritto - Mittente} ed un
  * {@code Iscritto - Destinatario}. Inoltre ogni Invito ha una

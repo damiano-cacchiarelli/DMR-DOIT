@@ -14,7 +14,7 @@ import com.fasterxml.jackson.annotation.JsonBackReference;
 import it.unicam.dmr.doit.controller.Utils;
 
 /**
- * Questa classe rappresenta una categoria (o etochetta) e come tale presenta un
+ * Questa classe rappresenta una categoria (o etichetta) e come tale presenta un
  * nome ed una descrizione.
  * 
  * @author Damiano Cacchiarelli

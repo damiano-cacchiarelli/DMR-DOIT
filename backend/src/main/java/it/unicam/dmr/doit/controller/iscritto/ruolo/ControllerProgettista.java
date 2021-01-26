@@ -26,8 +26,11 @@ import it.unicam.dmr.doit.service.iscritto.ruoli.ProgettistaService;
 import javassist.NotFoundException;
 
 /**
- * Questo controller ha la responsabilita' di Candidare un progetista ad un
- * progetto.
+ * Questo controller ha la responsabilita' di:
+ * <ul>
+ * <li>Candidare un progetista ad un progetto;</li>
+ * <li>Gestire le poposte di partecipazione ad un progetto;</li>
+ * </ul>
  * 
  * @author Damiano Cacchiarelli
  * @author Matteo Romagnoli
@@ -47,7 +50,7 @@ public class ControllerProgettista {
 			BindingResult bindingResult, Authentication authentication) {
 		if (bindingResult.hasErrors())
 			return Utils.creaMessaggioDaErrore(bindingResult);
-		
+
 		try {
 			progettistaService.candidatiAlProgetto(authentication.getName(), invitoDto);
 			return Utils.creaMessaggio("Candidatura effettuata", HttpStatus.OK);

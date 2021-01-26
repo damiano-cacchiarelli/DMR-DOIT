@@ -19,7 +19,7 @@ import it.unicam.dmr.doit.security.IscrittoPrincipale;
 
 /**
  * Questa classe ha la responsabilita' di creare il token jwt, ottenere le
- * informazioni dal token jwt e verificare la validità del token (a livello
+ * informazioni dal token jwt e verificare la validita' del token (a livello
  * sintattico).
  * 
  * @author Damiano Cacchiarelli

@@ -15,12 +15,6 @@ import it.unicam.dmr.doit.service.progetto.ValutazioneService;
 import javassist.NotFoundException;
 
 /**
- * Resposabilita�:
- * - lista valutazione progetto
- * - ultima valutazione progetto
- */
-
-/**
  * Questo controller ha la responsabilita' di:
  * <ul>
  * <li>La lista delle valutazioni relative ad un progetto;</li>
