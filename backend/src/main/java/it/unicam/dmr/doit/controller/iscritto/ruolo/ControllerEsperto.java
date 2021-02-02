@@ -26,7 +26,11 @@ import it.unicam.dmr.doit.service.iscritto.ruoli.EspertoService;
 import javassist.NotFoundException;
 
 /**
- * Questo controller ha la responsabilita' di Valutare un progetto.
+ * Questo controller ha la responsabilita' di: 
+ * <ul>
+ * <li>Valutare un progetto;</li>
+ * <li>Rifiutare la richiesta di valutazione per un progetto;</li>
+ * </ul>
  * 
  * @author Damiano Cacchiarelli
  * @author Matteo Romagnoli

@@ -9,7 +9,7 @@ import it.unicam.dmr.doit.utenti.Iscritto;
 
 /**
  * Questa interfaccia rappresenta il gestore dei {@code Messaggi} ed ha la
- * responsabilitÃ  di ottenere tutti i messaggi, inviare, ricevere, eliminare un
+ * responsabilita'  di ottenere tutti i messaggi, inviare, ricevere, eliminare un
  * {@code Messaggio}.
  * 
  * @author Damiano Cacchiarelli

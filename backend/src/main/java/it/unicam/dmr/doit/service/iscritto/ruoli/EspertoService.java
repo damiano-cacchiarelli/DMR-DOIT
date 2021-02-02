@@ -19,6 +19,14 @@ import it.unicam.dmr.doit.service.progetto.ProgettoService;
 import it.unicam.dmr.doit.service.progetto.ValutazioneService;
 import javassist.NotFoundException;
 
+/**
+ * Questa classe ha la responsabilita' di effettuare l'operazione di valutazione di un {@code Progetto}.
+ * 
+ * @author Damiano Cacchiarelli
+ * @author Matteo Romagnoli
+ * @author Roberto Cesetti
+ *
+ */
 @Service
 public class EspertoService {
 
@@ -37,7 +45,8 @@ public class EspertoService {
 
 	}
 
-	public void rifiuta(String idInvito, String idIscittoEsperto) throws IllegalStateException, IllegalArgumentException, NotFoundException {
+	public void rifiuta(String idInvito, String idIscittoEsperto)
+			throws IllegalStateException, IllegalArgumentException, NotFoundException {
 		invitoService.gestisci(new RispostaInvitoDto(idInvito, TipologiaRisposta.RIFIUTATA), idIscittoEsperto);
 		Invito invito = invitoService.getInvito(idInvito, idIscittoEsperto);
 		if (invito.getTipologiaInvito().equals(TipologiaInvito.VALUTAZIONE)) {

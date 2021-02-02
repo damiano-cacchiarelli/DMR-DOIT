@@ -25,7 +25,7 @@ import it.unicam.dmr.doit.controller.Utils;
 import it.unicam.dmr.doit.utenti.Iscritto;
 
 /**
- * Questa classe rappresenta un invito, cioè un messaggio inviato tra due
+ * Questa classe rappresenta un invito, ovvero un messaggio inviato tra due
  * iscritti che ha una {@code TipologiaInvito}. Ogni invito fa riferimento ad un
  * {@code Progetto} ed ha un {@code Iscritto - Mittente} ed un
  * {@code Iscritto - Destinatario}. Inoltre ogni Invito ha una
@@ -38,7 +38,7 @@ import it.unicam.dmr.doit.utenti.Iscritto;
  */
 @Entity
 @IdClass(InvitoId.class)
-public class Invito implements Messaggio, InterfaceInvito  {
+public class Invito implements Messaggio{
 
 	@Id
 	@Column(length = 36)
@@ -126,7 +126,6 @@ public class Invito implements Messaggio, InterfaceInvito  {
 		return destinatario;
 	}
 
-	@Override
 	public int getIdProgetto() {
 		return idProgetto;
 	}
@@ -144,7 +143,6 @@ public class Invito implements Messaggio, InterfaceInvito  {
 		return data;
 	}
 
-	@Override
 	public TipologiaInvito getTipologiaInvito() {
 		return tipologiaInvito;
 	}

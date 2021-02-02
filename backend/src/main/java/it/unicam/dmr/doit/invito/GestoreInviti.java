@@ -23,7 +23,7 @@ import it.unicam.dmr.doit.utenti.Iscritto;
 /**
  * Questa classe rappresenta il gestore degli {@code Inviti} di un Iscritto.
  * Implementa l'interfaccia {@code GestoreMessaggi<Invito>} ed ha la
- * responsabilit√† di inviare, ricevere, eliminare ed ottenere un {@code Invito}.
+ * responsabilita'† di inviare, ricevere, eliminare ed ottenere un {@code Invito}.
  * 
  * @author Damiano Cacchiarelli
  * @author Matteo Romagnoli

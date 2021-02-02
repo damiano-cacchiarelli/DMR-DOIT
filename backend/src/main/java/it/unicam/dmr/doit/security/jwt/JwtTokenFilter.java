@@ -17,7 +17,7 @@ import it.unicam.dmr.doit.service.security.IscrittoDetailsServiceImpl;
 
 /**
  * Questa classe estende {@code OncePerRequestFilter} ed ha la responsabilita'
- * di verifica la validità del token tramite il provider; in caso affermativo
+ * di verificare la validita' del token tramite il provider; in caso affermativo
  * permette la visualizzazione della risorsa altrimenti lancia un eccezione.
  * 
  * @author Damiano Cacchiarelli
