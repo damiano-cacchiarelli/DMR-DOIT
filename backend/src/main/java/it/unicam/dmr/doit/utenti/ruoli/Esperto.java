@@ -11,7 +11,6 @@ import javax.persistence.FetchType;
 import javax.persistence.OneToMany;
 import javax.validation.constraints.NotNull;
 
-import com.fasterxml.jackson.annotation.JsonIgnore;
 import com.fasterxml.jackson.annotation.JsonManagedReference;
 
 import it.unicam.dmr.doit.controller.Utils;
@@ -35,7 +34,7 @@ public class Esperto extends Ruolo {
 
 	@NotNull(message = Utils.nonNullo)
 	@JsonManagedReference
-	@OneToMany(mappedBy = "esperto", fetch = FetchType.LAZY, cascade = CascadeType.ALL)
+	@OneToMany(mappedBy = "esperto", fetch = FetchType.EAGER, cascade = CascadeType.ALL)
 	private Set<Valutazione> valutazioniEffettuate = new HashSet<>();
 
 	public Esperto() {
@@ -59,10 +58,11 @@ public class Esperto extends Ruolo {
 		this.rango = rango;
 	}
 
-	@JsonIgnore
+	//@JsonIgnore
 	@Override
 	public Collection<Progetto> getProgettiPersonali() {
-		return valutazioniEffettuate.stream().map(v -> v.getProgetto()).collect(Collectors.toList());// progettiValutati;
+		Collection<Progetto> progettiValutati =valutazioniEffettuate.stream().map(v -> v.getProgetto()).collect(Collectors.toList());
+		return progettiValutati;
 	}
 
 	public Set<Valutazione> getValutazioniEffettuate() {

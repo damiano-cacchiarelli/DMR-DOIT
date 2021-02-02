@@ -62,8 +62,10 @@ export class ValutaProgettoComponent implements OnInit {
       this.indexProgettista = 0;
     else this.indexProgettista++;
 
-    if (this.profiloComponent)
+    if (this.profiloComponent){
       this.profiloComponent.identificativo = this.progettisti[this.indexProgettista];
+      this.profiloComponent.updateProfilo();
+    }
   }
 
   onPrecedenteProgettista(): void {
@@ -71,8 +73,10 @@ export class ValutaProgettoComponent implements OnInit {
       this.indexProgettista = this.progettisti.length - 1;
     else this.indexProgettista--;
 
-    if (this.profiloComponent)
+    if (this.profiloComponent){
       this.profiloComponent.identificativo = this.progettisti[this.indexProgettista];
+      this.profiloComponent.updateProfilo();
+    }
   }
 
   onInviaValutazione(): void {

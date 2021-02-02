@@ -50,16 +50,16 @@ public class Valutazione implements InterfaceValutazione {
 	private String recensione;
 
 	@JsonManagedReference
-	@OneToMany(mappedBy = "valutazioneProgetto", fetch = FetchType.LAZY, cascade = CascadeType.ALL)
+	@OneToMany(mappedBy = "valutazioneProgetto", fetch = FetchType.EAGER, cascade = CascadeType.ALL)
 	private Set<ValutazioneProgettista> valutazioniCandidati = new HashSet<>();
 
 	@JsonBackReference
-	@ManyToOne(fetch = FetchType.LAZY, optional = false)
+	@ManyToOne(fetch = FetchType.EAGER, optional = false)
 	@JoinColumn(name = "id_progetto", nullable = false)
 	private Progetto progetto;
 
 	@JsonBackReference
-	@ManyToOne(fetch = FetchType.LAZY, optional = false)
+	@ManyToOne(fetch = FetchType.EAGER, optional = false)
 	@JoinColumn(name = "id_esperto", nullable = false)
 	private Esperto esperto;
 

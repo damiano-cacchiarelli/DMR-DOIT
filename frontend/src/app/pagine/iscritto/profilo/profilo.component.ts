@@ -37,31 +37,32 @@ export class ProfiloComponent implements OnInit {
     //this.activatedRoute.snapshot.params.id;
     
     this.activatedRoute.paramMap.subscribe((params: ParamMap) => {
-      let id: string = "";
       if (!this.valutazione)
-        id = params.get('id') as string;
-      else if (this.identificativo)
-        id = this.identificativo;
-
-      this.visitatoreService.getIscritto(id).subscribe(
-        data => {
-          console.log(data);
-          if (data.nome) {
-            this.persona = data;
-            this.ente = null as any;
-          } else {
-            this.ente = data;
-            this.persona = null as any;
-          }
-          this.iscritto = data;
-        },
-        err => {
-          this.toastr.error(err.error.messaggio, "Errore", {
-            timeOut: 3000, positionClass: "toast-bottom-right"
-          });
-        }
-      );
+        this.identificativo = params.get('id') as string;
+        
+      this.updateProfilo();
     });
+  }
+
+  public updateProfilo(){
+    if(!this.identificativo) return;
+    this.visitatoreService.getIscritto(this.identificativo).subscribe(
+      data => {
+        if (data.nome) {
+          this.persona = data;
+          this.ente = null as any;
+        } else {
+          this.ente = data;
+          this.persona = null as any;
+        }
+        this.iscritto = data;
+      },
+      err => {
+        this.toastr.error(err.error.messaggio, "Errore", {
+          timeOut: 3000, positionClass: "toast-bottom-right"
+        });
+      }
+    );
   }
 
   hasRuoli(): boolean {
