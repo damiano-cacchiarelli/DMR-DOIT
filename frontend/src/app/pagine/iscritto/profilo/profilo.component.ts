@@ -1,5 +1,5 @@
 import { Component, Directive, Input, OnInit } from '@angular/core';
-import { ActivatedRoute } from '@angular/router';
+import { ActivatedRoute, ParamMap } from '@angular/router';
 import { ToastrService } from 'ngx-toastr';
 import { EnteDto } from 'src/app/modello/iscritto/ente-dto';
 import { Iscritto } from 'src/app/modello/iscritto/iscritto';
@@ -33,28 +33,35 @@ export class ProfiloComponent implements OnInit {
   }
 
   ngOnInit(): void {
-    let id: string = "";
-    if (!this.valutazione)
-      id = this.activatedRoute.snapshot.params.id;
-    else if (this.identificativo)
-      id = this.identificativo;
 
-    this.visitatoreService.getIscritto(id).subscribe(
-      data => {
-        console.log(data);
-        if (data.nome) {
-          this.persona = data;
-        } else {
-          this.ente = data;
+    //this.activatedRoute.snapshot.params.id;
+    
+    this.activatedRoute.paramMap.subscribe((params: ParamMap) => {
+      let id: string = "";
+      if (!this.valutazione)
+        id = params.get('id') as string;
+      else if (this.identificativo)
+        id = this.identificativo;
+
+      this.visitatoreService.getIscritto(id).subscribe(
+        data => {
+          console.log(data);
+          if (data.nome) {
+            this.persona = data;
+            this.ente = null as any;
+          } else {
+            this.ente = data;
+            this.persona = null as any;
+          }
+          this.iscritto = data;
+        },
+        err => {
+          this.toastr.error(err.error.messaggio, "Errore", {
+            timeOut: 3000, positionClass: "toast-bottom-right"
+          });
         }
-        this.iscritto = data;
-      },
-      err => {
-        this.toastr.error(err.error.messaggio, "Errore", {
-          timeOut: 3000, positionClass: "toast-bottom-right"
-        });
-      }
-    );
+      );
+    });
   }
 
   hasRuoli(): boolean {

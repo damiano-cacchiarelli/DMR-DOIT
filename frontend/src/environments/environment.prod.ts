@@ -8,5 +8,5 @@ export const environment = {
   progettistaURL: 'http://207.154.220.231:8080/progettista',
   espertoURL: 'http://207.154.220.231:8080/esperto',
   tagURL: 'http://207.154.220.231:8080/tag',
-  invitoURL: 'http://207.154.220.231:8080/invito', 
+  invitoURL: 'http://207.154.220.231:8080/invito',
 };
