@@ -10,6 +10,9 @@
           *ngFor="let tag of progetto.tags; index as i;" style="cursor: default">{{tag.nome}}</li>
       </ul>
       <hr class="my-4">
+      <p class = "text-justify" >Stato: {{progetto.stato}}</p>
+      <p class = "text-justify" >Fase: {{progetto.fase}}</p>
+      <hr class="my-4">
       <h3 class="fw-bold">Obiettivi</h3>
       <p class="text-justify">{{progetto.obiettivi}}</p>
       <hr class="my-4">

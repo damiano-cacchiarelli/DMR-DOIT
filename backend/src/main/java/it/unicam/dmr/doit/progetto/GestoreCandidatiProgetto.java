@@ -80,7 +80,7 @@ public class GestoreCandidatiProgetto {
 	public void aggiungiCandidato(Progettista progettista) throws ExistingElementException, CandidacyStatusException {
 		if (!candidature)
 			throw new CandidacyStatusException("Le candidature sono chiuse");
-		if (!candidatiAlProgetto.add(progettista) || partecipantiAlProgetto.contains(progettista))
+		if (partecipantiAlProgetto.contains(progettista) || !candidatiAlProgetto.add(progettista))
 			throw new ExistingElementException("Il progettista e' gia candidato");
 	}
 

@@ -39,7 +39,7 @@ import javassist.NotFoundException;
  */
 @RestController
 @RequestMapping("/progetto")
-@CrossOrigin(origins = "*")
+@CrossOrigin(origins = "http://localhost:4200")
 public class ControllerProgetto {
 
 	@Autowired
