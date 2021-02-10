@@ -34,21 +34,21 @@ Sono state implementate le seguenti funzionalità:
 - Le fasi di un Progetto possono essere INIZIO, SVILUPPO e PUBBLICAZIONE. Esse indicano il punto in cui si trova il Progetto durante il suo ciclo di vita; inoltre determinano quali attività si possono svolgere sul Progetto. In particolare: 
 
   1. **fase di _INIZIO_**:
-         - Vengono definiti i dettagli del progetto (il Progetto si deve trovare nello Stato NON_VALUTATO);
-         - È possibile modificare i dettagli del progetto (il Progetto si deve trovare nello Stato NON_VALUTATO oppure in quello VALUTATO);
-         - Vengono aggiunti Progettisti (tramite invito o candidatura) (il Progetto si deve trovare nello Stato NON_VALUTATO oppure in quello VALUTATO);
-         - È possibile far valutare il progetto più volte (il Progetto si deve trovare nello Stato IN_VALUTAZIONE);
-         - È possibile chiudere le candidature (il Progetto si può trovare in qualsiasi Stato)
-         - Per passare alla fase successiva il Progetto non deve trovarsi nello Stato IN_VALUTAZIONE;
+       - Vengono definiti i dettagli del progetto (il Progetto si deve trovare nello Stato NON_VALUTATO);
+       - È possibile modificare i dettagli del progetto (il Progetto si deve trovare nello Stato NON_VALUTATO oppure in quello VALUTATO);
+       - Vengono aggiunti Progettisti (tramite invito o candidatura) (il Progetto si deve trovare nello Stato NON_VALUTATO oppure in quello VALUTATO);
+       - È possibile far valutare il progetto più volte (il Progetto si deve trovare nello Stato IN_VALUTAZIONE);
+       - È possibile chiudere le candidature (il Progetto si può trovare in qualsiasi Stato)
+       - Per passare alla fase successiva il Progetto non deve trovarsi nello Stato IN_VALUTAZIONE;
   2. **fase di _SVILUPPO_**:
-         - È possibile modificare i dettagli del progetto;
-         - Non sono accettate candidature;
-         - È possibile invitare progettisti;
-         - Il progetto non può esser sottoposto a valutazione;
-         - Per passare alla fase successiva il Progetto non deve trovarsi nello Stato IN_VALUTAZIONE;
+       - È possibile modificare i dettagli del progetto;
+       - Non sono accettate candidature;
+       - È possibile invitare progettisti;
+       - Il progetto non può esser sottoposto a valutazione;
+       - Per passare alla fase successiva il Progetto non deve trovarsi nello Stato IN_VALUTAZIONE;
   3. **fase di _PUBBLICAZIONE_**:
-         - Non è più possibile modificare il progetto;
-         - Non è possibile invitare progettisti;
+       - Non è più possibile modificare il progetto;
+       - Non è possibile invitare progettisti;
 
 - Un Tag rappresenta una categoria. Può essere associato a più progetti che sono in qualche modo correlati a tale categoria. Presenta inoltre una descrizione.
 
