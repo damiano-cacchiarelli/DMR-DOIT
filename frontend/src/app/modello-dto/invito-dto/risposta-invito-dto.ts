@@ -1,4 +1,4 @@
-import { TipologiaRisposta } from "./tipologia-risposta.enum";
+import { TipologiaRisposta } from "../../modello/invito/tipologia-risposta.enum";
 
 export class RispostaInvitoDto {
     idInvito: string;

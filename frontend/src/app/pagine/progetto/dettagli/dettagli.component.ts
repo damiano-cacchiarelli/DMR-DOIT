@@ -5,16 +5,14 @@ import { Progetto } from 'src/app/modello/progetto/progetto';
 import { ProgettoService } from 'src/app/servizi/progetto.service';
 import { Tag } from 'src/app/modello/progetto/tag';
 import { TokenService } from 'src/app/servizi/token.service';
-import { TipologiaRuolo } from 'src/app/modello/iscritto/tipologia-ruolo.enum';
+import { TipologiaRuolo } from 'src/app/modello/iscritto/ruolo/tipologia-ruolo.enum';
 import { Stato } from 'src/app/modello/progetto/stato.enum';
 import { Fase } from 'src/app/modello/progetto/fase.enum';
 import { ProponenteService } from 'src/app/servizi/proponente.service';
 import { InvitaProgettistiComponent } from '../../ruoli/proponi/invita-progettisti/invita-progettisti.component';
 import { PermettiValutazioneComponent } from '../../ruoli/proponi/permetti-valutazione/permetti-valutazione.component';
 import { ProgettistaService } from 'src/app/servizi/progettista.service';
-import { Valutazione } from 'src/app/modello/progetto/valutazione';
-import { ValutazioneCandidati } from "src/app/modello/progetto/valutazione-candidati";
-import { InvitoDto } from 'src/app/modello/invito/invito-dto';
+import { InvitoDto } from 'src/app/modello-dto/invito-dto/invito-dto';
 import { TipologiaInvito } from 'src/app/modello/invito/tipologia-invito.enum';
 
 @Component({

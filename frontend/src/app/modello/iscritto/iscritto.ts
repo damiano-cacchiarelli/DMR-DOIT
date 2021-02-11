@@ -1,6 +1,6 @@
 import { Curriculum } from "./curriculum";
-import { IscrittoDto } from "./iscritto-dto";
-import { Ruolo } from "./ruolo";
+import { IscrittoDto } from "../../modello-dto/iscritto-dto/iscritto-dto";
+import { Ruolo } from "./ruolo/ruolo";
 
 export class Iscritto extends IscrittoDto{
 

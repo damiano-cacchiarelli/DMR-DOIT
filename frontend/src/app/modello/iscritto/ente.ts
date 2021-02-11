@@ -1,4 +1,4 @@
-import { EnteDto } from "./ente-dto";
+import { EnteDto } from "../../modello-dto/iscritto-dto/ente-dto";
 
 export class Ente extends EnteDto{
 

@@ -2,10 +2,10 @@ import { HttpClient } from '@angular/common/http';
 import { Injectable } from '@angular/core';
 import { Observable } from 'rxjs';
 import { environment } from 'src/environments/environment';
-import { IscrittoDto } from '../modello/iscritto/iscritto-dto';
-import { TipologiaRuolo } from '../modello/iscritto/tipologia-ruolo.enum';
-import { JwtDto } from '../modello/jwt-dto';
-import { LoginIscritto } from '../modello/login-iscritto';
+import { IscrittoDto } from '../modello-dto/iscritto-dto/iscritto-dto';
+import { TipologiaRuolo } from '../modello/iscritto/ruolo/tipologia-ruolo.enum';
+import { JwtDto } from '../modello-dto/jwt-dto';
+import { LoginIscritto } from '../modello-dto/login-iscritto';
 
 @Injectable({
   providedIn: 'root'

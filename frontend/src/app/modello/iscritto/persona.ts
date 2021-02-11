@@ -1,4 +1,4 @@
-import { PersonaDto } from "./persona-dto";
+import { PersonaDto } from "../../modello-dto/iscritto-dto/persona-dto";
 
 export class Persona extends PersonaDto {
 

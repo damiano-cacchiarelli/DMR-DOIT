@@ -21,9 +21,6 @@
       <div *ngIf="progetto.listaValutazioni && progetto.listaValutazioni.length !=0">
         <hr class="my-4">
         <h3 class="fw-bold">Valutazioni</h3>
-        <!--
-          Creare un component separato?
-        -->
         <div class="card my-1">
           <div class="card-body">
             <h4 class="card-title fw-bold">{{progetto.listaValutazioni[0].creatoIl}}</h4>
@@ -43,13 +40,6 @@
             </div>
           </div>
         </div>
-        <!--
-        <div class="d-grid gap-2 col-6 mx-auto">
-          <button class="text-center align-middle btn btn-secondary my-3" type="button" data-bs-toggle="collapse"
-            data-bs-target="#collapseValutazioni" aria-expanded="false" aria-controls="collapseExample">Vedi
-            altro</button>
-        </div>
--->
         <div class="collapse" id="collapseValutazioni">
           <div *ngFor="let valutazione of progetto.listaValutazioni;  index as i">
             <span *ngIf="i!=0">
@@ -156,8 +146,6 @@
       </table>
     </div>
   </div>
-
-
   <!-- Modal -->
   <div class="modal modal-dialog-scrollable fade" id="genericModal" data-bs-backdrop="static" data-bs-keyboard="false"
     tabindex="-1" aria-labelledby="genericModalLabel" aria-hidden="true">

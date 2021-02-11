@@ -4,7 +4,7 @@ import { ActivatedRoute, Router } from '@angular/router';
 import { ToastrService } from 'ngx-toastr';
 import { Progetto } from 'src/app/modello/progetto/progetto';
 import { ValutazioneCandidati } from 'src/app/modello/progetto/valutazione-candidati';
-import { ValutazioneDto } from 'src/app/modello/progetto/valutazione-dto';
+import { ValutazioneDto } from 'src/app/modello-dto/progetto-dto/valutazione-dto';
 import { ProfiloComponent } from 'src/app/pagine/iscritto/profilo/profilo.component';
 import { EspertoService } from 'src/app/servizi/esperto.service';
 import { ProgettoService } from 'src/app/servizi/progetto.service';

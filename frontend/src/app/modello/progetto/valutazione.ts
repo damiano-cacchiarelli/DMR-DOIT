@@ -1,6 +1,5 @@
 import { Data } from "@angular/router";
-import { Esperto } from "../iscritto/ruolo/esperto";
-import { ValutazioneDto } from "./valutazione-dto";
+import { ValutazioneDto } from "../../modello-dto/progetto-dto/valutazione-dto";
 import { ValutazioneCandidati } from "./valutazione-candidati";
 
 export class Valutazione extends ValutazioneDto{

@@ -5,10 +5,8 @@ import {
   HttpEvent,
   HttpInterceptor,
   HTTP_INTERCEPTORS,
-  HttpErrorResponse
 } from '@angular/common/http';
 import { Observable } from 'rxjs';
-import { catchError } from 'rxjs/operators';
 import { TokenService } from '../servizi/token.service';
 
 @Injectable()

@@ -3,8 +3,8 @@ import { Injectable } from '@angular/core';
 import { Observable } from 'rxjs';
 import { environment } from 'src/environments/environment';
 import { Invito } from '../modello/invito/invito';
-import { InvitoDto } from '../modello/invito/invito-dto';
-import { RispostaInvitoDto } from '../modello/invito/risposta-invito-dto';
+import { InvitoDto } from '../modello-dto/invito-dto/invito-dto';
+import { RispostaInvitoDto } from '../modello-dto/invito-dto/risposta-invito-dto';
 
 @Injectable({
   providedIn: 'root'

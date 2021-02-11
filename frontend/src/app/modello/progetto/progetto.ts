@@ -1,7 +1,7 @@
 import { Data } from "@angular/router";
 import { Fase } from "./fase.enum";
 import { GestoreCandidati } from "./gestore-candidati";
-import { ProgettoDto } from "./progetto-dto";
+import { ProgettoDto } from "../../modello-dto/progetto-dto/progetto-dto";
 import { Stato } from "./stato.enum";
 import { Tag } from "./tag";
 import { Valutazione } from "./valutazione";

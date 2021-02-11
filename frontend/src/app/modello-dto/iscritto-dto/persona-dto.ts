@@ -14,7 +14,7 @@ export class PersonaDto extends IscrittoDto {
         this.cittadinanza = cittadinanza;
         this.sesso = sesso;
         this.telefono = telefono;
-
+        
         super.tipo = "persona";
     }
 }

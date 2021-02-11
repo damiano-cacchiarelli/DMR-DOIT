@@ -1,4 +1,3 @@
-
 export class IscrittoDto {
     identificativo: string;
     email: string;

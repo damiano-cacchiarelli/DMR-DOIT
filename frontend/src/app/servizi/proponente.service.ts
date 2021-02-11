@@ -2,11 +2,11 @@ import { HttpClient } from '@angular/common/http';
 import { Injectable } from '@angular/core';
 import { Observable } from 'rxjs';
 import { environment } from 'src/environments/environment';
-import { InvitoDto } from '../modello/invito/invito-dto';
-import { RispostaInvitoDto } from '../modello/invito/risposta-invito-dto';
-import { IscrittoDto } from '../modello/iscritto/iscritto-dto';
-import { ProgettoDto } from '../modello/progetto/progetto-dto';import { Tag } from '../modello/progetto/tag';
-import { TagListDto } from '../modello/progetto/tag-list-dto';
+import { InvitoDto } from '../modello-dto/invito-dto/invito-dto';
+import { RispostaInvitoDto } from '../modello-dto/invito-dto/risposta-invito-dto';
+import { IscrittoDto } from '../modello-dto/iscritto-dto/iscritto-dto';
+import { ProgettoDto } from '../modello-dto/progetto-dto/progetto-dto';import { Tag } from '../modello/progetto/tag';
+import { TagListDto } from '../modello-dto/progetto-dto/tag-list-dto';
 
 @Injectable({
   providedIn: 'root'

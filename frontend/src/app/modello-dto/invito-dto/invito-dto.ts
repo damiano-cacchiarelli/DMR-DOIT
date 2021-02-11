@@ -1,4 +1,4 @@
-import { TipologiaInvito } from "./tipologia-invito.enum";
+import { TipologiaInvito } from "../../modello/invito/tipologia-invito.enum";
 
 export class InvitoDto {
     

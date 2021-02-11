@@ -2,8 +2,8 @@ import { HttpClient } from '@angular/common/http';
 import { Injectable } from '@angular/core';
 import { Observable } from 'rxjs';
 import { environment } from 'src/environments/environment';
-import { RispostaInvitoDto } from '../modello/invito/risposta-invito-dto';
-import { ValutazioneDto } from '../modello/progetto/valutazione-dto';
+import { RispostaInvitoDto } from '../modello-dto/invito-dto/risposta-invito-dto';
+import { ValutazioneDto } from '../modello-dto/progetto-dto/valutazione-dto';
 
 @Injectable({
   providedIn: 'root'

@@ -1,16 +1,13 @@
 import { Progetto } from "../../progetto/progetto";
-import { Ruolo } from "../ruolo";
-import { TipologiaRuolo } from "../tipologia-ruolo.enum";
+import { Ruolo } from "./ruolo";
+import { TipologiaRuolo } from "./tipologia-ruolo.enum";
 
 export class Proponente extends Ruolo {
 
-    proposte: Progetto[];
 
-    constructor(proposte: Progetto[], ruolo: TipologiaRuolo, id: number){
+    constructor(ruolo: TipologiaRuolo, id: number, progettiPersonali: Progetto[]) {
 
-        super(ruolo, id);
-        this.proposte = proposte;
-        
+        super(ruolo, id, progettiPersonali);
     }
 
 }

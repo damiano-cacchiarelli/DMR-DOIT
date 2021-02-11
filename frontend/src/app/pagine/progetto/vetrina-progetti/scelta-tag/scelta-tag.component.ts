@@ -1,7 +1,7 @@
 import { Component, OnInit } from '@angular/core';
 import { ToastrService } from 'ngx-toastr';
 import { Tag } from 'src/app/modello/progetto/tag';
-import { TagListDto } from 'src/app/modello/progetto/tag-list-dto';
+import { TagListDto } from 'src/app/modello-dto/progetto-dto/tag-list-dto';
 import { TagService } from 'src/app/servizi/tag.service';
 
 @Component({

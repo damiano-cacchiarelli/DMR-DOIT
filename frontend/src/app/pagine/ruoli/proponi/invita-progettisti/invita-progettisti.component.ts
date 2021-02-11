@@ -1,11 +1,8 @@
 import { Component, Input, OnInit } from '@angular/core';
-import { resetFakeAsyncZone } from '@angular/core/testing';
-import { ToastrService } from 'ngx-toastr';
 import { Observable } from 'rxjs';
-import { InvitoDto } from 'src/app/modello/invito/invito-dto';
+import { InvitoDto } from 'src/app/modello-dto/invito-dto/invito-dto';
 import { TipologiaInvito } from 'src/app/modello/invito/tipologia-invito.enum';
-import { TipologiaRuolo } from 'src/app/modello/iscritto/tipologia-ruolo.enum';
-import { InvitoService } from 'src/app/servizi/invito.service';
+import { TipologiaRuolo } from 'src/app/modello/iscritto/ruolo/tipologia-ruolo.enum';
 import { ProponenteService } from 'src/app/servizi/proponente.service';
 import { VisitatoreService } from 'src/app/servizi/visitatore.service';
 
@@ -26,9 +23,7 @@ export class InvitaProgettistiComponent implements OnInit {
 
   constructor(
     private visitatoreService: VisitatoreService,
-    private invitoService: InvitoService,
-    private proponenteService: ProponenteService,
-    private toastr: ToastrService) { }
+    private proponenteService: ProponenteService) { }
 
   ngOnInit(): void {
   }

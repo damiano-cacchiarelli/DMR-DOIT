@@ -2,7 +2,7 @@ import { Component, OnInit } from '@angular/core';
 import { ToastrService } from 'ngx-toastr';
 import { Observable } from 'rxjs';
 import { Invito } from 'src/app/modello/invito/invito';
-import { RispostaInvitoDto } from 'src/app/modello/invito/risposta-invito-dto';
+import { RispostaInvitoDto } from 'src/app/modello-dto/invito-dto/risposta-invito-dto';
 import { RuoloSoggetto } from 'src/app/modello/invito/ruolo-soggetto.enum';
 import { TipologiaInvito } from 'src/app/modello/invito/tipologia-invito.enum';
 import { TipologiaRisposta } from 'src/app/modello/invito/tipologia-risposta.enum';

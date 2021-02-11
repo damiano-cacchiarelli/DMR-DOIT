@@ -1,11 +1,10 @@
 import { Component, OnInit } from '@angular/core';
 import { Router } from '@angular/router';
 import { ToastrService } from 'ngx-toastr';
-import { EnteDto } from 'src/app/modello/iscritto/ente-dto';
-import { IscrittoDto } from 'src/app/modello/iscritto/iscritto-dto';
-import { PersonaDto } from 'src/app/modello/iscritto/persona-dto';
+import { EnteDto } from 'src/app/modello-dto/iscritto-dto/ente-dto';
+import { IscrittoDto } from 'src/app/modello-dto/iscritto-dto/iscritto-dto';
+import { PersonaDto } from 'src/app/modello-dto/iscritto-dto/persona-dto';
 import { VisitatoreService } from 'src/app/servizi/visitatore.service';
-import { TokenService } from 'src/app/servizi/token.service';
 
 @Component({
   selector: 'app-registrati',
@@ -30,7 +29,6 @@ export class RegistratiComponent implements OnInit {
   annoDiFondazione: Date = null as any;
 
   constructor(
-    private tokenService: TokenService,
     private autenticazioneService: VisitatoreService,
     private toastr: ToastrService,
     private router: Router) { }
@@ -49,7 +47,6 @@ export class RegistratiComponent implements OnInit {
 
     this.autenticazioneService.registra(iscritto).subscribe(
       data => {
-        console.log(data);
         this.toastr.success("Registrato con successo!", "OK", {
           timeOut: 3000, positionClass: "toast-top-center"
         });

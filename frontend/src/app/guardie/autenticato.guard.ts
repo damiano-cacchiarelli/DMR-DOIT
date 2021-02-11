@@ -10,7 +10,6 @@ export class AutenticatoGuard implements CanActivate {
 
   canActivate(route: ActivatedRouteSnapshot, state: RouterStateSnapshot): boolean {
     const loggedIn = route.data.loggedIn; 
-    console.log(loggedIn);
     if(loggedIn){
       if (!this.tokenService.isLogged()) {
         this.router.navigate(["/forbidden"])

@@ -16,10 +16,6 @@ import { AggiungiRuoloComponent } from './pagine/iscritto/aggiungi-ruolo/aggiung
 import { VetrinaProgettiComponent } from './pagine/progetto/vetrina-progetti/vetrina-progetti.component';
 import { DettagliComponent } from './pagine/progetto/dettagli/dettagli.component';
 import { ProponiComponent } from './pagine/ruoli/proponente/proponi/proponi.component';
-
-// Per usare ngx-toastr
-import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
-import { ToastrModule } from 'ngx-toastr';
 import { AnteprimaComponent } from './pagine/progetto/anteprima/anteprima.component';
 import { ProfiloComponent } from './pagine/iscritto/profilo/profilo.component';
 import { ProfiloEnteComponent } from './pagine/iscritto/profilo-ente/profilo-ente.component';
@@ -32,6 +28,11 @@ import { PermettiValutazioneComponent } from './pagine/ruoli/proponi/permetti-va
 import { SceltaTagComponent } from './pagine/progetto/vetrina-progetti/scelta-tag/scelta-tag.component';
 import { ForbiddenComponent } from './pagine/error/forbidden/forbidden.component';
 import { NotFoundComponent } from './pagine/error/not-found/not-found.component';
+
+// Per usare ngx-toastr
+import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
+import { ToastrModule } from 'ngx-toastr';
+
 
 @NgModule({
   declarations: [

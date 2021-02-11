@@ -2,8 +2,8 @@ import { HttpClient } from '@angular/common/http';
 import { Injectable } from '@angular/core';
 import { Observable } from 'rxjs';
 import { environment } from 'src/environments/environment';
-import { RuoloDto } from '../modello/iscritto/ruolo-dto';
-import { TipologiaRuolo } from '../modello/iscritto/tipologia-ruolo.enum';
+import { RuoloDto } from '../modello-dto/iscritto-dto/ruolo/ruolo-dto';
+import { TipologiaRuolo } from '../modello/iscritto/ruolo/tipologia-ruolo.enum';
 
 @Injectable({
   providedIn: 'root'

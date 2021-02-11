@@ -7,10 +7,10 @@ import { Persona } from 'src/app/modello/iscritto/persona';
   styleUrls: ['./profilo-persona.component.css']
 })
 export class ProfiloPersonaComponent implements OnInit {
-  @Input() persona?:Persona;
-  
- constructor(){
- }
+  @Input() persona?: Persona;
+
+  constructor() {
+  }
 
   ngOnInit(): void {
   }

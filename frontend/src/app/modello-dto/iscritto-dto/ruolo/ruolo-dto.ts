@@ -1,4 +1,4 @@
-import { TipologiaRuolo } from "./tipologia-ruolo.enum";
+import { TipologiaRuolo } from "../../../modello/iscritto/ruolo/tipologia-ruolo.enum";
 
 export class RuoloDto {
     

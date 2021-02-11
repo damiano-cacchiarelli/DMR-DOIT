@@ -3,7 +3,7 @@ import { Routes, RouterModule } from '@angular/router';
 import { AutenticatoGuard } from './guardie/autenticato.guard';
 import { Data } from './guardie/data';
 import { RuoloGuard } from './guardie/ruolo.guard';
-import { TipologiaRuolo } from './modello/iscritto/tipologia-ruolo.enum';
+import { TipologiaRuolo } from './modello/iscritto/ruolo/tipologia-ruolo.enum';
 import { AccediComponent } from './pagine/autenticazione/accedi/accedi.component';
 import { RegistratiComponent } from './pagine/autenticazione/registrati/registrati.component';
 import { ForbiddenComponent } from './pagine/error/forbidden/forbidden.component';

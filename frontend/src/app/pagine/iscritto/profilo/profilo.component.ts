@@ -1,15 +1,13 @@
-import { Component, Directive, Input, OnInit } from '@angular/core';
+import { Component, Input, OnInit } from '@angular/core';
 import { ActivatedRoute, ParamMap } from '@angular/router';
 import { ToastrService } from 'ngx-toastr';
-import { EnteDto } from 'src/app/modello/iscritto/ente-dto';
+import { EnteDto } from 'src/app/modello-dto/iscritto-dto/ente-dto';
 import { Iscritto } from 'src/app/modello/iscritto/iscritto';
-import { PersonaDto } from 'src/app/modello/iscritto/persona-dto';
-import { Ruolo } from 'src/app/modello/iscritto/ruolo';
-import { RuoloOpzioni } from 'src/app/modello/iscritto/ruolo-opzioni';
-import { TipologiaRuolo } from 'src/app/modello/iscritto/tipologia-ruolo.enum';
+import { PersonaDto } from 'src/app/modello-dto/iscritto-dto/persona-dto';
+import { Ruolo } from 'src/app/modello/iscritto/ruolo/ruolo';
+import { RuoloOpzioni } from 'src/app/modello/iscritto/ruolo/ruolo-opzioni';
+import { TipologiaRuolo } from 'src/app/modello/iscritto/ruolo/tipologia-ruolo.enum';
 import { VisitatoreService } from 'src/app/servizi/visitatore.service';
-import { ProfiloEnteComponent } from '../profilo-ente/profilo-ente.component';
-import { ProfiloPersonaComponent } from '../profilo-persona/profilo-persona.component'
 
 @Component({
   selector: 'app-profilo',

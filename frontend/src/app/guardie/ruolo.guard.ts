@@ -1,9 +1,8 @@
 import { Injectable } from '@angular/core';
 import { CanActivate, ActivatedRouteSnapshot, RouterStateSnapshot, UrlTree, Router } from '@angular/router';
-import { TipologiaRuolo } from '../modello/iscritto/tipologia-ruolo.enum';
+import { TipologiaRuolo } from '../modello/iscritto/ruolo/tipologia-ruolo.enum';
 import { TokenService } from '../servizi/token.service';
 import { AutenticatoGuard } from './autenticato.guard';
-import { Data } from './data';
 
 @Injectable({
   providedIn: 'root'
@@ -35,11 +34,5 @@ export class RuoloGuard implements CanActivate {
 
     this.router.navigate(["/forbidden"])
     return false;
-    /*
-    if (!this.tokenService.getToken() || !haRuolo) {
-      this.router.navigate(["/"])
-      return false;
-    }
-    return true;*/
   }
 }

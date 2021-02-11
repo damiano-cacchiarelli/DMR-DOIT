@@ -1,5 +1,5 @@
-import { Progetto } from "../progetto/progetto";
-import { RuoloDto } from "./ruolo-dto";
+import { Progetto } from "../../progetto/progetto";
+import { RuoloDto } from "../../../modello-dto/iscritto-dto/ruolo/ruolo-dto";
 import { TipologiaRuolo } from "./tipologia-ruolo.enum";
 
 export class Ruolo extends RuoloDto{

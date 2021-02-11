@@ -1,12 +1,10 @@
 import { Component, Input, OnInit } from '@angular/core';
-import { resetFakeAsyncZone } from '@angular/core/testing';
 import { ToastrService } from 'ngx-toastr';
 import { Observable } from 'rxjs';
-import { InvitoDto } from 'src/app/modello/invito/invito-dto';
+import { InvitoDto } from 'src/app/modello-dto/invito-dto/invito-dto';
 import { TipologiaInvito } from 'src/app/modello/invito/tipologia-invito.enum';
-import { TipologiaRuolo } from 'src/app/modello/iscritto/tipologia-ruolo.enum';
-import { TagListDto } from 'src/app/modello/progetto/tag-list-dto';
-import { InvitoService } from 'src/app/servizi/invito.service';
+import { TipologiaRuolo } from 'src/app/modello/iscritto/ruolo/tipologia-ruolo.enum';
+import { TagListDto } from 'src/app/modello-dto/progetto-dto/tag-list-dto';
 import { ProponenteService } from 'src/app/servizi/proponente.service';
 import { VisitatoreService } from 'src/app/servizi/visitatore.service';
 
@@ -29,7 +27,6 @@ export class PermettiValutazioneComponent implements OnInit {
   constructor(
     private proponenteService: ProponenteService,
     private visitatoreService: VisitatoreService,
-    private invitoService: InvitoService,
     private toastr: ToastrService
   ) { }
 
@@ -40,7 +37,6 @@ export class PermettiValutazioneComponent implements OnInit {
   ricercaIdEsperto(): void {
     if (!this.idEsperto || this.idEsperto.length == 0) return;
     this.ricercaEsperto = true;
-    console.log("ricerca id esperto " + this.idEsperto);
     this.visitatoreService.getIscrittoByRuolo(this.idEsperto, TipologiaRuolo.ROLE_ESPERTO).subscribe(
       data => {
         if (!data) {
@@ -59,7 +55,6 @@ export class PermettiValutazioneComponent implements OnInit {
 
   permettiValutazione(): void {
     if (!this.idEsperto || this.idEsperto.length == 0 || !this.idProgetto) return;
-    //this.invitoService.invia(new InvitoDto(this.messaggioEsperto, TipologiaInvito.VALUTAZIONE, [this.idEsperto], this.idProgetto)).subscribe(
     this.proponenteService.permettiValutazione(new InvitoDto(this.messaggioEsperto, TipologiaInvito.VALUTAZIONE, [this.idEsperto], this.idProgetto)).subscribe(
       data => {
         this.toastr.success(data.messaggio, "OK", {
@@ -72,13 +67,12 @@ export class PermettiValutazioneComponent implements OnInit {
         });
       }
     );
-    console.log("permetti valutazione");
     this.reset();
   }
 
   permettiValutazioneObs(): Observable<any> {
     if (!this.idEsperto || this.idEsperto.length == 0 || !this.idProgetto) return null as any;
-    
+
     const res = this.proponenteService.permettiValutazione(new InvitoDto(this.messaggioEsperto, TipologiaInvito.VALUTAZIONE, [this.idEsperto], this.idProgetto));
     this.reset();
     return res;

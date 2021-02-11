@@ -1,10 +1,8 @@
 import { Component, OnInit } from '@angular/core';
-import { Router } from '@angular/router';
 import { ToastrService } from 'ngx-toastr';
-import { RuoloDto } from 'src/app/modello/iscritto/ruolo-dto';
-import { RuoloOpzioni } from 'src/app/modello/iscritto/ruolo-opzioni';
-import { TipologiaRuolo } from 'src/app/modello/iscritto/tipologia-ruolo.enum';
-import { Tag } from 'src/app/modello/progetto/tag';
+import { RuoloDto } from 'src/app/modello-dto/iscritto-dto/ruolo/ruolo-dto';
+import { RuoloOpzioni } from 'src/app/modello/iscritto/ruolo/ruolo-opzioni';
+import { TipologiaRuolo } from 'src/app/modello/iscritto/ruolo/tipologia-ruolo.enum';
 import { IscrittoService } from 'src/app/servizi/iscritto.service';
 import { TokenService } from 'src/app/servizi/token.service';
 
@@ -37,7 +35,6 @@ export class AggiungiRuoloComponent implements OnInit {
 
   onAggiungiRuolo(ruolo: TipologiaRuolo): void {
     const r = new RuoloDto(ruolo);
-    console.log(r);
     this.iscrittoService.aggiungiRuolo(r).subscribe(
       data => {
         this.toastr.success(data.messaggio, "Ruolo aggiunto", {

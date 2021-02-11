@@ -1,4 +1,4 @@
-import { ValutazioneCandidati } from "./valutazione-candidati";
+import { ValutazioneCandidati } from "../../modello/progetto/valutazione-candidati";
 
 export class ValutazioneDto {
     recensione: string;

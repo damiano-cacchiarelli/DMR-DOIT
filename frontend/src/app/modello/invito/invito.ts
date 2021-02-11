@@ -1,4 +1,4 @@
-import { InvitoDto } from "./invito-dto";
+import { InvitoDto } from "../../modello-dto/invito-dto/invito-dto";
 import { RuoloSoggetto } from "./ruolo-soggetto.enum";
 import { TipologiaInvito } from "./tipologia-invito.enum";
 import { TipologiaRisposta } from "./tipologia-risposta.enum";
