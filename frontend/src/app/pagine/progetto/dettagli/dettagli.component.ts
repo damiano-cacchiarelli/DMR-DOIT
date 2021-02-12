@@ -186,8 +186,8 @@ export class DettagliComponent implements OnInit {
       this.opzioniModal.onClickProcedi();
   }
 
-  hasRuolo(ruolo: TipologiaRuolo): boolean {
-    return this.tokenService.getRuoli().includes(ruolo);
+  hasRuolo(ruolo: string): boolean {
+    return this.tokenService.hasRuolo(ruolo);
   }
 
   proprietarioProgetto(): boolean {

@@ -1,18 +1,15 @@
 import { Component, OnInit } from '@angular/core';
-import { ActivatedRoute, Router } from '@angular/router';
+import { ActivatedRoute } from '@angular/router';
 import { ToastrService } from 'ngx-toastr';
-import { Observable } from 'rxjs';
 import { Invito } from 'src/app/modello/invito/invito';
 import { RispostaInvitoDto } from 'src/app/modello-dto/invito-dto/risposta-invito-dto';
 import { RuoloSoggetto } from 'src/app/modello/invito/ruolo-soggetto.enum';
 import { TipologiaInvito } from 'src/app/modello/invito/tipologia-invito.enum';
 import { TipologiaRisposta } from 'src/app/modello/invito/tipologia-risposta.enum';
 import { TipologiaRuolo } from 'src/app/modello/iscritto/ruolo/tipologia-ruolo.enum';
-import { EspertoService } from 'src/app/servizi/esperto.service';
 import { InvitoService } from 'src/app/servizi/invito.service';
-import { ProgettistaService } from 'src/app/servizi/progettista.service';
-import { ProponenteService } from 'src/app/servizi/proponente.service';
 import { TokenService } from 'src/app/servizi/token.service';
+import { UtilsInvito } from '../utils-invito';
 
 @Component({
   selector: 'app-dettagli-invito',
@@ -28,15 +25,13 @@ export class DettagliInvitoComponent implements OnInit {
   RuoloSoggetto = RuoloSoggetto;
 
   constructor(
+
     private activatedRoute: ActivatedRoute,
     private invitoService: InvitoService,
-    private progettistaService: ProgettistaService,
-    private tokenService: TokenService,
-    private proponenteService: ProponenteService,
-    private espertoService:EspertoService,
     private toastr: ToastrService,
-    private router: Router
-    ) { }
+    private utilsInvito: UtilsInvito,
+    private tokenService: TokenService
+  ) { }
 
   ngOnInit(): void {
     const id = this.activatedRoute.snapshot.params.id;
@@ -55,45 +50,14 @@ export class DettagliInvitoComponent implements OnInit {
   }
 
   onAccetta(id: string): void {
-    this.gestisci(new RispostaInvitoDto(id, TipologiaRisposta.ACCETTATA));
+    if (this.invito) this.utilsInvito.gestisci(new RispostaInvitoDto(id, TipologiaRisposta.ACCETTATA), [this.invito]);
   }
 
   onRifiuta(id: string): void {
-    this.gestisci(new RispostaInvitoDto(id, TipologiaRisposta.RIFIUTATA));
+    if (this.invito) this.utilsInvito.gestisci(new RispostaInvitoDto(id, TipologiaRisposta.RIFIUTATA), [this.invito]);
   }
 
-  private gestisci(rispostaInvito: RispostaInvitoDto): void {
-    switch (this.invito?.tipologiaInvito) {
-      case TipologiaInvito.PROPOSTA:
-        this.responseSub(this.progettistaService.gestisciPropostaPartecipazione(rispostaInvito));
-        break;
-      case TipologiaInvito.VALUTAZIONE:
-        this.responseSub(this.espertoService.rifiutaValutazione(rispostaInvito));
-        break;
-      case TipologiaInvito.RICHIESTA:
-        this.responseSub(this.proponenteService.selezionaCandidati(rispostaInvito));
-        break;
-      default:
-        break;
-    }
-  }
-
-  private responseSub(resp: Observable<any>): void{
-    resp.subscribe(
-      data => {
-        this.toastr.success(data.messaggio, "OK", {
-          timeOut: 3000, positionClass: "toast-top-center"
-        });
-        this.router.navigate(["/bacheca"]);
-      },
-      err => {
-        this.toastr.error(err.error.messaggio, "Errore", {
-          timeOut: 3000, positionClass: "toast-top-center"
-        });
-      });
-  }
-
-  hasRuolo(ruolo: string): boolean{
-    return this.tokenService.getRuoli().includes(ruolo);
+  hasRuolo(ruolo: string): boolean {
+    return this.tokenService.hasRuolo(ruolo);
   }
 }

@@ -35,13 +35,17 @@ export class TokenService {
     return this.getValoriToken().ruoli;
   }
 
+  public hasRuolo(ruolo: string): boolean {
+    return this.getRuoli().includes(ruolo);
+  }
+
   public disconnetti(): void {
     window.localStorage.clear();
     this.ruoter.navigate(['/accedi']);
   }
 
   private getValoriToken(): any {
-    // il tokena ha questa forma: eyasmkasjkdg.asjdhgasdh.fashgfsajg
+    // il token ha questa forma: eyasmkasjkdg.asjdhgasdh.fashgfsajg
     // il contenuto centrale è il payload
     const payload = this.getToken()?.split('.')[1] as string;
     const payloadDecodificato = atob(payload);

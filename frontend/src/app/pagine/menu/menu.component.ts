@@ -20,8 +20,8 @@ export class MenuComponent implements OnInit {
     this.tokenService.disconnetti();
   }
 
-  hasRuolo(ruolo: string): boolean{
-    return this.tokenService.getRuoli().indexOf(ruolo) >= 0;
+  hasRuolo(ruolo: string): boolean {
+    return this.tokenService.hasRuolo(ruolo);
   }
 
   getId(): string{

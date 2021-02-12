@@ -3,6 +3,7 @@ package it.unicam.dmr.doit.service.iscritto;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.NoSuchElementException;
+import java.util.stream.Collectors;
 
 import javax.naming.AuthenticationException;
 import javax.validation.Valid;
@@ -117,7 +118,7 @@ public class IscrittoService<I extends Iscritto, R extends IscrittoRepository<I>
 	}
 
 	public List<I> getEspertiConsigliati(List<TagDto> tags) {
-		return iscrittoRepository.findEsperti();
+		return iscrittoRepository.findEsperti().stream().limit(5).collect(Collectors.toList());
 	}
 	
 	public void salva(I iscritto) {

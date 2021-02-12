@@ -82,7 +82,7 @@ export class ValutaProgettoComponent implements OnInit {
   onInviaValutazione(): void {
     let valutazioneCandidati: ValutazioneCandidati[] = [];
     for (let index = 0; index < this.progettisti.length; index++) {
-      if (this.recensioneProgetto[index] && this.recensioneProgetto[index].length != 0) {
+      if (this.recensioneProgettista[index] && this.recensioneProgettista[index].length != 0) {
         valutazioneCandidati.push(new ValutazioneCandidati(this.recensioneProgettista[index], this.progettisti[index]));
       }
     }   

@@ -1,16 +1,12 @@
 import { Component, OnInit } from '@angular/core';
-import { ToastrService } from 'ngx-toastr';
-import { Observable } from 'rxjs';
 import { Invito } from 'src/app/modello/invito/invito';
 import { RispostaInvitoDto } from 'src/app/modello-dto/invito-dto/risposta-invito-dto';
 import { RuoloSoggetto } from 'src/app/modello/invito/ruolo-soggetto.enum';
 import { TipologiaInvito } from 'src/app/modello/invito/tipologia-invito.enum';
 import { TipologiaRisposta } from 'src/app/modello/invito/tipologia-risposta.enum';
-import { EspertoService } from 'src/app/servizi/esperto.service';
 import { InvitoService } from 'src/app/servizi/invito.service';
-import { ProgettistaService } from 'src/app/servizi/progettista.service';
-import { ProponenteService } from 'src/app/servizi/proponente.service';
 import { TokenService } from 'src/app/servizi/token.service';
+import { UtilsInvito } from '../utils-invito';
 
 @Component({
   selector: 'app-bacheca',
@@ -30,11 +26,9 @@ export class BachecaComponent implements OnInit {
 
   constructor(
     private invitoService: InvitoService,
-    private progettistaService: ProgettistaService,
-    private espertoService: EspertoService,
-    private tokenService: TokenService,
-    private proponenteService: ProponenteService,
-    private toastr: ToastrService) { }
+    private utilsInvito: UtilsInvito,
+    private tokenService: TokenService
+    ) { }
 
   ngOnInit(): void {
     this.ottieniTuttiIMessaggi();
@@ -88,52 +82,20 @@ export class BachecaComponent implements OnInit {
         this.messaggi.push(i);
     });
   }
-
+ 
   onElimina(id: string): void {
     console.log("NON IMPLEMENATTO: Elimina invito ", id);
   }
+  
 
   onAccetta(id: string): void {
-    this.gestisci(new RispostaInvitoDto(id, TipologiaRisposta.ACCETTATA));
+    this.utilsInvito.gestisci(new RispostaInvitoDto(id, TipologiaRisposta.ACCETTATA), this.inviti);
   }
-
+  
   onRifiuta(id: string): void {
-    this.gestisci(new RispostaInvitoDto(id, TipologiaRisposta.RIFIUTATA));
+    this.utilsInvito.gestisci(new RispostaInvitoDto(id, TipologiaRisposta.RIFIUTATA), this.inviti);
   }
-
-  private gestisci(rispostaInvito: RispostaInvitoDto): void {
-    let i: Invito = null as any;
-    this.inviti.forEach(invi => { if (invi.id == rispostaInvito.idInvito) i = invi; });
-    switch (i.tipologiaInvito) {
-      case TipologiaInvito.PROPOSTA:
-        this.responseSub(this.progettistaService.gestisciPropostaPartecipazione(rispostaInvito));
-        break;
-      case TipologiaInvito.VALUTAZIONE:
-        this.responseSub(this.espertoService.rifiutaValutazione(rispostaInvito));
-        break;
-      case TipologiaInvito.RICHIESTA:
-        this.responseSub(this.proponenteService.selezionaCandidati(rispostaInvito));
-        break;
-      default:
-        break;
-    }
-  }
-
-  private responseSub(resp: Observable<any>): void{
-    resp.subscribe(
-      data => {
-        this.toastr.success(data.messaggio, "OK", {
-          timeOut: 3000, positionClass: "toast-top-center"
-        });
-        this.ottieniTuttiIMessaggi();
-      },
-      err => {
-        this.toastr.error(err.error.messaggio, "Errore", {
-          timeOut: 3000, positionClass: "toast-top-center"
-        });
-      });
-  }
-
+ 
   tronca(contenuto: string): string {
     return contenuto.slice(0, 100) + "...";
   }
@@ -152,6 +114,6 @@ export class BachecaComponent implements OnInit {
   }
 
   hasRuolo(ruolo: string): boolean{
-    return this.tokenService.getRuoli().includes(ruolo);
+    return this.tokenService.hasRuolo(ruolo);
   }
 }

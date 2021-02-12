@@ -113,29 +113,29 @@
       <table class="table table-ligth table-hover">
         <tbody>
           <tr
-            *ngIf="hasRuolo(TipologiaRuolo.ROLE_PROPONENTE) && proprietarioProgetto() && progetto.gestoreCandidati.candidatureAperte">
+            *ngIf="hasRuolo('ROLE_PROPONENTE') && proprietarioProgetto() && progetto.gestoreCandidati.candidatureAperte">
             <td class="list-group-item btn btn-outline-primary border-0 my-1" data-bs-toggle="modal"
               data-bs-target="#genericModal" (click)="chiudiCandidature()">Chiudi candidature</td>
           </tr>
           <tr
-            *ngIf="hasRuolo(TipologiaRuolo.ROLE_PROPONENTE) && proprietarioProgetto() && progetto.fase != Fase.PUBBLICAZIONE">
+            *ngIf="hasRuolo('ROLE_PROPONENTE') && proprietarioProgetto() && progetto.fase != Fase.PUBBLICAZIONE">
             <td class="list-group-item btn btn-outline-primary border-0 my-1" data-bs-toggle="modal"
               data-bs-target="#genericModal" (click)="faseSuccessiva()">Passa a fase
               successiva</td>
           </tr>
           <tr
-            *ngIf="hasRuolo(TipologiaRuolo.ROLE_PROPONENTE) && proprietarioProgetto() && progetto.stato != Stato.IN_VALUTAZIONE && progetto.fase == Fase.INIZIO">
+            *ngIf="hasRuolo('ROLE_PROPONENTE') && proprietarioProgetto() && progetto.stato != Stato.IN_VALUTAZIONE && progetto.fase == Fase.INIZIO">
             <td class="list-group-item btn btn-outline-primary border-0 my-1" data-bs-toggle="modal"
               data-bs-target="#genericModal" (click)="permettiValutazione()">Permetti valutazione</td>
           </tr>
           <tr
-            *ngIf="hasRuolo(TipologiaRuolo.ROLE_PROPONENTE) && proprietarioProgetto() && progetto.gestoreCandidati.candidatureAperte">
+            *ngIf="hasRuolo('ROLE_PROPONENTE') && proprietarioProgetto() && progetto.gestoreCandidati.candidatureAperte">
             <td class="list-group-item btn btn-outline-primary border-0 my-1" data-bs-toggle="modal"
               data-bs-target="#genericModal" (click)="invitaProgettista()">Invita un
               Progettista</td>
           </tr>
           <tr
-            *ngIf="hasRuolo(TipologiaRuolo.ROLE_PROGETTISTA) && !proprietarioProgetto() && progetto.fase == Fase.INIZIO">
+            *ngIf="hasRuolo('ROLE_PROGETTISTA') && !proprietarioProgetto() && progetto.fase == Fase.INIZIO">
             <td class="list-group-item btn btn-outline-primary border-0 my-1" data-bs-toggle="modal"
               data-bs-target="#genericModal" (click)="partecipa()">Partecipa</td>
           </tr>
