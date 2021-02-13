@@ -219,10 +219,6 @@ export class DettagliComponent implements OnInit {
         this.vediAltro = "click";
         break;
       }
-      /*if(this.vediAltro == "Vedi altro"){
-        this.vediAltro = "Nascondi";
-      }else{}
-      */
     }
   }
 }

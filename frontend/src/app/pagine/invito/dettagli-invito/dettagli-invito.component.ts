@@ -1,5 +1,5 @@
 import { Component, OnInit } from '@angular/core';
-import { ActivatedRoute } from '@angular/router';
+import { ActivatedRoute, ParamMap } from '@angular/router';
 import { ToastrService } from 'ngx-toastr';
 import { Invito } from 'src/app/modello/invito/invito';
 import { RispostaInvitoDto } from 'src/app/modello-dto/invito-dto/risposta-invito-dto';
@@ -34,15 +34,18 @@ export class DettagliInvitoComponent implements OnInit {
   ) { }
 
   ngOnInit(): void {
-    const id = this.activatedRoute.snapshot.params.id;
-    this.invitoService.getInvito(id).subscribe(
-      data => this.invito = data,
-      err => {
-        this.toastr.error(err.error.messaggio, "Errore", {
-          timeOut: 3000, positionClass: "toast-bottom-right"
-        });
-      }
-    );
+    /*const id = this.activatedRoute.snapshot.params.id;*/
+    this.activatedRoute.paramMap.subscribe((params: ParamMap) => {
+      const id = params.get('id') as string;
+      this.invitoService.getInvito(id).subscribe(
+        data => this.invito = data,
+        err => {
+          this.toastr.error(err.error.messaggio, "Errore", {
+            timeOut: 3000, positionClass: "toast-bottom-right"
+          });
+        }
+      );
+    });
   }
 
   onElimina(id: string): void {
