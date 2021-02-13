@@ -34,6 +34,7 @@ export class DettagliComponent implements OnInit {
   Stato = Stato;
   Fase = Fase;
   valutazioneCorrente: number = 0;
+  vediAltro: string = "Vedi altro";
 
   opzioniModal = { titolo: "", messaggio: "", selettoreDaAttivare: "", onClickProcedi: () => { } };
 
@@ -202,5 +203,26 @@ export class DettagliComponent implements OnInit {
 
   private home(): void {
     this.router.navigate(["/"]);
+  }
+
+  changeText(): void {
+    switch (this.vediAltro) {
+      case "Vedi altro": {
+        this.vediAltro = "Nascondi";
+        break;
+      }
+      case "Nascondi": {
+        this.vediAltro = "Vedi altro";
+        break;
+      }
+      default: {
+        this.vediAltro = "click";
+        break;
+      }
+      /*if(this.vediAltro == "Vedi altro"){
+        this.vediAltro = "Nascondi";
+      }else{}
+      */
+    }
   }
 }

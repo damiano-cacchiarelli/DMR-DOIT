@@ -68,8 +68,9 @@
 
         <div class="d-grid gap-2 col-6 mx-auto">
           <button class="text-center align-middle btn btn-secondary my-3" type="button" data-bs-toggle="collapse"
-            data-bs-target="#collapseValutazioni" aria-expanded="false" aria-controls="collapseExample">Vedi
-            altro</button>
+            data-bs-target="#collapseValutazioni" aria-expanded="false" aria-controls="collapseExample" 
+            (click)="changeText()" *ngIf="progetto.listaValutazioni.length > 1">
+            {{vediAltro}}</button>
         </div>
 
       </div>
@@ -129,7 +130,7 @@
               data-bs-target="#genericModal" (click)="permettiValutazione()">Permetti valutazione</td>
           </tr>
           <tr
-            *ngIf="hasRuolo('ROLE_PROPONENTE') && proprietarioProgetto() && progetto.gestoreCandidati.candidatureAperte">
+            *ngIf="hasRuolo('ROLE_PROPONENTE') && proprietarioProgetto() && progetto.fase != Fase.PUBBLICAZIONE">
             <td class="list-group-item btn btn-outline-primary border-0 my-1" data-bs-toggle="modal"
               data-bs-target="#genericModal" (click)="invitaProgettista()">Invita un
               Progettista</td>
