@@ -1,5 +1,9 @@
-import { ChangeDetectorRef, Component, NgZone } from '@angular/core';
+import { DOCUMENT } from '@angular/common';
+import { ChangeDetectorRef, Component, Inject, NgZone } from '@angular/core';
+import { inject } from '@angular/core/testing';
 import { NavigationEnd, NavigationStart, Router } from '@angular/router';
+import { element } from 'protractor';
+import { elementAt } from 'rxjs/operators';
 import { LoaderService } from './servizi/loader.service';
 
 @Component({
@@ -10,8 +14,10 @@ import { LoaderService } from './servizi/loader.service';
 export class AppComponent {
   title = 'DoIt';
   loading = false;
+  list?: NodeListOf<any> ;
 
   constructor(
+    @Inject(DOCUMENT) private _document : HTMLDocument,
     private ngZone: NgZone,
     private router: Router,
     private changeDetectorRef: ChangeDetectorRef,
@@ -20,7 +26,10 @@ export class AppComponent {
   ngOnInit() {
     this.router.events.subscribe(event => {
       if(event instanceof NavigationStart)
-        console.log("modal sevice dismiss all");
+      this.list  = this._document.querySelectorAll('modal');
+      if(this.list){ this.list.forEach(element => {
+        element.modal('hide');
+      });}
     });
     this.ngZone.runOutsideAngular(() => {
       this.loaderService.httpProgress().subscribe((status: boolean) => {
