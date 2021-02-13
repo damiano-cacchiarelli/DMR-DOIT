@@ -7,6 +7,7 @@ import { Observable, ReplaySubject } from 'rxjs';
 export class LoaderService {
 
   private httpLoading = new ReplaySubject<boolean>(1);
+  
   constructor() {
     this.httpProgress();
   }

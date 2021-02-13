@@ -3,7 +3,8 @@ import {
   HttpRequest,
   HttpHandler,
   HttpEvent,
-  HttpInterceptor
+  HttpInterceptor,
+  HTTP_INTERCEPTORS
 } from '@angular/common/http';
 import { Observable } from 'rxjs';
 import { LoaderService } from '../servizi/loader.service';
@@ -29,3 +30,5 @@ export class LoaderInterceptor implements HttpInterceptor {
       }));
   }
 }
+
+export const loaderInterceptorProvider = [{ provide: HTTP_INTERCEPTORS, useClass: LoaderInterceptor, multi: true }];

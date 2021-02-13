@@ -1,5 +1,5 @@
 <router-outlet></router-outlet>
-<div class="text-center" *ngIf="loading">
+<div class="text-center" [hidden]="!loading">
     <div class="spinner-border" role="status">
       <span class="visually-hidden">Loading...</span>
     </div>

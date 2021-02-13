@@ -32,6 +32,7 @@ import { NotFoundComponent } from './pagine/error/not-found/not-found.component'
 // Per usare ngx-toastr
 import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
 import { ToastrModule } from 'ngx-toastr';
+import { loaderInterceptorProvider } from './intercettori/loader.interceptor';
 
 
 @NgModule({
@@ -69,7 +70,7 @@ import { ToastrModule } from 'ngx-toastr';
     BrowserAnimationsModule,
     ToastrModule.forRoot(),
   ],
-  providers: [interceptorProvider],
+  providers: [interceptorProvider, loaderInterceptorProvider],
   bootstrap: [AppComponent]
 })
 export class AppModule { }

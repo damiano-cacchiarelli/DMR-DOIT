@@ -1,4 +1,4 @@
-import { Component, OnInit, ViewChild } from '@angular/core';
+import { ChangeDetectorRef, Component, NgZone, OnInit, ViewChild } from '@angular/core';
 import { Progetto } from 'src/app/modello/progetto/progetto';
 import { Tag } from 'src/app/modello/progetto/tag';
 import { ProgettoService } from 'src/app/servizi/progetto.service';
