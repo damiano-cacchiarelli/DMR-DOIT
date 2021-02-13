@@ -28,7 +28,7 @@ export class SceltaTagComponent implements OnInit {
       },
       err => {
         this.toastr.error(err.error.messaggio, "Errore", {
-          timeOut: 3000, positionClass: "toast-top-center"
+          timeOut: 3000, positionClass: "toast-bottom-right"
         });
       }
     );

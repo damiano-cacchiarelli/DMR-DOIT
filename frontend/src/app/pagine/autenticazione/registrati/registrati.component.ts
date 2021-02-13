@@ -48,13 +48,13 @@ export class RegistratiComponent implements OnInit {
     this.autenticazioneService.registra(iscritto).subscribe(
       data => {
         this.toastr.success("Registrato con successo!", "OK", {
-          timeOut: 3000, positionClass: "toast-top-center"
+          timeOut: 3000, positionClass: "toast-bottom-right"
         });
         this.router.navigate(["/accedi"]);
       },
       err => {
         this.toastr.error(err.error.messaggio, "Errore", {
-          timeOut: 3000, positionClass: "toast-top-center"
+          timeOut: 3000, positionClass: "toast-bottom-right"
         });
         console.log(err);
       });

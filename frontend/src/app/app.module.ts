@@ -16,7 +16,6 @@ import { AggiungiRuoloComponent } from './pagine/iscritto/aggiungi-ruolo/aggiung
 import { VetrinaProgettiComponent } from './pagine/progetto/vetrina-progetti/vetrina-progetti.component';
 import { DettagliComponent } from './pagine/progetto/dettagli/dettagli.component';
 import { ProponiComponent } from './pagine/ruoli/proponente/proponi/proponi.component';
-import { AnteprimaComponent } from './pagine/progetto/anteprima/anteprima.component';
 import { ProfiloComponent } from './pagine/iscritto/profilo/profilo.component';
 import { ProfiloEnteComponent } from './pagine/iscritto/profilo-ente/profilo-ente.component';
 import { ProfiloPersonaComponent } from './pagine/iscritto/profilo-persona/profilo-persona.component';
@@ -46,7 +45,6 @@ import { loaderInterceptorProvider } from './intercettori/loader.interceptor';
     VetrinaProgettiComponent,
     DettagliComponent,
     ProponiComponent,
-    AnteprimaComponent,
     ProfiloComponent,
     ProfiloEnteComponent,
     ProfiloPersonaComponent,

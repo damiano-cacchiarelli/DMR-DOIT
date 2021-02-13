@@ -32,7 +32,7 @@ export class AccediComponent implements OnInit {
       data => {
         this.tokenService.setToken(data.token);
         this.toastr.success(`Bentornato ${this.tokenService.getIdentificativo()}!`, "Accesso effettuato", {
-          timeOut: 3000, positionClass: "toast-top-center"
+          timeOut: 3000, positionClass: "toast-bottom-right"
         });
         this.router.navigate(["/"]);
       },
@@ -42,7 +42,7 @@ export class AccediComponent implements OnInit {
         if (err.error.messaggio == "")
           err.error.messaggio = "Password errata";
         this.toastr.error(err.error.messaggio, "Errore nel login", {
-          timeOut: 3000, positionClass: "toast-top-center"
+          timeOut: 3000, positionClass: "toast-bottom-right"
         });
       });
   }

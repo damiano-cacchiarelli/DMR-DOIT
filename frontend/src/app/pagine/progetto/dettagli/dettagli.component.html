@@ -6,7 +6,8 @@
       <h1 class="text-center">{{progetto.nome}}</h1><br>
       <ul class="list-inline">
         Tags:
-        <li class="list-inline-item mr-2 btn my-1" [ngClass]="getColore(i)"
+        <!-- [ngClass]="getColore(i)" -->
+        <li class="list-inline-item mr-2 btn my-1 bg-primary"
           *ngFor="let tag of progetto.tags; index as i;" style="cursor: default">{{tag.nome}}</li>
       </ul>
       <hr class="my-4">

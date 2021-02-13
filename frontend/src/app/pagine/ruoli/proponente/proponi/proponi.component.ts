@@ -58,7 +58,7 @@ export class ProponiComponent implements OnInit {
           this.invitaProgettistiComponent.invitaProgettisti()?.subscribe(
             data => {
               this.toastr.success(data.messaggio, "OK", {
-                timeOut: 3000, positionClass: "toast-top-center"
+                timeOut: 3000, positionClass: "toast-bottom-right"
               });
               if (this.permettiValutazioneComponent)
                 this.permettiValutazioneComponent.idProgetto = this.idProgetto;
@@ -68,7 +68,7 @@ export class ProponiComponent implements OnInit {
             },
             err => {
               this.toastr.error(err.error.messaggio, "Errore", {
-                timeOut: 3000, positionClass: "toast-top-center"
+                timeOut: 3000, positionClass: "toast-bottom-right"
               });
             });
         } else {
@@ -79,13 +79,13 @@ export class ProponiComponent implements OnInit {
           this.permettiValutazioneComponent?.permettiValutazione();
         }
         this.toastr.success("Progetto creato!", "OK", {
-          timeOut: 3000, positionClass: "toast-top-center"
+          timeOut: 3000, positionClass: "toast-bottom-right"
         });
         this.router.navigate(["/"]);
       },
       err => {
         this.toastr.error(err.error.messaggio, "Errore", {
-          timeOut: 3000, positionClass: "toast-top-center"
+          timeOut: 3000, positionClass: "toast-bottom-right"
         });
       }
     );

@@ -37,12 +37,16 @@ export class ValutaProgettoComponent implements OnInit {
     private router: Router) { }
 
   ngOnInit(): void {
+    this.formValutaProgetto = this.formBuilder.group({
+      primoCtrl: ['', Validators.required]
+    });
+
     const id: number = this.activatedRoute.snapshot.params.id;
     this.idInvito = this.activatedRoute.snapshot.params.idInvito;
     this.progettoService.getProgetto(id).subscribe(
       data => {
         this.progetto = data;
-        this.progettisti = this.progetto.gestoreCandidati.identificativiCandidati;
+        this.progetto.gestoreCandidati.identificativiCandidati.forEach(p => this.progettisti.push(p));
         this.progetto.gestoreCandidati.identificativiPartecipanti.forEach(p => this.progettisti.push(p));
       },
       err => {
@@ -51,10 +55,6 @@ export class ValutaProgettoComponent implements OnInit {
         });
       }
     );
-
-    this.formValutaProgetto = this.formBuilder.group({
-      primoCtrl: ['', Validators.required]
-    });
   }
 
   onProssimoProgettista(): void {

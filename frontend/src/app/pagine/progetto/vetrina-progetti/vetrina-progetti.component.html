@@ -17,7 +17,8 @@
                     <h3 class="card-title">{{progetto.nome}}</h3>
                     <ul class="list-inline" *ngIf="progetto.tags.length != 0">
                         Tags:
-                        <li class="badge m-1" [ngClass]="getColore(i)" *ngFor="let tag of progetto.tags; index as i;">
+                        <!-- [ngClass]="getColore(i)" -->
+                        <li class="badge m-1 bg-primary" *ngFor="let tag of progetto.tags; index as i;">
                             {{tag.nome}}</li>
                     </ul>
                     <hr class="my-2">

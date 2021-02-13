@@ -38,7 +38,7 @@ export class AggiungiRuoloComponent implements OnInit {
     this.iscrittoService.aggiungiRuolo(r).subscribe(
       data => {
         this.toastr.success(data.messaggio, "Ruolo aggiunto", {
-          timeOut: 3000, positionClass: "toast-top-center"
+          timeOut: 3000, positionClass: "toast-bottom-right"
         });
         this.toastr.warning("Affinchè l'aggiunta del ruolo sia applicata, è necessario rieffettuare l'accesso.<br>Disconnessione in corso...", "Ruolo aggiunto - Attenzione!", {
           timeOut: 6000, positionClass: "toast-top-center",
@@ -48,7 +48,7 @@ export class AggiungiRuoloComponent implements OnInit {
       },
       err => {
         this.toastr.error(err.error.messaggio, "Errore", {
-          timeOut: 3000, positionClass: "toast-top-center"
+          timeOut: 3000, positionClass: "toast-bottom-right"
         });
       });
     }

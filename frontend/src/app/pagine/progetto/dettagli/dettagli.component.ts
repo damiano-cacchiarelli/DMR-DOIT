@@ -48,7 +48,6 @@ export class DettagliComponent implements OnInit {
     private proponenteService: ProponenteService) { }
 
   ngOnInit(): void {
-
     this.colore = Math.floor(Math.random() * Tag.COLORI.length + 1);
     this.idProgetto = this.activatedRoute.snapshot.params.id;
     this.aggiornaProgetto();
@@ -121,13 +120,13 @@ export class DettagliComponent implements OnInit {
       this.permettiValutazioneProgetto?.permettiValutazioneObs().subscribe(
         data => {
           this.toastr.success(data.messaggio, "OK", {
-            timeOut: 3000, positionClass: "toast-top-center"
+            timeOut: 3000, positionClass: "toast-bottom-right"
           });
           this.aggiornaProgetto();
         },
         err => {
           this.toastr.error(err.error.messaggio, "Errore", {
-            timeOut: 3000, positionClass: "toast-top-center"
+            timeOut: 3000, positionClass: "toast-bottom-right"
           });
         });
 
@@ -142,13 +141,13 @@ export class DettagliComponent implements OnInit {
       this.invitaProgettisti?.invitaProgettisti().subscribe(
         data => {
           this.toastr.success(data.messaggio, "OK", {
-            timeOut: 3000, positionClass: "toast-top-center"
+            timeOut: 3000, positionClass: "toast-bottom-right"
           });
           this.aggiornaProgetto();
         },
         err => {
           this.toastr.error(err.error.messaggio, "Errore", {
-            timeOut: 3000, positionClass: "toast-top-center"
+            timeOut: 3000, positionClass: "toast-bottom-right"
           });
         });
     }
