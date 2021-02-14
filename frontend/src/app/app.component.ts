@@ -25,22 +25,10 @@ export class AppComponent {
 
   ngOnInit() {
     this.router.events.subscribe(event => {
-      
-      if (event instanceof NavigationStart)
-        this._document.querySelectorAll('.modal').forEach(el => {
-          console.log(el); 
-          console.log("_______PRIMA_________");
-          console.log((el as any).hidden);
-          //(el as any).hidden = true;
-          console.log("_______DOPO_________");
-          console.log((el as any).hidden);
-          
-        });
-      //(this._document.querySelector('.modal') as any).modal('hide');
-      /*if(this.list){ this.list.forEach(element => {
-        element.modal('hide');
-      });}*/
-      
+      if (event instanceof NavigationStart){
+        let btnCloseModal: any = this._document.querySelector('.modal-close-btn');
+        btnCloseModal?.click();
+      }
     });
     this.ngZone.runOutsideAngular(() => {
       this.loaderService.httpProgress().subscribe((status: boolean) => {

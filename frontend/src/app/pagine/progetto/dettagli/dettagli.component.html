@@ -183,13 +183,13 @@
         </div>
         <div class="modal-footer">
           <span *ngIf="opzioniModal.selettoreDaAttivare!='valutazioni-candidati'; else elseBlockButtonModal">
-            <button type="button" class="btn btn-secondary mx-1" data-bs-dismiss="modal"
+            <button type="button" class="btn btn-secondary mx-1 modal-close-btn" data-bs-dismiss="modal"
               (click)="chiudiModal()">Annulla</button>
             <button type="button" class="btn btn-primary  mx-1" data-bs-dismiss="modal"
               (click)="procediModal()">Procedi</button>
           </span>
           <ng-template #elseBlockButtonModal>
-            <button type="button" class="btn btn-secondary" data-bs-dismiss="modal"
+            <button type="button" class="btn btn-secondary modal-close-btn" data-bs-dismiss="modal"
               (click)="chiudiModal()">Chiudi</button>
           </ng-template>
         </div>
