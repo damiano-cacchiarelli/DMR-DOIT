@@ -14,10 +14,10 @@ import { LoaderService } from './servizi/loader.service';
 export class AppComponent {
   title = 'DoIt';
   loading = false;
-  list?: NodeListOf<any> ;
+  list?: NodeListOf<any>;
 
   constructor(
-    @Inject(DOCUMENT) private _document : HTMLDocument,
+    @Inject(DOCUMENT) private _document: HTMLDocument,
     private ngZone: NgZone,
     private router: Router,
     private changeDetectorRef: ChangeDetectorRef,
@@ -25,11 +25,22 @@ export class AppComponent {
 
   ngOnInit() {
     this.router.events.subscribe(event => {
-      if(event instanceof NavigationStart)
-      this.list  = this._document.querySelectorAll('modal');
-      if(this.list){ this.list.forEach(element => {
+      
+      if (event instanceof NavigationStart)
+        this._document.querySelectorAll('.modal').forEach(el => {
+          console.log(el); 
+          console.log("_______PRIMA_________");
+          console.log((el as any).hidden);
+          //(el as any).hidden = true;
+          console.log("_______DOPO_________");
+          console.log((el as any).hidden);
+          
+        });
+      //(this._document.querySelector('.modal') as any).modal('hide');
+      /*if(this.list){ this.list.forEach(element => {
         element.modal('hide');
-      });}
+      });}*/
+      
     });
     this.ngZone.runOutsideAngular(() => {
       this.loaderService.httpProgress().subscribe((status: boolean) => {
